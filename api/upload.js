@@ -55,7 +55,7 @@ export default async function handler(req, res) {
           }
           
           // 2️⃣ Detectar columnas logísticas
-          const columnMap = detectarColumnas(analysisResult.headers);
+          const columnMap = detectarColumnas(analysisResult.headers || []);
 
           if (!Array.isArray(analysisResult.rows)) {
               throw new Error("El Excel no contiene filas válidas");
