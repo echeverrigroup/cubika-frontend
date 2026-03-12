@@ -1,7 +1,7 @@
 import Busboy from "busboy";
 import { createClient } from "@supabase/supabase-js";
 import { analizarExcelDesdeBuffer } from "./read-excel.js";
-import { mapearColumnas } from "./column-mapper.js";
+import { detectarColumnas } from "./column-mapper.js";
 import { normalizarTabla } from "./table-normalizer.js";
 import { validarRegistros } from "./logistics-validator.js";
 import { normalizarDatosLogisticos } from "./logistics-normalizer.js";
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
           analysisResult = analizarExcelDesdeBuffer(buffer);
           
           // 2️⃣ Detectar columnas logísticas
-          const columnMap = mapearColumnas(analysisResult.headers);
+          const columnMap = detectarColumnas(analysisResult.headers);
           
           // 3️⃣ Normalizar tabla
           const tablaNormalizada = normalizarTabla(
