@@ -2,6 +2,12 @@ import Busboy from "busboy";
 import { createClient } from "@supabase/supabase-js";
 import { analizarExcelDesdeBuffer } from "./read-excel.js";
 
+import { mapearColumnas } from "./column-mapper.js";
+import { normalizarTabla } from "./table-normalizer.js";
+import { validarRegistros } from "./logistics-validator.js";
+import { normalizarDatosLogisticos } from "./logistics-normalizer.js";
+import { generarDiagnostico } from "./diagnostic-engine.js";
+
 export const config = {
   api: {
     bodyParser: false,
@@ -37,8 +43,39 @@ export default async function handler(req, res) {
 
           // 1️⃣ Analizar Excel
           analysisResult = analizarExcelDesdeBuffer(buffer);
-
-          // 2️⃣ Subir archivo
+          
+          // 2️⃣ Detectar columnas logísticas
+          const columnMap = mapearColumnas(analysisResult.headers);
+          
+          // 3️⃣ Normalizar tabla
+          const tablaNormalizada = normalizarTabla(
+            analysisResult.rows,
+            analysisResult.headerRowIndex,
+            columnMap
+          );
+          
+          // 4️⃣ Validar registros
+          const validacion = validarRegistros(tablaNormalizada);
+          
+          // 5️⃣ Normalizar datos logísticos
+          const datosLogisticos = normalizarDatosLogisticos(validacion.validRows);
+          
+          // 6️⃣ Generar diagnóstico
+          const diagnostico = generarDiagnostico({
+            headers: analysisResult.headers,
+            columnMap,
+            totalRows: tablaNormalizada.length,
+            validRows: validacion.validRows.length,
+            invalidRows: validacion.invalidRows.length
+          });
+          
+          // guardar en analysisResult para devolverlo al frontend
+          analysisResult.pipeline = {
+            columnMap,
+            diagnostico,
+            preview: datosLogisticos.slice(0, 10)
+          };
+          // Subir archivo
           uploadPromise = supabase.storage
             .from("uploads")
             .upload(`files/${Date.now()}-${filename}`, buffer, {
