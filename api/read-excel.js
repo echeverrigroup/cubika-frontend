@@ -58,3 +58,41 @@ function detectarFilaEncabezados(rows, minColumnas = 3) {
 
   return mejorFila;
 }
+
+/**
+ * Lee un archivo Excel desde buffer
+ * y devuelve análisis estructural
+ */
+export function analizarExcelDesdeBuffer(buffer) {
+
+  const workbook = XLSX.read(buffer, { type: "buffer" });
+
+  const sheetName = workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
+
+  const rows = XLSX.utils.sheet_to_json(sheet, {
+    header: 1,
+    defval: null
+  });
+
+  const headerRowIndex = detectarFilaEncabezados(rows);
+
+  let headers = [];
+
+  if (headerRowIndex !== null) {
+
+    headers = rows[headerRowIndex]
+      .map(cell =>
+        typeof cell === "string" ? cell.trim() : null
+      )
+      .filter(cell => cell && cell.length > 0);
+
+  }
+
+  return {
+    headerRowIndex,
+    headers,
+    rows
+  };
+
+}
