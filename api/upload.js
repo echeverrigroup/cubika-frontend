@@ -43,7 +43,10 @@ export default async function handler(req, res) {
           // 1️⃣ Analizar Excel
           analysisResult = analizarExcelDesdeBuffer(buffer);
 
-          console.log("ANALYSIS RESULT:", analysisResult);
+          console.log("STEP 1 OK - Excel analizado");
+          console.log(analysisResult);
+
+     //     console.log("ANALYSIS RESULT:", analysisResult);
           
           // fallback si no se detectó header
           if (
@@ -56,6 +59,9 @@ export default async function handler(req, res) {
           
           // 2️⃣ Detectar columnas logísticas
           const columnMap = detectarColumnas(analysisResult.headers || []);
+
+          console.log("STEP 2 OK - Columnas detectadas");
+          console.log(columnMap);
 
           if (!Array.isArray(analysisResult.rows)) {
               throw new Error("El Excel no contiene filas válidas");
