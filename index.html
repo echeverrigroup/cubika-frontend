@@ -170,10 +170,42 @@
 }
 
 .hero {
-  padding: 80px 40px;
-  background-color: #ffffff;
+  padding: 100px 40px;
+  background: radial-gradient(circle at 20% 30%, #eaf2ff 0%, #ffffff 60%);
+  position: relative;
+  overflow: hidden;
 }
 
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(87,194,33,0.15), transparent 70%);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -120px;
+  left: -120px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(20,65,144,0.12), transparent 70%);
+  filter: blur(70px);
+  z-index: 0;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+    
 .hero-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -184,7 +216,8 @@
 }
 
 .hero-text h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  letter-spacing: -0.5px;
   line-height: 1.15;
   color: #0b2b4b;
   margin-bottom: 22px;
@@ -235,8 +268,26 @@
   transition: all 0.3s ease;
 }
 
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #0b2b4b;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.btn-secondary:hover::after {
+  opacity: 1;
+}
+
 .btn-secondary:hover {
-  background-color: #0b2b4b;
   color: #ffffff;
 }
 
@@ -247,8 +298,10 @@
 }
 
 .hero-visual img {
-  width: 100%;
-  max-width: 720px;
+  width: 115%;
+  max-width: 780px;
+  transform: translateX(40px);
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15));
 }
 
 /* Responsive */
@@ -662,7 +715,7 @@
 
     <div class="hero-text">
       <h1>
-       Trazabilidad y control inteligente de tu red logística
+      Control total y trazabilidad inteligente de tu operación logística
       </h1>
 
       <p>
