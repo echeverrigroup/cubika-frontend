@@ -183,10 +183,12 @@
   position: absolute;
   inset: 0;
 
-  background: url('./img/imagen-hero12.png') no-repeat right center;
+  background: url('./img/imagen-hero12.png') no-repeat;
+  background-size: auto 100%;
 
-  background-size: auto 100%; /* 👈 CLAVE */
-  width: 100%;
+  /* 👇 CLAVE */
+  background-position: calc(50% + 300px) center;
+
   z-index: 0;
 }
 
