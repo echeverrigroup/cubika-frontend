@@ -1,6 +1,202 @@
-<div class="layout">
-  
-  <!-- Sidebar -->
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cubika - Inicio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f5f7f9;
+      height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      background: #0f2a3d;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      font-size: 22px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      color: #cfd8dc;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .sidebar nav a:hover {
+      background: #1c3d55;
+      color: white;
+    }
+
+    .sidebar nav a.active {
+      background: #1fa2a6;
+      color: white;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #1b2a33;
+    }
+
+    .user {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .actions button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #e0e0e0;
+      transition: 0.2s;
+    }
+
+    .actions button:hover {
+      opacity: 0.85;
+    }
+
+    .actions .primary {
+      background: #1fa2a6;
+      color: white;
+    }
+
+    /* TABLE PANEL */
+    .table-panel {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f1f3f5;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    th {
+      color: #333;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #eee;
+    }
+
+    tbody tr:hover {
+      background: #f9fbfc;
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .ok {
+      background: #d4edda;
+      color: #2e7d32;
+    }
+
+    .pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #842029;
+    }
+
+    .table-panel button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #1fa2a6;
+      color: white;
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        padding: 15px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
   <aside class="sidebar">
     <h2>Cubika</h2>
     <nav>
@@ -11,45 +207,68 @@
     </nav>
   </aside>
 
-  <!-- Main -->
-  <main class="main">
+  <!-- MAIN -->
 
-    <!-- Header -->
-    <header class="header">
-      <h1>Inicio</h1>
-      <div class="user">Usuario</div>
-    </header>
+  <div class="main">
 
-    <!-- Actions -->
-    <section class="actions">
-      <button class="primary">Nueva carga</button>
-      <button>Procesar datos</button>
-      <button>Importar archivo</button>
-    </section>
-
-    <!-- Table -->
-    <section class="table-panel">
-      <table>
-        <thead>
-          <tr>
-            <th>Archivo</th>
-            <th>Tipo</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>productos.xlsx</td>
-            <td>Inventario</td>
-            <td>2026-04-24</td>
-            <td>Procesado</td>
-            <td><button>Ver</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-  </main>
+```
+<!-- HEADER -->
+<div class="header">
+  <h1>Inicio</h1>
+  <div class="user">Usuario</div>
 </div>
+
+<!-- ACTIONS -->
+<div class="actions">
+  <button class="primary">Nueva carga</button>
+  <button>Procesar datos</button>
+  <button>Importar archivo</button>
+</div>
+
+<!-- TABLE -->
+<div class="table-panel">
+  <table>
+    <thead>
+      <tr>
+        <th>Archivo</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>productos.xlsx</td>
+        <td>Inventario</td>
+        <td>2026-04-24</td>
+        <td><span class="status ok">Procesado</span></td>
+        <td><button>Ver</button></td>
+      </tr>
+
+      <tr>
+        <td>pedidos.csv</td>
+        <td>Despacho</td>
+        <td>2026-04-23</td>
+        <td><span class="status pending">Pendiente</span></td>
+        <td><button>Ver</button></td>
+      </tr>
+
+      <tr>
+        <td>clientes.xlsx</td>
+        <td>Maestro</td>
+        <td>2026-04-22</td>
+        <td><span class="status error">Error</span></td>
+        <td><button>Reintentar</button></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+```
+
+  </div>
+
+</body>
+</html>
