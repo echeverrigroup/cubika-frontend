@@ -23,7 +23,7 @@ async function init() {
         apellido,
         cargo,
         empresas (
-            nombre
+            nombre_fantasia
         )
     `)
     .eq("auth_user_id", user.id)
