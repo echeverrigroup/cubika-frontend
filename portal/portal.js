@@ -1,5 +1,6 @@
-import { requireAuth } from "./auth.js";
 import { supabase } from "../js/supabaseClient.js";
+import { requireAuth } from "./auth.js";
+
 
 async function init() {
 
