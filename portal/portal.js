@@ -21,10 +21,7 @@ async function init() {
         .select(`
             nombre,
             apellido,
-            cargo,
-            empresas (
-                nombre
-              )
+            cargo
         `)
         .eq("auth_user_id", user.id)
         .single();
@@ -39,7 +36,7 @@ async function init() {
             `${perfil.nombre} ${perfil.apellido ?? ""}`;
 
         document.getElementById("user-role").textContent =
-            perfil.cargo ?? "Usuario"}· ${perfil.empresas.nombre}`;
+            perfil.cargo ?? "Usuario";
     }
 }
 
