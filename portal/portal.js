@@ -21,7 +21,7 @@ async function init() {
         .select(`
             nombre,
             apellido,
-            cargo
+            cargo,
             empresas (
                 nombre
               )
