@@ -17,14 +17,17 @@ async function init() {
         });
 
     const { data: perfil, error } = await supabase
-        .from("usuarios")
-        .select(`
-            nombre,
-            apellido,
-            cargo
-        `)
-        .eq("auth_user_id", user.id)
-        .single();
+    .from("usuarios")
+    .select(`
+        nombre,
+        apellido,
+        cargo,
+        empresas (
+            nombre
+        )
+    `)
+    .eq("auth_user_id", user.id)
+    .single();
 
     console.log("USER:", user);
     console.log("PERFIL:", perfil);
@@ -35,8 +38,8 @@ async function init() {
         document.getElementById("user-name").textContent =
             `${perfil.nombre} ${perfil.apellido ?? ""}`;
 
-        document.getElementById("user-role").textContent =
-            perfil.cargo ?? "Usuario";
+       document.getElementById("user-role").textContent =
+            `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre ?? ""}`;
     }
 }
 
