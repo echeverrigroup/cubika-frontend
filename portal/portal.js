@@ -39,7 +39,7 @@ async function init() {
             `${perfil.nombre} ${perfil.apellido ?? ""}`;
 
        document.getElementById("user-role").textContent =
-            `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre ?? ""}`;
+            `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre_fantasia ?? ""}`;
     }
 }
 
