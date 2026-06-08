@@ -27,37 +27,47 @@ form.addEventListener("submit", async (e) => {
 });
 
 async function postLoginRedirect() {
+
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user) throw new Error("Sesión inválida");
+  if (!user) {
+    throw new Error("Sesión inválida.");
+  }
 
-  const { data: profile, error } = await supabase
-    .from("users")
+  const { data: perfil, error } = await supabase
+    .from("usuarios")
     .select(`
-      onboarding_completed,
-      roles ( code )
+      id,
+      empresa_id,
+      sucursal_id,
+      nombre,
+      apellido,
+      email,
+      nivel,
+      estado
     `)
-    .eq("id", user.id)
+    .eq("auth_user_id", user.id)
     .single();
 
-  if (error || !profile) {
+  if (error || !perfil) {
+
     await supabase.auth.signOut();
-    throw new Error("Error de perfil. Contacta soporte.");
+
+    throw new Error(
+      "No existe un perfil asociado a este usuario."
+    );
   }
 
-  if (!profile.onboarding_completed) {
-    window.location.href = "/onboarding.html";
-    return;
+  if (perfil.estado !== "ACTIVO") {
+
+    await supabase.auth.signOut();
+
+    throw new Error(
+      "Usuario inactivo. Contacte al administrador."
+    );
   }
 
-  switch (profile.roles.code) {
-      
-    window.location.href = "/portal/";
-      
-    default:
-      await supabase.auth.signOut();
-      throw new Error("Rol no autorizado.");
-  }
+  window.location.href = "/portal/";
 }
