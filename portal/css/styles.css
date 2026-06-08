@@ -94,24 +94,17 @@ body {
 
 #logoutBtn{
 
-    background:#ffffff;
+    background:#0B2F5B;
+    color:white;
 
-    border:1px solid #E2E8F0;
-
-    padding:10px 14px;
+    border:none;
 
     border-radius:10px;
 
-    cursor:pointer;
-
-    transition:.2s;
-
-    font-size:13px;
+    padding:10px 16px;
 }
 
 #logoutBtn:hover{
 
-    background:#f8fafc;
-
-    border-color:#cbd5e1;
+    transform:translateY(-1px);
 }
