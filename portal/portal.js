@@ -22,6 +22,9 @@ async function init() {
             nombre,
             apellido,
             cargo
+            empresas (
+                nombre
+              )
         `)
         .eq("auth_user_id", user.id)
         .single();
@@ -36,7 +39,7 @@ async function init() {
             `${perfil.nombre} ${perfil.apellido ?? ""}`;
 
         document.getElementById("user-role").textContent =
-            perfil.cargo ?? "Usuario";
+            perfil.cargo ?? "Usuario"}· ${perfil.empresas.nombre}`;
     }
 }
 
