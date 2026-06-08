@@ -20,7 +20,24 @@ async function init() {
               window.location.href = "/login.html";
       });
 
-    userLabel.textContent = user.email;
-}
-
+        const { data: perfil, error } = await supabase
+      .from("usuarios")
+      .select(`
+          nombre,
+          apellido,
+          cargo,
+          empresa_id
+      `)
+      .eq("auth_user_id", user.id)
+      .single();
+    
+    if (perfil) {
+    
+        document.getElementById("user-name").textContent =
+            `${perfil.nombre} ${perfil.apellido ?? ""}`;
+    
+        document.getElementById("user-role").textContent =
+            perfil.cargo ?? "Usuario";
+    }
+    
 init();
