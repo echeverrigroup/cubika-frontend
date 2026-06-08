@@ -53,14 +53,9 @@ async function postLoginRedirect() {
   }
 
   switch (profile.roles.code) {
-    case "SUPER_ADMIN":
-      window.location.href = "/admin/companies.html";
-      break;
-
-    case "ADMIN_EMPRESA":
-      window.location.href = "/user/home.html";
-      break;
-
+      
+    window.location.href = "/portal/";
+      
     default:
       await supabase.auth.signOut();
       throw new Error("Rol no autorizado.");
