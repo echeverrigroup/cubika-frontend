@@ -114,3 +114,15 @@ body {
 
     transform:translateY(-1px);
 }
+
+
+.sidebar-menu .active{
+
+    background:#E8F0FE;
+
+    color:#0B2F5B;
+
+    font-weight:600;
+
+    border-radius:8px;
+}
