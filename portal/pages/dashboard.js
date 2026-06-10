@@ -8,8 +8,6 @@ export function renderDashboard() {
 
 
   </p>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            Raffaella Te amo con todo mi ser <3
       
     `;
 }
