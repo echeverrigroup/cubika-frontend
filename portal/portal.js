@@ -1,6 +1,8 @@
 import { supabase } from "../js/supabaseClient.js";
 import { requireAuth } from "./auth.js";
 import { navigate } from "./router.js";
+import { showConfirmModal }
+    from "./components/modal.js";
 
 async function init() {
 
@@ -11,19 +13,32 @@ async function init() {
     const logoutBtn =
     document.getElementById("logoutBtn");
 
-    if (logoutBtn) {
-    
-        logoutBtn.addEventListener(
-            "click",
-            async () => {
-    
+    logoutBtn.addEventListener(
+    "click",
+    () => {
+
+        showConfirmModal({
+
+            title: "Cerrar sesión",
+
+            message:
+                "¿Deseas abandonar la sesión actual de Cubika?",
+
+            onConfirm: async () => {
+
                 await supabase.auth.signOut();
-    
+
                 window.location.href =
                     "/login.html";
+
             }
-        );
+
+        });
+
     }
+);
+
+    
     const { data: perfil, error } = await supabase
     .from("usuarios")
     .select(`
