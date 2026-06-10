@@ -51,6 +51,7 @@ async function cargarRubros() {
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -60,18 +61,38 @@ async function cargarRubros() {
     data.forEach(rubro => {
 
         html += `
-            <tr>
+<tr>
 
-                <td>${rubro.id}</td>
+    <td>${rubro.id}</td>
 
-                <td>${rubro.nombre}</td>
+    <td>${rubro.nombre}</td>
 
-                <td>${rubro.descripcion ?? ""}</td>
+    <td>${rubro.descripcion ?? ""}</td>
 
-                <td>${rubro.estado}</td>
+    <td>${rubro.estado}</td>
 
-            </tr>
-        `;
+    <td>
+
+        <button
+            class="btn-edit"
+            data-id="${rubro.id}">
+
+            Editar
+
+        </button>
+
+        <button
+            class="btn-delete"
+            data-id="${rubro.id}">
+
+            Desactivar
+
+        </button>
+
+    </td>
+
+</tr>
+`;
     });
 
     html += `
