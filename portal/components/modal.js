@@ -13,7 +13,7 @@ export function showConfirmModal({
         .textContent = title;
 
     document.getElementById("modalMessage")
-        .textContent = message;
+    .innerHTML = message;
 
     overlay.style.display = "flex";
 
