@@ -40,7 +40,6 @@ async function init() {
 
        document.getElementById("user-role").textContent =
             `${perfil.cargo ?? "Usuario"}`;
-    }
 
        document.getElementById("user-empresa").textContent =
             `{perfil.empresas?.nombre_fantasia ?? ""}`;
