@@ -1,5 +1,6 @@
 import { supabase } from "../js/supabaseClient.js";
 import { requireAuth } from "./auth.js";
+import { navigate } from "./router.js";
 
 async function init() {
 
@@ -42,7 +43,24 @@ async function init() {
             `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre_fantasia ?? ""}`;
         }
 
-}
+    document
+    .querySelectorAll("[data-page]")
+    .forEach(item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                navigate(
+                    item.dataset.page
+                );
+            }
+        );
+
+    });
     
+     navigate("dashboard");
+}
+   
 
 init();
