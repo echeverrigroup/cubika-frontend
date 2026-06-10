@@ -41,6 +41,10 @@ async function init() {
        document.getElementById("user-role").textContent =
             `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre_fantasia ?? ""}`;
     }
+
+       document.getElementById("user-empresa").textContent =
+            `{perfil.empresas?.nombre_fantasia ?? ""}`;
+    }
 }
 
 init();
