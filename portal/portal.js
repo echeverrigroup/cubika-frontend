@@ -41,6 +41,8 @@ async function init() {
        document.getElementById("user-role").textContent =
             `${perfil.cargo ?? "Usuario"} · ${perfil.empresas?.nombre ?? ""}`;
         }
+
+}
     
 
 init();
