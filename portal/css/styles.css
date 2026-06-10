@@ -37,11 +37,18 @@ body {
 /* SIDEBAR */
 
 .sidebar {
+
     width: 260px;
+
     background: white;
+
     border-right: 1px solid #e5e5e5;
 
     padding: 20px;
+
+    overflow-y: auto;
+
+    height: 100%;
 }
 
 .sidebar h3 {
@@ -67,10 +74,13 @@ body {
 /* CONTENIDO */
 
 .content {
-    flex: 1;
-    padding: 30px;
-}
 
+    flex: 1;
+
+    padding: 30px;
+
+    overflow-y: auto;
+}
 .user-card{
     display:flex;
     align-items:center;
