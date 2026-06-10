@@ -8,15 +8,22 @@ async function init() {
 
     if (!user) return;
 
-    document
-        .getElementById("logoutBtn")
-        .addEventListener("click", async () => {
+    const logoutBtn =
+    document.getElementById("logoutBtn");
 
-            await supabase.auth.signOut();
-
-            window.location.href = "/login.html";
-        });
-
+    if (logoutBtn) {
+    
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+    
+                await supabase.auth.signOut();
+    
+                window.location.href =
+                    "/login.html";
+            }
+        );
+    }
     const { data: perfil, error } = await supabase
     .from("usuarios")
     .select(`
@@ -30,9 +37,16 @@ async function init() {
     .eq("auth_user_id", user.id)
     .single();
 
-    console.log("USER:", user);
-    console.log("PERFIL:", perfil);
-    console.log("ERROR:", error);
+    if (error) {
+
+    console.error(error);
+
+    document.getElementById("user-name").textContent =
+        "Error de perfil";
+
+    return;
+    }
+
 
     if (perfil) {
 
@@ -47,19 +61,32 @@ async function init() {
     .querySelectorAll("[data-page]")
     .forEach(item => {
 
-        item.addEventListener(
-            "click",
-            () => {
+        item.addEventListener("click", () => {
 
-                navigate(
-                    item.dataset.page
+            document
+                .querySelectorAll("[data-page]")
+                .forEach(i =>
+                    i.classList.remove("active")
                 );
-            }
-        );
+
+            item.classList.add("active");
+
+            navigate(item.dataset.page);
+        });
 
     });
     
      navigate("dashboard");
+
+    const dashboardItem =
+    document.querySelector(
+        '[data-page="dashboard"]'
+    );
+
+if (dashboardItem) {
+
+    dashboardItem.classList.add("active");
+}
 }
    
 
