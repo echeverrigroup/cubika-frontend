@@ -39,11 +39,9 @@ async function init() {
             `${perfil.nombre} ${perfil.apellido ?? ""}`;
 
        document.getElementById("user-role").textContent =
-            `${perfil.cargo ?? "Usuario"}`;
-
-       document.getElementById("user-empresa").textContent =
-            `{perfil.empresas?.nombre_fantasia ?? ""}`;
-    }
-}
+            `${perfil.cargo ?? "Usuario"}` - `$(document.getElementById("user-empresa").textContent = `{perfil.empresas?.nombre_fantasia ?? ""}`;
+                
+        }
+    
 
 init();
