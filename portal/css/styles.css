@@ -304,3 +304,35 @@ body {
 
     border-top:1px solid #E5E7EB;
 }
+
+.btn-edit,
+.btn-delete {
+
+    border:none;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    margin-right:6px;
+}
+
+.btn-edit {
+
+    background:#D7F3EA;
+
+    color:#146C5B;
+}
+
+.btn-delete {
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+}
+
+
