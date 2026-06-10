@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, sans-serif;
     background: #f5f7fa;
 }
 
@@ -88,6 +88,12 @@ body {
 }
 
 #user-role{
+    font-size:13px;
+    font-weight:600;
+    color:#6B7280;
+}
+
+#user-empresa{
     font-size:12px;
     color:#6B7280;
 }
