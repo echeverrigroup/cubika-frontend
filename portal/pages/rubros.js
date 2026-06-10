@@ -79,6 +79,9 @@ async function crearRubro() {
 
 function mostrarFormularioNuevoRubro() {
 
+    console.log("CLICK");
+    alert("CLICK");
+    
     showConfirmModal({
 
     title: "Nuevo Rubro",
