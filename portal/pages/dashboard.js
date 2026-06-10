@@ -5,6 +5,45 @@ export function renderDashboard() {
 
         <p>
             Bienvenido al Portal de Administración.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Raffaella Te amo con todo mi ser <3
         </p>
     `;
 }
