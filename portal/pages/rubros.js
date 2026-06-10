@@ -1,5 +1,9 @@
 import { supabase } from "../../js/supabaseClient.js";
-
+import {
+    showConfirmModal
+    }
+    from "../components/modal.js";
+    
 export async function renderRubros() {
 
     const content =
@@ -22,6 +26,90 @@ export async function renderRubros() {
     `;
 
     await cargarRubros();
+
+    document
+    .getElementById("btnNuevoRubro")
+    .addEventListener(
+        "click",
+        mostrarFormularioNuevoRubro
+    );
+}
+
+async function crearRubro() {
+
+    const nombre =
+        document
+        .getElementById("rubroNombre")
+        .value
+        .trim();
+
+    const descripcion =
+        document
+        .getElementById("rubroDescripcion")
+        .value
+        .trim();
+
+    if (!nombre) {
+
+        alert("Debe ingresar un nombre");
+
+        return;
+    }
+
+    const { error } =
+        await supabase
+            .from("rubros")
+            .insert({
+
+                nombre,
+                descripcion
+
+            });
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+    await cargarRubros();
+}
+
+
+function mostrarFormularioNuevoRubro() {
+
+    showConfirmModal({
+
+    title: "Nuevo Rubro",
+
+    message: `
+
+        <div class="form-group">
+
+            <label>Nombre</label>
+
+            <input
+                id="rubroNombre"
+                type="text">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Descripción</label>
+
+            <textarea
+                id="rubroDescripcion">
+            </textarea>
+
+        </div>
+
+    `,
+
+    onConfirm: crearRubro
+});
+
 }
 
 async function cargarRubros() {
