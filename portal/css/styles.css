@@ -153,3 +153,87 @@ body {
 
     border-radius: 8px;
 }
+
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.35);
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.modal {
+
+    width: 420px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 24px;
+
+    box-shadow: 0 12px 32px rgba(0,0,0,.15);
+}
+
+.modal-header h2 {
+
+    color: #0B2F5B;
+
+    margin-bottom: 10px;
+}
+
+.modal-body {
+
+    color: #64748B;
+
+    margin-bottom: 24px;
+}
+
+.modal-footer {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+.btn-primary {
+
+    background: #0B2F5B;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.btn-secondary {
+
+    background: #F4F8FA;
+
+    color: #475569;
+
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
