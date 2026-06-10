@@ -7,43 +7,9 @@ export function renderDashboard() {
             Bienvenido al Portal de Administración.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  </p>
 
             Raffaella Te amo con todo mi ser <3
-        </p>
+      
     `;
 }
