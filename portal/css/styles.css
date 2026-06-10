@@ -237,3 +237,70 @@ body {
 
     cursor: pointer;
 }
+
+.page-header {
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:24px;
+}
+
+.page-header h1 {
+
+    color:#0B2F5B;
+}
+
+.page-header button {
+
+    background:#0B2F5B;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.page-header button:hover {
+
+    transform:translateY(-1px);
+}
+
+.cubika-table {
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    border-radius:12px;
+
+    overflow:hidden;
+}
+
+.cubika-table th {
+
+    background:#F8FAFC;
+
+    color:#0B2F5B;
+
+    text-align:left;
+
+    padding:14px;
+}
+
+.cubika-table td {
+
+    padding:14px;
+
+    border-top:1px solid #E5E7EB;
+}
