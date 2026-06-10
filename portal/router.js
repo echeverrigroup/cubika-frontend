@@ -9,9 +9,8 @@ export function navigate(page) {
     switch(page){
 
         case "rubros":
-            content.innerHTML =
-                renderRubros();
-            break;
+        renderRubros();
+        break;
 
         default:
             content.innerHTML =
