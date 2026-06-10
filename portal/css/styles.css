@@ -126,3 +126,19 @@ body {
 
     border-radius:8px;
 }
+
+.sidebar-menu li {
+
+    padding: 10px 14px;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+}
+
+.sidebar-menu li:hover {
+
+    background: #F4F8FA;
+
+    border-radius: 8px;
+}
