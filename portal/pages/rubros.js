@@ -100,8 +100,8 @@ function mostrarFormularioNuevoRubro() {
                 <label>Descripción</label>
 
                 <input
-                    id="rubroDescripcion">
-                 type="text">
+                    id="rubroDescripcion"
+                    type="text">
 
             </div>
 
