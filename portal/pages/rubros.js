@@ -29,9 +29,8 @@ export async function renderRubros() {
 
     document
     .getElementById("btnNuevoRubro")
-    .addEventListener(
-        mostrarFormularioNuevoRubro
-    );
+    
+        mostrarFormularioNuevoRubro;
 }
 
 async function crearRubro() {
