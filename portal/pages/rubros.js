@@ -87,7 +87,7 @@ function mostrarFormularioNuevoRubro() {
 
             <div class="form-group">
 
-                <label>Nombre</label>
+                <label>Nombre      </label>
 
                 <input
                     id="rubroNombre"
@@ -97,7 +97,7 @@ function mostrarFormularioNuevoRubro() {
 
             <div class="form-group">
 
-                <label>Descripción</label>
+                <label>Descripción  </label>
 
                 <input
                     id="rubroDescripcion"
