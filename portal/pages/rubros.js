@@ -27,10 +27,12 @@ export async function renderRubros() {
 
     await cargarRubros();
 
-    document
+   document
     .getElementById("btnNuevoRubro")
-    
-        mostrarFormularioNuevoRubro;
+    .addEventListener(
+        "click",
+        mostrarFormularioNuevoRubro
+    );
 }
 
 async function crearRubro() {
@@ -79,34 +81,35 @@ function mostrarFormularioNuevoRubro() {
 
     showConfirmModal({
 
-    title: "Nuevo Rubro",
+        title: "Nuevo Rubro",
 
-    message: `
+        message: `
 
-        <div class="form-group">
+            <div class="form-group">
 
-            <label>Nombre</label>
+                <label>Nombre</label>
 
-            <input
-                id="rubroNombre"
-                type="text">
+                <input
+                    id="rubroNombre"
+                    type="text">
 
-        </div>
+            </div>
 
-        <div class="form-group">
+            <div class="form-group">
 
-            <label>Descripción</label>
+                <label>Descripción</label>
 
-            <textarea
-                id="rubroDescripcion">
-            </textarea>
+                <textarea
+                    id="rubroDescripcion">
+                </textarea>
 
-        </div>
+            </div>
 
-    `,
+        `,
 
-    onConfirm: crearRubro
-});
+        onConfirm: crearRubro
+
+    });
 
 }
 
