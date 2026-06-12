@@ -30,7 +30,6 @@ export async function renderRubros() {
     document
     .getElementById("btnNuevoRubro")
     .addEventListener(
-        "click",
         mostrarFormularioNuevoRubro
     );
 }
