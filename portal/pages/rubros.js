@@ -99,9 +99,9 @@ function mostrarFormularioNuevoRubro() {
 
                 <label>Descripción</label>
 
-                <textarea
+                <input
                     id="rubroDescripcion">
-                </textarea>
+                 type="text">
 
             </div>
 
