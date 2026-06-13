@@ -407,10 +407,15 @@
 }
 /* ================= HEADER ================= */
 
-.main-header {
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+.main-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    backdrop-filter:blur(12px);
+
+    background:
+    rgba(255,255,255,.92);
 }
 
 .header-container {
