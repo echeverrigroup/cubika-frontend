@@ -143,7 +143,7 @@
 .footer-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
 }
 
 .footer-logo {
@@ -896,6 +896,17 @@
 }
 
 
+.footer-brand {
+
+    height: 56px;
+    width: auto;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+}
+
+
   </style>
 </head>
 
@@ -1173,11 +1184,19 @@
   <div class="footer-inner">
     
     <div class="footer-left">
-      <span class="footer-logo">Cubika</span>
-      <span class="footer-tagline">
-        <b>Inteligencia logística basada en datos.</b><br>Steven Rodriguez Echeverri<br>Director General
-      </span>
-    </div>
+
+  <img
+    src="./img/logo-blanco.png"
+    alt="Cubika"
+    class="footer-brand">
+
+  <span class="footer-tagline">
+    <b>Inteligencia logística basada en datos.</b><br>
+    Steven Rodriguez Echeverri<br>
+    Director General
+  </span>
+
+</div>
 
  <div class="footer-center">
       <a href="/login.html">Portal Clientes</a>
