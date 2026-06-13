@@ -765,6 +765,106 @@
 }
 
 
+/* ==========================
+   CUBIKA FLOW
+========================== */
+
+.cubika-flow {
+
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 30px;
+
+    margin-top: 60px;
+}
+
+.flow-line {
+
+    position: absolute;
+
+    top: 55px;
+    left: 10%;
+
+    width: 80%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        #42C12E,
+        #0B2F5B
+    );
+
+    z-index: 0;
+}
+
+.flow-step {
+
+    position: relative;
+
+    flex: 1;
+
+    text-align: center;
+
+    z-index: 1;
+}
+
+.flow-circle {
+
+    width: 110px;
+    height: 110px;
+
+    margin: 0 auto 24px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    border: 3px solid #D7F3EA;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
+}
+
+.flow-circle img {
+
+    width: 70%;
+    height: 70%;
+
+    object-fit: contain;
+}
+
+.flow-step h3 {
+
+    color: #0B2F5B;
+
+    margin-bottom: 12px;
+
+    font-size: 1.3rem;
+}
+
+.flow-step p {
+
+    max-width: 230px;
+
+    margin: 0 auto;
+
+    font-size: .95rem;
+
+    line-height: 1.5;
+
+    color: #4A5D73;
+}
+    
+
+
 /* =====================================
    WHY CUBIKA
 ===================================== */
@@ -884,6 +984,25 @@
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
+
+  .cubika-flow {
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 50px;
+    }
+
+    .flow-line {
+
+        display: none;
+    }
+
+    .flow-step {
+
+        max-width: 320px;
+    }
 
   .why-grid {
 
@@ -1138,68 +1257,71 @@
 </section>
 
 
-<section class="how-it-works" id="como-funciona">
-  <div class="how-container">
+<div class="cubika-flow">
 
-    <div class="how-header">
-      <h2>Cómo funciona Cubika</h2>
-      <p>
-        Una capa inteligente que convierte datos desordenados
-        en información operable, sin cambiar tu forma de trabajar.
-      </p>
-    </div>
+    <div class="flow-line"></div>
 
-    <div class="how-steps">
+    <div class="flow-step">
 
-      <!-- Paso 1 -->
-      <div class="how-step">
-        <div class="step-icon">
-        <img src="./img/input-image.png" alt="Inventario">
+        <div class="flow-circle">
+            <img src="./img/input-image.png" alt="">
         </div>
-        <h3>Conecta tu información</h3>
-        <p>
-          Importa archivos, planillas o datos provenientes de distintos sistemas sin necesidad de grandes proyectos de integración.
-        </p>
-      </div>
 
-      <!-- Paso 2 -->
-      <div class="how-step how-step-center">
-        <div class="step-icon">
-         <!--  <img src="./img/central-image.png" alt="Central">  -->
-          <img src="./img/logo-pulido-sin-fondo.png" alt="Central">
-        </div>
-        <h3>Cubika organiza y valida</h3>
-        <p>
-          Estandariza estructuras, detecta inconsistencias y prepara la información para que pueda ser utilizada con confianza.
-        </p>
-      </div>
+        <h3>Conecta</h3>
 
-      <!-- Paso 3 -->
-      <div class="how-step">
-        <div class="step-icon">
-          <img src="./img/output-image.png" alt="Output">
-          </div>
-        <h3>Activa procesos logísticos</h3>
         <p>
-          Inventario, movimientos, etiquetado, cubicación, ubicaciones y otros procesos operativos trabajan sobre información consistente.
+            Importa información desde planillas,
+            archivos o sistemas existentes.
         </p>
-      </div>
-
-      <!-- Paso 4 -->
-      <div class="how-step">
-        <div class="step-icon">
-          <img src="./img/output-image.png" alt="Output">
-          </div>
-        <h3>Obtén trazabilidad y control</h3>
-        <p>
-           Visualiza resultados, indicadores y eventos operativos desde una única plataforma.
-        </p>
-      </div>
 
     </div>
 
-  </div>
-</section>
+    <div class="flow-step">
+
+        <div class="flow-circle">
+            <img src="./img/logo-pulido-sin-fondo.png" alt="">
+        </div>
+
+        <h3>Organiza</h3>
+
+        <p>
+            Cubika valida, normaliza y estructura
+            la información para operar con confianza.
+        </p>
+
+    </div>
+
+    <div class="flow-step">
+
+        <div class="flow-circle">
+            <img src="./img/output-image.png" alt="">
+        </div>
+
+        <h3>Opera</h3>
+
+        <p>
+            Ejecuta inventario, movimientos,
+            etiquetado y procesos logísticos.
+        </p>
+
+    </div>
+
+    <div class="flow-step">
+
+        <div class="flow-circle">
+            <img src="./img/trazabilidad-image.png" alt="">
+        </div>
+
+        <h3>Controla</h3>
+
+        <p>
+            Obtén trazabilidad,
+            indicadores y visibilidad operacional.
+        </p>
+
+    </div>
+
+</div>
 
 
 <section class="use-cases">
