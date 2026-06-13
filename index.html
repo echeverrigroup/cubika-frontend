@@ -199,7 +199,13 @@
  /* background: #0b2b4b;*/
 } 
 
+    
+.hero-mobile-image{
+  display:none;
+}
+    
 
+    
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -932,6 +938,23 @@
 
 @media (max-width: 768px){
 
+
+   .hero-bg{
+    display:none;
+  }
+
+  .hero-mobile-image{
+    display:block;
+    margin-top:40px;
+    text-align:center;
+  }
+
+  .hero-mobile-image img{
+    width:100%;
+    max-width:420px;
+    height:auto;
+  }
+  
   .header-logo img{
     height: 48px;
   }
@@ -1098,7 +1121,9 @@
 <section class="hero">
 
   <!-- IMAGEN DE FONDO -->
-  <div class="hero-bg"></div>
+  <div class="hero-mobile-image">
+    <img src="./img/imagen-hero12.png" alt="Cubika">
+  </div>
 
   <!-- OVERLAY (oscurece lado izquierdo para legibilidad) -->
 
