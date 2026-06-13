@@ -1173,6 +1173,35 @@
 
 @media (min-width:769px) and (max-width:1024px){
 
+  .network-container {
+
+        height: auto;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 40px;
+    }
+
+    .network-container::before,
+    .network-container::after {
+
+        display: none;
+    }
+
+    .network-center,
+    .network-node {
+
+        position: static;
+
+        transform: none;
+
+        width: 100%;
+        max-width: 320px;
+
+        margin: 0 auto;
+    }
+
   .hero-container{
     grid-template-columns:1fr;
     text-align:center;
@@ -1186,6 +1215,202 @@
     grid-template-columns:repeat(2,1fr);
   }
 
+}
+
+
+/* ==========================
+   NETWORK SECTION
+========================== */
+
+.network-container {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 1000px;
+
+    height: 700px;
+
+    margin: 60px auto 0;
+}
+
+/* CENTRO */
+
+.network-center {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 320px;
+
+    padding: 40px;
+
+    background: white;
+
+    border-radius: 24px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.08);
+
+    border: 2px solid #D7F3EA;
+
+    z-index: 5;
+}
+
+.network-center img {
+
+    width: 120px;
+
+    margin-bottom: 20px;
+}
+
+.network-center h3 {
+
+    color: #0B2F5B;
+
+    margin-bottom: 12px;
+}
+
+.network-center p {
+
+    font-size: .95rem;
+
+    line-height: 1.5;
+
+    color: #4A5D73;
+}
+
+/* NODOS */
+
+.network-node {
+
+    position: absolute;
+
+    width: 220px;
+
+    text-align: center;
+}
+
+.network-icon {
+
+    width: 90px;
+    height: 90px;
+
+    margin: 0 auto 16px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    border: 2px solid #D7F3EA;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.05);
+}
+
+.network-icon img {
+
+    width: 65%;
+    height: 65%;
+
+    object-fit: contain;
+}
+
+.network-node h3 {
+
+    color: #0B2F5B;
+
+    margin-bottom: 10px;
+}
+
+.network-node p {
+
+    font-size: .92rem;
+
+    color: #4A5D73;
+
+    line-height: 1.5;
+}
+
+/* POSICIONES */
+
+.node-top {
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+.node-left {
+
+    top: 50%;
+    left: 0;
+
+    transform: translateY(-50%);
+}
+
+.node-right {
+
+    top: 50%;
+    right: 0;
+
+    transform: translateY(-50%);
+}
+
+.node-bottom {
+
+    bottom: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+
+.network-container::before,
+.network-container::after {
+
+    content: "";
+
+    position: absolute;
+
+    background: #D7F3EA;
+}
+
+/* Línea vertical */
+
+.network-container::before {
+
+    width: 3px;
+
+    height: 100%;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+/* Línea horizontal */
+
+.network-container::after {
+
+    height: 3px;
+
+    width: 100%;
+
+    top: 50%;
+
+    transform: translateY(-50%);
 }
     
 
@@ -1267,13 +1492,10 @@
     </div>
 
 
-<div class="cubika-flow">
+<div class="network-container">
 
-    <div class="flow-line"></div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
+    <div class="network-node node-top">
+        <div class="network-icon">
             <img src="./img/input-image.png" alt="">
         </div>
 
@@ -1281,44 +1503,42 @@
 
         <p>
             Importa información desde planillas,
-            archivos o sistemas existentes.
+            archivos y sistemas existentes.
         </p>
-
     </div>
 
-    <div class="flow-step">
-
-        <div class="flow-circle">
-            <img src="./img/logo-pulido-sin-fondo.png" alt="">
-        </div>
-
-        <h3>Organiza</h3>
-
-        <p>
-            Cubika valida, normaliza y estructura
-            la información para operar con confianza.
-        </p>
-
-    </div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
+    <div class="network-node node-left">
+        <div class="network-icon">
             <img src="./img/output-image.png" alt="">
         </div>
 
         <h3>Opera</h3>
 
         <p>
-            Ejecuta inventario, movimientos,
+            Inventario, movimientos,
             etiquetado y procesos logísticos.
+        </p>
+    </div>
+
+    <div class="network-center">
+
+        <img
+            src="./img/logo-pulido-sin-fondo.png"
+            alt="Cubika">
+
+        <h3>Cubika</h3>
+
+        <p>
+            Organiza, valida y estructura
+            la información para operar
+            con confianza.
         </p>
 
     </div>
 
-    <div class="flow-step">
+    <div class="network-node node-right">
 
-        <div class="flow-circle">
+        <div class="network-icon">
             <img src="./img/trazabilidad-image.png" alt="">
         </div>
 
@@ -1326,16 +1546,30 @@
 
         <p>
             Obtén trazabilidad,
-            indicadores y visibilidad operacional.
+            indicadores y visibilidad.
         </p>
 
     </div>
 
+    <div class="network-node node-bottom">
+
+        <div class="network-icon">
+            <img src="./img/integracion-image.png" alt="">
+        </div>
+
+        <h3>Integra</h3>
+
+        <p>
+            Comparte información con
+            otros sistemas y procesos.
+        </p>
+
     </div>
 
 </div>
+  </div>
 
-  </section>
+</section>
 
 
 <section class="use-cases">
