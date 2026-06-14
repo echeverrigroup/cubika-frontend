@@ -1415,49 +1415,57 @@
 
 
 .use-grid{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  grid-auto-rows:minmax(240px, auto);
-  gap:24px;
+  display:flex;
+  flex-direction:column;
+  gap:32px;
   margin-top:60px;
 }
 
-.use-card{
+.use-row{
+  display:flex;
+  align-items:center;
+  gap:60px;
+
   background:#fff;
   border:1px solid rgba(11,47,91,.08);
   border-radius:24px;
-  padding:32px;
+  padding:40px;
+
   transition:.3s ease;
 }
 
-.use-card:hover{
+.use-row:hover{
   transform:translateY(-6px);
   box-shadow:0 20px 40px rgba(0,0,0,.08);
 }
 
-.use-card-large{
-  grid-row:span 2;
+.use-row.reverse{
+  flex-direction:row-reverse;
 }
 
-.use-card-wide{
-  grid-column:span 2;
+.use-visual{
+  flex:1;
+  display:flex;
+  justify-content:center;
 }
 
-.use-icon{
-  margin-bottom:20px;
+.use-visual img{
+  width:220px;
+  max-width:100%;
 }
 
-.use-icon img{
-  width:72px;
-  height:auto;
+.use-content{
+  flex:1;
 }
 
-.use-card h3{
-  margin-bottom:12px;
+.use-content h3{
+  font-size:1.8rem;
+  margin-bottom:16px;
 }
 
-.use-card p{
-  line-height:1.7;
+.use-content p{
+  line-height:1.8;
+  color:#5b6475;
 }
 
     
@@ -1629,48 +1637,66 @@
 </div>
 
 <div class="use-grid">
-  <div class="use-card use-card-large">
-  <div class="use-icon">
-  <img src="./img/inventario-image.png" alt="Inventario">
-  </div>
-    <h3>Inventario</h3>
-    <p>
-      Controla y consolida inventarios desde múltiples fuentes,
-      con datos consistentes y listos para operar.
-    </p>
-  </div>
 
-  <div class="use-card">
-    <div class="use-icon">
-    <img src="./img/etiquetado2-image.png" alt="Inventario">
+  <!-- Inventario -->
+  <div class="use-row">
+    <div class="use-visual">
+      <img src="./img/inventario-image.png" alt="Inventario">
     </div>
-    <h3>Etiquetado</h3>
-    <p>
-      Genera etiquetas operativas basadas en datos y requerimientos,
-      listas para impresión, lectura e integración.
-    </p>
+
+    <div class="use-content">
+      <h3>Inventario</h3>
+      <p>
+        Controla y consolida inventarios desde múltiples fuentes,
+        con datos consistentes y listos para operar.
+      </p>
+    </div>
   </div>
 
-
-  <div class="use-card">
-    <div class="use-icon">
-    <img src="./img/cubicacion-image.png" alt="Inventario">
+  <!-- Etiquetado -->
+  <div class="use-row reverse">
+    <div class="use-visual">
+      <img src="./img/etiquetado2-image.png" alt="Etiquetado">
     </div>
-    <h3>Cubicación</h3>
-    <p>
-      Calcula volúmenes reales a partir de información validada,
-      reduciendo errores y sobrecostos operativos.
-    </p>
+
+    <div class="use-content">
+      <h3>Etiquetado</h3>
+      <p>
+        Genera etiquetas operativas basadas en datos y requerimientos,
+        listas para impresión, lectura e integración.
+      </p>
+    </div>
   </div>
 
-  <div class="use-card use-card-wide">
-    <div class="use-icon">
-    <img src="./img/traspasos-image.png" alt="Traspasos">
+  <!-- Cubicación -->
+  <div class="use-row">
+    <div class="use-visual">
+      <img src="./img/cubicacion-image.png" alt="Cubicación">
     </div>
-    <h3>Traspasos inteligentes</h3>
-    <p>
-      Detecta excedentes y faltantes entre sucursales para proponer movimientos de stock que mejoran la disponibilidad y reducen inventario inmovilizado.
-    </p>
+
+    <div class="use-content">
+      <h3>Cubicación</h3>
+      <p>
+        Calcula volúmenes reales a partir de información validada,
+        reduciendo errores y sobrecostos operativos.
+      </p>
+    </div>
+  </div>
+
+  <!-- Traspasos -->
+  <div class="use-row reverse">
+    <div class="use-visual">
+      <img src="./img/traspasos-image.png" alt="Traspasos">
+    </div>
+
+    <div class="use-content">
+      <h3>Traspasos inteligentes</h3>
+      <p>
+        Detecta excedentes y faltantes entre sucursales para proponer
+        movimientos de stock que mejoran la disponibilidad y reducen
+        inventario inmovilizado.
+      </p>
+    </div>
   </div>
 
 </div>
