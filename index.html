@@ -1510,8 +1510,65 @@
   }
 
 }
+
+
+.use-tag{
+    display:inline-block;
+    margin-bottom:12px;
+
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+
+    color:#42C12E;
+}
+
     
-    
+.use-content h3{
+    font-size:2rem;
+    font-weight:700;
+    color:#0B2F5B;
+
+    margin-bottom:8px;
+}
+
+.use-content h4{
+    font-size:1rem;
+    font-weight:600;
+
+    color:#2D4366;
+
+    margin-bottom:18px;
+}
+
+.use-content p{
+    font-size:1rem;
+    line-height:1.8;
+
+    color:#5B6475;
+
+    max-width:480px;
+}
+
+.use-content{
+    position:relative;
+    padding-left:24px;
+}
+
+.use-content::before{
+    content:"";
+    position:absolute;
+
+    left:0;
+    top:6px;
+
+    width:4px;
+    height:60px;
+
+    border-radius:10px;
+    background:#42C12E;
+}    
 
   </style>
 </head>
@@ -1687,7 +1744,13 @@
     </div>
 
     <div class="use-content">
+
+      <span class="use-tag">OPERACIÓN</span>
+      
       <h3>Inventario</h3>
+      
+      <h4>Control y visibilidad de existencias</h4>
+      
       <p>
         Controla y consolida inventarios desde múltiples fuentes,
         con datos consistentes y listos para operar.
@@ -1702,7 +1765,15 @@
     </div>
 
     <div class="use-content">
+
+      <span class="use-tag">TRAZABILIDAD
+
+      </span>
+      
       <h3>Etiquetado</h3>
+  
+       <h4>Estandarización y control operacional</h4>   
+      
       <p>
         Genera etiquetas operativas basadas en datos y requerimientos,
         listas para impresión, lectura e integración.
@@ -1717,7 +1788,13 @@
     </div>
 
     <div class="use-content">
-      <h3>Cubicación</h3>
+
+      <span class="use-tag">OPTIMIZACIÓN</span>
+      
+       <h3>Cubicación</h3>
+  
+       <h4>Mejor uso del espacio disponible</h4>  
+     
       <p>
         Calcula volúmenes reales a partir de información validada,
         reduciendo errores y sobrecostos operativos.
@@ -1732,7 +1809,13 @@
     </div>
 
     <div class="use-content">
+
+      <span class="use-tag">INTELIGENCIA OPERACIONAL</span>
+      
       <h3>Traspasos inteligentes</h3>
+  
+       <h4>Redistribución estratégica de stock</h4>  
+     
       <p>
         Detecta excedentes y faltantes entre sucursales para proponer
         movimientos de stock que mejoran la disponibilidad y reducen
