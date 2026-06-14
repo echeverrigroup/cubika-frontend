@@ -1450,7 +1450,7 @@
 }
 
 .use-visual img{
-  width:220px;
+  width:260px;
   max-width:100%;
 }
 
@@ -1459,15 +1459,41 @@
 }
 
 .use-content h3{
-  font-size:1.8rem;
-  margin-bottom:16px;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
 }
 
 .use-content p{
-  line-height:1.8;
-  color:#5b6475;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 480px;
 }
 
+
+.use-row{
+    background:
+      linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f8fbff 100%
+      );
+}
+
+
+.use-row{
+    position: relative;
+}
+
+.use-row::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:25%;
+    height:50%;
+    width:1px;
+    background:rgba(11,47,91,.08);
+}
     
     
 
