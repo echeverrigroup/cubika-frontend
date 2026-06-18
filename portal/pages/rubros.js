@@ -123,14 +123,25 @@ async function crearRubro() {
 
 
 
-async function desactivarRubro(id) {
+async function cambiarEstadoRubro(id, estadoActual) {
+
+    const nuevoEstado =
+        estadoActual === "Activo"
+            ? "Inactivo"
+            : "Activo";
 
     showConfirmModal({
 
-        title: "Desactivar Rubro",
+        title:
+            nuevoEstado === "Activo"
+                ? "Activar Rubro"
+                : "Desactivar Rubro",
 
         message: `
-            ¿Desea desactivar este rubro?
+
+            ¿Desea cambiar el estado a
+            <strong>${nuevoEstado}</strong>?
+
         `,
 
         onConfirm: async () => {
@@ -140,7 +151,7 @@ async function desactivarRubro(id) {
                     .from("rubros")
                     .update({
 
-                        estado: "Inactivo"
+                        estado: nuevoEstado
 
                     })
                     .eq("id", id);
@@ -384,11 +395,14 @@ const { data, error } =
         </button>
 
         <button
-            class="btn-delete"
-            data-id="${rubro.id}">
-
-            Desactivar
-
+            class="btn-toggle-estado"
+            data-id="${rubro.id}"
+            data-estado="${rubro.estado}">
+        
+            ${rubro.estado === "Activo"
+                ? "Desactivar"
+                : "Activar"}
+        
         </button>
 
     </td>
@@ -416,12 +430,16 @@ const { data, error } =
             });
         
         document
-            .querySelectorAll(".btn-delete")
+            .querySelectorAll(".btn-toggle-estado")
             .forEach(btn => {
         
                 btn.addEventListener(
                     "click",
-                    () => desactivarRubro(btn.dataset.id)
+                    () =>
+                        cambiarEstadoRubro(
+                            btn.dataset.id,
+                            btn.dataset.estado
+                        )
                 );
         
             });
