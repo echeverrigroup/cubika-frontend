@@ -395,9 +395,14 @@ const { data, error } =
         </button>
 
         <button
-            class="btn-toggle-estado"
+            class="${
+            rubro.estado === 'Activo'
+            ? 'btn-danger'
+            : 'btn-success'
+            } btn-toggle-estado"
             data-id="${rubro.id}"
             data-estado="${rubro.estado}">
+    
         
             ${rubro.estado === "Activo"
                 ? "Desactivar"
