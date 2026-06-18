@@ -184,6 +184,10 @@ async function cargarEmpresas() {
                     ${empresa.rut ?? ""}
                 </td>
 
+                 <td>
+                    ${empresa.email ?? ""}
+                </td>
+
                 <td>
                     ${empresa.rubros?.nombre ?? ""}
                 </td>
