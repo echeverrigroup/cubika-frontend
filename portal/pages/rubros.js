@@ -69,6 +69,7 @@ async function crearRubro() {
         .getElementById("rubroNombre")
         .value
         .trim();
+        .toUpperCase();
 
     const descripcion =
         document
@@ -174,7 +175,9 @@ function mostrarFormularioNuevoRubro() {
 
                 <input
                     id="rubroNombre"
-                    type="text">
+                    type="text"
+                    style="text-transform: uppercase;"
+                    >
 
             </div>
 
@@ -226,6 +229,7 @@ async function editarRubro(id) {
                 <input
                     id="rubroNombre"
                     type="text"
+                    style="text-transform: uppercase;"
                     value="${data.nombre ?? ""}">
 
             </div>
@@ -258,6 +262,7 @@ async function actualizarRubro(id) {
             .getElementById("rubroNombre")
             .value
             .trim();
+            .toUpperCase();
 
     const descripcion =
         document
