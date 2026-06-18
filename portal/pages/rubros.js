@@ -189,5 +189,27 @@ async function cargarRubros() {
         </table>
     `;
 
-    tableContainer.innerHTML = html;
+  tableContainer.innerHTML = html;
+
+        document
+            .querySelectorAll(".btn-edit")
+            .forEach(btn => {
+        
+                btn.addEventListener(
+                    "click",
+                    () => editarRubro(btn.dataset.id)
+                );
+        
+            });
+        
+        document
+            .querySelectorAll(".btn-delete")
+            .forEach(btn => {
+        
+                btn.addEventListener(
+                    "click",
+                    () => desactivarRubro(btn.dataset.id)
+                );
+        
+            });
 }
