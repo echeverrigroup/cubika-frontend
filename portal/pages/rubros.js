@@ -27,6 +27,13 @@ export async function renderRubros() {
 
     await cargarRubros();
 
+    document
+    .getElementById("filtroEstado")
+    .addEventListener(
+        "change",
+        cargarRubros
+    );
+
    document
     .getElementById("btnNuevoRubro")
     .addEventListener(
@@ -59,6 +66,27 @@ async function crearRubro() {
     const { error } =
         await supabase
             .from("rubros")
+
+            const { data: existe } =
+            await supabase
+                .from("rubros")
+                .select("id")
+                .ilike(
+                    "nombre",
+                    nombre
+                )
+                .limit(1);
+
+            if (existe.length) {
+
+                alert(
+                    "Ya existe un rubro con ese nombre."
+                );
+            
+                return;
+            
+            }
+        
             .insert({
 
                 nombre,
@@ -74,6 +102,44 @@ async function crearRubro() {
     }
 
     await cargarRubros();
+}
+
+
+async function desactivarRubro(id) {
+
+    showConfirmModal({
+
+        title: "Desactivar Rubro",
+
+        message: `
+            ¿Desea desactivar este rubro?
+        `,
+
+        onConfirm: async () => {
+
+            const { error } =
+                await supabase
+                    .from("rubros")
+                    .update({
+
+                        estado: "Inactivo"
+
+                    })
+                    .eq("id", id);
+
+            if (error) {
+
+                alert(error.message);
+
+                return;
+            }
+
+            await cargarRubros();
+
+        }
+
+    });
+
 }
 
 
@@ -118,10 +184,27 @@ async function cargarRubros() {
     const tableContainer =
         document.getElementById("rubrosTable");
 
-    const { data, error } = await supabase
+    let query =
+    supabase
         .from("rubros")
-        .select("*")
-        .order("nombre");
+        .select("*");
+
+const filtroEstado =
+    document.getElementById("filtroEstado")
+        ?.value;
+
+if (filtroEstado) {
+
+    query =
+        query.eq(
+            "estado",
+            filtroEstado
+        );
+
+}
+
+const { data, error } =
+    await query.order("nombre");
 
     if (error) {
 
@@ -130,6 +213,26 @@ async function cargarRubros() {
 
         return;
     }
+
+    <div class="table-filters">
+
+    <select id="filtroEstado">
+
+        <option value="">
+            Todos
+        </option>
+
+        <option value="Activo">
+            Activos
+        </option>
+
+        <option value="Inactivo">
+            Inactivos
+        </option>
+
+    </select>
+
+</div>
 
     let html = `
         <table class="cubika-table">
@@ -158,7 +261,16 @@ async function cargarRubros() {
 
     <td>${rubro.descripcion ?? ""}</td>
 
-    <td>${rubro.estado}</td>
+    <td>
+    <span class="
+        estado-badge
+        ${rubro.estado === "Activo"
+            ? "activo"
+            : "inactivo"}
+    ">
+        ${rubro.estado}
+    </span>
+    </td>
 
     <td>
 
