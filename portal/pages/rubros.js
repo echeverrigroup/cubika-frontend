@@ -112,8 +112,8 @@ async function crearRubro() {
     if (!nombre) {
 
         mostrarErrorFormulario(
-        alert("Debe ingresar un nombre");
-    );
+        "Debe ingresar un nombre"
+        );
         
         return false;
     }
@@ -122,7 +122,7 @@ async function crearRubro() {
     if (!descripcion) {
 
    mostrarErrorFormulario(
-        "Debe ingresar un nombre."
+        "Debe ingresar una descripción."
     );
 
     return false;
@@ -145,19 +145,29 @@ async function crearRubro() {
 return false;
     }
 
-    const { error } =
-        await supabase
-            .from("rubros")
-            .insert({
+  const { error } =
+    await supabase
+        .from("rubros")
+        .insert({
 
-                nombre,
-                descripcion,
-                estado: "Activo"
+            nombre,
+            descripcion,
+            estado: "Activo"
 
-            });
+        });
 
+if (error) {
 
-    await cargarRubros();
+    mostrarErrorFormulario(
+        error.message
+    );
+
+    return false;
+}
+
+await cargarRubros();
+
+return true;
 }
 
 
