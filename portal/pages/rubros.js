@@ -319,9 +319,11 @@ async function editarRubro(id) {
 
     showConfirmModal({
 
+        title: "Editar Rubro",
+
          message: `
 
-        title: "Editar Rubro",
+        
 
         <div
             id="formError"
