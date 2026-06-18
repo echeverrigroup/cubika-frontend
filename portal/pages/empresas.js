@@ -143,6 +143,10 @@ async function cargarEmpresas() {
                     </th>
 
                     <th>
+                        Contacto
+                    </th>
+
+                    <th>
                         Rubro
                     </th>
 
