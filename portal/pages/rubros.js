@@ -156,12 +156,6 @@ return false;
 
             });
 
-    if (error) {
-
-        alert(error.message);
-
-        return;
-    }
 
     await cargarRubros();
 }
