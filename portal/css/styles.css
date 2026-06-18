@@ -476,3 +476,21 @@ body {
 }
 
 
+.form-error{
+
+    padding:12px 14px;
+
+    border-radius:8px;
+
+    background:#fff4e5;
+
+    border:1px solid #ffcc80;
+
+    color:#a15c00;
+
+    font-size:.9rem;
+
+    font-weight:500;
+
+}
+
