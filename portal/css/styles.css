@@ -13,7 +13,7 @@ body {
 /* NAVBAR */
 
 .navbar {
-    height: 70px;
+    height: 75px;
     background: white;
     border-bottom: 1px solid #e5e5e5;
 
@@ -297,6 +297,15 @@ body {
     text-align:left;
 
     padding:14px;
+}
+
+.cubika-table th,
+.cubika-table td {
+
+    padding: 10px 12px;
+
+    font-size: 0.9rem;
+
 }
 
 .cubika-table td {
