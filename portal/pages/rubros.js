@@ -111,19 +111,24 @@ async function crearRubro() {
 
     if (!nombre) {
 
+        mostrarErrorFormulario(
         alert("Debe ingresar un nombre");
-
-        return;
+    );
+        
+        return false;
     }
 
+    
     if (!descripcion) {
 
-    alert(
-        "Debe ingresar una descripción."
+   mostrarErrorFormulario(
+        "Debe ingresar un nombre."
     );
 
-    return;
+    return false;
     }
+        
+
 
     const { data: existe } =
         await supabase
@@ -314,6 +319,8 @@ async function editarRubro(id) {
 
     showConfirmModal({
 
+         message: `
+
         title: "Editar Rubro",
 
         <div
@@ -405,12 +412,14 @@ async function actualizarRubro(id) {
 
        mostrarErrorFormulario(
         error.message
-);
-
-return false;
-    }
+    );
+    
+    return false;
+        }
 
     await cargarRubros();
+
+    return true;
 
 }
 
