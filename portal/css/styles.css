@@ -336,3 +336,27 @@ body {
 }
 
 
+.estado-badge{
+
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:600;
+
+}
+
+.estado-badge.activo{
+
+    background:#e8f7ed;
+    color:#1f8b4d;
+
+}
+
+.estado-badge.inactivo{
+
+    background:#fdeaea;
+    color:#d14343;
+
+}
+
+
