@@ -230,27 +230,7 @@ const { data, error } =
         return;
     }
 
-    <div class="table-filters">
-
-    <select id="filtroEstado">
-
-        <option value="">
-            Todos
-        </option>
-
-        <option value="Activo">
-            Activos
-        </option>
-
-        <option value="Inactivo">
-            Inactivos
-        </option>
-
-    </select>
-
-</div>
-
-    let html = `
+        let html = `
         <table class="cubika-table">
 
             <thead>
