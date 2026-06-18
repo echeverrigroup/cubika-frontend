@@ -193,10 +193,6 @@ function mostrarFormularioNuevoRubro() {
 
         <div class="cubika-form-header">
 
-            <div class="cubika-form-icon">
-                📦
-            </div>
-
             <div>
             
                 <p>
