@@ -178,29 +178,74 @@ function mostrarFormularioNuevoRubro() {
 
         title: "Nuevo Rubro",
 
-        message: `
+       message: `
 
-            <div class="form-group">
+    <div class="cubika-form">
 
-                <label>Nombre      </label>
+        <div class="cubika-form-header">
 
-                <input
-                    id="rubroNombre"
-                    type="text"
-                    style="text-transform: uppercase;"
-                    >
+            <div class="cubika-form-icon">
+                📦
+            </div>
+
+            <div>
+
+                <h3>
+                    Nuevo Rubro
+                </h3>
+
+                <p>
+                    Crear una nueva categoría
+                    para organizar empresas
+                    dentro de Cubika.
+                </p>
 
             </div>
 
-            <div class="form-group">
+        </div>
 
-                <label>Descripción  </label>
+        <div class="form-group">
 
-                <input
-                    id="rubroDescripcion"
-                    type="text">
+            <label>
+                Nombre del Rubro *
+            </label>
 
-            </div>
+            <input
+                id="rubroNombre"
+                type="text"
+                maxlength="100"
+                placeholder="Ej: RETAIL"
+                style="text-transform: uppercase;">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Descripción
+            </label>
+
+            <input
+                id="rubroDescripcion"
+                type="text"
+                maxlength="250"
+                placeholder="Descripción opcional">
+
+        </div>
+
+        <div class="estado-preview">
+
+            <span class="estado-badge activo">
+                ACTIVO
+            </span>
+
+            <small>
+                El rubro quedará disponible inmediatamente.
+            </small>
+
+        </div>
+
+    </div>
 
         `,
 
