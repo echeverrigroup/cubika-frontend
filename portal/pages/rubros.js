@@ -10,21 +10,41 @@ export async function renderRubros() {
         document.querySelector(".content");
 
     content.innerHTML = `
-        <div class="page-header">
+    <div class="page-header">
 
-            <h1>Rubros</h1>
+        <h1>Rubros</h1>
 
-            <button id="btnNuevoRubro">
-                + Nuevo Rubro
-            </button>
+        <button id="btnNuevoRubro">
+            + Nuevo Rubro
+        </button>
 
-        </div>
+    </div>
 
-        <div id="rubrosTable">
-            Cargando...
-        </div>
-    `;
+    <div class="table-filters">
 
+        <select id="filtroEstado">
+
+            <option value="">
+                Todos
+            </option>
+
+            <option value="Activo">
+                Activos
+            </option>
+
+            <option value="Inactivo">
+                Inactivos
+            </option>
+
+        </select>
+
+    </div>
+
+    <div id="rubrosTable">
+        Cargando...
+    </div>
+`;
+    
     await cargarRubros();
 
     document
@@ -63,30 +83,25 @@ async function crearRubro() {
         return;
     }
 
+    const { data: existe } =
+        await supabase
+            .from("rubros")
+            .select("id")
+            .ilike("nombre", nombre)
+            .limit(1);
+
+    if (existe && existe.length) {
+
+        alert(
+            "Ya existe un rubro con ese nombre."
+        );
+
+        return;
+    }
+
     const { error } =
         await supabase
             .from("rubros")
-
-            const { data: existe } =
-            await supabase
-                .from("rubros")
-                .select("id")
-                .ilike(
-                    "nombre",
-                    nombre
-                )
-                .limit(1);
-
-            if (existe.length) {
-
-                alert(
-                    "Ya existe un rubro con ese nombre."
-                );
-            
-                return;
-            
-            }
-        
             .insert({
 
                 nombre,
@@ -103,6 +118,7 @@ async function crearRubro() {
 
     await cargarRubros();
 }
+
 
 
 async function desactivarRubro(id) {
