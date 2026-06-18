@@ -68,7 +68,7 @@ async function crearRubro() {
         document
         .getElementById("rubroNombre")
         .value
-        .trim();
+        .trim()
         .toUpperCase();
 
     const descripcion =
@@ -261,7 +261,7 @@ async function actualizarRubro(id) {
         document
             .getElementById("rubroNombre")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
 
     const descripcion =
