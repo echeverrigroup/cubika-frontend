@@ -360,3 +360,18 @@ body {
 }
 
 
+.btn-success{
+
+    background:#1f8b4d;
+    color:white;
+
+}
+
+.btn-danger{
+
+    background:#d14343;
+    color:white;
+
+}
+
+
