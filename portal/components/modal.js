@@ -24,13 +24,22 @@ export function showConfirmModal({
 
         };
 
-    document.getElementById("modalConfirm")
-        .onclick = () => {
+   document.getElementById("modalConfirm")
+    .onclick = async () => {
+
+        let ok = true;
+
+        if (onConfirm) {
+
+            ok = await onConfirm();
+
+        }
+
+        if (ok !== false) {
 
             overlay.style.display = "none";
 
-            if (onConfirm)
-                onConfirm();
+        }
 
-        };
+    };
 }
