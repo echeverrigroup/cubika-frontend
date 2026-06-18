@@ -189,11 +189,7 @@ function mostrarFormularioNuevoRubro() {
             </div>
 
             <div>
-
-                <h3>
-                    Nuevo Rubro
-                </h3>
-
+            
                 <p>
                     Crear una nueva categoría
                     para organizar empresas
@@ -245,7 +241,7 @@ function mostrarFormularioNuevoRubro() {
 
         </div>
 
-    </div>
+          </div>
 
         `,
 
