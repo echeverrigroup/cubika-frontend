@@ -105,7 +105,8 @@ async function crearRubro() {
             .insert({
 
                 nombre,
-                descripcion
+                descripcion,
+                estado: "Activo"
 
             });
 
@@ -194,6 +195,105 @@ function mostrarFormularioNuevoRubro() {
     });
 
 }
+
+
+async function editarRubro(id) {
+
+    const { data, error } =
+        await supabase
+            .from("rubros")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+    showConfirmModal({
+
+        title: "Editar Rubro",
+
+        message: `
+
+            <div class="form-group">
+
+                <label>Nombre</label>
+
+                <input
+                    id="rubroNombre"
+                    type="text"
+                    value="${data.nombre ?? ""}">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Descripción</label>
+
+                <input
+                    id="rubroDescripcion"
+                    type="text"
+                    value="${data.descripcion ?? ""}">
+
+            </div>
+
+        `,
+
+        onConfirm: () =>
+            actualizarRubro(id)
+
+    });
+
+}
+
+
+async function actualizarRubro(id) {
+
+    const nombre =
+        document
+            .getElementById("rubroNombre")
+            .value
+            .trim();
+
+    const descripcion =
+        document
+            .getElementById("rubroDescripcion")
+            .value
+            .trim();
+
+    if (!nombre) {
+
+        alert("Debe ingresar un nombre");
+
+        return;
+    }
+
+    const { error } =
+        await supabase
+            .from("rubros")
+            .update({
+
+                nombre,
+                descripcion
+
+            })
+            .eq("id", id);
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+    }
+
+    await cargarRubros();
+
+}
+
 
 async function cargarRubros() {
 
