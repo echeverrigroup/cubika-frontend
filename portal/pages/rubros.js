@@ -3,7 +3,37 @@ import {
     showConfirmModal
     }
     from "../components/modal.js";
-    
+
+
+
+function mostrarErrorFormulario(mensaje) {
+
+    const errorBox =
+        document.getElementById("formError");
+
+    if (!errorBox) return;
+
+    errorBox.textContent = mensaje;
+
+    errorBox.style.display = "block";
+
+}
+
+
+function limpiarErrorFormulario() {
+
+    const errorBox =
+        document.getElementById("formError");
+
+    if (!errorBox) return;
+
+    errorBox.textContent = "";
+
+    errorBox.style.display = "none";
+
+}
+
+
 export async function renderRubros() {
 
     const content =
@@ -64,6 +94,8 @@ export async function renderRubros() {
 
 async function crearRubro() {
 
+     limpiarErrorFormulario();
+
     const nombre =
         document
         .getElementById("rubroNombre")
@@ -101,12 +133,11 @@ async function crearRubro() {
             .limit(1);
 
     if (existe && existe.length) {
-
-        alert(
+        mostrarErrorFormulario(
             "Ya existe un rubro con ese nombre."
         );
 
-        return;
+return false;
     }
 
     const { error } =
@@ -205,6 +236,12 @@ function mostrarFormularioNuevoRubro() {
 
         </div>
 
+        <div
+            id="formError"
+            class="form-error"
+            style="display:none;">
+        </div>
+
         <div class="form-group">
 
             <label>
@@ -239,7 +276,7 @@ function mostrarFormularioNuevoRubro() {
         <div class="estado-preview">
 
             <span class="estado-badge activo">
-                ACTIVO
+                Activo
             </span>
 
             <small>
@@ -279,9 +316,13 @@ async function editarRubro(id) {
 
         title: "Editar Rubro",
 
-        message: `
-
-            <div class="form-group">
+        <div
+            id="formError"
+            class="form-error"
+            style="display:none;">
+        </div>
+        
+        <div class="form-group">
 
                 <label>Nombre</label>
 
@@ -316,6 +357,8 @@ async function editarRubro(id) {
 
 async function actualizarRubro(id) {
 
+     limpiarErrorFormulario();
+
     const nombre =
         document
             .getElementById("rubroNombre")
@@ -331,18 +374,20 @@ async function actualizarRubro(id) {
 
     if (!nombre) {
 
-        alert("Debe ingresar un nombre");
-
-        return;
+       mostrarErrorFormulario(
+            "Debe ingresar un nombre."
+        );
+        
+        return false;
     }
 
     if (!descripcion) {
 
-    alert(
-        "Debe ingresar una descripción."
+    mostrarErrorFormulario(
+    "Debe ingresar una descripción."
     );
-
-    return;
+    
+    return false;
     }
 
     const { error } =
@@ -358,9 +403,11 @@ async function actualizarRubro(id) {
 
     if (error) {
 
-        alert(error.message);
+       mostrarErrorFormulario(
+        error.message
+);
 
-        return;
+return false;
     }
 
     await cargarRubros();
