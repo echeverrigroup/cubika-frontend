@@ -84,6 +84,15 @@ async function crearRubro() {
         return;
     }
 
+    if (!descripcion) {
+
+    alert(
+        "Debe ingresar una descripción."
+    );
+
+    return;
+    }
+
     const { data: existe } =
         await supabase
             .from("rubros")
@@ -210,6 +219,7 @@ function mostrarFormularioNuevoRubro() {
                 id="rubroNombre"
                 type="text"
                 maxlength="100"
+                required
                 placeholder="Ej: RETAIL"
                 style="text-transform: uppercase;">
 
@@ -218,14 +228,15 @@ function mostrarFormularioNuevoRubro() {
         <div class="form-group">
 
             <label>
-                Descripción
+                Descripción *
             </label>
 
             <input
                 id="rubroDescripcion"
                 type="text"
                 maxlength="250"
-                placeholder="Descripción opcional">
+                required
+                placeholder="Descripción obligatoria">
 
         </div>
 
@@ -327,6 +338,15 @@ async function actualizarRubro(id) {
         alert("Debe ingresar un nombre");
 
         return;
+    }
+
+    if (!descripcion) {
+
+    alert(
+        "Debe ingresar una descripción."
+    );
+
+    return;
     }
 
     const { error } =
