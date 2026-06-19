@@ -226,24 +226,41 @@ export async function renderEmpresas() {
 
         <div class="table-filters">
 
-            <select id="filtroEstado"
-                        class="cubika-select">
+    <select
+        id="filtroEstado"
+        class="cubika-select">
 
-                <option value="">
-                    Todos
-                </option>
+        <option value="">
+            Todos los Estados
+        </option>
 
-                <option value="Activo">
-                    Activos
-                </option>
+        <option value="Activo">
+            Activos
+        </option>
 
-                <option value="Inactivo">
-                    Inactivos
-                </option>
+        <option value="Inactivo">
+            Inactivos
+        </option>
 
-            </select>
+    </select>
 
-        </div>
+    <select
+        id="filtroRubro"
+        class="cubika-select">
+
+        <option value="">
+            Todos los Rubros
+        </option>
+
+    </select>
+
+    <input
+        id="busquedaEmpresa"
+        class="cubika-input"
+        type="text"
+        placeholder="Buscar por nombre o RUT...">
+
+    </div>
 
         <div id="empresasTable">
 
