@@ -50,18 +50,6 @@ async function mostrarFormularioNuevaEmpresa() {
 
             <div class="cubika-form">
 
-                <div class="cubika-form-header">
-
-                    <div class="cubika-form-icon">
-                        🏢
-                    </div>
-
-                    <div>
-
-                        <h3>
-                            Nueva Empresa
-                        </h3>
-
                         <p>
                             Registrar una nueva empresa
                             dentro de Cubika.
@@ -76,6 +64,8 @@ async function mostrarFormularioNuevaEmpresa() {
                     class="form-error"
                     style="display:none;">
                 </div>
+
+            <div class="cubika-form-grid">
 
                 <div class="form-group">
 
@@ -155,6 +145,8 @@ async function mostrarFormularioNuevaEmpresa() {
                         type="text">
 
                 </div>
+
+            </div>
 
             </div>
 
