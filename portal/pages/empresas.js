@@ -216,18 +216,18 @@ export async function renderEmpresas() {
     await cargarEmpresas();
 
     document
-        .getElementById("filtroEstado")
-        .addEventListener(
-            "change",
-            cargarEmpresas
-        );
-
-    document
     .getElementById("btnNuevaEmpresa")
     .addEventListener(
         "click",
         mostrarFormularioNuevaEmpresa
     );
+
+    document
+        .getElementById("filtroEstado")
+        .addEventListener(
+            "change",
+            cargarEmpresas
+        );
 
 }
 
