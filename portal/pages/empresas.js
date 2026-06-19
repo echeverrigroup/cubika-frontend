@@ -28,6 +28,45 @@ async function obtenerRubrosActivos() {
 }
 
 
+async function cargarFiltroRubros() {
+
+    const select =
+        document.getElementById(
+            "filtroRubro"
+        );
+
+    const { data } =
+        await supabase
+            .from("rubros")
+            .select("id,nombre")
+            .eq("estado", "Activo")
+            .order("nombre");
+
+    let html = `
+
+        <option value="">
+            Todos los Rubros
+        </option>
+
+    `;
+
+    data.forEach(rubro => {
+
+        html += `
+
+            <option value="${rubro.id}">
+                ${rubro.nombre}
+            </option>
+
+        `;
+
+    });
+
+    select.innerHTML = html;
+
+}
+
+
 async function mostrarFormularioNuevaEmpresa() {
 
     const rubros =
@@ -214,6 +253,8 @@ export async function renderEmpresas() {
 
     `;
 
+    await cargarFiltroRubros();
+
     await cargarEmpresas();
 
     document
@@ -229,6 +270,20 @@ export async function renderEmpresas() {
             "change",
             cargarEmpresas
         );
+
+    document
+    .getElementById("filtroRubro")
+    .addEventListener(
+        "change",
+        cargarEmpresas
+    );
+
+    document
+    .getElementById("busquedaEmpresa")
+    .addEventListener(
+        "input",
+        cargarEmpresas
+    );
 
 }
 
@@ -417,6 +472,31 @@ async function cargarEmpresas() {
             )
             ?.value;
 
+    const filtroRubro =
+    document
+        .getElementById(
+            "filtroRubro"
+        )
+        ?.value;
+
+    const textoBusqueda =
+        document
+            .getElementById(
+                "busquedaEmpresa"
+            )
+            ?.value
+            ?.trim();
+
+    if (filtroRubro) {
+
+    query =
+        query.eq(
+            "rubro_id",
+            filtroRubro
+        );
+
+}
+
     if (filtroEstado) {
 
         query =
@@ -426,6 +506,18 @@ async function cargarEmpresas() {
             );
 
     }
+
+    if (textoBusqueda) {
+
+    query =
+        query.or(
+
+            `nombre_fantasia.ilike.%${textoBusqueda}%,
+             rut.ilike.%${textoBusqueda}%`
+
+        );
+
+}
 
     const {
         data,
