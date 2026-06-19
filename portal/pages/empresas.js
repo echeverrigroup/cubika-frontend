@@ -57,7 +57,7 @@ async function mostrarFormularioNuevaEmpresa() {
                             dentro de Cubika.
                         </p>
 
-                    </div>
+                    
 
                 </div>
 
