@@ -175,7 +175,7 @@ body {
 
 .modal {
 
-    width: 500px;
+    width: 420px;
       
     max-width: 90vw;
 
@@ -190,7 +190,7 @@ body {
 
 .modal.large {
 
-    width: 850px;
+    width: 840px;
     max-width: 95vw;
 
 }
