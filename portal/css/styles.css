@@ -559,3 +559,32 @@ body {
 
 }
 
+.table-filters {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+#filtroEstado,
+#filtroRubro {
+
+    width: 220px;
+
+}
+
+#busquedaEmpresa {
+
+    flex: 1;
+
+    min-width: 280px;
+
+}
+
