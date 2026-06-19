@@ -46,6 +46,8 @@ async function mostrarFormularioNuevaEmpresa() {
 
         title: "Nueva Empresa",
 
+        size: "large",
+
         message: `
 
             <div class="cubika-form">
