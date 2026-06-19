@@ -1,5 +1,9 @@
 import { supabase }
 from "../../js/supabaseClient.js";
+import {
+    showConfirmModal
+}
+from "../components/modal.js";
 
 
 async function obtenerRubrosActivos() {
