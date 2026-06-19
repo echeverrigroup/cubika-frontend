@@ -175,7 +175,9 @@ body {
 
 .modal {
 
-    width: 420px;
+    width: 500px;
+      
+    max-width: 90vw;
 
     background: white;
 
@@ -184,6 +186,13 @@ body {
     padding: 24px;
 
     box-shadow: 0 12px 32px rgba(0,0,0,.15);
+}
+
+.modal.large {
+
+    width: 850px;
+    max-width: 95vw;
+
 }
 
 .modal-header h2 {
