@@ -2,9 +2,25 @@ export function showConfirmModal({
 
     title,
     message,
-    onConfirm
+    onConfirm,
+    size = "normal"
 
 }) {
+
+    const modalContent =
+    document.querySelector(".modal");
+
+        modalContent.classList.remove(
+            "large"
+        );
+        
+        if (size === "large") {
+        
+            modalContent.classList.add(
+                "large"
+            );
+        
+        }
 
     const overlay =
         document.getElementById("modalOverlay");
