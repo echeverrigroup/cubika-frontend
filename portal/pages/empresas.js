@@ -1,6 +1,168 @@
 import { supabase }
 from "../../js/supabaseClient.js";
 
+
+async function obtenerRubrosActivos() {
+
+    const { data, error } =
+        await supabase
+            .from("rubros")
+            .select("id,nombre")
+            .eq("estado", "Activo")
+            .order("nombre");
+
+    if (error) {
+
+        console.error(error);
+
+        return [];
+
+    }
+
+    return data;
+
+}
+
+
+async function mostrarFormularioNuevaEmpresa() {
+
+    const rubros =
+        await obtenerRubrosActivos();
+
+    const opcionesRubros =
+        rubros.map(r => `
+
+            <option value="${r.id}">
+                ${r.nombre}
+            </option>
+
+        `).join("");
+
+    showConfirmModal({
+
+        title: "Nueva Empresa",
+
+        message: `
+
+            <div class="cubika-form">
+
+                <div class="cubika-form-header">
+
+                    <div class="cubika-form-icon">
+                        🏢
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Nueva Empresa
+                        </h3>
+
+                        <p>
+                            Registrar una nueva empresa
+                            dentro de Cubika.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="formError"
+                    class="form-error"
+                    style="display:none;">
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Nombre Fantasía *
+                    </label>
+
+                    <input
+                        id="empresaNombreFantasia"
+                        type="text">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Razón Social *
+                    </label>
+
+                    <input
+                        id="empresaRazonSocial"
+                        type="text">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        RUT *
+                    </label>
+
+                    <input
+                        id="empresaRut"
+                        type="text">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Rubro *
+                    </label>
+
+                    <select
+                        id="empresaRubro">
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        ${opcionesRubros}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        id="empresaEmail"
+                        type="email">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Teléfono
+                    </label>
+
+                    <input
+                        id="empresaTelefono"
+                        type="text">
+
+                </div>
+
+            </div>
+
+        `,
+
+        onConfirm: crearEmpresa
+
+    });
+
+}
+
+
 export async function renderEmpresas() {
 
     const content =
@@ -59,6 +221,171 @@ export async function renderEmpresas() {
             "change",
             cargarEmpresas
         );
+
+    document
+    .getElementById("btnNuevaEmpresa")
+    .addEventListener(
+        "click",
+        mostrarFormularioNuevaEmpresa
+    );
+
+}
+
+
+async function crearEmpresa() {
+
+    limpiarErrorFormulario();
+
+    const nombre_fantasia =
+        document
+            .getElementById(
+                "empresaNombreFantasia"
+            )
+            .value
+            .trim();
+
+    const razon_social =
+        document
+            .getElementById(
+                "empresaRazonSocial"
+            )
+            .value
+            .trim();
+
+    const rut =
+        document
+            .getElementById(
+                "empresaRut"
+            )
+            .value
+            .trim();
+
+    const rubro_id =
+        document
+            .getElementById(
+                "empresaRubro"
+            )
+            .value;
+
+    const email =
+        document
+            .getElementById(
+                "empresaEmail"
+            )
+            .value
+            .trim();
+
+    const telefono =
+        document
+            .getElementById(
+                "empresaTelefono"
+            )
+            .value
+            .trim();
+
+    if (!nombre_fantasia) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar un nombre fantasía."
+        );
+
+        return false;
+
+    }
+
+    if (!razon_social) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar una razón social."
+        );
+
+        return false;
+
+    }
+
+    if (!rut) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar un RUT."
+        );
+
+        return false;
+
+    }
+
+    if (!rubro_id) {
+
+        mostrarErrorFormulario(
+            "Debe seleccionar un rubro."
+        );
+
+        return false;
+
+    }
+
+    const { error } =
+        await supabase
+            .from("empresas")
+            .insert({
+
+                nombre_fantasia,
+
+                razon_social,
+
+                rut,
+
+                rubro_id,
+
+                email,
+
+                telefono,
+
+                estado: "Activo"
+
+            });
+
+    if (error) {
+
+        mostrarErrorFormulario(
+            error.message
+        );
+
+        return false;
+
+    }
+
+    await cargarEmpresas();
+
+    return true;
+
+}
+
+
+function mostrarErrorFormulario(mensaje) {
+
+    const errorBox =
+        document.getElementById(
+            "formError"
+        );
+
+    if (!errorBox) return;
+
+    errorBox.textContent = mensaje;
+
+    errorBox.style.display = "block";
+
+}
+
+function limpiarErrorFormulario() {
+
+    const errorBox =
+        document.getElementById(
+            "formError"
+        );
+
+    if (!errorBox) return;
+
+    errorBox.style.display = "none";
 
 }
 
