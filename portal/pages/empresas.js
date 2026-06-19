@@ -55,7 +55,7 @@ async function mostrarFormularioNuevaEmpresa() {
                 <div
                         <p>
                             Registrar una nueva empresa
-                            dentro de Cubika.
+                            dentro de Cubika. <br><br>
                         </p>
 
                  </div> 
