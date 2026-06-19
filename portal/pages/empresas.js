@@ -113,7 +113,8 @@ async function mostrarFormularioNuevaEmpresa() {
                     </label>
 
                     <select
-                        id="empresaRubro">
+                        id="empresaRubro"
+                        class="cubika-select">
 
                         <option value="">
                             Seleccione...
