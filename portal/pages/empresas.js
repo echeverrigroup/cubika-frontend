@@ -526,11 +526,9 @@ async function cargarEmpresas() {
 
     if (textoBusqueda) {
 
-    query =
-        query.or(
+    query = query.or(
 
-            `nombre_fantasia.ilike.%${textoBusqueda}%,
-             rut.ilike.%${textoBusqueda}%`
+            `nombre_fantasia.ilike.%${textoBusqueda}%,rut.ilike.%${textoBusqueda}%`
 
         );
 
