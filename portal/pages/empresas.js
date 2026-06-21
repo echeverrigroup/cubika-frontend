@@ -254,6 +254,12 @@ export async function renderEmpresas() {
 
     </select>
 
+    <div class="search-box">
+
+    <span class="search-icon">
+        🔍
+    </span>
+
     <input
         id="busquedaEmpresa"
         class="cubika-input"
@@ -261,6 +267,8 @@ export async function renderEmpresas() {
         placeholder="Buscar por nombre o RUT...">
 
     </div>
+
+     </div>
 
         <div id="empresasTable">
 
