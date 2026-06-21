@@ -268,7 +268,7 @@ export async function renderEmpresas() {
 
     </div>
 
-     </div>
+     
 
         <div id="empresasTable">
 
