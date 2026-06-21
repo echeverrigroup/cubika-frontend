@@ -67,137 +67,66 @@ async function cargarFiltroRubros() {
 }
 
 
-async function mostrarFormularioNuevaEmpresa() {
+async function editarEmpresa(id) {
+
+    const { data, error } =
+        await supabase
+            .from("empresas")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+
+    }
 
     const rubros =
         await obtenerRubrosActivos();
 
-    const opcionesRubros =
-        rubros.map(r => `
-
-            <option value="${r.id}">
-                ${r.nombre}
-            </option>
-
-        `).join("");
-
     showConfirmModal({
 
-        title: "Nueva Empresa",
+        title: "Editar Empresa",
 
         size: "large",
 
-        message: `
+        message:
+            construirFormularioEmpresa(
+                data,
+                rubros
+            ),
 
-            <div class="cubika-form">
-
-                <div
-                        <p>
-                            Registrar una nueva empresa
-                            dentro de Cubika. <br><br>
-                        </p>
-
-                 </div> 
-             </div>
-
-
-                <div
-                    id="formError"
-                    class="form-error"
-                    style="display:none;">
-                </div>
-
-            <div class="cubika-form-grid">
-
-                <div class="form-group">
-
-                    <label>
-                        Nombre Fantasía *
-                    </label>
-
-                    <input
-                        id="empresaNombreFantasia"
-                        type="text">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Razón Social *
-                    </label>
-
-                    <input
-                        id="empresaRazonSocial"
-                        type="text">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        RUT *
-                    </label>
-
-                    <input
-                        id="empresaRut"
-                        type="text">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Rubro *
-                    </label>
-
-                    <select
-                        id="empresaRubro"
-                        class="cubika-select">
-
-                        <option value="">
-                            Seleccione...
-                        </option>
-
-                        ${opcionesRubros}
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Email
-                    </label>
-
-                    <input
-                        id="empresaEmail"
-                        type="email">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Teléfono
-                    </label>
-
-                    <input
-                        id="empresaTelefono"
-                        type="text">
-
-                </div>
-
-            </div>
-
-            </div>
-
-        `,
-
-        onConfirm: crearEmpresa
+        onConfirm: () =>
+            actualizarEmpresa(id)
 
     });
+
+}
+
+
+async function mostrarFormularioNuevaEmpresa() {
+
+    const rubros =
+    await obtenerRubrosActivos();
+
+showConfirmModal({
+
+    title: "Nueva Empresa",
+
+    size: "large",
+
+    message:
+        construirFormularioEmpresa(
+            {},
+            rubros
+        ),
+
+    onConfirm: crearEmpresa
+
+});
 
 }
 
@@ -310,6 +239,130 @@ export async function renderEmpresas() {
         cargarEmpresas
     );
 
+}
+
+
+function construirFormularioEmpresa(
+    empresa = {},
+    rubros = []
+) {
+
+    const opcionesRubros =
+        rubros.map(r => `
+            <option
+                value="${r.id}"
+                ${r.id == empresa.rubro_id
+                    ? "selected"
+                    : ""}
+            >
+                ${r.nombre}
+            </option>
+        `).join("");
+
+    return `
+        <div class="cubika-form">
+
+            <p>
+                Complete la información de la empresa.
+            </p>
+
+            <div
+                id="formError"
+                class="form-error"
+                style="display:none;">
+            </div>
+
+            <div class="cubika-form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Nombre Fantasía *
+                    </label>
+
+                    <input
+                        id="empresaNombreFantasia"
+                        type="text"
+                        value="${empresa.nombre_fantasia ?? ""}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Razón Social *
+                    </label>
+
+                    <input
+                        id="empresaRazonSocial"
+                        type="text"
+                        value="${empresa.razon_social ?? ""}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        RUT *
+                    </label>
+
+                    <input
+                        id="empresaRut"
+                        type="text"
+                        value="${empresa.rut ?? ""}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Rubro *
+                    </label>
+
+                    <select
+                        id="empresaRubro"
+                        class="cubika-select">
+
+                        <option value="">
+                            Seleccione...
+                        </option>
+
+                        ${opcionesRubros}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        id="empresaEmail"
+                        type="email"
+                        value="${empresa.email ?? ""}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Teléfono
+                    </label>
+
+                    <input
+                        id="empresaTelefono"
+                        type="text"
+                        value="${empresa.telefono ?? ""}">
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
 }
 
 
@@ -440,6 +493,186 @@ async function crearEmpresa() {
     return true;
 
 }
+
+
+async function actualizarEmpresa() {
+
+    limpiarErrorFormulario();
+
+    const nombre_fantasia =
+        document
+            .getElementById(
+                "empresaNombreFantasia"
+            )
+            .value
+            .trim();
+
+    const razon_social =
+        document
+            .getElementById(
+                "empresaRazonSocial"
+            )
+            .value
+            .trim();
+
+    const rut =
+        document
+            .getElementById(
+                "empresaRut"
+            )
+            .value
+            .trim();
+
+    const rubro_id =
+        document
+            .getElementById(
+                "empresaRubro"
+            )
+            .value;
+
+    const email =
+        document
+            .getElementById(
+                "empresaEmail"
+            )
+            .value
+            .trim();
+
+    const telefono =
+        document
+            .getElementById(
+                "empresaTelefono"
+            )
+            .value
+            .trim();
+
+    if (!nombre_fantasia) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar un nombre fantasía."
+        );
+
+        return false;
+
+    }
+
+    if (!razon_social) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar una razón social."
+        );
+
+        return false;
+
+    }
+
+    if (!rut) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar un RUT."
+        );
+
+        return false;
+
+    }
+
+    if (!rubro_id) {
+
+        mostrarErrorFormulario(
+            "Debe seleccionar un rubro."
+        );
+
+        return false;
+
+    }
+
+   const { error } =
+    await supabase
+        .from("empresas")
+        .update({
+
+            nombre_fantasia,
+            razon_social,
+            rut,
+            rubro_id,
+            email,
+            telefono
+
+        })
+        .eq("id", id);
+
+    if (error) {
+
+        mostrarErrorFormulario(
+            error.message
+        );
+
+        return false;
+
+    }
+
+    await cargarEmpresas();
+
+    return true;
+
+}
+
+
+async function cambiarEstadoEmpresa(
+    id,
+    estado
+) {
+
+    const accion =
+        estado === "Activo"
+            ? "activar"
+            : "desactivar";
+
+    showConfirmModal({
+
+        title:
+            estado === "Activo"
+                ? "Activar Empresa"
+                : "Desactivar Empresa",
+
+       message: `
+            ¿Desea ${accion}
+            la empresa:
+        
+            <strong>
+                ${nombre}
+            </strong>?
+`
+        `,
+
+        onConfirm: async () => {
+
+            const { error } =
+                await supabase
+                    .from("empresas")
+                    .update({
+
+                        estado
+
+                    })
+                    .eq("id", id);
+
+            if (error) {
+
+                alert(error.message);
+
+                return;
+
+            }
+
+            await cargarEmpresas();
+
+        }
+
+    });
+
+}
+
 
 
 function mostrarErrorFormulario(mensaje) {
@@ -658,12 +891,35 @@ async function cargarEmpresas() {
                 <td>
 
                     <button
-                        class="btn-edit">
-
+                        class="btn-edit"
+                        data-id="${empresa.id}">
+                
                         Editar
-
+                
                     </button>
-
+                
+                    ${
+                        empresa.estado === "Activo"
+                        ? `
+                            <button
+                                class="btn-delete"
+                                data-id="${empresa.id}">
+                
+                                Desactivar
+                
+                            </button>
+                        `
+                        : `
+                            <button
+                                class="btn-restore"
+                                data-id="${empresa.id}">
+                
+                                Activar
+                
+                            </button>
+                        `
+                    }
+                
                 </td>
 
             </tr>
@@ -681,5 +937,50 @@ async function cargarEmpresas() {
     `;
 
     tableContainer.innerHTML = html;
+
+    document
+    .querySelectorAll(".btn-edit")
+    .forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            () =>
+                editarEmpresa(
+                    btn.dataset.id
+                )
+        );
+
+    });
+
+
+    document
+    .querySelectorAll(".btn-delete")
+    .forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            () =>
+                cambiarEstadoEmpresa(
+                    btn.dataset.id,
+                    "Inactivo"
+                )
+        );
+
+    });
+
+    document
+        .querySelectorAll(".btn-restore")
+        .forEach(btn => {
+    
+            btn.addEventListener(
+                "click",
+                () =>
+                    cambiarEstadoEmpresa(
+                        btn.dataset.id,
+                        "Activo"
+                    )
+            );
+
+    });
 
 }
