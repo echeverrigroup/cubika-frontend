@@ -637,3 +637,36 @@ body {
     color: #94a3b8;
 
 }
+
+
+.search-box {
+
+    position: relative;
+
+    flex: 1;
+
+}
+
+
+.search-icon {
+
+    position: absolute;
+
+    left: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+
+    opacity: .5;
+
+}
+
+
+.search-box input {
+
+    padding-left: 40px;
+
+}
