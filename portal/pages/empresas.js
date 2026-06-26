@@ -183,6 +183,7 @@ export async function renderEmpresas() {
 
     </select>
 
+
     <div class="search-box">
 
     <span class="search-icon">
@@ -196,6 +197,9 @@ export async function renderEmpresas() {
         placeholder="Buscar por nombre o RUT...">
 
     </div>
+
+      </div>
+
 
      
 
@@ -495,7 +499,7 @@ async function crearEmpresa() {
 }
 
 
-async function actualizarEmpresa() {
+async function actualizarEmpresa(id) {
 
     limpiarErrorFormulario();
 
