@@ -638,16 +638,11 @@ async function cambiarEstadoEmpresa(
             estado === "Activo"
                 ? "Activar Empresa"
                 : "Desactivar Empresa",
-
-       message: `
-            ¿Desea ${accion}
-            la empresa:
-        
-            <strong>
-                ${nombre}
-            </strong>?
-`
-        `,
+    
+          message: `
+        ¿Desea ${accion}
+        esta empresa?
+    `    ,
 
         onConfirm: async () => {
 
@@ -715,17 +710,17 @@ async function cargarEmpresas() {
             "empresasTable"
         );
 
-    let query =
-        supabase
-            .from("empresas")
-            .select(`
-                rubros (*
-           
-                    nombre
-                )
+   let query =
+    supabase
+        .from("empresas")
+        .select(`
+            *,
+            rubros (
+                nombre
+            )
+        `);
 
-            `);
-
+    
     const filtroEstado =
         document
             .getElementById(
