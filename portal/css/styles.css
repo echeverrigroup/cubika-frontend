@@ -326,6 +326,7 @@ body {
 
 .btn-edit,
 .btn-delete,
+.btn-danger,
 .btn-toggle-estado {
 
     border:none;
