@@ -325,6 +325,7 @@ body {
 }
 
 .btn-edit,
+.btn-delete,
 .btn-toggle-estado {
 
     border:none;
