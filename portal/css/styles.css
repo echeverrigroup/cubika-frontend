@@ -326,7 +326,7 @@ body {
 
 .btn-edit,
 .btn-delete,
-.btn-danger,
+.btn-restore,
 .btn-toggle-estado {
 
     border:none;
@@ -345,6 +345,13 @@ body {
 .btn-edit {
 
     background:#D7F3EA;
+
+    color:#146C5B;
+}
+
+.btn-restore {
+
+    background:#D7F9EA;
 
     color:#146C5B;
 }
