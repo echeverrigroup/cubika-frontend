@@ -719,7 +719,8 @@ async function cargarEmpresas() {
         supabase
             .from("empresas")
             .select(`
-                rubros (
+                rubros (*
+           
                     nombre
                 )
 
