@@ -52,7 +52,8 @@ export async function renderRubros() {
 
     <div class="table-filters">
 
-        <select id="filtroEstado">
+        <select id="filtroEstado" 
+            class="cubika-select">
 
             <option value="">
                 Todos
