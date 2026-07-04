@@ -545,6 +545,7 @@ function crearTrabajador() {
         createdAt: new Date().toISOString()
 
     };
+    
 
 
     storage.create(trabajador);
@@ -552,5 +553,153 @@ function crearTrabajador() {
     cerrarModalTrabajador();
 
     cargarTrabajadores();
+
+}
+
+
+
+function editarTrabajador(id) {
+
+    const trabajador =
+        storage.getById(id);
+
+    if (!trabajador) return;
+
+    const content =
+        document.querySelector(".content");
+
+    content.insertAdjacentHTML(
+        "beforeend",
+        obtenerFormularioTrabajador()
+    );
+
+    document
+        .getElementById("modalTrabajador")
+        .style.display = "flex";
+
+    // =========================
+    // RELLENAR FORMULARIO
+    // =========================
+
+    document.getElementById("nombres").value =
+        trabajador.nombres;
+
+    document.getElementById("apellidoPaterno").value =
+        trabajador.apellidoPaterno;
+
+    document.getElementById("apellidoMaterno").value =
+        trabajador.apellidoMaterno;
+
+    document.getElementById("rut").value =
+        trabajador.rut;
+
+    document.getElementById("cargo").value =
+        trabajador.cargo;
+
+    document.getElementById("empresa").value =
+        trabajador.empresa;
+
+    document.getElementById("estado").value =
+        trabajador.estado;
+
+
+    document
+        .getElementById("btnCerrarModalTrabajador")
+        .addEventListener("click", cerrarModalTrabajador);
+
+    document
+        .getElementById("formTrabajador")
+        .addEventListener("submit", function (e) {
+
+            e.preventDefault();
+
+            actualizarTrabajador(id);
+
+        });
+
+}
+
+
+function actualizarTrabajador(id) {
+
+    limpiarErrorFormulario();
+
+    const nombres =
+        document.getElementById("nombres").value.trim();
+
+    const apellidoPaterno =
+        document.getElementById("apellidoPaterno").value.trim();
+
+    const apellidoMaterno =
+        document.getElementById("apellidoMaterno").value.trim();
+
+    const rut =
+        document.getElementById("rut").value.trim();
+
+    const cargo =
+        document.getElementById("cargo").value.trim();
+
+    const empresa =
+        document.getElementById("empresa").value.trim();
+
+    const estado =
+        document.getElementById("estado").value;
+
+
+    if (!nombres || !apellidoPaterno || !rut || !cargo || !empresa) {
+
+        mostrarErrorFormulario(
+            "Completa todos los campos obligatorios."
+        );
+
+        return;
+
+    }
+
+
+    const trabajadorActualizado = {
+
+        id,
+
+        nombres,
+        apellidoPaterno,
+        apellidoMaterno,
+        rut,
+        cargo,
+        empresa,
+        estado,
+
+        updatedAt: new Date().toISOString()
+
+    };
+
+
+    storage.update(id, trabajadorActualizado);
+
+    cerrarModalTrabajador();
+
+    cargarTrabajadores();
+
+}
+
+
+function eliminarTrabajador(id) {
+
+    const trabajador =
+        storage.getById(id);
+
+    if (!trabajador) return;
+
+    showConfirmModal(
+        "¿Eliminar trabajador?",
+        `Se eliminará: ${trabajador.nombres} ${trabajador.apellidoPaterno}`,
+        () => {
+
+            storage.delete(id);
+
+            cargarTrabajadores();
+
+        }
+    );
 
 }
