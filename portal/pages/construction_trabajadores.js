@@ -78,12 +78,11 @@ export async function renderConstructionTrabajadores() {
 
     cargarTrabajadores();
 
-    document
-        .getElementById("btnNuevoTrabajador")
-        .addEventListener(
-            "click",
-            mostrarFormularioNuevoTrabajador
-        );
+    const btnNuevo = document.getElementById("btnNuevoTrabajador");
+
+        if (btnNuevo) {
+            btnNuevo.addEventListener("click", mostrarFormularioNuevoTrabajador);
+        }
 
     document
         .getElementById("buscarTrabajador")
