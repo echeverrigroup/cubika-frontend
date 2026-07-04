@@ -7,6 +7,7 @@ import {
 from "../components/modal.js";
 
 
+
 export async function renderConstructionEmpresas() {
 
     const content =
@@ -85,17 +86,17 @@ async function cargarEmpresas() {
             .toUpperCase();
 
 
-    let empresas_construccion =
+    let empresas =
         await empresasService.getAll();
 
 
     if (filtro) {
 
-        empresas_construccion =
-            empresas_construccion.filter(e =>
+        empresas =
+            empresas.filter(empresa =>
 
-                `${e.nombre}
-                 ${e.rut}`
+                `${empresa.nombre}
+                 ${empresa.rut}`
                     .toUpperCase()
                     .includes(filtro)
 
@@ -129,14 +130,13 @@ async function cargarEmpresas() {
     `;
 
 
-    if (!empresas_construccion.length) {
+    if (!empresas.length) {
 
         html += `
 
             <tr>
 
-                <td
-                    colspan="4"
+                <td colspan="4"
                     style="text-align:center;padding:30px;">
 
                     No existen empresas registradas.
@@ -150,7 +150,7 @@ async function cargarEmpresas() {
     }
 
 
-    empresas_construccion.forEach(empresas_construccion => {
+    empresas.forEach(empresa => {
 
         html += `
 
@@ -158,13 +158,13 @@ async function cargarEmpresas() {
 
                 <td>
 
-                    ${empresas_construccion.nombre}
+                    ${empresa.nombre}
 
                 </td>
 
                 <td>
 
-                    ${empresas_construccion.rut ?? ""}
+                    ${empresa.rut ?? ""}
 
                 </td>
 
@@ -172,11 +172,11 @@ async function cargarEmpresas() {
 
                     <span class="
                         estado-badge
-                        ${empresas_construccion.estado === "Activo"
+                        ${empresa.estado === "Activo"
                             ? "activo"
                             : "inactivo"}">
 
-                        ${empresas_construccion.estado}
+                        ${empresa.estado}
 
                     </span>
 
@@ -186,7 +186,7 @@ async function cargarEmpresas() {
 
                     <button
                         class="btn-edit"
-                        data-id="${empresas_construccion.id}">
+                        data-id="${empresa.id}">
 
                         Editar
 
@@ -194,7 +194,7 @@ async function cargarEmpresas() {
 
                     <button
                         class="btn-danger btn-delete"
-                        data-id="${empresas_construccion.id}">
+                        data-id="${empresa.id}">
 
                         Eliminar
 
