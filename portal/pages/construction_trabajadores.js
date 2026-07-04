@@ -1,11 +1,10 @@
-import { CrudStorage } from "../components/crudStorage.js";
+import { workersService }
+from "../services/workersService.js";
+
 import {
     showConfirmModal
 }
 from "../components/modal.js";
-
-const storage =
-    new CrudStorage("cubika_workers");
 
 
 function mostrarErrorFormulario(mensaje) {
