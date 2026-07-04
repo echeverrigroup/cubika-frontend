@@ -108,8 +108,12 @@ function cargarTrabajadores() {
             .toUpperCase();
 
     let trabajadores =
-        storage.getAll();
+    storage.getAll() || [];
 
+        if (!Array.isArray(trabajadores)) {
+            trabajadores = [];
+        }
+    
     if (filtro) {
 
         trabajadores =
