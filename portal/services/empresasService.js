@@ -6,7 +6,7 @@ export const empresasService = {
 
         const { data, error } =
             await supabase
-                .from("empresas")
+                .from("empresas_construccion")
                 .select("*")
                 .order("nombre");
 
@@ -27,7 +27,7 @@ export const empresasService = {
 
         const { data, error } =
             await supabase
-                .from("empresas")
+                .from("empresas_construccion")
                 .select("*")
                 .eq("id", id)
                 .single();
@@ -49,7 +49,7 @@ export const empresasService = {
 
         const { error } =
             await supabase
-                .from("empresas")
+                .from("empresas_construccion")
                 .insert(empresa);
 
         if (error)
@@ -62,7 +62,7 @@ export const empresasService = {
 
         const { error } =
             await supabase
-                .from("empresas")
+                .from("empresas_construccion")
                 .update(empresa)
                 .eq("id", id);
 
@@ -76,7 +76,7 @@ export const empresasService = {
 
         const { error } =
             await supabase
-                .from("empresas")
+                .from("empresas_construccion")
                 .delete()
                 .eq("id", id);
 
