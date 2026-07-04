@@ -85,14 +85,14 @@ async function cargarEmpresas() {
             .toUpperCase();
 
 
-    let empresas =
+    let empresas_construccion =
         await empresasService.getAll();
 
 
     if (filtro) {
 
-        empresas =
-            empresas.filter(e =>
+        empresas_construccion =
+            empresas_construccion.filter(e =>
 
                 `${e.nombre}
                  ${e.rut}`
@@ -129,7 +129,7 @@ async function cargarEmpresas() {
     `;
 
 
-    if (!empresas.length) {
+    if (!empresas_construccion.length) {
 
         html += `
 
@@ -150,7 +150,7 @@ async function cargarEmpresas() {
     }
 
 
-    empresas.forEach(empresa => {
+    empresas_construccion.forEach(empresas_construccion => {
 
         html += `
 
@@ -158,13 +158,13 @@ async function cargarEmpresas() {
 
                 <td>
 
-                    ${empresa.nombre}
+                    ${empresas_construccion.nombre}
 
                 </td>
 
                 <td>
 
-                    ${empresa.rut ?? ""}
+                    ${empresas_construccion.rut ?? ""}
 
                 </td>
 
@@ -172,11 +172,11 @@ async function cargarEmpresas() {
 
                     <span class="
                         estado-badge
-                        ${empresa.estado === "Activo"
+                        ${empresas_construccion.estado === "Activo"
                             ? "activo"
                             : "inactivo"}">
 
-                        ${empresa.estado}
+                        ${empresas_construccion.estado}
 
                     </span>
 
@@ -186,7 +186,7 @@ async function cargarEmpresas() {
 
                     <button
                         class="btn-edit"
-                        data-id="${empresa.id}">
+                        data-id="${empresas_construccion.id}">
 
                         Editar
 
@@ -194,7 +194,7 @@ async function cargarEmpresas() {
 
                     <button
                         class="btn-danger btn-delete"
-                        data-id="${empresa.id}">
+                        data-id="${empresas_construccion.id}">
 
                         Eliminar
 
