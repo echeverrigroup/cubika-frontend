@@ -32,13 +32,29 @@ function getModalElements() {
 
 export function closeModal() {
 
-    const { overlay } =
-        getModalElements();
+    const {
 
-    overlay.style.display = "none";
+        overlay,
+        body,
+        confirm
+
+    } = getModalElements();
+
+
+    overlay.style.display =
+        "none";
+
+
+    body.innerHTML = "";
+
+
+    confirm.disabled =
+        false;
+
+    confirm.textContent =
+        "Confirmar";
 
 }
-
 
 
 export function showConfirmModal({
@@ -125,16 +141,118 @@ export function showConfirmModal({
 }
 
 
+export function showFormModal({
 
-export function setModalLoading(loading = true) {
+    title,
+    content,
+    onSubmit,
+    submitText = "Guardar",
+    size = "normal"
 
-    const { confirm } =
-        getModalElements();
+}) {
 
-    if (!confirm) return;
+    const {
+
+        overlay,
+        modal,
+        title: modalTitle,
+        body,
+        cancel,
+        confirm
+
+    } = getModalElements();
+
+
+    modal.classList.remove(
+        "large"
+    );
+
+    if (size === "large") {
+
+        modal.classList.add(
+            "large"
+        );
+
+    }
+
+
+    modalTitle.textContent =
+        title;
+
+    body.innerHTML =
+        content;
+
+    confirm.textContent =
+        submitText;
+
+    overlay.style.display =
+        "flex";
+
+
+    cancel.onclick =
+        closeModal;
+
+
+    confirm.onclick =
+        async () => {
+
+            let ok = true;
+
+            if (onSubmit) {
+
+                ok =
+                    await onSubmit();
+
+            }
+
+            if (ok !== false) {
+
+                closeModal();
+
+            }
+
+        };
+
+}
+
+
+
+export function setModalLoading(
+    loading = true,
+    text = "Guardando..."
+) {
+
+    const {
+
+        confirm
+
+    } = getModalElements();
+
+    if (!confirm)
+        return;
+
 
     confirm.disabled =
         loading;
+
+
+    if (loading) {
+
+        confirm.dataset.originalText =
+            confirm.textContent;
+
+        confirm.textContent =
+            text;
+
+    }
+
+    else {
+
+        confirm.textContent =
+            confirm.dataset.originalText ||
+            "Confirmar";
+
+    }
 
 }
 
@@ -142,6 +260,18 @@ export function setModalLoading(loading = true) {
 
 export function setModalError(message = "") {
 
-    console.error(message);
+    let errorBox =
+        document.getElementById("modalFormError");
+
+    if (!errorBox)
+        return;
+
+    errorBox.textContent =
+        message;
+
+    errorBox.style.display =
+        message
+            ? "block"
+            : "none";
 
 }
