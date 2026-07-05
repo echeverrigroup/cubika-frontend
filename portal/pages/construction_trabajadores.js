@@ -289,199 +289,135 @@ async function cargarTrabajadores() {
 }
 
 
-function mostrarFormularioNuevoTrabajador() {
+async function mostrarFormularioNuevoTrabajador() {
 
-    const content =
-        document.querySelector(".content");
-
-    content.insertAdjacentHTML("beforeend", obtenerFormularioTrabajador());
-
-    document
-        .getElementById("modalTrabajador")
-        .style.display = "flex";
-
-    document
-        .getElementById("btnCerrarModalTrabajador")
-        .addEventListener("click", cerrarModalTrabajador);
-
-    document
-        .getElementById("formTrabajador")
-        .addEventListener("submit", function (e) {
-
-            e.preventDefault();
-
-            // todavía no guardamos
-            crearTrabajador();
-
-        });
-
+        showFormModal({
+    
+        title: "Nuevo Trabajador",
+    
+        content:
+            await obtenerFormularioTrabajador(),
+    
+        submitText: "Guardar",
+    
+        onSubmit: crearTrabajador
+    
+    });
 }
 
 
-function obtenerFormularioTrabajador() {
+
+async function obtenerFormularioTrabajador(trabajador = null) {
+
+    const empresas =
+        await empresasService.getAll();
+
+    const opcionesEmpresas =
+        empresas
+            .filter(e => e.estado === "Activo")
+            .map(e => `
+
+                <option
+                    value="${e.id}"
+                    ${trabajador?.empresa_id === e.id
+                        ? "selected"
+                        : ""}>
+
+                    ${e.nombre}
+
+                </option>
+
+            `)
+            .join("");
 
     return `
 
-        <div class="modal-overlay" id="modalTrabajador">
+        <form id="formTrabajador">
 
-            <div class="modal">
+            <div class="form-grid">
 
-                <div class="modal-header">
+                <div class="form-group">
 
-                    <h2>Nuevo Trabajador</h2>
+                    <label>Nombres</label>
 
-                    <button
-                        id="btnCerrarModalTrabajador"
-                        class="btn-close">
-
-                        ✕
-
-                    </button>
+                    <input
+                        id="nombres"
+                        type="text"
+                        value="${trabajador?.nombres ?? ""}"
+                        required>
 
                 </div>
 
+                <div class="form-group">
 
-                <form id="formTrabajador">
+                    <label>Apellido Paterno</label>
 
-                    <div class="form-grid">
+                    <input
+                        id="apellidoPaterno"
+                        type="text"
+                        value="${trabajador?.apellido_paterno ?? ""}"
+                        required>
 
-                        <div class="form-group">
+                </div>
 
-                            <label>Nombres</label>
+                <div class="form-group">
 
-                            <input
-                                type="text"
-                                id="nombres"
-                                required>
+                    <label>Apellido Materno</label>
 
-                        </div>
+                    <input
+                        id="apellidoMaterno"
+                        type="text"
+                        value="${trabajador?.apellido_materno ?? ""}">
 
+                </div>
 
-                        <div class="form-group">
+                <div class="form-group">
 
-                            <label>Apellido Paterno</label>
+                    <label>RUT</label>
 
-                            <input
-                                type="text"
-                                id="apellidoPaterno"
-                                required>
+                    <input
+                        id="rut"
+                        type="text"
+                        value="${trabajador?.rut ?? ""}"
+                        required>
 
-                        </div>
+                </div>
 
+                <div class="form-group">
 
-                        <div class="form-group">
+                    <label>Empresa</label>
 
-                            <label>Apellido Materno</label>
+                    <select
+                        id="empresa_id"
+                        required>
 
-                            <input
-                                type="text"
-                                id="apellidoMaterno">
+                        <option value="">
 
-                        </div>
+                            Seleccione una empresa
 
+                        </option>
 
-                        <div class="form-group">
+                        ${opcionesEmpresas}
 
-                            <label>RUT</label>
+                    </select>
 
-                            <input
-                                type="text"
-                                id="rut"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>Cargo</label>
-
-                            <input
-                                type="text"
-                                id="cargo"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>Empresa</label>
-
-                            <input
-                                type="text"
-                                id="empresa"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>Estado</label>
-
-                            <select id="estado">
-
-                                <option value="Activo">
-                                    Activo
-                                </option>
-
-                                <option value="Inactivo">
-                                    Inactivo
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <div id="formError" class="form-error"></div>
-
-
-                    <div class="form-actions">
-
-                        <button
-                            type="button"
-                            id="btnCancelarTrabajador">
-
-                            Cancelar
-
-                        </button>
-
-
-                        <button
-                            type="submit"
-                            class="btn-primary">
-
-                            Guardar
-
-                        </button>
-
-                    </div>
-
-                </form>
+                </div>
 
             </div>
 
-        </div>
+            <div
+                id="modalFormError"
+                class="form-error"
+                style="display:none;">
+            </div>
+
+        </form>
 
     `;
 
 }
 
 
-function cerrarModalTrabajador() {
-
-    const modal =
-        document.getElementById("modalTrabajador");
-
-    if (modal) {
-        modal.remove();
-    }
-
-}
 
 
 function crearTrabajador() {
@@ -545,7 +481,6 @@ function crearTrabajador() {
 
     storage.create(trabajador);
 
-    cerrarModalTrabajador();
 
     cargarTrabajadores();
 
@@ -563,14 +498,6 @@ function editarTrabajador(id) {
     const content =
         document.querySelector(".content");
 
-    content.insertAdjacentHTML(
-        "beforeend",
-        obtenerFormularioTrabajador()
-    );
-
-    document
-        .getElementById("modalTrabajador")
-        .style.display = "flex";
 
     // =========================
     // RELLENAR FORMULARIO
@@ -597,10 +524,6 @@ function editarTrabajador(id) {
     document.getElementById("estado").value =
         trabajador.estado;
 
-
-    document
-        .getElementById("btnCerrarModalTrabajador")
-        .addEventListener("click", cerrarModalTrabajador);
 
     document
         .getElementById("formTrabajador")
@@ -671,7 +594,6 @@ function actualizarTrabajador(id) {
 
     storage.update(id, trabajadorActualizado);
 
-    cerrarModalTrabajador();
 
     cargarTrabajadores();
 
