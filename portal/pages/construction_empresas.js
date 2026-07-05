@@ -340,13 +340,27 @@ async function crearEmpresa() {
 
     if (!nombre) {
 
-        setModalError(
-            "Debe ingresar el nombre."
-        );
+    setModalError(
+        "Debe ingresar el nombre de la empresa."
+    );
 
-        return;
+    document.getElementById("nombre").focus();
 
-    }
+    return false;
+
+}
+
+if (!rut) {
+
+    setModalError(
+        "Debe ingresar el RUT de la empresa."
+    );
+
+    document.getElementById("rut").focus();
+
+    return false;
+
+}
 
     try {
 
@@ -425,12 +439,27 @@ async function actualizarEmpresa(id) {
 
     if (!nombre) {
 
-       setModalError(
-            "Debe ingresar el nombre."
-        );
-        return;
+    setModalError(
+        "Debe ingresar el nombre de la empresa."
+    );
 
-    }
+    document.getElementById("nombre").focus();
+
+    return false;
+
+}
+
+if (!rut) {
+
+    setModalError(
+        "Debe ingresar el RUT de la empresa."
+    );
+
+    document.getElementById("rut").focus();
+
+    return false;
+
+}
 
     try {
 
