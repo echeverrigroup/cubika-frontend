@@ -2,7 +2,12 @@ import { empresasService }
 from "../services/empresasService.js";
 
 import {
-    showConfirmModal
+
+    showConfirmModal,
+    showFormModal,
+    setModalLoading,
+    setModalError
+
 }
 from "../components/modal.js";
 
@@ -249,44 +254,17 @@ async function cargarEmpresas() {
 
 function mostrarFormularioNuevaEmpresa() {
 
-    const content =
-        document.querySelector(".content");
+    showFormModal({
 
-    content.insertAdjacentHTML(
-        "beforeend",
-        obtenerFormularioEmpresa()
-    );
+        title: "Nueva Empresa",
 
-    document
-        .getElementById("modalEmpresa")
-        .style.display = "flex";
+        content: obtenerFormularioEmpresa(),
 
-    document
-        .getElementById("btnCerrarModalEmpresa")
-        .addEventListener(
-            "click",
-            cerrarModalEmpresa
-        );
+        submitText: "Guardar",
 
-    document
-        .getElementById("btnCancelarEmpresa")
-        .addEventListener(
-            "click",
-            cerrarModalEmpresa
-        );
+        onSubmit: crearEmpresa
 
-    document
-        .getElementById("formEmpresa")
-        .addEventListener(
-            "submit",
-            async function (e) {
-
-                e.preventDefault();
-
-                await crearEmpresa();
-
-            }
-        );
+    });
 
 }
 
@@ -294,32 +272,6 @@ function mostrarFormularioNuevaEmpresa() {
 function obtenerFormularioEmpresa(empresa = null) {
 
     return `
-
-        <div
-            class="modal-overlay"
-            id="modalEmpresa">
-
-            <div class="modal">
-
-                <div class="modal-header">
-
-                    <h2>
-
-                        ${empresa
-                            ? "Editar Empresa"
-                            : "Nueva Empresa"}
-
-                    </h2>
-
-                    <button
-                        id="btnCerrarModalEmpresa"
-                        class="btn-close">
-
-                        ✕
-
-                    </button>
-
-                </div>
 
                 <form id="formEmpresa">
 
@@ -381,9 +333,9 @@ function obtenerFormularioEmpresa(empresa = null) {
                     </div>
 
                     <div
-                        id="formError"
-                        class="form-error">
-
+                        id="modalFormError"
+                        class="form-error"
+                        style="display:none;">
                     </div>
 
                     <div class="form-actions">
@@ -409,11 +361,7 @@ function obtenerFormularioEmpresa(empresa = null) {
                     </div>
 
                 </form>
-
-            </div>
-
-        </div>
-
+                
     `;
 
 }
@@ -451,13 +399,17 @@ async function crearEmpresa() {
 
     if (!nombre) {
 
-        alert("Debe ingresar el nombre.");
+        setModalError(
+            "Debe ingresar el nombre."
+        );
 
         return;
 
     }
 
     try {
+
+        setModalLoading(true);
 
         await empresasService.create({
 
@@ -471,13 +423,17 @@ async function crearEmpresa() {
 
         await cargarEmpresas();
 
+        setModalLoading(false);
+
     }
 
     catch (error) {
 
         console.error(error);
 
-        alert("No fue posible guardar la empresa.");
+       setModalError(
+            "No fue posible guardar la empresa."
+        );
 
     }
 
