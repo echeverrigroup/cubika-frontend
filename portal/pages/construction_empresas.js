@@ -304,36 +304,7 @@ function obtenerFormularioEmpresa(empresa = null) {
 
                         </div>
 
-                        <div class="form-group">
-
-                            <label>Estado</label>
-
-                            <select id="estado">
-
-                                <option
-                                    value="Activo"
-                                    ${empresa?.estado === "Activo"
-                                        ? "selected"
-                                        : ""}>
-
-                                    Activo
-
-                                </option>
-
-                                <option
-                                    value="Inactivo"
-                                    ${empresa?.estado === "Inactivo"
-                                        ? "selected"
-                                        : ""}>
-
-                                    Inactivo
-
-                                </option>
-
-                            </select>
-
-                        </div>
-
+                        
                     </div>
 
                     <div
@@ -366,10 +337,6 @@ async function crearEmpresa() {
             .value
             .trim();
 
-    const estado =
-        document
-            .getElementById("estado")
-            .value;
 
     if (!nombre) {
 
@@ -389,8 +356,8 @@ async function crearEmpresa() {
 
             nombre,
             rut,
-            estado
-
+            estado: "Activo"
+        
         });
 
         await cargarEmpresas();
@@ -455,10 +422,6 @@ async function actualizarEmpresa(id) {
             .value
             .trim();
 
-    const estado =
-        document
-            .getElementById("estado")
-            .value;
 
     if (!nombre) {
 
@@ -476,8 +439,7 @@ async function actualizarEmpresa(id) {
         await empresasService.update(id, {
 
             nombre,
-            rut,
-            estado
+            rut
 
         });
 
