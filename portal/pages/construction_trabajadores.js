@@ -368,6 +368,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
                     <select
                         id="empresa_id"
+                        class="cubika-select"
                         required>
 
                         <option value="">
