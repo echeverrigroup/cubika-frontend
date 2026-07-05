@@ -245,3 +245,218 @@ async function cargarEmpresas() {
         });
 
 }
+
+
+function mostrarFormularioNuevaEmpresa() {
+
+    const content =
+        document.querySelector(".content");
+
+    content.insertAdjacentHTML(
+        "beforeend",
+        obtenerFormularioEmpresa()
+    );
+
+    document
+        .getElementById("modalEmpresa")
+        .style.display = "flex";
+
+    document
+        .getElementById("btnCerrarModalEmpresa")
+        .addEventListener(
+            "click",
+            cerrarModalEmpresa
+        );
+
+    document
+        .getElementById("btnCancelarEmpresa")
+        .addEventListener(
+            "click",
+            cerrarModalEmpresa
+        );
+
+    document
+        .getElementById("formEmpresa")
+        .addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+                await crearEmpresa();
+
+            }
+        );
+
+}
+
+
+function obtenerFormularioEmpresa() {
+
+    return `
+
+        <div
+            class="modal-overlay"
+            id="modalEmpresa">
+
+            <div class="modal">
+
+                <div class="modal-header">
+
+                    <h2>Nueva Empresa</h2>
+
+                    <button
+                        id="btnCerrarModalEmpresa"
+                        class="btn-close">
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+                <form id="formEmpresa">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>Nombre</label>
+
+                            <input
+                                id="nombre"
+                                type="text"
+                                required>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>RUT</label>
+
+                            <input
+                                id="rut"
+                                type="text">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Estado</label>
+
+                            <select id="estado">
+
+                                <option value="Activo">
+                                    Activo
+                                </option>
+
+                                <option value="Inactivo">
+                                    Inactivo
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="formError"
+                        class="form-error">
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            id="btnCancelarEmpresa">
+
+                            Cancelar
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn-primary">
+
+                            Guardar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function cerrarModalEmpresa() {
+
+    const modal =
+        document.getElementById("modalEmpresa");
+
+    if (modal)
+        modal.remove();
+
+}
+
+
+async function crearEmpresa() {
+
+    const nombre =
+        document
+            .getElementById("nombre")
+            .value
+            .trim();
+
+    const rut =
+        document
+            .getElementById("rut")
+            .value
+            .trim();
+
+    const estado =
+        document
+            .getElementById("estado")
+            .value;
+
+    if (!nombre) {
+
+        alert("Debe ingresar el nombre.");
+
+        return;
+
+    }
+
+    try {
+
+        await empresasService.create({
+
+            nombre,
+            rut,
+            estado
+
+        });
+
+        cerrarModalEmpresa();
+
+        await cargarEmpresas();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("No fue posible guardar la empresa.");
+
+    }
+
+}
