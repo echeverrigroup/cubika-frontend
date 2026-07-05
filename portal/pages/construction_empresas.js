@@ -197,12 +197,16 @@ async function cargarEmpresas() {
 
                     </button>
 
-                    <button
-                        class="btn-danger btn-delete"
+                    <<button
+                        class="${empresa.estado === "Activo"
+                            ? "btn-danger"
+                            : "btn-primary"} btn-toggle-estado"
                         data-id="${empresa.id}">
-
-                        Desactivar
-
+                    
+                        ${empresa.estado === "Activo"
+                            ? "Desactivar"
+                            : "Activar"}
+                    
                     </button>
 
                 </td>
@@ -239,15 +243,15 @@ async function cargarEmpresas() {
 
 
     document
-        .querySelectorAll(".btn-delete")
-        .forEach(btn => {
+    .querySelectorAll(".btn-toggle-estado")
+    .forEach(btn => {
 
-            btn.addEventListener(
-                "click",
-                () => eliminarEmpresa(btn.dataset.id)
-            );
+        btn.addEventListener(
+            "click",
+            () => cambiarEstadoEmpresa(btn.dataset.id)
+        );
 
-        });
+    });
 
 }
 
@@ -502,7 +506,7 @@ async function actualizarEmpresa(id) {
 }
 
 
-async function eliminarEmpresa(id) {
+async function cambiarEstadoEmpresa(id) {
 
     const empresa =
         await empresasService.getById(id);
@@ -510,19 +514,27 @@ async function eliminarEmpresa(id) {
     if (!empresa)
         return;
 
+    const nuevoEstado =
+        empresa.estado === "Activo"
+            ? "Inactivo"
+            : "Activo";
+
+    const accion =
+        nuevoEstado === "Activo"
+            ? "Activar"
+            : "Desactivar";
+
     showConfirmModal({
 
-        title: "Desactivar empresa",
+        title: `${accion} empresa`,
 
         message: `
 
             La empresa
             <strong>${empresa.nombre}</strong>
-            será desactivada.
 
-            <br><br>
-
-           La empresa dejará de estar disponible para nuevos registros, pero conservará todo su historial y podrá reactivarse posteriormente.
+            será marcada como
+            <strong>${nuevoEstado}</strong>.
 
         `,
 
@@ -532,11 +544,13 @@ async function eliminarEmpresa(id) {
 
                 await empresasService.update(id, {
 
-                    estado: "Inactivo"
+                    estado: nuevoEstado
 
                 });
 
                 await cargarEmpresas();
+
+                return true;
 
             }
 
