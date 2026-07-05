@@ -1,4 +1,8 @@
-import { supabase } from "../../js/supabaseClient.js";
+import { supabase }
+from "../../js/supabaseClient.js";
+
+const TABLE =
+    "workers";
 
 export const workersService = {
 
@@ -6,103 +10,75 @@ export const workersService = {
 
         const { data, error } =
             await supabase
-                .from("workers")
+                .from(TABLE)
                 .select(`
                     *,
-                    empresas (
+                    empresa:empresas_construccion(
                         id,
                         nombre
                     )
                 `)
-                .order("apellido_paterno");
+                .order("nombres");
 
-        if (error) {
-
-            console.error(error);
-
-            return [];
-
-        }
+        if (error)
+            throw error;
 
         return data;
 
     },
-
 
     async getById(id) {
 
         const { data, error } =
             await supabase
-                .from("workers")
-                .select("*")
+                .from(TABLE)
+                .select(`
+                    *,
+                    empresa:empresas_construccion(
+                        id,
+                        nombre
+                    )
+                `)
                 .eq("id", id)
                 .single();
 
-        if (error) {
-
-            console.error(error);
-
-            return null;
-
-        }
+        if (error)
+            throw error;
 
         return data;
 
     },
 
-
     async create(worker) {
 
-        const { error } =
+        const { data, error } =
             await supabase
-                .from("workers")
-                .insert(worker);
+                .from(TABLE)
+                .insert(worker)
+                .select()
+                .single();
 
-        if (error) {
-
-            console.error(error);
-
+        if (error)
             throw error;
 
-        }
+        return data;
 
     },
-
 
     async update(id, worker) {
 
-        const { error } =
+        const { data, error } =
             await supabase
-                .from("workers")
+                .from(TABLE)
                 .update(worker)
-                .eq("id", id);
+                .eq("id", id)
+                .select()
+                .single();
 
-        if (error) {
-
-            console.error(error);
-
+        if (error)
             throw error;
 
-        }
-
-    },
-
-
-    async delete(id) {
-
-        const { error } =
-            await supabase
-                .from("workers")
-                .delete()
-                .eq("id", id);
-
-        if (error) {
-
-            console.error(error);
-
-            throw error;
-
-        }
+        return data;
 
     }
 
