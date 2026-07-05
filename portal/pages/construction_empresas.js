@@ -291,7 +291,7 @@ function mostrarFormularioNuevaEmpresa() {
 }
 
 
-function obtenerFormularioEmpresa() {
+function obtenerFormularioEmpresa(empresa = null) {
 
     return `
 
@@ -303,7 +303,13 @@ function obtenerFormularioEmpresa() {
 
                 <div class="modal-header">
 
-                    <h2>Nueva Empresa</h2>
+                    <h2>
+
+                        ${empresa
+                            ? "Editar Empresa"
+                            : "Nueva Empresa"}
+
+                    </h2>
 
                     <button
                         id="btnCerrarModalEmpresa"
@@ -326,6 +332,7 @@ function obtenerFormularioEmpresa() {
                             <input
                                 id="nombre"
                                 type="text"
+                                value="${empresa?.nombre ?? ""}"
                                 required>
 
                         </div>
@@ -336,7 +343,8 @@ function obtenerFormularioEmpresa() {
 
                             <input
                                 id="rut"
-                                type="text">
+                                type="text"
+                                value="${empresa?.rut ?? ""}">
 
                         </div>
 
@@ -346,12 +354,24 @@ function obtenerFormularioEmpresa() {
 
                             <select id="estado">
 
-                                <option value="Activo">
+                                <option
+                                    value="Activo"
+                                    ${empresa?.estado === "Activo"
+                                        ? "selected"
+                                        : ""}>
+
                                     Activo
+
                                 </option>
 
-                                <option value="Inactivo">
+                                <option
+                                    value="Inactivo"
+                                    ${empresa?.estado === "Inactivo"
+                                        ? "selected"
+                                        : ""}>
+
                                     Inactivo
+
                                 </option>
 
                             </select>
@@ -380,7 +400,9 @@ function obtenerFormularioEmpresa() {
                             type="submit"
                             class="btn-primary">
 
-                            Guardar
+                            ${empresa
+                                ? "Actualizar"
+                                : "Guardar"}
 
                         </button>
 
@@ -458,5 +480,150 @@ async function crearEmpresa() {
         alert("No fue posible guardar la empresa.");
 
     }
+
+}
+
+
+async function editarEmpresa(id) {
+
+    const empresa =
+        await empresasService.getById(id);
+
+    if (!empresa)
+        return;
+
+    cerrarModalEmpresa();
+
+    const content =
+        document.querySelector(".content");
+
+    content.insertAdjacentHTML(
+        "beforeend",
+        obtenerFormularioEmpresa(empresa)
+    );
+
+    document
+        .getElementById("modalEmpresa")
+        .style.display = "flex";
+
+    document
+        .getElementById("btnCerrarModalEmpresa")
+        .addEventListener(
+            "click",
+            cerrarModalEmpresa
+        );
+
+    document
+        .getElementById("btnCancelarEmpresa")
+        .addEventListener(
+            "click",
+            cerrarModalEmpresa
+        );
+
+    document
+        .getElementById("formEmpresa")
+        .addEventListener(
+            "submit",
+            async function(e){
+
+                e.preventDefault();
+
+                await actualizarEmpresa(id);
+
+            }
+        );
+
+}
+
+
+async function actualizarEmpresa(id) {
+
+    const nombre =
+        document
+            .getElementById("nombre")
+            .value
+            .trim();
+
+    const rut =
+        document
+            .getElementById("rut")
+            .value
+            .trim();
+
+    const estado =
+        document
+            .getElementById("estado")
+            .value;
+
+    if (!nombre) {
+
+        alert("Debe ingresar el nombre.");
+
+        return;
+
+    }
+
+    try {
+
+        await empresasService.update(id, {
+
+            nombre,
+            rut,
+            estado
+
+        });
+
+        cerrarModalEmpresa();
+
+        await cargarEmpresas();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("No fue posible actualizar.");
+
+    }
+
+}
+
+
+async function eliminarEmpresa(id) {
+
+    const empresa =
+        await empresasService.getById(id);
+
+    if (!empresa)
+        return;
+
+    showConfirmModal(
+
+        "Eliminar empresa",
+
+        `¿Desea eliminar "${empresa.nombre}"?`,
+
+        async () => {
+
+            try {
+
+                await empresasService.delete(id);
+
+                await cargarEmpresas();
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                alert("No fue posible eliminar.");
+
+            }
+
+        }
+
+    );
 
 }
