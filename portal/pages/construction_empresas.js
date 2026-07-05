@@ -201,7 +201,7 @@ async function cargarEmpresas() {
                         class="btn-danger btn-delete"
                         data-id="${empresa.id}">
 
-                        Eliminar
+                        Desactivar
 
                     </button>
 
@@ -338,28 +338,7 @@ function obtenerFormularioEmpresa(empresa = null) {
                         style="display:none;">
                     </div>
 
-                    <div class="form-actions">
-
-                        <button
-                            type="button"
-                            id="btnCancelarEmpresa">
-
-                            Cancelar
-
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="btn-primary">
-
-                            ${empresa
-                                ? "Actualizar"
-                                : "Guardar"}
-
-                        </button>
-
-                    </div>
-
+                    
                 </form>
                 
     `;
@@ -367,15 +346,6 @@ function obtenerFormularioEmpresa(empresa = null) {
 }
 
 
-function cerrarModalEmpresa() {
-
-    const modal =
-        document.getElementById("modalEmpresa");
-
-    if (modal)
-        modal.remove();
-
-}
 
 
 async function crearEmpresa() {
@@ -419,23 +389,27 @@ async function crearEmpresa() {
 
         });
 
-        cerrarModalEmpresa();
-
         await cargarEmpresas();
 
         setModalLoading(false);
+        
+        return true;
 
     }
 
-    catch (error) {
+        catch (error) {
 
-        console.error(error);
-
-       setModalError(
-            "No fue posible guardar la empresa."
-        );
-
-    }
+            console.error(error);
+        
+            setModalLoading(false);
+        
+            setModalError(
+                "No fue posible guardar la empresa."
+            );
+        
+            return false;
+        
+        }
 
 }
 
@@ -503,23 +477,26 @@ async function actualizarEmpresa(id) {
 
         });
 
-        cerrarModalEmpresa();
-
         await cargarEmpresas();
 
         setModalLoading(false);
+        
+        return true;
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
-
-       setModalLoading(false);
-
+    
+        setModalLoading(false);
+    
         setModalError(
             "No fue posible actualizar la empresa."
         );
+    
+        return false;
+    
     }
 
 }
@@ -545,7 +522,7 @@ async function eliminarEmpresa(id) {
 
             <br><br>
 
-            Podrá volver a activarse posteriormente.
+           La empresa dejará de estar disponible para nuevos registros, pero conservará todo su historial y podrá reactivarse posteriormente.
 
         `,
 
