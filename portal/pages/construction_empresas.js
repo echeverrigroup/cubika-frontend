@@ -448,49 +448,20 @@ async function editarEmpresa(id) {
     if (!empresa)
         return;
 
-    cerrarModalEmpresa();
+    showFormModal({
 
-    const content =
-        document.querySelector(".content");
+        title: "Editar Empresa",
 
-    content.insertAdjacentHTML(
-        "beforeend",
-        obtenerFormularioEmpresa(empresa)
-    );
+        content: obtenerFormularioEmpresa(empresa),
 
-    document
-        .getElementById("modalEmpresa")
-        .style.display = "flex";
+        submitText: "Actualizar",
 
-    document
-        .getElementById("btnCerrarModalEmpresa")
-        .addEventListener(
-            "click",
-            cerrarModalEmpresa
-        );
+        onSubmit: () =>
+            actualizarEmpresa(id)
 
-    document
-        .getElementById("btnCancelarEmpresa")
-        .addEventListener(
-            "click",
-            cerrarModalEmpresa
-        );
-
-    document
-        .getElementById("formEmpresa")
-        .addEventListener(
-            "submit",
-            async function(e){
-
-                e.preventDefault();
-
-                await actualizarEmpresa(id);
-
-            }
-        );
+    });
 
 }
-
 
 async function actualizarEmpresa(id) {
 
@@ -513,13 +484,16 @@ async function actualizarEmpresa(id) {
 
     if (!nombre) {
 
-        alert("Debe ingresar el nombre.");
-
+       setModalError(
+            "Debe ingresar el nombre."
+        );
         return;
 
     }
 
     try {
+
+        setModalLoading(true);
 
         await empresasService.update(id, {
 
@@ -533,14 +507,19 @@ async function actualizarEmpresa(id) {
 
         await cargarEmpresas();
 
+        setModalLoading(false);
+
     }
 
     catch(error){
 
         console.error(error);
 
-        alert("No fue posible actualizar.");
+       setModalLoading(false);
 
+        setModalError(
+            "No fue posible actualizar la empresa."
+        );
     }
 
 }
@@ -554,32 +533,46 @@ async function eliminarEmpresa(id) {
     if (!empresa)
         return;
 
-    showConfirmModal(
+    showConfirmModal({
 
-        "Eliminar empresa",
+        title: "Desactivar empresa",
 
-        `¿Desea eliminar "${empresa.nombre}"?`,
+        message: `
 
-        async () => {
+            La empresa
+            <strong>${empresa.nombre}</strong>
+            será desactivada.
+
+            <br><br>
+
+            Podrá volver a activarse posteriormente.
+
+        `,
+
+        onConfirm: async () => {
 
             try {
 
-                await empresasService.delete(id);
+                await empresasService.update(id, {
+
+                    estado: "Inactivo"
+
+                });
 
                 await cargarEmpresas();
 
             }
 
-            catch(error){
+            catch (error) {
 
                 console.error(error);
 
-                alert("No fue posible eliminar.");
+                return false;
 
             }
 
         }
 
-    );
+    });
 
 }
