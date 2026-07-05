@@ -15,8 +15,8 @@ function getModalElements() {
         title:
             document.getElementById("modalTitle"),
 
-        message:
-            document.getElementById("modalMessage"),
+        body:
+            document.getElementById("modalBody"),
 
         cancel:
             document.getElementById("modalCancel"),
@@ -55,7 +55,7 @@ export function showConfirmModal({
         overlay,
         modal,
         title: modalTitle,
-        message: modalMessage,
+        body,
         cancel,
         confirm
 
@@ -81,10 +81,19 @@ export function showConfirmModal({
 
     modalTitle.textContent =
         title;
+    
 
-    modalMessage.innerHTML =
-        message;
+    body.innerHTML = `
 
+            <p>
+        
+                ${message}
+        
+            </p>
+        
+        `;
+
+    
     overlay.style.display =
         "flex";
 
