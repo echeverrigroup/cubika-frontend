@@ -1,3 +1,46 @@
+let currentOnConfirm = null;
+
+
+
+function getModalElements() {
+
+    return {
+
+        overlay:
+            document.getElementById("modalOverlay"),
+
+        modal:
+            document.querySelector(".modal"),
+
+        title:
+            document.getElementById("modalTitle"),
+
+        message:
+            document.getElementById("modalMessage"),
+
+        cancel:
+            document.getElementById("modalCancel"),
+
+        confirm:
+            document.getElementById("modalConfirm")
+
+    };
+
+}
+
+
+
+export function closeModal() {
+
+    const { overlay } =
+        getModalElements();
+
+    overlay.style.display = "none";
+
+}
+
+
+
 export function showConfirmModal({
 
     title,
@@ -7,55 +50,89 @@ export function showConfirmModal({
 
 }) {
 
-    const modalContent =
-    document.querySelector(".modal");
+    const {
 
-        modalContent.classList.remove(
+        overlay,
+        modal,
+        title: modalTitle,
+        message: modalMessage,
+        cancel,
+        confirm
+
+    } = getModalElements();
+
+
+    currentOnConfirm =
+        onConfirm ?? null;
+
+
+    modal.classList.remove(
+        "large"
+    );
+
+    if (size === "large") {
+
+        modal.classList.add(
             "large"
         );
-        
-        if (size === "large") {
-        
-            modalContent.classList.add(
-                "large"
-            );
-        
-        }
 
-    const overlay =
-        document.getElementById("modalOverlay");
+    }
 
-    document.getElementById("modalTitle")
-        .textContent = title;
 
-    document.getElementById("modalMessage")
-    .innerHTML = message;
+    modalTitle.textContent =
+        title;
 
-    overlay.style.display = "flex";
+    modalMessage.innerHTML =
+        message;
 
-    document.getElementById("modalCancel")
-        .onclick = () => {
+    overlay.style.display =
+        "flex";
 
-            overlay.style.display = "none";
+
+    cancel.onclick =
+        closeModal;
+
+
+    confirm.onclick =
+        async () => {
+
+            let ok = true;
+
+            if (currentOnConfirm) {
+
+                ok =
+                    await currentOnConfirm();
+
+            }
+
+            if (ok !== false) {
+
+                closeModal();
+
+            }
 
         };
 
-   document.getElementById("modalConfirm")
-    .onclick = async () => {
+}
 
-        let ok = true;
 
-        if (onConfirm) {
 
-            ok = await onConfirm();
+export function setModalLoading(loading = true) {
 
-        }
+    const { confirm } =
+        getModalElements();
 
-        if (ok !== false) {
+    if (!confirm) return;
 
-            overlay.style.display = "none";
+    confirm.disabled =
+        loading;
 
-        }
+}
 
-    };
+
+
+export function setModalError(message = "") {
+
+    console.error(message);
+
 }
