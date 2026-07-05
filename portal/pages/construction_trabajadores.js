@@ -1,6 +1,9 @@
 import { workersService }
 from "../services/workersService.js";
 
+import { empresasService }
+from "../services/empresasService.js";
+
 import {
     showConfirmModal
 }
@@ -75,7 +78,7 @@ export async function renderConstructionTrabajadores() {
 
     `;
 
-    cargarTrabajadores();
+    await cargarTrabajadores();
 
     const btnNuevo = document.getElementById("btnNuevoTrabajador");
 
@@ -94,7 +97,7 @@ export async function renderConstructionTrabajadores() {
 
 
 
-function cargarTrabajadores() {
+async function cargarTrabajadores() {
 
     const tableContainer =
         document.getElementById("trabajadoresTable");
@@ -107,20 +110,17 @@ function cargarTrabajadores() {
             .toUpperCase();
 
     let trabajadores =
-    storage.getAll() || [];
+        await workersService.getAll();
 
-        if (!Array.isArray(trabajadores)) {
-            trabajadores = [];
-        }
-    
+
     if (filtro) {
 
         trabajadores =
             trabajadores.filter(t =>
 
                 `${t.nombres}
-                 ${t.apellidoPaterno}
-                 ${t.apellidoMaterno}
+                 ${t.apellido_paterno}
+                 ${t.apellido_materno}
                  ${t.rut}`
                     .toUpperCase()
                     .includes(filtro)
@@ -128,6 +128,7 @@ function cargarTrabajadores() {
             );
 
     }
+
 
     let html = `
 
@@ -139,9 +140,7 @@ function cargarTrabajadores() {
 
                     <th>Nombre</th>
 
-                    <th>Rut</th>
-
-                    <th>Cargo</th>
+                    <th>RUT</th>
 
                     <th>Empresa</th>
 
@@ -165,7 +164,7 @@ function cargarTrabajadores() {
             <tr>
 
                 <td
-                    colspan="6"
+                    colspan="5"
                     style="text-align:center;padding:30px;">
 
                     No existen trabajadores registrados.
@@ -178,6 +177,7 @@ function cargarTrabajadores() {
 
     }
 
+
     trabajadores.forEach(trabajador => {
 
         html += `
@@ -187,26 +187,21 @@ function cargarTrabajadores() {
                 <td>
 
                     ${trabajador.nombres}
-                    ${trabajador.apellidoPaterno}
-                    ${trabajador.apellidoMaterno}
+                    ${trabajador.apellido_paterno}
+                    ${trabajador.apellido_materno ?? ""}
 
                 </td>
 
                 <td>
 
-                    ${trabajador.rut}
+                    ${trabajador.rut ?? ""}
 
                 </td>
 
-                <td>
-
-                    ${trabajador.cargo}
-
-                </td>
 
                 <td>
 
-                    ${trabajador.empresa}
+                    ${trabajador.empresa?.nombre ?? ""}
 
                 </td>
 
@@ -216,8 +211,7 @@ function cargarTrabajadores() {
                         estado-badge
                         ${trabajador.estado === "Activo"
                             ? "activo"
-                            : "inactivo"}
-                    ">
+                            : "inactivo"}">
 
                         ${trabajador.estado}
 
@@ -236,10 +230,14 @@ function cargarTrabajadores() {
                     </button>
 
                     <button
-                        class="btn-danger btn-delete"
+                        class="${trabajador.estado === "Activo"
+                            ? "btn-danger"
+                            : "btn-primary"} btn-toggle-estado"
                         data-id="${trabajador.id}">
 
-                        Eliminar
+                        ${trabajador.estado === "Activo"
+                            ? "Desactivar"
+                            : "Activar"}
 
                     </button>
 
@@ -251,6 +249,7 @@ function cargarTrabajadores() {
 
     });
 
+
     html += `
 
             </tbody>
@@ -259,7 +258,9 @@ function cargarTrabajadores() {
 
     `;
 
-    tableContainer.innerHTML = html;
+
+    tableContainer.innerHTML =
+        html;
 
 
     document
@@ -268,30 +269,25 @@ function cargarTrabajadores() {
 
             btn.addEventListener(
                 "click",
-                () =>
-                    editarTrabajador(
-                        btn.dataset.id
-                    )
+                () => editarTrabajador(btn.dataset.id)
             );
 
         });
 
 
     document
-        .querySelectorAll(".btn-delete")
+        .querySelectorAll(".btn-toggle-estado")
         .forEach(btn => {
 
             btn.addEventListener(
                 "click",
-                () =>
-                    eliminarTrabajador(
-                        btn.dataset.id
-                    )
+                () => cambiarEstadoTrabajador(btn.dataset.id)
             );
 
         });
 
 }
+
 
 function mostrarFormularioNuevoTrabajador() {
 
