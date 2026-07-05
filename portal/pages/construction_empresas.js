@@ -197,7 +197,7 @@ async function cargarEmpresas() {
 
                     </button>
 
-                    <<button
+                    <button
                         class="${empresa.estado === "Activo"
                             ? "btn-danger"
                             : "btn-primary"} btn-toggle-estado"
