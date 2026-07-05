@@ -5,37 +5,16 @@ import { empresasService }
 from "../services/empresasService.js";
 
 import {
-    showConfirmModal
+
+    showConfirmModal,
+    showFormModal,
+    setModalLoading,
+    setModalError
+
 }
 from "../components/modal.js";
 
 
-function mostrarErrorFormulario(mensaje) {
-
-    const errorBox =
-        document.getElementById("formError");
-
-    if (!errorBox) return;
-
-    errorBox.textContent = mensaje;
-
-    errorBox.style.display = "block";
-
-}
-
-
-function limpiarErrorFormulario() {
-
-    const errorBox =
-        document.getElementById("formError");
-
-    if (!errorBox) return;
-
-    errorBox.textContent = "";
-
-    errorBox.style.display = "none";
-
-}
 
 
 
@@ -422,7 +401,6 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 function crearTrabajador() {
 
-    limpiarErrorFormulario();
 
     const nombres =
         document.getElementById("nombres").value.trim();
@@ -452,11 +430,8 @@ function crearTrabajador() {
 
     if (!nombres || !apellidoPaterno || !rut || !cargo || !empresa) {
 
-        mostrarErrorFormulario(
-            "Completa todos los campos obligatorios."
-        );
-
-        return;
+      
+        return false;
 
     }
 
@@ -476,10 +451,6 @@ function crearTrabajador() {
         createdAt: new Date().toISOString()
 
     };
-    
-
-
-    storage.create(trabajador);
 
 
     cargarTrabajadores();
@@ -490,10 +461,6 @@ function crearTrabajador() {
 
 function editarTrabajador(id) {
 
-    const trabajador =
-        storage.getById(id);
-
-    if (!trabajador) return;
 
     const content =
         document.querySelector(".content");
@@ -515,8 +482,6 @@ function editarTrabajador(id) {
     document.getElementById("rut").value =
         trabajador.rut;
 
-    document.getElementById("cargo").value =
-        trabajador.cargo;
 
     document.getElementById("empresa").value =
         trabajador.empresa;
@@ -540,7 +505,6 @@ function editarTrabajador(id) {
 
 function actualizarTrabajador(id) {
 
-    limpiarErrorFormulario();
 
     const nombres =
         document.getElementById("nombres").value.trim();
@@ -554,22 +518,14 @@ function actualizarTrabajador(id) {
     const rut =
         document.getElementById("rut").value.trim();
 
-    const cargo =
-        document.getElementById("cargo").value.trim();
-
-    const empresa =
-        document.getElementById("empresa").value.trim();
-
+    
     const estado =
         document.getElementById("estado").value;
 
 
     if (!nombres || !apellidoPaterno || !rut || !cargo || !empresa) {
 
-        mostrarErrorFormulario(
-            "Completa todos los campos obligatorios."
-        );
-
+       
         return;
 
     }
@@ -592,9 +548,6 @@ function actualizarTrabajador(id) {
     };
 
 
-    storage.update(id, trabajadorActualizado);
-
-
     cargarTrabajadores();
 
 }
@@ -602,17 +555,10 @@ function actualizarTrabajador(id) {
 
 function eliminarTrabajador(id) {
 
-    const trabajador =
-        storage.getById(id);
-
-    if (!trabajador) return;
-
     showConfirmModal(
         "¿Eliminar trabajador?",
         `Se eliminará: ${trabajador.nombres} ${trabajador.apellidoPaterno}`,
         () => {
-
-            storage.delete(id);
 
             cargarTrabajadores();
 
