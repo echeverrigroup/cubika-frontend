@@ -452,7 +452,7 @@ async function crearTrabajador() {
             "Debe ingresar los nombres del trabajador."
         );
 
-        return;
+        return false;
 
     }
 
@@ -462,7 +462,7 @@ async function crearTrabajador() {
             "Debe ingresar el apellido paterno."
         );
 
-        return;
+        return false;
 
     }
 
@@ -472,7 +472,7 @@ async function crearTrabajador() {
             "Debe ingresar el RUT."
         );
 
-        return;
+        return false;
 
     }
 
@@ -482,7 +482,7 @@ async function crearTrabajador() {
             "Debe seleccionar una empresa."
         );
 
-        return;
+        return false;
 
     }
 
@@ -597,7 +597,7 @@ async function actualizarTrabajador(id) {
             "Debe ingresar los nombres del trabajador."
         );
 
-        return;
+        return false;
 
     }
 
@@ -607,7 +607,7 @@ async function actualizarTrabajador(id) {
             "Debe ingresar el apellido paterno."
         );
 
-        return;
+        return false;
 
     }
 
@@ -617,7 +617,7 @@ async function actualizarTrabajador(id) {
             "Debe ingresar el RUT."
         );
 
-        return;
+        return false;
 
     }
 
@@ -627,7 +627,7 @@ async function actualizarTrabajador(id) {
             "Debe seleccionar una empresa."
         );
 
-        return;
+        return false;
 
     }
 
