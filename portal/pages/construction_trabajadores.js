@@ -272,17 +272,17 @@ async function mostrarFormularioNuevoTrabajador() {
 
         showFormModal({
     
-        title: "Nuevo Trabajador",
-    
-        content:
-            await obtenerFormularioTrabajador(),
-    
-        submitText: "Guardar",
-    
-        onSubmit: crearTrabajador
-    
-    });
-}
+                title: "Nuevo Trabajador",
+            
+                content:
+                    await obtenerFormularioTrabajador(),
+            
+                submitText: "Guardar",
+            
+                onSubmit: crearTrabajador
+            
+            });
+        }
 
 
 
@@ -319,20 +319,6 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         `)
         .join("");
-    
-
-                <option
-                    value="${e.id}"
-                    ${trabajador?.empresa_id === e.id
-                        ? "selected"
-                        : ""}>
-
-                    ${e.nombre}
-
-                </option>
-
-            `)
-            .join("");
 
     return `
 
