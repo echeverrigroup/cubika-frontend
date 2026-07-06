@@ -399,65 +399,124 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 
 
-
-function crearTrabajador() {
-
+async function crearTrabajador() {
 
     const nombres =
-        document.getElementById("nombres").value.trim();
+        document
+            .getElementById("nombres")
+            .value
+            .trim();
 
-    const apellidoPaterno =
-        document.getElementById("apellidoPaterno").value.trim();
+    const apellido_paterno =
+        document
+            .getElementById("apellidoPaterno")
+            .value
+            .trim();
 
-    const apellidoMaterno =
-        document.getElementById("apellidoMaterno").value.trim();
+    const apellido_materno =
+        document
+            .getElementById("apellidoMaterno")
+            .value
+            .trim();
 
     const rut =
-        document.getElementById("rut").value.trim();
+        document
+            .getElementById("rut")
+            .value
+            .trim();
 
-    const cargo =
-        document.getElementById("cargo").value.trim();
-
-    const empresa =
-        document.getElementById("empresa").value.trim();
-
-    const estado =
-        document.getElementById("estado").value;
+    const empresa_id =
+        document
+            .getElementById("empresa_id")
+            .value;
 
 
     // =========================
-    // VALIDACIONES BÁSICAS
+    // VALIDACIONES
     // =========================
 
-    if (!nombres || !apellidoPaterno || !rut || !cargo || !empresa) {
+    if (!nombres) {
 
-      
-        return false;
+        setModalError(
+            "Debe ingresar los nombres del trabajador."
+        );
+
+        return;
+
+    }
+
+    if (!apellido_paterno) {
+
+        setModalError(
+            "Debe ingresar el apellido paterno."
+        );
+
+        return;
+
+    }
+
+    if (!rut) {
+
+        setModalError(
+            "Debe ingresar el RUT."
+        );
+
+        return;
+
+    }
+
+    if (!empresa_id) {
+
+        setModalError(
+            "Debe seleccionar una empresa."
+        );
+
+        return;
 
     }
 
 
-    const trabajador = {
+    try {
 
-        id: crypto.randomUUID(),
+        setModalLoading(true);
 
-        nombres,
-        apellidoPaterno,
-        apellidoMaterno,
-        rut,
-        cargo,
-        empresa,
-        estado: estado || "Activo",
+        await workersService.create({
 
-        createdAt: new Date().toISOString()
+            empresa_id,
 
-    };
+            nombres,
 
+            apellido_paterno,
 
-    cargarTrabajadores();
+            apellido_materno,
+
+            rut
+
+        });
+
+        await cargarTrabajadores();
+
+        setModalLoading(false);
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setModalLoading(false);
+
+        setModalError(
+            "No fue posible guardar el trabajador."
+        );
+
+        return false;
+
+    }
 
 }
-
 
 
 function editarTrabajador(id) {
