@@ -182,6 +182,8 @@ export function showFormModal({
     body.innerHTML =
         content;
 
+    setModalError("");
+
     confirm.textContent =
         submitText;
 
