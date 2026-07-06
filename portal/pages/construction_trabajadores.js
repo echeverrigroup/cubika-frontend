@@ -292,9 +292,34 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         await empresasService.getAll();
 
     const opcionesEmpresas =
-        empresas
-            .filter(e => e.estado === "Activo")
-            .map(e => `
+    empresas
+        .filter(e =>
+
+            e.estado === "Activo"
+
+            ||
+
+            e.id === trabajador?.empresa_id
+
+        )
+        .map(e => `
+
+            <option
+                value="${e.id}"
+                ${trabajador?.empresa_id === e.id
+                    ? "selected"
+                    : ""}>
+
+                ${e.nombre}
+                ${e.estado === "Inactivo"
+                    ? " (Inactiva)"
+                    : ""}
+
+            </option>
+
+        `)
+        .join("");
+    
 
                 <option
                     value="${e.id}"
@@ -519,110 +544,221 @@ async function crearTrabajador() {
 }
 
 
-function editarTrabajador(id) {
+async function editarTrabajador(id) {
 
+    const trabajador =
+        await workersService.getById(id);
 
-    const content =
-        document.querySelector(".content");
+    if (!trabajador)
+        return;
 
+    showFormModal({
 
-    // =========================
-    // RELLENAR FORMULARIO
-    // =========================
+        title: "Editar Trabajador",
 
-    document.getElementById("nombres").value =
-        trabajador.nombres;
+        content:
+            await obtenerFormularioTrabajador(trabajador),
 
-    document.getElementById("apellidoPaterno").value =
-        trabajador.apellidoPaterno;
+        submitText: "Actualizar",
 
-    document.getElementById("apellidoMaterno").value =
-        trabajador.apellidoMaterno;
+        onSubmit: () =>
+            actualizarTrabajador(id)
 
-    document.getElementById("rut").value =
-        trabajador.rut;
-
-
-    document.getElementById("empresa").value =
-        trabajador.empresa;
-
-    document.getElementById("estado").value =
-        trabajador.estado;
-
-
-    document
-        .getElementById("formTrabajador")
-        .addEventListener("submit", function (e) {
-
-            e.preventDefault();
-
-            actualizarTrabajador(id);
-
-        });
+    });
 
 }
 
 
-function actualizarTrabajador(id) {
-
+async function actualizarTrabajador(id) {
 
     const nombres =
-        document.getElementById("nombres").value.trim();
+        document
+            .getElementById("nombres")
+            .value
+            .trim();
 
-    const apellidoPaterno =
-        document.getElementById("apellidoPaterno").value.trim();
+    const apellido_paterno =
+        document
+            .getElementById("apellidoPaterno")
+            .value
+            .trim();
 
-    const apellidoMaterno =
-        document.getElementById("apellidoMaterno").value.trim();
+    const apellido_materno =
+        document
+            .getElementById("apellidoMaterno")
+            .value
+            .trim();
 
     const rut =
-        document.getElementById("rut").value.trim();
+        document
+            .getElementById("rut")
+            .value
+            .trim();
 
-    
-    const estado =
-        document.getElementById("estado").value;
+    const empresa_id =
+        document
+            .getElementById("empresa_id")
+            .value;
 
 
-    if (!nombres || !apellidoPaterno || !rut || !cargo || !empresa) {
+    // =========================
+    // VALIDACIONES
+    // =========================
 
-       
+    if (!nombres) {
+
+        setModalError(
+            "Debe ingresar los nombres del trabajador."
+        );
+
+        return;
+
+    }
+
+    if (!apellido_paterno) {
+
+        setModalError(
+            "Debe ingresar el apellido paterno."
+        );
+
+        return;
+
+    }
+
+    if (!rut) {
+
+        setModalError(
+            "Debe ingresar el RUT."
+        );
+
+        return;
+
+    }
+
+    if (!empresa_id) {
+
+        setModalError(
+            "Debe seleccionar una empresa."
+        );
+
         return;
 
     }
 
 
-    const trabajadorActualizado = {
+    try {
 
-        id,
+        setModalLoading(true);
 
-        nombres,
-        apellidoPaterno,
-        apellidoMaterno,
-        rut,
-        cargo,
-        empresa,
-        estado,
+        await workersService.update(id, {
 
-        updatedAt: new Date().toISOString()
+            empresa_id,
 
-    };
+            nombres,
 
+            apellido_paterno,
 
-    cargarTrabajadores();
+            apellido_materno,
+
+            rut,
+
+            updated_at:
+                new Date().toISOString()
+
+        });
+
+        await cargarTrabajadores();
+
+        setModalLoading(false);
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setModalLoading(false);
+
+        setModalError(
+            "No fue posible actualizar el trabajador."
+        );
+
+        return false;
+
+    }
 
 }
 
 
-function eliminarTrabajador(id) {
+async function cambiarEstadoTrabajador(id) {
 
-    showConfirmModal(
-        "¿Eliminar trabajador?",
-        `Se eliminará: ${trabajador.nombres} ${trabajador.apellidoPaterno}`,
-        () => {
+    const trabajador =
+        await workersService.getById(id);
 
-            cargarTrabajadores();
+    if (!trabajador)
+        return;
+
+    const nuevoEstado =
+        trabajador.estado === "Activo"
+            ? "Inactivo"
+            : "Activo";
+
+    showConfirmModal({
+
+        title:
+            nuevoEstado === "Activo"
+                ? "Activar trabajador"
+                : "Desactivar trabajador",
+
+        message: `
+
+            El trabajador
+
+            <strong>
+
+                ${trabajador.nombres}
+                ${trabajador.apellido_paterno}
+
+            </strong>
+
+            será
+            <strong>
+
+                ${nuevoEstado.toLowerCase()}
+
+            </strong>.
+
+        `,
+
+        onConfirm: async () => {
+
+            try {
+
+                await workersService.update(id, {
+
+                    estado: nuevoEstado,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                });
+
+                await cargarTrabajadores();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                return false;
+
+            }
 
         }
-    );
+
+    });
 
 }
