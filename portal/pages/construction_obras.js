@@ -278,36 +278,7 @@ async function mostrarFormularioNuevaObra() {
 
         title: "Nueva Obra",
 
-        content:
-
-            await cargarRegiones(obra?.region_id);
-
-            if (obra?.region_id) {
-            
-                await cargarComunas(
-                    obra.region_id,
-                    obra.comuna_id
-                );
-            
-                    }
-                    
-                    document
-                        .getElementById("region_id")
-                        .addEventListener(
-                            "change",
-                            async e => {
-                    
-                                await cargarComunas(
-                                    e.target.value
-                                );
-                    
-                            }
-                        );
-
-            
-            await obtenerFormularioObra(),
-
-                    
+        content: await obtenerFormularioObra(),
 
         submitText: "Guardar",
 
@@ -315,9 +286,24 @@ async function mostrarFormularioNuevaObra() {
 
     });
 
+
+    await cargarRegiones();
+
+
+    document
+        .getElementById("region_id")
+        .addEventListener(
+            "change",
+            async e => {
+
+                await cargarComunas(
+                    e.target.value
+                );
+
+            }
+        );
+
 }
-
-
 
 async function obtenerFormularioObra(obra = null) {
 
@@ -605,6 +591,28 @@ async function editarObra(id) {
             actualizarObra(id)
 
     });
+
+
+    await cargarRegiones(obra.region_id);
+
+await cargarComunas(
+    obra.region_id,
+    obra.comuna_id
+);
+
+
+document
+    .getElementById("region_id")
+    .addEventListener(
+        "change",
+        async e => {
+
+            await cargarComunas(
+                e.target.value
+            );
+
+        }
+    );
 
 }
 
