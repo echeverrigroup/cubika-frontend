@@ -1,3 +1,6 @@
+import { geograficaService }
+from "../services/geograficaService.js";
+
 import { empresasService }
 from "../services/empresasService.js";
 
@@ -825,8 +828,8 @@ async function cargarRegiones(regionSeleccionada = null) {
         select.innerHTML += `
 
             <option
-                value="${regiones.id}"
-                ${regiones.id == regionSeleccionada
+                value="${region.id}"
+                ${region.id == regionSeleccionada
                     ? "selected"
                     : ""}>
 
