@@ -276,6 +276,30 @@ async function mostrarFormularioNuevaObra() {
 
     showFormModal({
 
+        await cargarRegiones(obra?.region_id);
+
+if (obra?.region_id) {
+
+    await cargarComunas(
+        obra.region_id,
+        obra.comuna_id
+    );
+
+        }
+        
+        document
+            .getElementById("region_id")
+            .addEventListener(
+                "change",
+                async e => {
+        
+                    await cargarComunas(
+                        e.target.value
+                    );
+        
+                }
+            );
+
         title: "Nueva Obra",
 
         content:
@@ -343,7 +367,8 @@ async function obtenerFormularioObra(obra = null) {
                     <label>Empresa</label>
 
                     <select
-                        id="empresa_id"
+                        id="empresa_id",
+                        class="cubika-select"
                         required>
 
                         <option value="">
@@ -398,25 +423,35 @@ async function obtenerFormularioObra(obra = null) {
 
                 <div class="form-group">
 
-                    <label>Comuna</label>
-
-                    <input
-                        id="comuna"
-                        type="text"
-                        value="${obra?.comuna ?? ""}">
-
+                    <label>Región</label>
+                
+                    <select
+                        id="region_id"
+                        class="cubika-select">
+                
+                        <option value="">
+                            Seleccione una región
+                        </option>
+                
+                    </select>
+                
                 </div>
-
-
+                
+                
                 <div class="form-group">
-
-                    <label>Ciudad</label>
-
-                    <input
-                        id="ciudad"
-                        type="text"
-                        value="${obra?.ciudad ?? ""}">
-
+                
+                    <label>Comuna</label>
+                
+                    <select
+                        id="comuna_id"
+                        class="cubika-select">
+                
+                        <option value="">
+                            Seleccione una comuna
+                        </option>
+                
+                    </select>
+                
                 </div>
 
             </div>
@@ -755,3 +790,80 @@ async function cambiarEstadoObra(id) {
     });
 
 }
+
+
+async function cargarRegiones(regionSeleccionada = null) {
+
+    const regiones =
+        await geograficaService.getRegiones();
+
+    const select =
+        document.getElementById("region_id");
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una región
+        </option>
+
+    `;
+
+    regiones.forEach(region => {
+
+        select.innerHTML += `
+
+            <option
+                value="${region.id}"
+                ${region.id == regionSeleccionada
+                    ? "selected"
+                    : ""}>
+
+                ${region.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+async function cargarComunas(regionId, comunaSeleccionada = null) {
+
+    const comunas =
+        await geograficaService.getComunas(regionId);
+
+    const select =
+        document.getElementById("comuna_id");
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una comuna
+        </option>
+
+    `;
+
+    comunas.forEach(comuna => {
+
+        select.innerHTML += `
+
+            <option
+                value="${comuna.id}"
+                ${comuna.id == comunaSeleccionada
+                    ? "selected"
+                    : ""}>
+
+                ${comuna.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
