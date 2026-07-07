@@ -276,34 +276,38 @@ async function mostrarFormularioNuevaObra() {
 
     showFormModal({
 
-        await cargarRegiones(obra?.region_id);
-
-if (obra?.region_id) {
-
-    await cargarComunas(
-        obra.region_id,
-        obra.comuna_id
-    );
-
-        }
-        
-        document
-            .getElementById("region_id")
-            .addEventListener(
-                "change",
-                async e => {
-        
-                    await cargarComunas(
-                        e.target.value
-                    );
-        
-                }
-            );
-
         title: "Nueva Obra",
 
         content:
+
+            await cargarRegiones(obra?.region_id);
+
+            if (obra?.region_id) {
+            
+                await cargarComunas(
+                    obra.region_id,
+                    obra.comuna_id
+                );
+            
+                    }
+                    
+                    document
+                        .getElementById("region_id")
+                        .addEventListener(
+                            "change",
+                            async e => {
+                    
+                                await cargarComunas(
+                                    e.target.value
+                                );
+                    
+                            }
+                        );
+
+            
             await obtenerFormularioObra(),
+
+                    
 
         submitText: "Guardar",
 
