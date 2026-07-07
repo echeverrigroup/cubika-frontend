@@ -543,3 +543,215 @@ async function crearObra() {
     }
 
 }
+
+
+async function editarObra(id) {
+
+    const obra =
+        await obrasService.getById(id);
+
+    if (!obra)
+        return;
+
+    showFormModal({
+
+        title: "Editar Obra",
+
+        content:
+            await obtenerFormularioObra(obra),
+
+        submitText: "Actualizar",
+
+        onSubmit: () =>
+            actualizarObra(id)
+
+    });
+
+}
+
+
+async function actualizarObra(id) {
+
+    const empresa_id =
+        document
+            .getElementById("empresa_id")
+            .value;
+
+    const nombre =
+        document
+            .getElementById("nombre")
+            .value
+            .trim();
+
+    const codigo =
+        document
+            .getElementById("codigo")
+            .value
+            .trim();
+
+    const direccion =
+        document
+            .getElementById("direccion")
+            .value
+            .trim();
+
+    const comuna =
+        document
+            .getElementById("comuna")
+            .value
+            .trim();
+
+    const ciudad =
+        document
+            .getElementById("ciudad")
+            .value
+            .trim();
+
+
+    if (!empresa_id) {
+
+        setModalError(
+            "Debe seleccionar una empresa."
+        );
+
+        return false;
+
+    }
+
+    if (!nombre) {
+
+        setModalError(
+            "Debe ingresar el nombre de la obra."
+        );
+
+        return false;
+
+    }
+
+
+    try {
+
+        setModalLoading(true);
+
+        await obrasService.update(id, {
+
+            empresa_id,
+
+            nombre,
+
+            codigo,
+
+            direccion,
+
+            comuna,
+
+            ciudad,
+
+            updated_at:
+                new Date().toISOString()
+
+        });
+
+        await cargarObras();
+
+        setModalLoading(false);
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setModalLoading(false);
+
+        setModalError(
+            "No fue posible actualizar la obra."
+        );
+
+        return false;
+
+    }
+
+}
+
+
+async function cambiarEstadoObra(id) {
+
+    const obra =
+        await obrasService.getById(id);
+
+    if (!obra)
+        return;
+
+    const nuevoEstado =
+        obra.estado === "Activa"
+            ? "Inactiva"
+            : "Activa";
+
+
+    showConfirmModal({
+
+        title:
+
+            nuevoEstado === "Activa"
+
+                ? "Activar obra"
+
+                : "Desactivar obra",
+
+        message: `
+
+            La obra
+
+            <strong>
+
+                ${obra.nombre}
+
+            </strong>
+
+            será
+
+            <strong>
+
+                ${nuevoEstado.toLowerCase()}
+
+            </strong>.
+
+            <br><br>
+
+            Podrá cambiar su estado nuevamente cuando lo desee.
+
+        `,
+
+        onConfirm: async () => {
+
+            try {
+
+                await obrasService.update(id, {
+
+                    estado: nuevoEstado,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                });
+
+                await cargarObras();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                return false;
+
+            }
+
+        }
+
+    });
+
+}
