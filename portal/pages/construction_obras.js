@@ -825,8 +825,8 @@ async function cargarRegiones(regionSeleccionada = null) {
         select.innerHTML += `
 
             <option
-                value="${region.id}"
-                ${region.id == regionSeleccionada
+                value="${regiones.id}"
+                ${regiones.id == regionSeleccionada
                     ? "selected"
                     : ""}>
 
