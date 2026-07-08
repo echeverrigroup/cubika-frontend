@@ -470,3 +470,106 @@ function insertarVariable(variable) {
         posicion;
 
 }
+
+
+async function guardarPlantilla(id = null) {
+
+    const nombre =
+        document
+            .getElementById("nombre")
+            .value
+            .trim();
+
+    const descripcion =
+        document
+            .getElementById("descripcion")
+            .value
+            .trim();
+
+    const tipo_documento =
+        document
+            .getElementById("tipo_documento")
+            .value;
+
+    const contenido =
+        document
+            .getElementById("contenido")
+            .value
+            .trim();
+
+
+    if (!nombre) {
+
+        alert("Debe ingresar un nombre.");
+
+        return;
+
+    }
+
+
+    if (!contenido) {
+
+        alert("Debe ingresar el contenido.");
+
+        return;
+
+    }
+
+
+    const datos = {
+
+        nombre,
+
+        descripcion,
+
+        tipo_documento,
+
+        contenido
+
+    };
+
+
+    try {
+
+        if (id) {
+
+            datos.updated_at =
+                new Date().toISOString();
+
+            await plantillasDocumentoService.update(
+                id,
+                datos
+            );
+
+        }
+
+        else {
+
+            datos.version = 1;
+
+            datos.estado = "Activo";
+
+            await plantillasDocumentoService.create(
+                datos
+            );
+
+        }
+
+
+        navigate(
+            "construction_plantillas"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "No fue posible guardar la plantilla."
+        );
+
+    }
+
+}
