@@ -46,6 +46,14 @@ export const obrasService = {
                     empresa:empresas_construccion(
                         id,
                         nombre
+                    ),
+                    region:regiones(
+                        id,
+                        nombre
+                    ),
+                    comuna:comunas(
+                        id,
+                        nombre
                     )
                 `)
                 .eq("id", id)
