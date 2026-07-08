@@ -248,16 +248,15 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
     document
 
-        .getElementById("btnVolverPlantillas")
+    .getElementById("btnVolverPlantillas")
 
-        .addEventListener(
+    .addEventListener(
 
-            "click",
+        "click",
 
-            renderConstructionPlantillas()
+        volverListadoPlantillas
 
-        );
-
+    );
 
 
     document
