@@ -254,7 +254,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
             "click",
 
-            volverListadoPlantillas
+            renderConstructionPlantillas()
 
         );
 
