@@ -418,30 +418,6 @@ async function crearCargo() {
 }
 
 
-async function editarCargo(id) {
-
-    const cargo =
-        await cargosService.getById(id);
-
-    if (!cargo)
-        return;
-
-
-    showFormModal({
-
-        title: "Editar Cargo",
-
-        content:
-            await obtenerFormularioCargo(cargo),
-
-        submitText: "Actualizar",
-
-        onSubmit: () =>
-            actualizarCargo(id)
-
-    });
-
-}
 
 
 async function actualizarCargo(id) {
