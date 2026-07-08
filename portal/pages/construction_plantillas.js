@@ -1,3 +1,8 @@
+import {
+    renderConstructionPlantillaEditor
+}
+from "./construction_plantilla_editor.js";
+
 import { plantillasDocumentoService }
 from "../services/plantillasDocumentoService.js";
 
@@ -67,17 +72,12 @@ export async function renderConstructionPlantillas() {
 
 
     document
-
-        .getElementById("btnNuevaPlantilla")
-
-        .addEventListener(
-
-            "click",
-
-            mostrarFormularioNuevaPlantilla
-
-        );
-
+    .getElementById("btnNuevaPlantilla")
+    .addEventListener(
+        "click",
+        () => renderConstructionPlantillaEditor()
+    );
+    
 
     document
 
@@ -275,20 +275,17 @@ async function cargarPlantillas() {
 
 
     document
+    .querySelectorAll(".btn-edit")
+    .forEach(btn => {
 
-        .querySelectorAll(".btn-edit")
+        btn.addEventListener(
+            "click",
+            () => renderConstructionPlantillaEditor(
+                btn.dataset.id
+            )
+        );
 
-        .forEach(btn => {
-
-            btn.addEventListener(
-
-                "click",
-
-                () => editarPlantilla(btn.dataset.id)
-
-            );
-
-        });
+    });
 
 
     document
