@@ -487,23 +487,42 @@ async function crearObra() {
             .getElementById("direccion")
             .value
             .trim();
-
-    const comuna =
-        document
-            .getElementById("comuna")
-            .value
-            .trim();
-
-    const ciudad =
-        document
-            .getElementById("ciudad")
-            .value
-            .trim();
+        
+           const region_id =
+            document
+                .getElementById("region_id")
+                .value;
+        
+            const comuna_id =
+            document
+                .getElementById("comuna_id")
+                .value;
 
 
     // =========================
     // VALIDACIONES
     // =========================
+
+
+    if (!region_id) {
+
+    setModalError(
+        "Debe seleccionar una región."
+    );
+
+    return false;
+
+        }
+        
+        if (!comuna_id) {
+        
+            setModalError(
+                "Debe seleccionar una comuna."
+            );
+        
+            return false;
+        
+        }    
 
     if (!empresa_id) {
 
@@ -530,23 +549,23 @@ async function crearObra() {
 
         setModalLoading(true);
 
-        await obrasService.create({
+           await obrasService.create({
 
-            empresa_id,
-
-            nombre,
-
-            codigo,
-
-            direccion,
-
-            comuna,
-
-            ciudad,
-
-            estado: "Activa"
-
-        });
+                empresa_id,
+            
+                nombre,
+            
+                codigo,
+            
+                direccion,
+            
+                region_id,
+            
+                comuna_id,
+            
+                estado: "Activa"
+            
+            });
 
         await cargarObras();
 
@@ -645,18 +664,37 @@ async function actualizarObra(id) {
             .value
             .trim();
 
-    const comuna =
-        document
-            .getElementById("comuna")
-            .value
-            .trim();
+   const region_id =
+    document
+        .getElementById("region_id")
+        .value;
 
-    const ciudad =
-        document
-            .getElementById("ciudad")
-            .value
-            .trim();
+    const comuna_id =
+    document
+        .getElementById("comuna_id")
+        .value;
 
+
+        if (!region_id) {
+    
+        setModalError(
+            "Debe seleccionar una región."
+        );
+    
+        return false;
+    
+    }
+    
+    if (!comuna_id) {
+    
+        setModalError(
+            "Debe seleccionar una comuna."
+        );
+    
+        return false;
+    
+    }
+    
 
     if (!empresa_id) {
 
@@ -686,20 +724,20 @@ async function actualizarObra(id) {
         await obrasService.update(id, {
 
             empresa_id,
-
+        
             nombre,
-
+        
             codigo,
-
+        
             direccion,
-
-            comuna,
-
-            ciudad,
-
+        
+            region_id,
+        
+            comuna_id,
+        
             updated_at:
                 new Date().toISOString()
-
+        
         });
 
         await cargarObras();
@@ -846,9 +884,6 @@ async function cargarRegiones(regionSeleccionada = null) {
 
 async function cargarComunas(regionId, comunaSeleccionada = null) {
 
-    const comunas =
-        await geograficaService.getComunas(regionId);
-
     const select =
         document.getElementById("comuna_id");
 
@@ -859,6 +894,12 @@ async function cargarComunas(regionId, comunaSeleccionada = null) {
         </option>
 
     `;
+
+    if (!regionId)
+        return;
+
+    const comunas =
+        await geograficaService.getComunas(regionId);
 
     comunas.forEach(comuna => {
 
@@ -879,6 +920,4 @@ async function cargarComunas(regionId, comunaSeleccionada = null) {
     });
 
 }
-
-
 
