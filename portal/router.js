@@ -16,8 +16,7 @@ import {
 from "./pages/construction_plantilla_editor.js";
 
 
-
-export function navigate(page) {
+export function navigate(page, params = null) {
 
     const content =
         document.querySelector(".content");
@@ -53,7 +52,7 @@ export function navigate(page) {
         break;
 
         case "construction_plantilla_editor":
-        renderConstructionPlantillaEditor();
+        renderConstructionPlantillaEditor(params);
         break;
     
         case "construction_contratos":
