@@ -69,10 +69,10 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </h1>
 
                 <p>
-
+                    <br>
                     Configure la información general y el contenido
                     del documento.
-
+                    <br>
                 </p>
 
             </div>
@@ -84,6 +84,10 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 style="display:none;">
             </div>
 
+
+     <div class="editor-layout">
+
+            <div class="editor-main">
 
 
             <div class="editor-section">
@@ -232,8 +236,12 @@ export async function renderConstructionPlantillaEditor(id = null) {
             </div>
 
 
+        </div>
 
-            <div class="editor-section">
+
+        <aside class="editor-sidebar">
+
+           <div class="editor-section">
 
                 <h2>
 
@@ -249,9 +257,11 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
             </div>
 
-        </div>
+            </aside>
 
-    `;
+    `   </div>
+
+</div>
 
 
     renderBibliotecaVariables();
