@@ -259,7 +259,7 @@ async function cargarPlantillas() {
 
                         ${plantilla.estado === "Activo"
 
-                            ? "Desactivar"
+                            ? "Descargar PDF"
 
                             : "Activar"}
 
