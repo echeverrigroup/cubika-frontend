@@ -107,7 +107,7 @@ async function cargarObras() {
 
                 `${obra.nombre}
                  ${obra.codigo ?? ""}
-                 ${obra.ciudad ?? ""}
+                 ${obra.comuna?.nombre ?? ""}
                  ${obra.empresa?.nombre ?? ""}`
 
                     .toUpperCase()
@@ -187,7 +187,7 @@ async function cargarObras() {
 
                 <td>
 
-                    ${obra.comuna ?? ""}
+                    ${obra.comuna?.nombre ?? ""}
 
                 </td>
 
