@@ -131,7 +131,7 @@ async function cargarObras() {
 
                     <th>Empresa</th>
 
-                    <th>Ciudad</th>
+                    <th>Comúna</th>
 
                     <th>Estado</th>
 
@@ -187,7 +187,7 @@ async function cargarObras() {
 
                 <td>
 
-                    ${obra.ciudad ?? ""}
+                    ${obra.comuna ?? ""}
 
                 </td>
 
