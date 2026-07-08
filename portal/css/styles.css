@@ -681,3 +681,68 @@ body {
     padding-left: 40px;
 
 }
+
+
+.variables-category{
+
+    margin-bottom:24px;
+
+}
+
+
+.variables-category h3{
+
+    margin-bottom:12px;
+
+    color:var(--primary-color);
+
+    font-size:15px;
+
+}
+
+
+.variables-list{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}
+
+
+.variable-chip{
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    border:1px solid #d9dde3;
+
+    background:#f7f9fb;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.20s;
+
+    font-size:13px;
+
+    font-family:Consolas, monospace;
+
+}
+
+
+.variable-chip:hover{
+
+    background:#0aa37f;
+
+    color:white;
+
+    border-color:#0aa37f;
+
+    transform:translateY(-2px);
+
+}
