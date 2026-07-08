@@ -244,6 +244,8 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
     renderBibliotecaVariables();
 
+    inicializarVariables();
+
     document
 
         .getElementById("btnVolverPlantillas")
@@ -377,5 +379,81 @@ function renderBibliotecaVariables() {
 
     panel.innerHTML =
         html;
+
+}
+
+
+function inicializarVariables() {
+
+    document
+
+        .querySelectorAll(".variable-chip")
+
+        .forEach(chip => {
+
+            chip.addEventListener(
+
+                "click",
+
+                () => insertarVariable(
+
+                    chip.textContent.trim()
+
+                )
+
+            );
+
+        });
+
+}
+
+
+
+function insertarVariable(variable) {
+
+    const textarea =
+        document.getElementById("contenido");
+
+    if (!textarea)
+        return;
+
+
+    const inicio =
+        textarea.selectionStart;
+
+    const fin =
+        textarea.selectionEnd;
+
+
+    const texto =
+        textarea.value;
+
+
+    textarea.value =
+
+        texto.substring(0, inicio)
+
+        +
+
+        variable
+
+        +
+
+        texto.substring(fin);
+
+
+    textarea.focus();
+
+
+    const posicion =
+
+        inicio + variable.length;
+
+
+    textarea.selectionStart =
+        posicion;
+
+    textarea.selectionEnd =
+        posicion;
 
 }
