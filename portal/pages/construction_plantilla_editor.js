@@ -69,7 +69,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                 </h1>
 
-                <p>
+                <p> <br>
 
                     Configure la información general y el contenido
                     del documento.
@@ -100,6 +100,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                     <div class="editor-section">
 
                         <h2>
+                            <br><br>
 
                             Datos Generales
 
