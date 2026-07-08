@@ -1,4 +1,9 @@
 import {
+    navigate
+}
+from "../router.js";
+
+import {
     renderConstructionPlantillaEditor
 }
 from "./construction_plantilla_editor.js";
@@ -72,11 +77,19 @@ export async function renderConstructionPlantillas() {
 
 
     document
+
     .getElementById("btnNuevaPlantilla")
+
     .addEventListener(
+
         "click",
-        () => renderConstructionPlantillaEditor()
+
+        () => navigate(
+            "construction_plantilla_editor"
+        )
+
     );
+    
     
 
     document
@@ -274,15 +287,20 @@ async function cargarPlantillas() {
         html;
 
 
-    document
+   document
+
     .querySelectorAll(".btn-edit")
+
     .forEach(btn => {
 
         btn.addEventListener(
+
             "click",
-            () => renderConstructionPlantillaEditor(
-                btn.dataset.id
+
+            () => navigate(
+                "construction_plantilla_editor"
             )
+
         );
 
     });
