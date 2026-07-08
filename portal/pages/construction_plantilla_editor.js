@@ -78,6 +78,13 @@ export async function renderConstructionPlantillaEditor(id = null) {
             </div>
 
 
+            <div
+                id="editorError"
+                class="form-error"
+                style="display:none;">
+            </div>
+
+
 
             <div class="editor-section">
 
@@ -472,7 +479,37 @@ function insertarVariable(variable) {
 }
 
 
+function mostrarErrorEditor(mensaje = "") {
+
+    const box =
+        document.getElementById("editorError");
+
+    if (!box)
+        return;
+
+    box.textContent =
+        mensaje;
+
+    box.style.display =
+        mensaje
+            ? "block"
+            : "none";
+
+}
+
+
+
+function limpiarErrorEditor() {
+
+    mostrarErrorEditor("");
+
+}
+
+
 async function guardarPlantilla(id = null) {
+
+    limpiarErrorEditor();
+
 
     const nombre =
         document
@@ -500,18 +537,22 @@ async function guardarPlantilla(id = null) {
 
     if (!nombre) {
 
-        alert("Debe ingresar un nombre.");
+        mostrarErrorEditor(
+            "Debe ingresar el nombre de la plantilla."
+        );
 
-        return;
+        return false;
 
     }
 
 
     if (!contenido) {
 
-        alert("Debe ingresar el contenido.");
+        mostrarErrorEditor(
+            "Debe ingresar el contenido de la plantilla."
+        );
 
-        return;
+        return false;
 
     }
 
@@ -560,15 +601,19 @@ async function guardarPlantilla(id = null) {
             "construction_plantillas"
         );
 
+        return true;
+
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
-        alert(
+        mostrarErrorEditor(
             "No fue posible guardar la plantilla."
         );
+
+        return false;
 
     }
 
