@@ -58,6 +58,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
         <div class="editor-documento">
 
+
             <div class="editor-header">
 
                 <h1>
@@ -69,10 +70,10 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </h1>
 
                 <p>
-                    <br>
+
                     Configure la información general y el contenido
                     del documento.
-                    <br>
+
                 </p>
 
             </div>
@@ -82,204 +83,232 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 id="editorError"
                 class="form-error"
                 style="display:none;">
+
             </div>
 
 
-     <div class="editor-layout">
-
-            <div class="editor-main">
+            <div class="editor-layout">
 
 
-            <div class="editor-section">
+                <!-- ====================================== -->
+                <!-- COLUMNA PRINCIPAL -->
+                <!-- ====================================== -->
 
-                <h2>
-
-                    Datos Generales
-
-                </h2>
+                <div class="editor-main">
 
 
-                <div class="form-grid">
+                    <div class="editor-section">
+
+                        <h2>
+
+                            Datos Generales
+
+                        </h2>
 
 
-                    <div class="form-group">
+                        <div class="form-grid">
 
-                        <label>
 
-                            Nombre
+                            <div class="form-group">
 
-                        </label>
+                                <label>
 
-                        <input
+                                    Nombre
 
-                            id="nombre"
+                                </label>
 
-                            class="cubika-input"
+                                <input
 
-                            type="text"
+                                    id="nombre"
 
-                            value="${plantilla?.nombre ?? ""}">
+                                    class="cubika-input"
+
+                                    type="text"
+
+                                    value="${plantilla?.nombre ?? ""}">
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+
+                                    Tipo Documento
+
+                                </label>
+
+                                <select
+
+                                    id="tipo_documento"
+
+                                    class="cubika-select">
+
+                                    <option
+                                        value="Contrato"
+                                        ${plantilla?.tipo_documento === "Contrato"
+                                            ? "selected"
+                                            : ""}>
+
+                                        Contrato
+
+                                    </option>
+
+                                    <option
+                                        value="Anexo"
+                                        ${plantilla?.tipo_documento === "Anexo"
+                                            ? "selected"
+                                            : ""}>
+
+                                        Anexo
+
+                                    </option>
+
+                                    <option
+                                        value="Finiquito"
+                                        ${plantilla?.tipo_documento === "Finiquito"
+                                            ? "selected"
+                                            : ""}>
+
+                                        Finiquito
+
+                                    </option>
+
+                                    <option
+                                        value="Carta"
+                                        ${plantilla?.tipo_documento === "Carta"
+                                            ? "selected"
+                                            : ""}>
+
+                                        Carta
+
+                                    </option>
+
+                                    <option
+                                        value="Certificado"
+                                        ${plantilla?.tipo_documento === "Certificado"
+                                            ? "selected"
+                                            : ""}>
+
+                                        Certificado
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div
+                                class="form-group"
+                                style="grid-column:1/-1;">
+
+                                <label>
+
+                                    Descripción
+
+                                </label>
+
+                                <input
+
+                                    id="descripcion"
+
+                                    class="cubika-input"
+
+                                    type="text"
+
+                                    value="${plantilla?.descripcion ?? ""}">
+
+                            </div>
+
+                        </div>
 
                     </div>
 
 
 
-                    <div class="form-group">
+                    <div class="editor-section">
 
-                        <label>
+                        <h2>
 
-                            Tipo Documento
+                            Contenido
 
-                        </label>
-
-                        <select
-
-                            id="tipo_documento"
-
-                            class="cubika-select">
-
-                            <option
-                                value="Contrato">
-
-                                Contrato
-
-                            </option>
-
-                            <option
-                                value="Anexo">
-
-                                Anexo
-
-                            </option>
-
-                            <option
-                                value="Finiquito">
-
-                                Finiquito
-
-                            </option>
-
-                            <option
-                                value="Carta">
-
-                                Carta
-
-                            </option>
-
-                            <option
-                                value="Certificado">
-
-                                Certificado
-
-                            </option>
-
-                        </select>
-
-                    </div>
+                        </h2>
 
 
+                                                <textarea
 
-                    <div
-                        class="form-group"
-                        style="grid-column:1/-1;">
-
-                        <label>
-
-                            Descripción
-
-                        </label>
-
-                        <input
-
-                            id="descripcion"
+                            id="contenido"
 
                             class="cubika-input"
 
-                            type="text"
+                            style="
 
-                            value="${plantilla?.descripcion ?? ""}">
+                                min-height:650px;
+
+                                resize:vertical;
+
+                                font-family:Consolas, monospace;
+
+                                line-height:1.6;
+
+                            "
+
+                        >${plantilla?.contenido ?? ""}</textarea>
 
                     </div>
 
                 </div>
 
-            </div>
 
+                <!-- ====================================== -->
+                <!-- SIDEBAR -->
+                <!-- ====================================== -->
 
+                <aside class="editor-sidebar">
 
-            <div class="editor-section">
+                    <div class="editor-section">
 
-                <h2>
+                        <h2>
 
-                    Contenido
+                            Biblioteca de Variables
 
-                </h2>
+                        </h2>
 
-                <textarea
+                        <div id="variablesPanel">
 
-                    id="contenido"
+                        </div>
 
-                    class="cubika-input"
+                    </div>
 
-                    style="
+                </aside>
 
-                        min-height:550px;
-
-                        resize:vertical;
-
-                        font-family:Consolas, monospace;
-
-                    "
-
-                >${plantilla?.contenido ?? ""}</textarea>
 
             </div>
-
 
         </div>
 
+    `;
 
-        <aside class="editor-sidebar">
-
-           <div class="editor-section">
-
-                <h2>
-
-                    Biblioteca de Variables
-
-                </h2>
-
-                <div id="variablesPanel">
-
-                    <!-- Parte 2 -->
-
-                </div>
-
-            </div>
-
-            </aside>
-
-      </div>
-
-</div>
-
-`;
 
     renderBibliotecaVariables();
 
     inicializarVariables();
 
+
     document
 
-    .getElementById("btnVolverPlantillas")
+        .getElementById("btnVolverPlantillas")
 
-    .addEventListener(
+        .addEventListener(
 
-        "click",
+            "click",
 
-        volverListadoPlantillas
+            volverListadoPlantillas
 
-    );
+        );
 
 
     document
