@@ -353,7 +353,7 @@ async function obtenerFormularioCargo(cargo = null) {
 
 async function crearCargo() {
 
-    limpiarErrorFormulario();
+    setModalError("");
 
     const nombre =
         document
@@ -422,7 +422,7 @@ async function crearCargo() {
 
 async function actualizarCargo(id) {
 
-    limpiarErrorFormulario();
+    setModalError("");
 
     const nombre =
         document
