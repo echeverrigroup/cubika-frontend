@@ -298,7 +298,8 @@ async function cargarPlantillas() {
             "click",
 
             () => navigate(
-                "construction_plantilla_editor"
+                "construction_plantilla_editor",
+                btn.dataset.id
             )
 
         );
