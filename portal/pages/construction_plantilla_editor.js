@@ -1,6 +1,11 @@
 import { plantillasDocumentoService }
 from "../services/plantillasDocumentoService.js";
 
+import {
+    navigate
+}
+from "../router.js";
+
 
 
 export async function renderConstructionPlantillaEditor(id = null) {
