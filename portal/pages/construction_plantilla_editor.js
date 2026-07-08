@@ -279,6 +279,15 @@ export async function renderConstructionPlantillaEditor(id = null) {
 }
 
 
+function volverListadoPlantillas() {
+
+    navigate(
+        "construction_plantillas"
+    );
+
+}
+
+
 
 const BIBLIOTECA_VARIABLES = {
 
