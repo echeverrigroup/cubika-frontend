@@ -263,6 +263,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
 </div>
 
+`;
 
     renderBibliotecaVariables();
 
