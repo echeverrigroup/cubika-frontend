@@ -259,7 +259,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
             </aside>
 
-    `   </div>
+      </div>
 
 </div>
 
