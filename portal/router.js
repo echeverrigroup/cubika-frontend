@@ -9,6 +9,7 @@ import { renderConstructionTrabajadores } from "./pages/construction_trabajadore
 import { renderConstructionObras } from "./pages/construction_obras.js";
 import { renderConstructionCargos } from "./pages/construction_cargos.js";
 import { renderConstructionContratos } from "./pages/construction_contratos.js";
+import { renderConstructionPlantillas } from "./modules/construction_plantillas.js";
 
 
 
@@ -42,6 +43,10 @@ export function navigate(page) {
     
         case "construction_cargos":
         renderConstructionCargos();
+        break;
+
+        case "construction_plantillas":
+        renderConstructionPlantillas();
         break;
     
         case "construction_contratos":
