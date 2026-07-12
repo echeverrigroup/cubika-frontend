@@ -215,9 +215,12 @@ body {
 
 .modal-body {
 
-     max-height:75vh;
+  /*
+    max-height:75vh;
 
     overflow-y:auto;
+    
+*/
 
     color: #64748B;
 
