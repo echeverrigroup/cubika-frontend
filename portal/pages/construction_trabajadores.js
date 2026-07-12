@@ -1,5 +1,5 @@
-import { workerssService }
-from "../services/workerssService.js";
+import { workersService }
+from "../services/workersService.js";
 
 import { empresasService }
 from "../services/empresasService.js";
@@ -89,7 +89,7 @@ async function cargarTrabajadores() {
             .toUpperCase();
 
     let trabajadores =
-        await workerssService.getAll();
+        await workersService.getAll();
 
 
     if (filtro) {
@@ -430,7 +430,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="nombres"
                 class="cubika-input"
                 type="text"
-                value="${workerss?.nombres ?? ""}"
+                value="${workers?.nombres ?? ""}"
                 required>
 
         </div>
@@ -743,7 +743,7 @@ async function crearTrabajador() {
 
         setModalLoading(true);
 
-       await workerssService.create({
+       await workersService.create({
 
             rut,
         
@@ -805,7 +805,7 @@ async function crearTrabajador() {
 async function editarTrabajador(id) {
 
     const trabajador =
-        await workerssService.getById(id);
+        await workersService.getById(id);
 
     if (!trabajador)
         return;
@@ -926,7 +926,7 @@ async function actualizarTrabajador(id) {
 
         setModalLoading(true);
 
-        await workerssService.update(id, {
+        await workersService.update(id, {
 
             rut,
         
@@ -990,7 +990,7 @@ async function actualizarTrabajador(id) {
 async function cambiarEstadoTrabajador(id) {
 
     const trabajador =
-        await workerssService.getById(id);
+        await workerservice.getById(id);
 
     if (!trabajador)
         return;
@@ -1031,7 +1031,7 @@ async function cambiarEstadoTrabajador(id) {
 
             try {
 
-                await workerssService.update(id, {
+                await workersService.update(id, {
 
                     estado: nuevoEstado,
 
