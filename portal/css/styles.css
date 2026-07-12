@@ -188,12 +188,23 @@ body {
     box-shadow: 0 12px 32px rgba(0,0,0,.15);
 }
 
+
+/*
 .modal.large {
 
     width: 840px;
     max-width: 95vw;
 
 }
+*/
+
+.modal.large {
+
+    width: 90vw;
+    max-width: 1200px;
+
+}
+
 
 .modal-header h2 {
 
