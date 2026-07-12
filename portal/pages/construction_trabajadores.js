@@ -416,7 +416,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="rut"
                 class="cubika-input"
                 type="text"
-                value="${workerss?.rut ?? ""}"
+                value="${workers?.rut ?? ""}"
                 required>
 
         </div>
