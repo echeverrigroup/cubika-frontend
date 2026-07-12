@@ -114,31 +114,39 @@ async function cargarTrabajadores() {
 
     let html = `
 
+    <div class="table-responsive">
+
         <table class="cubika-table">
 
             <thead>
 
                 <tr>
-
-                    <th>Nombre</th>
-
+            
                     <th>RUT</th>
-
+            
+                    <th>Nombre</th>
+            
+                    <th>Nacionalidad</th>
+            
                     <th>Comuna</th>
-
+            
                     <th>AFP</th>
-
+            
                     <th>Salud</th>
-
+            
+                    <th>Banco</th>
+            
                     <th>Estado</th>
-
+            
                     <th>Acciones</th>
-
+            
                 </tr>
-
+            
             </thead>
 
             <tbody>
+
+        </div>
 
     `;
 
@@ -168,25 +176,53 @@ async function cargarTrabajadores() {
 
         html += `
 
-            <tr>
+           <tr>
 
                 <td>
-
-                    ${trabajador.nombres}
-                    ${trabajador.apellido_paterno}
-                    ${trabajador.apellido_materno ?? ""}
-
+            
+                    ${worker.rut ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.nombres}
+                    ${worker.apellido_paterno}
+                    ${worker.apellido_materno ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.nacionalidad ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.comuna?.nombre ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.afp ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.salud ?? ""}
+            
+                </td>
+            
+                <td>
+            
+                    ${worker.banco ?? ""}
+            
                 </td>
 
-                <td>
-
-                    ${trabajador.rut ?? ""}
-
-                </td>
-
-
-                <td>
-
+                
                     <span class="
                         estado-badge
                         ${trabajador.estado === "Activo"
