@@ -201,7 +201,7 @@ body {
 .modal.large {
 
     width: 90vw;
-    max-width: 840px;
+    max-width: 1000px;
 
 }
 
@@ -544,11 +544,11 @@ body {
     grid-template-columns:
 
         repeat(
-            2,
+            3,
             minmax(0,1fr)
         );
 
-    gap:10px;
+    gap:14px;
 
 }
 
