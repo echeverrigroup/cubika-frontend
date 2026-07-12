@@ -592,7 +592,9 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         </div>
 
 
-        <div class="form-group">
+        <div
+            class="form-group"
+            style="grid-column:1/-1;">
 
             <label>Número Cuenta</label>
 
