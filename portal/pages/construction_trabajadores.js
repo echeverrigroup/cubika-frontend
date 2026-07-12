@@ -416,7 +416,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="rut"
                 class="cubika-input"
                 type="text"
-                value="${workers?.rut ?? ""}"
+                value="${trabajador?.rut ?? ""}"
                 required>
 
         </div>
@@ -430,7 +430,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="nombres"
                 class="cubika-input"
                 type="text"
-                value="${workers?.nombres ?? ""}"
+                value="${trabajador?.nombres ?? ""}"
                 required>
 
         </div>
@@ -444,7 +444,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="apellido_paterno"
                 class="cubika-input"
                 type="text"
-                value="${workers?.apellido_paterno ?? ""}"
+                value="${trabajador?.apellido_paterno ?? ""}"
                 required>
 
         </div>
@@ -458,7 +458,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="apellido_materno"
                 class="cubika-input"
                 type="text"
-                value="${workers?.apellido_materno ?? ""}">
+                value="${trabajador?.apellido_materno ?? ""}">
 
         </div>
 
@@ -471,7 +471,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="fecha_nacimiento"
                 class="cubika-input"
                 type="date"
-                value="${workers?.fecha_nacimiento ?? ""}">
+                value="${trabajador?.fecha_nacimiento ?? ""}">
 
         </div>
 
@@ -484,7 +484,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="nacionalidad"
                 class="cubika-input"
                 type="text"
-                value="${workers?.nacionalidad ?? "Chilena"}">
+                value="${trabajador?.nacionalidad ?? "Chilena"}">
 
         </div>
 
@@ -499,7 +499,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="direccion"
                 class="cubika-input"
                 type="text"
-                value="${workers?.direccion ?? ""}">
+                value="${trabajador?.direccion ?? ""}">
 
         </div>
 
@@ -546,7 +546,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="afp"
                 class="cubika-input"
                 type="text"
-                value="${workers?.afp ?? ""}">
+                value="${trabajador?.afp ?? ""}">
 
         </div>
 
@@ -559,7 +559,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="salud"
                 class="cubika-input"
                 type="text"
-                value="${workers?.salud ?? ""}">
+                value="${trabajador?.salud ?? ""}">
 
         </div>
 
@@ -572,7 +572,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="banco"
                 class="cubika-input"
                 type="text"
-                value="${workers?.banco ?? ""}">
+                value="${trabajador?.banco ?? ""}">
 
         </div>
 
@@ -585,7 +585,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="tipo_cuenta"
                 class="cubika-input"
                 type="text"
-                value="${workers?.tipo_cuenta ?? ""}">
+                value="${trabajador?.tipo_cuenta ?? ""}">
 
         </div>
 
@@ -598,7 +598,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="numero_cuenta"
                 class="cubika-input"
                 type="text"
-                value="${workers?.numero_cuenta ?? ""}">
+                value="${trabajador?.numero_cuenta ?? ""}">
 
         </div>
 
