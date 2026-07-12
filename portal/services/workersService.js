@@ -4,6 +4,7 @@ from "../../js/supabaseClient.js";
 const TABLE =
     "workers";
 
+
 export const workersService = {
 
     async getAll() {
@@ -13,12 +14,18 @@ export const workersService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    empresa:empresas_construccion(
+                    region:regiones(
+                        id,
+                        nombre
+                    ),
+                    comuna:comunas(
                         id,
                         nombre
                     )
                 `)
-                .order("nombres");
+                .order(
+                    "apellido_paterno"
+                );
 
         if (error)
             throw error;
@@ -27,6 +34,7 @@ export const workersService = {
 
     },
 
+
     async getById(id) {
 
         const { data, error } =
@@ -34,7 +42,11 @@ export const workersService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    empresa:empresas_construccion(
+                    region:regiones(
+                        id,
+                        nombre
+                    ),
+                    comuna:comunas(
                         id,
                         nombre
                     )
@@ -48,6 +60,7 @@ export const workersService = {
         return data;
 
     },
+
 
     async create(worker) {
 
@@ -65,12 +78,42 @@ export const workersService = {
 
     },
 
+
     async update(id, worker) {
 
         const { data, error } =
             await supabase
                 .from(TABLE)
                 .update(worker)
+                .eq("id", id)
+                .select()
+                .single();
+
+        if (error)
+            throw error;
+
+        return data;
+
+    },
+
+
+    async cambiarEstado(
+        id,
+        estado
+    ) {
+
+        const { data, error } =
+            await supabase
+                .from(TABLE)
+                .update({
+
+                    estado,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                })
                 .eq("id", id)
                 .select()
                 .single();
