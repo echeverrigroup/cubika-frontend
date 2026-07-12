@@ -128,7 +128,7 @@ async function cargarTrabajadores() {
 
     let html = `
 
-    <div class="table-responsive">
+        <div class="table-responsive">
 
         <table class="cubika-table">
 
@@ -159,10 +159,6 @@ async function cargarTrabajadores() {
             </thead>
 
             <tbody>
-
-            </table>
-
-        </div>
 
     `;
 
@@ -288,6 +284,8 @@ async function cargarTrabajadores() {
             </tbody>
 
         </table>
+
+     </div>
 
     `;
 
