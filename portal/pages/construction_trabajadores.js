@@ -370,6 +370,8 @@ async function mostrarFormularioNuevoTrabajador() {
 
         submitText: "Guardar",
 
+        size: "large",
+
         onSubmit:
             crearTrabajador
 
@@ -818,6 +820,8 @@ async function editarTrabajador(id) {
             await obtenerFormularioTrabajador(trabajador),
 
         submitText: "Actualizar",
+
+        size: "large",
 
         onSubmit: () =>
             actualizarTrabajador(id)
