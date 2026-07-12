@@ -871,7 +871,24 @@ async function editarTrabajador(id) {
         title: "Editar Trabajador",
 
         content:
+
+        await cargarRegiones(
+        trabajadores.region_id
+        );
+        
+        
+        await cargarComunas(
+        
+            trabajadores.region_id,
+        
+            trabajadores.comuna_id
+        
+        );
+        
+            
             await obtenerFormularioTrabajador(trabajador),
+
+            
 
         submitText: "Actualizar",
 
@@ -882,19 +899,7 @@ async function editarTrabajador(id) {
 
     });
 
-        await cargarRegiones(
-        trabajadores.region_id
-    );
-    
-    
-    await cargarComunas(
-    
-        trabajadores.region_id,
-    
-        trabajadores.comuna_id
-    
-    );
-    
+
     
     document
     
