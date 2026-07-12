@@ -215,6 +215,10 @@ body {
 
 .modal-body {
 
+     max-height:75vh;
+
+    overflow-y:auto;
+
     color: #64748B;
 
     margin-bottom: 24px;
@@ -475,6 +479,8 @@ body {
 
     font-weight:600;
     font-size:.9rem;
+    
+    margin-bottom:4px;
 
     padding:5px 10px;
 
