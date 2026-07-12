@@ -100,10 +100,24 @@ async function cargarTrabajadores() {
         trabajadores =
             trabajadores.filter(t =>
 
-                `${t.nombres}
-                 ${t.apellido_paterno}
-                 ${t.apellido_materno}
-                 ${t.rut}`
+                `${worker.rut}
+
+                 ${worker.nombres}
+                
+                 ${worker.apellido_paterno}
+                
+                 ${worker.apellido_materno ?? ""}
+                
+                 ${worker.nacionalidad ?? ""}
+                
+                 ${worker.comuna?.nombre ?? ""}
+                
+                 ${worker.afp ?? ""}
+                
+                 ${worker.salud ?? ""}
+                
+                 ${worker.banco ?? ""}`
+                
                     .toUpperCase()
                     .includes(filtro)
 
