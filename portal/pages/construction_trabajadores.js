@@ -883,15 +883,15 @@ async function editarTrabajador(id) {
     });
 
         await cargarRegiones(
-        workers.region_id
+        trabajadores.region_id
     );
     
     
     await cargarComunas(
     
-        workers.region_id,
+        trabajadores.region_id,
     
-        workers.comuna_id
+        trabajadores.comuna_id
     
     );
     
