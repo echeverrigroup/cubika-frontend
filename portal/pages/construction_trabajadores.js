@@ -1,5 +1,5 @@
-import { workersService }
-from "../services/workersService.js";
+import { workerssService }
+from "../services/workerssService.js";
 
 import { empresasService }
 from "../services/empresasService.js";
@@ -89,7 +89,7 @@ async function cargarTrabajadores() {
             .toUpperCase();
 
     let trabajadores =
-        await workersService.getAll();
+        await workerssService.getAll();
 
 
     if (filtro) {
@@ -416,7 +416,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="rut"
                 class="cubika-input"
                 type="text"
-                value="${worker?.rut ?? ""}"
+                value="${workerss?.rut ?? ""}"
                 required>
 
         </div>
@@ -430,7 +430,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="nombres"
                 class="cubika-input"
                 type="text"
-                value="${worker?.nombres ?? ""}"
+                value="${workerss?.nombres ?? ""}"
                 required>
 
         </div>
@@ -444,7 +444,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="apellido_paterno"
                 class="cubika-input"
                 type="text"
-                value="${worker?.apellido_paterno ?? ""}"
+                value="${workers?.apellido_paterno ?? ""}"
                 required>
 
         </div>
@@ -458,7 +458,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="apellido_materno"
                 class="cubika-input"
                 type="text"
-                value="${worker?.apellido_materno ?? ""}">
+                value="${workers?.apellido_materno ?? ""}">
 
         </div>
 
@@ -471,7 +471,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="fecha_nacimiento"
                 class="cubika-input"
                 type="date"
-                value="${worker?.fecha_nacimiento ?? ""}">
+                value="${workers?.fecha_nacimiento ?? ""}">
 
         </div>
 
@@ -484,7 +484,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="nacionalidad"
                 class="cubika-input"
                 type="text"
-                value="${worker?.nacionalidad ?? "Chilena"}">
+                value="${workers?.nacionalidad ?? "Chilena"}">
 
         </div>
 
@@ -499,7 +499,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="direccion"
                 class="cubika-input"
                 type="text"
-                value="${worker?.direccion ?? ""}">
+                value="${workers?.direccion ?? ""}">
 
         </div>
 
@@ -546,7 +546,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="afp"
                 class="cubika-input"
                 type="text"
-                value="${worker?.afp ?? ""}">
+                value="${workers?.afp ?? ""}">
 
         </div>
 
@@ -559,7 +559,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="salud"
                 class="cubika-input"
                 type="text"
-                value="${worker?.salud ?? ""}">
+                value="${workers?.salud ?? ""}">
 
         </div>
 
@@ -572,7 +572,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="banco"
                 class="cubika-input"
                 type="text"
-                value="${worker?.banco ?? ""}">
+                value="${workers?.banco ?? ""}">
 
         </div>
 
@@ -585,7 +585,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="tipo_cuenta"
                 class="cubika-input"
                 type="text"
-                value="${worker?.tipo_cuenta ?? ""}">
+                value="${workers?.tipo_cuenta ?? ""}">
 
         </div>
 
@@ -598,7 +598,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 id="numero_cuenta"
                 class="cubika-input"
                 type="text"
-                value="${worker?.numero_cuenta ?? ""}">
+                value="${workers?.numero_cuenta ?? ""}">
 
         </div>
 
@@ -743,7 +743,7 @@ async function crearTrabajador() {
 
         setModalLoading(true);
 
-       await workersService.create({
+       await workerssService.create({
 
             rut,
         
@@ -805,7 +805,7 @@ async function crearTrabajador() {
 async function editarTrabajador(id) {
 
     const trabajador =
-        await workersService.getById(id);
+        await workerssService.getById(id);
 
     if (!trabajador)
         return;
@@ -825,15 +825,15 @@ async function editarTrabajador(id) {
     });
 
         await cargarRegiones(
-        worker.region_id
+        workers.region_id
     );
     
     
     await cargarComunas(
     
-        worker.region_id,
+        workers.region_id,
     
-        worker.comuna_id
+        workers.comuna_id
     
     );
     
@@ -926,7 +926,7 @@ async function actualizarTrabajador(id) {
 
         setModalLoading(true);
 
-        await workersService.update(id, {
+        await workerssService.update(id, {
 
             rut,
         
@@ -990,7 +990,7 @@ async function actualizarTrabajador(id) {
 async function cambiarEstadoTrabajador(id) {
 
     const trabajador =
-        await workersService.getById(id);
+        await workerssService.getById(id);
 
     if (!trabajador)
         return;
@@ -1031,7 +1031,7 @@ async function cambiarEstadoTrabajador(id) {
 
             try {
 
-                await workersService.update(id, {
+                await workerssService.update(id, {
 
                     estado: nuevoEstado,
 
