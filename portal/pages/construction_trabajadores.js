@@ -100,23 +100,23 @@ async function cargarTrabajadores() {
         trabajadores =
             trabajadores.filter(t =>
 
-                `${worker.rut}
+                `${t.rut}
 
-                 ${worker.nombres}
+                 ${t.nombres}
                 
-                 ${worker.apellido_paterno}
+                 ${t.apellido_paterno}
                 
-                 ${worker.apellido_materno ?? ""}
+                 ${t.apellido_materno ?? ""}
                 
-                 ${worker.nacionalidad ?? ""}
+                 ${t.nacionalidad ?? ""}
                 
-                 ${worker.comuna?.nombre ?? ""}
+                 ${t.comuna?.nombre ?? ""}
                 
-                 ${worker.afp ?? ""}
+                 ${t.afp ?? ""}
                 
-                 ${worker.salud ?? ""}
+                 ${t.salud ?? ""}
                 
-                 ${worker.banco ?? ""}`
+                 ${t.banco ?? ""}`
                 
                     .toUpperCase()
                     .includes(filtro)
@@ -160,6 +160,8 @@ async function cargarTrabajadores() {
 
             <tbody>
 
+            </table>
+
         </div>
 
     `;
@@ -172,7 +174,7 @@ async function cargarTrabajadores() {
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="9"
                     style="text-align:center;padding:30px;">
 
                     No existen trabajadores registrados.
@@ -194,48 +196,49 @@ async function cargarTrabajadores() {
 
                 <td>
             
-                    ${worker.rut ?? ""}
+                    ${trabajador.rut ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.nombres}
-                    ${worker.apellido_paterno}
-                    ${worker.apellido_materno ?? ""}
+                    ${trabajador.nombres}
+                    ${trabajador.apellido_paterno}
+                    ${trabajador.apellido_materno ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.nacionalidad ?? ""}
+                    ${trabajador.nacionalidad ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.comuna?.nombre ?? ""}
+                    ${trabajador.comuna?.nombre ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.afp ?? ""}
+                    ${trabajador.afp ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.salud ?? ""}
+                    ${trabajador.salud ?? ""}
             
                 </td>
             
                 <td>
             
-                    ${worker.banco ?? ""}
+                    ${trabajador.banco ?? ""}
             
                 </td>
 
+                <td>
                 
                     <span class="
                         estado-badge
