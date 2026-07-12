@@ -1,3 +1,6 @@
+import { geograficaService }
+from "../services/geograficaService.js";
+
 import { workersService }
 from "../services/workersService.js";
 
