@@ -121,7 +121,11 @@ async function cargarTrabajadores() {
 
                     <th>RUT</th>
 
-                    <th>Empresa</th>
+                    <th>Comuna</th>
+
+                    <th>AFP</th>
+
+                    <th>Salud</th>
 
                     <th>Estado</th>
 
@@ -143,7 +147,7 @@ async function cargarTrabajadores() {
             <tr>
 
                 <td
-                    colspan="5"
+                    colspan="7"
                     style="text-align:center;padding:30px;">
 
                     No existen trabajadores registrados.
@@ -177,12 +181,6 @@ async function cargarTrabajadores() {
 
                 </td>
 
-
-                <td>
-
-                    ${trabajador.empresa?.nombre ?? ""}
-
-                </td>
 
                 <td>
 
@@ -268,178 +266,441 @@ async function cargarTrabajadores() {
 }
 
 
+async function cargarRegiones(regionSeleccionada = null) {
+
+    const regiones =
+        await geograficaService.getRegiones();
+
+    const select =
+        document.getElementById("region_id");
+
+    if (!select)
+        return;
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una región
+        </option>
+
+    `;
+
+    regiones.forEach(region => {
+
+        select.innerHTML += `
+
+            <option
+                value="${region.id}"
+                ${region.id == regionSeleccionada
+                    ? "selected"
+                    : ""}>
+
+                ${region.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
+async function cargarComunas(
+    regionId,
+    comunaSeleccionada = null
+) {
+
+    const select =
+        document.getElementById("comuna_id");
+
+    if (!select)
+        return;
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una comuna
+        </option>
+
+    `;
+
+
+    if (!regionId)
+        return;
+
+
+    const comunas =
+        await geograficaService
+            .getComunas(regionId);
+
+
+    comunas.forEach(comuna => {
+
+        select.innerHTML += `
+
+            <option
+                value="${comuna.id}"
+                ${comuna.id == comunaSeleccionada
+                    ? "selected"
+                    : ""}>
+
+                ${comuna.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
 async function mostrarFormularioNuevoTrabajador() {
 
-        showFormModal({
-    
-                title: "Nuevo Trabajador",
-            
-                content:
-                    await obtenerFormularioTrabajador(),
-            
-                submitText: "Guardar",
-            
-                onSubmit: crearTrabajador
-            
-            });
-        }
+    showFormModal({
 
+        title: "Nuevo Trabajador",
+
+        content:
+            await obtenerFormularioTrabajador(),
+
+        submitText: "Guardar",
+
+        onSubmit:
+            crearTrabajador
+
+    });
+
+
+    await cargarRegiones();
+
+
+    document
+
+        .getElementById("region_id")
+
+        .addEventListener(
+
+            "change",
+
+            async e => {
+
+                await cargarComunas(
+                    e.target.value
+                );
+
+            }
+
+        );
+
+}
 
 
 async function obtenerFormularioTrabajador(trabajador = null) {
 
-    const empresas =
-        await empresasService.getAll();
-
-    const opcionesEmpresas =
-    empresas
-        .filter(e =>
-
-            e.estado === "Activo"
-
-            ||
-
-            e.id === trabajador?.empresa_id
-
-        )
-        .map(e => `
-
-            <option
-                value="${e.id}"
-                ${trabajador?.empresa_id === e.id
-                    ? "selected"
-                    : ""}>
-
-                ${e.nombre}
-                ${e.estado === "Inactivo"
-                    ? " (Inactiva)"
-                    : ""}
-
-            </option>
-
-        `)
-        .join("");
-
     return `
 
-        <form id="formTrabajador">
+<form id="formTrabajador">
 
-            <div class="form-grid">
+    <div class="form-grid">
 
-                <div class="form-group">
+        <div class="form-group">
 
-                    <label>Nombres</label>
+            <label>RUT</label>
 
-                    <input
-                        id="nombres"
-                        type="text"
-                        value="${trabajador?.nombres ?? ""}"
-                        required>
+            <input
+                id="rut"
+                class="cubika-input"
+                type="text"
+                value="${worker?.rut ?? ""}"
+                required>
 
-                </div>
+        </div>
 
-                <div class="form-group">
 
-                    <label>Apellido Paterno</label>
+        <div class="form-group">
 
-                    <input
-                        id="apellidoPaterno"
-                        type="text"
-                        value="${trabajador?.apellido_paterno ?? ""}"
-                        required>
+            <label>Nombres</label>
 
-                </div>
+            <input
+                id="nombres"
+                class="cubika-input"
+                type="text"
+                value="${worker?.nombres ?? ""}"
+                required>
 
-                <div class="form-group">
+        </div>
 
-                    <label>Apellido Materno</label>
 
-                    <input
-                        id="apellidoMaterno"
-                        type="text"
-                        value="${trabajador?.apellido_materno ?? ""}">
+        <div class="form-group">
 
-                </div>
+            <label>Apellido Paterno</label>
 
-                <div class="form-group">
+            <input
+                id="apellido_paterno"
+                class="cubika-input"
+                type="text"
+                value="${worker?.apellido_paterno ?? ""}"
+                required>
 
-                    <label>RUT</label>
+        </div>
 
-                    <input
-                        id="rut"
-                        type="text"
-                        value="${trabajador?.rut ?? ""}"
-                        required>
 
-                </div>
+        <div class="form-group">
 
-                <div class="form-group">
+            <label>Apellido Materno</label>
 
-                    <label>Empresa</label>
+            <input
+                id="apellido_materno"
+                class="cubika-input"
+                type="text"
+                value="${worker?.apellido_materno ?? ""}">
 
-                    <select
-                        id="empresa_id"
-                        class="cubika-select"
-                        required>
+        </div>
 
-                        <option value="">
 
-                            Seleccione una empresa
+        <div class="form-group">
 
-                        </option>
+            <label>Fecha Nacimiento</label>
 
-                        ${opcionesEmpresas}
+            <input
+                id="fecha_nacimiento"
+                class="cubika-input"
+                type="date"
+                value="${worker?.fecha_nacimiento ?? ""}">
 
-                    </select>
+        </div>
 
-                </div>
 
-            </div>
+        <div class="form-group">
 
-            <div
-                id="modalFormError"
-                class="form-error"
-                style="display:none;">
-            </div>
+            <label>Nacionalidad</label>
 
-        </form>
+            <input
+                id="nacionalidad"
+                class="cubika-input"
+                type="text"
+                value="${worker?.nacionalidad ?? "Chilena"}">
 
-    `;
+        </div>
 
+
+        <div
+            class="form-group"
+            style="grid-column:1/-1;">
+
+            <label>Dirección</label>
+
+            <input
+                id="direccion"
+                class="cubika-input"
+                type="text"
+                value="${worker?.direccion ?? ""}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Región</label>
+
+            <select
+                id="region_id"
+                class="cubika-select">
+
+                <option value="">
+                    Seleccione una región
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Comuna</label>
+
+            <select
+                id="comuna_id"
+                class="cubika-select">
+
+                <option value="">
+                    Seleccione una comuna
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>AFP</label>
+
+            <input
+                id="afp"
+                class="cubika-input"
+                type="text"
+                value="${worker?.afp ?? ""}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Salud</label>
+
+            <input
+                id="salud"
+                class="cubika-input"
+                type="text"
+                value="${worker?.salud ?? ""}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Banco</label>
+
+            <input
+                id="banco"
+                class="cubika-input"
+                type="text"
+                value="${worker?.banco ?? ""}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Tipo Cuenta</label>
+
+            <input
+                id="tipo_cuenta"
+                class="cubika-input"
+                type="text"
+                value="${worker?.tipo_cuenta ?? ""}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Número Cuenta</label>
+
+            <input
+                id="numero_cuenta"
+                class="cubika-input"
+                type="text"
+                value="${worker?.numero_cuenta ?? ""}">
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="modalFormError"
+        class="form-error"
+        style="display:none;">
+    </div>
+
+</form>
+
+`;
+    
 }
 
 
 
 async function crearTrabajador() {
 
+    const rut =
+    document
+        .getElementById("rut")
+        .value
+        .trim();
+
     const nombres =
         document
             .getElementById("nombres")
             .value
             .trim();
-
+    
     const apellido_paterno =
         document
-            .getElementById("apellidoPaterno")
+            .getElementById("apellido_paterno")
             .value
             .trim();
-
+    
     const apellido_materno =
         document
-            .getElementById("apellidoMaterno")
+            .getElementById("apellido_materno")
             .value
             .trim();
-
-    const rut =
+    
+    const direccion =
         document
-            .getElementById("rut")
+            .getElementById("direccion")
             .value
             .trim();
-
-    const empresa_id =
+    
+    const region_id =
         document
-            .getElementById("empresa_id")
-            .value;
+            .getElementById("region_id")
+            .value || null;
+    
+    const comuna_id =
+        document
+            .getElementById("comuna_id")
+            .value || null;
+    
+    const fecha_nacimiento =
+        document
+            .getElementById("fecha_nacimiento")
+            .value || null;
+    
+    const nacionalidad =
+        document
+            .getElementById("nacionalidad")
+            .value
+            .trim();
+    
+    const afp =
+        document
+            .getElementById("afp")
+            .value
+            .trim();
+    
+    const salud =
+        document
+            .getElementById("salud")
+            .value
+            .trim();
+    
+    const banco =
+        document
+            .getElementById("banco")
+            .value
+            .trim();
+    
+    const tipo_cuenta =
+        document
+            .getElementById("tipo_cuenta")
+            .value
+            .trim();
+    
+    const numero_cuenta =
+        document
+            .getElementById("numero_cuenta")
+            .value
+            .trim();
 
 
     // =========================
@@ -476,33 +737,44 @@ async function crearTrabajador() {
 
     }
 
-    if (!empresa_id) {
-
-        setModalError(
-            "Debe seleccionar una empresa."
-        );
-
-        return false;
-
-    }
 
 
     try {
 
         setModalLoading(true);
 
-        await workersService.create({
+       await workersService.create({
 
-            empresa_id,
-
+            rut,
+        
             nombres,
-
+        
             apellido_paterno,
-
+        
             apellido_materno,
-
-            rut
-
+        
+            direccion,
+        
+            region_id,
+        
+            comuna_id,
+        
+            fecha_nacimiento,
+        
+            nacionalidad,
+        
+            afp,
+        
+            salud,
+        
+            banco,
+        
+            tipo_cuenta,
+        
+            numero_cuenta,
+        
+            estado: "Activo"
+        
         });
 
         await cargarTrabajadores();
@@ -552,6 +824,38 @@ async function editarTrabajador(id) {
 
     });
 
+        await cargarRegiones(
+        worker.region_id
+    );
+    
+    
+    await cargarComunas(
+    
+        worker.region_id,
+    
+        worker.comuna_id
+    
+    );
+    
+    
+    document
+    
+        .getElementById("region_id")
+    
+        .addEventListener(
+    
+            "change",
+    
+            async e => {
+    
+                await cargarComunas(
+                    e.target.value
+                );
+    
+            }
+    
+        );
+
 }
 
 
@@ -580,11 +884,6 @@ async function actualizarTrabajador(id) {
             .getElementById("rut")
             .value
             .trim();
-
-    const empresa_id =
-        document
-            .getElementById("empresa_id")
-            .value;
 
 
     // =========================
@@ -621,15 +920,6 @@ async function actualizarTrabajador(id) {
 
     }
 
-    if (!empresa_id) {
-
-        setModalError(
-            "Debe seleccionar una empresa."
-        );
-
-        return false;
-
-    }
 
 
     try {
@@ -638,19 +928,38 @@ async function actualizarTrabajador(id) {
 
         await workersService.update(id, {
 
-            empresa_id,
-
-            nombres,
-
-            apellido_paterno,
-
-            apellido_materno,
-
             rut,
-
+        
+            nombres,
+        
+            apellido_paterno,
+        
+            apellido_materno,
+        
+            direccion,
+        
+            region_id,
+        
+            comuna_id,
+        
+            fecha_nacimiento,
+        
+            nacionalidad,
+        
+            afp,
+        
+            salud,
+        
+            banco,
+        
+            tipo_cuenta,
+        
+            numero_cuenta,
+        
             updated_at:
-                new Date().toISOString()
-
+                new Date()
+                    .toISOString()
+        
         });
 
         await cargarTrabajadores();
