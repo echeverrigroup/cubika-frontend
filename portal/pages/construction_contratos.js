@@ -35,7 +35,7 @@ export function renderConstructionContratos() {
 
             <button
                 id="btnGenerarContrato"
-                class="btn-primary">
+                class="btn-tercer">
 
                 Generar Contrato
 
