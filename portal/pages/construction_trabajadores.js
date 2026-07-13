@@ -94,10 +94,6 @@ export async function renderConstructionTrabajadores() {
 
 async function cargarTrabajadores() {
 
-    trabajadores =
-    ordenarDatos(
-        trabajadores
-    );
 
     const tableContainer =
         document.getElementById("trabajadoresTable");
@@ -142,6 +138,12 @@ async function cargarTrabajadores() {
             );
 
     }
+
+
+    trabajadores =
+    ordenarDatos(
+        trabajadores
+    );
 
 
     let html = `
