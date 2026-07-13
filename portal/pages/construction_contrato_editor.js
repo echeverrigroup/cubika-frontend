@@ -61,6 +61,36 @@ let contratoActual = {
 };
 
 
+export function nuevoContrato() {
+
+    pasoActual = 1;
+
+    contratoActual = {
+
+        worker_id: null,
+
+        empresa_id: null,
+
+        obra_id: null,
+
+        cargo_id: null,
+
+        plantilla_id: null,
+
+        fecha_inicio: null,
+
+        fecha_termino: null,
+
+        sueldo: null,
+
+        jornada: null,
+
+        contenido: ""
+
+    };
+
+}
+
 
 export async function renderConstructionContratoEditor() {
 
