@@ -267,21 +267,22 @@ body {
 }
 
 
-.btn-tercer {
+.btn-cubika-green {
 
-    background: #31eb99;
+    background:#10B981;
 
-    color: white;
+    color:white;
 
-    border: none;
+    border:none;
 
-    padding: 10px 16px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
 }
 
+
+.btn-cubika-green:hover {
+
+    background:#059669;
+
+}
 
 
 .page-header {
