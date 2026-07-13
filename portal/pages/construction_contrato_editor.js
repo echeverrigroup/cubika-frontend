@@ -32,8 +32,9 @@ import {
 from "../router.js";
 
 
+/*
 let pasoActual = 1;
-
+*/
 
 let contratoActual = {
 
