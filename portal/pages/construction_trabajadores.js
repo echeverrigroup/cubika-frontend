@@ -875,7 +875,7 @@ async function editarTrabajador(id) {
         
         
             
-            await obtenerFormularioTrabajador(trabajador),
+        await obtenerFormularioTrabajador(trabajador),
 
 
         submitText: "Actualizar",
@@ -945,6 +945,72 @@ async function actualizarTrabajador(id) {
     const rut =
         document
             .getElementById("rut")
+            .value
+            .trim();
+
+    const direccion =
+    document
+        .getElementById("direccion")
+        .value
+        .trim();
+
+
+    const region_id =
+        document
+            .getElementById("region_id")
+            .value || null;
+    
+    
+    const comuna_id =
+        document
+            .getElementById("comuna_id")
+            .value || null;
+    
+    
+    const fecha_nacimiento =
+        document
+            .getElementById("fecha_nacimiento")
+            .value || null;
+    
+    
+    const nacionalidad =
+        document
+            .getElementById("nacionalidad")
+            .value
+            .trim();
+    
+    
+    const afp =
+        document
+            .getElementById("afp")
+            .value
+            .trim();
+    
+    
+    const salud =
+        document
+            .getElementById("salud")
+            .value
+            .trim();
+    
+    
+    const banco =
+        document
+            .getElementById("banco")
+            .value
+            .trim();
+    
+    
+    const tipo_cuenta =
+        document
+            .getElementById("tipo_cuenta")
+            .value
+            .trim();
+    
+    
+    const numero_cuenta =
+        document
+            .getElementById("numero_cuenta")
             .value
             .trim();
 
