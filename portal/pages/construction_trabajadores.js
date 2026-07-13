@@ -932,13 +932,13 @@ async function actualizarTrabajador(id) {
 
     const apellido_paterno =
         document
-            .getElementById("apellidoPaterno")
+            .getElementById("apellido_paterno")
             .value
             .trim();
 
     const apellido_materno =
         document
-            .getElementById("apellidoMaterno")
+            .getElementById("apellido_materno")
             .value
             .trim();
 
