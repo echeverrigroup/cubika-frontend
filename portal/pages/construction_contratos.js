@@ -1,3 +1,14 @@
+import {
+    navigate
+}
+from "../router.js";
+
+import {
+    nuevoContrato
+}
+from "./construction_contrato_editor.js";
+
+
 export function renderConstructionContratos() {
 
     const content =
@@ -7,22 +18,71 @@ export function renderConstructionContratos() {
 
         <div class="page-header">
 
-            <h1>Contratos</h1>
+            <h1>
 
-            <button class="btn-primary">
+                Contratos
+
+            </h1>
+
+            <button
+                id="btnGenerarContrato"
+                class="btn-primary">
+
                 Generar Contrato
+
             </button>
 
         </div>
 
+
         <div class="card">
 
+            <h2>
+
+                Asistente de Generación
+                de Contratos
+
+            </h2>
+
             <p>
-                Aquí estará el generador de contratos.
+
+                Genere contratos laborales
+                utilizando trabajadores,
+                empresas, obras, cargos y
+                plantillas documentales.
+
             </p>
 
         </div>
 
+
+        <div id="contratosTable">
+
+        </div>
+
     `;
+
+
+    document
+
+        .getElementById(
+            "btnGenerarContrato"
+        )
+
+        .addEventListener(
+
+            "click",
+
+            () => {
+
+                nuevoContrato();
+
+                navigate(
+                    "construction_contrato_editor"
+                );
+
+            }
+
+        );
 
 }
