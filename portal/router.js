@@ -14,6 +14,13 @@ import {
     renderConstructionPlantillaEditor
 }
 from "./pages/construction_plantilla_editor.js";
+import {
+
+    renderConstructionContratoEditor
+
+}
+from "./pages/construction_contrato_editor.js";
+
 
 
 export function navigate(page, params = null) {
@@ -53,6 +60,10 @@ export function navigate(page, params = null) {
 
         case "construction_plantilla_editor":
         renderConstructionPlantillaEditor(params);
+        break;
+
+        case "construction_contrato_editor":
+        renderConstructionContratoEditor();
         break;
     
         case "construction_contratos":
