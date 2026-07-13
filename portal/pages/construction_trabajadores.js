@@ -158,10 +158,7 @@ async function cargarTrabajadores() {
             
                     <th
 
-                        class="
-                            sortable
-                            ${getSortClass("rut")}
-                        "
+                        class="sortable ${getSortClass("rut")}"
                     
                         data-column="rut">
                     
