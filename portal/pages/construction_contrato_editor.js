@@ -1,6 +1,34 @@
 import {
+    workersService
+}
+from "../services/workersService.js";
+
+import {
+    empresasService
+}
+from "../services/empresasService.js";
+
+import {
+    obrasService
+}
+from "../services/obrasService.js";
+
+import {
+    cargosService
+}
+from "../services/cargosService.js";
+
+import {
+    plantillasDocumentoService
+}
+from "../services/plantillasDocumentoService.js";
+
+
+import {
     navigate
 }
+
+    
 from "../router.js";
 
 
@@ -227,7 +255,10 @@ function renderPasoActual() {
     }
 
 
+     cargarDatosPaso();
+    
     inicializarNavegacion();
+   
 
 }
 
@@ -695,6 +726,218 @@ function guardarPasoActual() {
                 ?.value;
 
     }
+
+}
+
+
+async function cargarDatosPaso() {
+
+    switch (pasoActual) {
+
+        case 1:
+
+            await cargarPaso1();
+
+            break;
+
+        case 2:
+
+            await cargarPaso2();
+
+            break;
+
+    }
+
+}
+
+
+async function cargarPaso1() {
+
+    const trabajadores =
+        await workersService.getAll();
+
+    const empresas =
+        await empresasService.getAll();
+
+    const obras =
+        await obrasService.getAll();
+
+    const cargos =
+        await cargosService.getAll();
+
+
+    cargarSelect(
+
+        "worker_id",
+
+        trabajadores,
+
+        t =>
+
+            `${t.nombres}
+             ${t.apellido_paterno}
+             ${t.apellido_materno ?? ""}`,
+
+        contratoActual.worker_id
+
+    );
+
+
+    cargarSelect(
+
+        "empresa_id",
+
+        empresas,
+
+        e => e.nombre,
+
+        contratoActual.empresa_id
+
+    );
+
+
+    cargarSelect(
+
+        "obra_id",
+
+        obras,
+
+        o => o.nombre,
+
+        contratoActual.obra_id
+
+    );
+
+
+    cargarSelect(
+
+        "cargo_id",
+
+        cargos,
+
+        c => c.nombre,
+
+        contratoActual.cargo_id
+
+    );
+
+}
+
+
+async function cargarPaso2() {
+
+    const plantillas =
+        await plantillasDocumentoService
+            .getAll();
+
+
+    cargarSelect(
+
+        "plantilla_id",
+
+        plantillas,
+
+        p => p.nombre,
+
+        contratoActual.plantilla_id
+
+    );
+
+
+    document
+        .getElementById(
+            "fecha_inicio"
+        )
+        .value =
+
+        contratoActual.fecha_inicio
+        ?? "";
+
+
+    document
+        .getElementById(
+            "fecha_termino"
+        )
+        .value =
+
+        contratoActual.fecha_termino
+        ?? "";
+
+
+    document
+        .getElementById(
+            "sueldo"
+        )
+        .value =
+
+        contratoActual.sueldo
+        ?? "";
+
+
+    document
+        .getElementById(
+            "jornada"
+        )
+        .value =
+
+        contratoActual.jornada
+        ?? "";
+
+}
+
+
+function cargarSelect(
+
+    id,
+
+    items,
+
+    getLabel,
+
+    selected = null
+
+) {
+
+    const select =
+        document.getElementById(id);
+
+    if (!select)
+        return;
+
+
+    select.innerHTML = `
+
+        <option value="">
+
+            Seleccione
+
+        </option>
+
+    `;
+
+
+    items.forEach(item => {
+
+        select.innerHTML += `
+
+            <option
+
+                value="${item.id}"
+
+                ${item.id ==
+                    selected
+
+                    ? "selected"
+
+                    : ""}>
+
+                ${getLabel(item)}
+
+            </option>
+
+        `;
+
+    });
 
 }
 
