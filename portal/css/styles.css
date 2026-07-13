@@ -339,6 +339,62 @@ body {
     border-top:1px solid #E5E7EB;
 }
 
+
+.cubika-table th.sortable {
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:all .2s;
+
+}
+
+
+.cubika-table th.sortable:hover {
+
+    background:#EEF4FF;
+
+    color:#2563EB;
+
+}
+
+
+.cubika-table th.sortable::after {
+
+    content:"↕";
+
+    margin-left:6px;
+
+    opacity:.35;
+
+    font-size:.65rem;
+
+}
+
+
+.cubika-table th.sort-asc::after {
+
+    content:"▲";
+
+    opacity:1;
+
+}
+
+
+.cubika-table th.sort-desc::after {
+
+    content:"▼";
+
+    opacity:1;
+
+}
+
+
+
+
+
+
 .btn-edit,
 .btn-delete,
 .btn-restore,
