@@ -269,18 +269,20 @@ body {
 
 .btn-cubika-green {
 
-    background:#10B981;
+    background:#3dbb2f;
 
     color:white;
 
-    border:none;
+    border-radius: 8px;
+    
+    transition: background-color 0.3s ease;
 
 }
 
 
 .btn-cubika-green:hover {
 
-    background:#059669;
+    background:#2fa125;
 
 }
 
