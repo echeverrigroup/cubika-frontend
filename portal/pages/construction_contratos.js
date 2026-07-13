@@ -8,6 +8,15 @@ import {
 }
 from "./construction_contrato_editor.js";
 
+import {
+
+    renderConstructionContratoEditor
+
+}
+from "./pages/construction_contrato_editor.js";
+
+
+
 
 export function renderConstructionContratos() {
 
