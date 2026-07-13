@@ -1,3 +1,16 @@
+import {
+
+    ordenarDatos,
+
+    inicializarTableSort,
+
+    getSortClass
+
+}
+
+from "../utils/tableSort.js";
+
+
 import { geograficaService }
 from "../services/geograficaService.js";
 
@@ -81,6 +94,11 @@ export async function renderConstructionTrabajadores() {
 
 async function cargarTrabajadores() {
 
+    trabajadores =
+    ordenarDatos(
+        trabajadores
+    );
+
     const tableContainer =
         document.getElementById("trabajadoresTable");
 
@@ -136,21 +154,115 @@ async function cargarTrabajadores() {
 
                 <tr>
             
-                    <th>RUT</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("rut")}
+                        "
+                    
+                        data-column="rut">
+                    
+                        RUT
+                    
+                    </th>
             
-                    <th>Nombre</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("nombres")}
+                        "
+                    
+                        data-column="nombres">
+                    
+                        Nombre
+                    
+                    </th>
             
-                    <th>Nacionalidad</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("nacionalidad")}
+                        "
+                    
+                        data-column="nacionalidad">
+                    
+                        Nacionalidad
+                    
+                    </th>
             
-                    <th>Comuna</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass(
+                                "comuna.nombre"
+                            )}
+                        "
+                    
+                        data-column="comuna.nombre">
+                    
+                        Comuna
+                    
+                    </th>
             
-                    <th>AFP</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("afp")}
+                        "
+                    
+                        data-column="afp">
+                    
+                        AFP
+                    
+                    </th>
             
-                    <th>Salud</th>
             
-                    <th>Banco</th>
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("salud")}
+                        "
+                    
+                        data-column="salud">
+                    
+                        Salud
+                    
+                    </th>
             
-                    <th>Estado</th>
+            
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("banco")}
+                        "
+                    
+                        data-column="banco">
+                    
+                        Banco
+                    
+                    </th>
+            
+            
+                    <th
+
+                        class="
+                            sortable
+                            ${getSortClass("estado")}
+                        "
+                    
+                        data-column="estado">
+                    
+                        Estado
+                    
+                    </th>
+            
             
                     <th>Acciones</th>
             
@@ -292,6 +404,10 @@ async function cargarTrabajadores() {
 
     tableContainer.innerHTML =
         html;
+
+    inicializarTableSort(
+    cargarTrabajadores
+    );
 
 
     document
