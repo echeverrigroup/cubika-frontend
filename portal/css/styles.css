@@ -302,6 +302,24 @@ body {
     transform:translateY(-1px);
 }
 
+
+
+.sortable{
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+
+.sortable:hover{
+
+    color:var(--primary);
+
+}
+
+
 .cubika-table {
 
     width:100%;
