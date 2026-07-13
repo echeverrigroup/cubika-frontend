@@ -266,6 +266,24 @@ body {
     cursor: pointer;
 }
 
+
+.btn-tercer {
+
+    background: #D7F9EA;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+
+
 .page-header {
 
     display:flex;
