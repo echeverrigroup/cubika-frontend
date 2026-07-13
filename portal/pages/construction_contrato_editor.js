@@ -102,6 +102,7 @@ export async function renderConstructionContratoEditor() {
                 <div
                     class="
                         wizard-step
+                        ${pasoActual === 1
                             ? "active"
                             : ""}
                     ">
