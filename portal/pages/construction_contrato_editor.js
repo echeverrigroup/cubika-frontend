@@ -602,7 +602,7 @@ function renderPaso3() {
 
                 <button
                     id="btnGenerarContrato"
-                    class="cubika-green">
+                    class="btn-cubika-green">
 
                     Aprobar y Generar
 
