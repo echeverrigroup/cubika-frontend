@@ -115,14 +115,15 @@ export function ordenarDatos(
             );
 
 
-        return
+        return (
 
             sortDirection === "asc"
-
+        
                 ? resultado
-
-                : -resultado;
-
+        
+                : -resultado
+        
+        );
     });
 
 }
