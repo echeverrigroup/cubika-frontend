@@ -13,7 +13,7 @@ import {
     renderConstructionContratoEditor
 
 }
-from "./pages/construction_contrato_editor.js";
+from "./construction_contrato_editor.js";
 
 
 
