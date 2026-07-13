@@ -391,7 +391,7 @@ body {
 }
 
 
-.cubika-table th.sort-asc::after {
+.cubika-table th.sortable.sort-asc::after {
 
     content:"▲";
 
@@ -400,7 +400,7 @@ body {
 }
 
 
-.cubika-table th.sort-desc::after {
+.cubika-table th.sortable.sort-desc::after {
 
     content:"▼";
 
