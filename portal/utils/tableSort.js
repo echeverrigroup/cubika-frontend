@@ -171,6 +171,12 @@ export function getSortClass(
     columna
 ) {
 
+     console.log(
+        columna,
+        sortColumn,
+        sortDirection
+    );
+
     if (
         columna !== sortColumn
     )
