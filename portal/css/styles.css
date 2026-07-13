@@ -303,21 +303,19 @@ body {
 }
 
 
+.cubika-table th.sortable {
 
-.sortable{
-
-    cursor:pointer;
-
-    user-select:none;
+    position:relative;
 
 }
 
 
-.sortable:hover{
+.cubika-table th.sortable::after {
 
-    color:var(--primary);
+    display:inline-block;
 
 }
+
 
 
 .cubika-table {
