@@ -33,9 +33,9 @@ export function renderConstructionContratos() {
 
             </h1>
 
-            <button
+           <button
                 id="btnGenerarContrato"
-                class="btn-tercer">
+                class="btn-cubika-green">
 
                 Generar Contrato
 
