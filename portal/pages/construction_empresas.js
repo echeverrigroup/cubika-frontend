@@ -315,53 +315,100 @@ async function mostrarFormularioNuevaEmpresa() {
 
 
 
-function obtenerFormularioEmpresa(empresa = null) {
+function obtenerFormularioEmpresa(
+    empresa = null
+) {
 
     return `
 
-                <form id="formEmpresa">
+        <form id="formEmpresa">
 
-                    <div class="form-grid">
+            <div class="form-grid">
 
-                        <div class="form-group">
+                <div class="form-group">
 
-                            <label>Nombre</label>
+                    <label>Nombre</label>
 
-                            <input
-                                id="nombre"
-                                type="text"
-                                value="${empresa?.nombre ?? ""}"
-                                required>
+                    <input
+                        id="nombre"
+                        type="text"
+                        value="${empresa?.nombre ?? ""}"
+                        required>
 
-                        </div>
+                </div>
 
-                        <div class="form-group">
 
-                            <label>RUT</label>
+                <div class="form-group">
 
-                            <input
-                                id="rut"
-                                type="text"
-                                value="${empresa?.rut ?? ""}">
+                    <label>RUT</label>
 
-                        </div>
+                    <input
+                        id="rut"
+                        type="text"
+                        value="${empresa?.rut ?? ""}">
 
-                        
-                    </div>
+                </div>
 
-                    <div
-                        id="modalFormError"
-                        class="form-error"
-                        style="display:none;">
-                    </div>
 
-                    
-                </form>
-                
+                <div class="form-group">
+
+                    <label>Dirección</label>
+
+                    <input
+                        id="direccion"
+                        type="text"
+                        value="${empresa?.direccion ?? ""}">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Región</label>
+
+                    <select
+                        id="region"
+                        class="cubika-select">
+
+                        <option value="">
+                            Seleccione una región
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Comuna</label>
+
+                    <select
+                        id="comuna"
+                        class="cubika-select">
+
+                        <option value="">
+                            Seleccione una comuna
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="modalFormError"
+                class="form-error"
+                style="display:none;">
+            </div>
+
+        </form>
+
     `;
 
 }
-
 
 
 
@@ -475,11 +522,13 @@ async function editarEmpresa(id) {
     );
     
     
-    await cargarRegionesRepresentante(
+/*    await cargarRegionesRepresentante(
     
         empresa.region_representante_id
     
     );
+
+
     
     await cargarComunasRepresentante(
     
@@ -488,7 +537,8 @@ async function editarEmpresa(id) {
         empresa.comuna_representante_id
     
     );
-
+*/
+    
     document
     .getElementById("region")
     .addEventListener(
