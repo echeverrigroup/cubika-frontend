@@ -1097,6 +1097,8 @@ EDITOR DOCUMENTAL
 
     gap:32px;
 
+    align-items:start;
+
 }
 
 
@@ -1109,14 +1111,23 @@ EDITOR DOCUMENTAL
 
     padding:24px;
 
+      background:white;
+
 }
 
 
 .empresa-section h3{
 
+    margin-top:0;
+
     margin-bottom:24px;
 
+    font-size:16px;
+
+    font-weight:600;
+
 }
+
 
 
 @media(max-width:1000px){
