@@ -271,6 +271,8 @@ async function mostrarFormularioNuevaEmpresa() {
 
         submitText: "Guardar",
 
+        size: "large",
+
         onSubmit:
             crearEmpresa
 
@@ -692,6 +694,8 @@ async function editarEmpresa(id) {
         content: obtenerFormularioEmpresa(empresa),
 
         submitText: "Actualizar",
+
+        size: "large",
 
         onSubmit: () =>
             actualizarEmpresa(id)
