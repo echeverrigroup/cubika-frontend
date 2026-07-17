@@ -1088,7 +1088,7 @@ EDITOR DOCUMENTAL
 
     grid-template-columns:1fr 1fr;
 
-    gap:16px;
+    gap:32px;
 
     align-items:start;
 
@@ -1101,7 +1101,7 @@ EDITOR DOCUMENTAL
 
     flex-direction:column;
 
-    gap:18px;
+    gap:9px;
 
     padding:24px;
 
