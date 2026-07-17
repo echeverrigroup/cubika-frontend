@@ -394,12 +394,6 @@ function renderPaso1() {
             <div class="wizard-buttons">
 
                 <button
-                    id="btnAnterior"
-                    class="btn-secondary">
-
-                </button>
-
-                <button
                     id="btnSiguiente"
                     class="btn-primary">
 
