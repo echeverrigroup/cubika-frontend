@@ -577,7 +577,7 @@ function renderPaso3() {
 
                 <button
                     id="btnGenerarContrato"
-                    class="page-header-button">
+                    class="page-header button">
 
                     Aprobar y Generar
 
