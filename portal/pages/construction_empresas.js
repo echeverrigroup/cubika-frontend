@@ -344,6 +344,7 @@ function obtenerFormularioEmpresa(
 
                         <input
                             id="nombre"
+                            class="cubika-input"
                             type="text"
                             value="${empresa?.nombre ?? ""}"
                             required>
