@@ -334,7 +334,7 @@ function obtenerFormularioEmpresa(
 
                     <h3>
 
-                        Datos Empresa
+                        Datos de la Empresa
 
                     </h3>
 
@@ -347,7 +347,7 @@ function obtenerFormularioEmpresa(
                             type="text"
                             class="cubika-input"
                             value="${empresa?.nombre ?? ""}"
-                            placeholder="Nombre de la empresa..."
+                            placeholder="Nombre y datos de la empresa..."
                             required>
 
                     </div>
@@ -421,7 +421,7 @@ function obtenerFormularioEmpresa(
 
                     <h3>
 
-                        Representante Legal
+                        Datos del Representante Legal
 
                     </h3>
 
@@ -435,6 +435,7 @@ function obtenerFormularioEmpresa(
                             type="text"
                             value="${
                                 empresa?.representante_legal ?? ""
+                            placeholder="Nombre y datos del representante legal..."
                             }">
 
                     </div>
