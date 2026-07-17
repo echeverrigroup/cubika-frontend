@@ -303,7 +303,7 @@ body {
     color:#0B2F5B;
 }
 
-.page-header button {
+.page-header-button {
 
     background:#0B2F5B;
 
@@ -320,7 +320,7 @@ body {
     font-weight:600;
 }
 
-.page-header button:hover {
+.page-header-button:hover {
 
     transform:translateY(-1px);
 }
