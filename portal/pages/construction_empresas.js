@@ -347,7 +347,7 @@ function obtenerFormularioEmpresa(
                             type="text"
                             class="cubika-input"
                             value="${empresa?.nombre ?? ""}"
-                            placeholder="Buscar empresa...">
+                            placeholder="Nombre de la empresa..."
                             required>
 
                     </div>
