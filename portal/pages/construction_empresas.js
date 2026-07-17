@@ -551,15 +551,15 @@ async function editarEmpresa(id) {
     );
 */
     
-    document
     .getElementById("region")
-    .addEventListener(
-        "change",
-        async e => {
+        .addEventListener(
+            "change",
+            async e => {
 
-            await cargarComunasEmpresa(
-                e.target.value
-            );
+                await cargarComunasEmpresa(
+                    e.target.value
+                );
+
 
         }
     );
@@ -825,9 +825,7 @@ async function cargarComunasEmpresa(
 
 
 
-async function cargarRegionesRepresentante(
-    regionSeleccionada = null
-){
+async function cargarRegionesRepresentante(regionSeleccionada = null){
 
     const regiones =
         await geograficaService
