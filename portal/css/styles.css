@@ -1086,14 +1086,7 @@ EDITOR DOCUMENTAL
 
     display:grid;
 
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(
-                350px,
-                1fr
-            )
-        );
+    grid-template-columns:1fr 1fr;
 
     gap:32px;
 
@@ -1104,14 +1097,26 @@ EDITOR DOCUMENTAL
 
 .empresa-section{
 
-    border:1px solid
-        var(--border-color);
+    display:flex;
 
-    border-radius:12px;
+    flex-direction:column;
+
+    gap:18px;
 
     padding:24px;
 
-      background:white;
+    border:1px solid var(--border-color);
+
+    border-radius:12px;
+
+    background:white;
+
+}
+
+
+.empresa-section .form-group{
+
+    margin:0;
 
 }
 
