@@ -267,24 +267,32 @@ body {
 }
 
 
+
+
+
 .btn-cubika-green {
 
     background:#3dbb2f;
 
     color:white;
 
-    padding: 10px 16px;
+    border:none;
 
-    border-radius: 8px;
-    
-    transition: background-color 0.3s ease;
+    padding:10px 16px;
 
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
 }
 
 
 .btn-cubika-green:hover {
 
     background:#2fa125;
+
+    transform:translateY(-1px);
 
 }
 
