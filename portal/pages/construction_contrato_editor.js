@@ -306,7 +306,7 @@ function renderPaso1() {
             </h2>
 
 
-            <div class="form-grid">
+            <div class="form-grid contrato-grid">
 
                 <div class="form-group">
 
