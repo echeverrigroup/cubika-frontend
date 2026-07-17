@@ -299,13 +299,6 @@ function renderPaso1() {
 
         <div class="editor-section">
 
-            <h2>
-
-                Información Base
-
-            </h2>
-
-
             <div class="form-grid contrato-grid">
 
                 <div class="form-group">
