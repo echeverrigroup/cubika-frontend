@@ -6,8 +6,40 @@ export const empresasService = {
 
         const { data, error } =
             await supabase
-                .from("empresas_construccion")
-                .select("*")
+                .from(TABLE)
+                .select(`
+        
+                    *,
+        
+                    region:
+                        regiones!empresas_region_fkey(
+                            id,
+                            nombre
+                        ),
+        
+                    comuna:
+                        comunas!empresas_comuna_fkey(
+                            id,
+                            nombre
+                        ),
+        
+                    region_representante:
+                        regiones!empresas_rep_region_fkey(
+                            id,
+                            nombre
+                        ),
+        
+                    comuna_representante:
+                        comunas!empresas_rep_comuna_fkey(
+                            id,
+                            nombre
+                        )
+        
+                `)
+        
+                .order(
+                    "nombre"
+                );
                 .order("nombre");
 
         if (error) {
@@ -26,11 +58,43 @@ export const empresasService = {
     async getById(id) {
 
         const { data, error } =
-            await supabase
-                .from("empresas_construccion")
-                .select("*")
-                .eq("id", id)
-                .single();
+        await supabase
+
+        .from(TABLE)
+
+        .select(`
+
+            *,
+
+            region:
+                regiones!empresas_region_fkey(
+                    id,
+                    nombre
+                ),
+
+            comuna:
+                comunas!empresas_comuna_fkey(
+                    id,
+                    nombre
+                ),
+
+            region_representante:
+                regiones!empresas_rep_region_fkey(
+                    id,
+                    nombre
+                ),
+
+            comuna_representante:
+                comunas!empresas_rep_comuna_fkey(
+                    id,
+                    nombre
+                )
+
+        `)
+
+        .eq("id", id)
+
+        .single();
 
         if (error) {
 
