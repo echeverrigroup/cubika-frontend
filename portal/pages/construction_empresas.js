@@ -465,6 +465,18 @@ if (!rut) {
 
         await cargarEmpresas();
 
+        await cargarRegionesEmpresa(
+            empresa.region_id
+            );
+            
+        await cargarComunasEmpresa(
+        
+            empresa.region_id,
+        
+            empresa.comuna_id
+        
+        );
+
         setModalLoading(false);
         
         return true;
