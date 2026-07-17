@@ -36,10 +36,7 @@ export const empresasService = {
                         )
         
                 `)
-        
-                .order(
-                    "nombre"
-                );
+    
                 .order("nombre");
 
         if (error) {
