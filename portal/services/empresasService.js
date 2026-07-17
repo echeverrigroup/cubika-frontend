@@ -6,7 +6,7 @@ export const empresasService = {
 
         const { data, error } =
             await supabase
-                .from(TABLE)
+                .from("empresas_construccion")
                 .select(`
         
                     *,
