@@ -317,81 +317,183 @@ async function mostrarFormularioNuevaEmpresa() {
 
 function obtenerFormularioEmpresa(
     empresa = null
-) {
+){
 
     return `
 
         <form id="formEmpresa">
 
-            <div class="form-grid">
+            <div class="empresa-layout">
 
-                <div class="form-group">
+                <!-- EMPRESA -->
 
-                    <label>Nombre</label>
+                <div class="empresa-section">
 
-                    <input
-                        id="nombre"
-                        type="text"
-                        value="${empresa?.nombre ?? ""}"
-                        required>
+                    <h3>
+
+                        Datos Empresa
+
+                    </h3>
+
+                    <div class="form-group">
+
+                        <label>Nombre</label>
+
+                        <input
+                            id="nombre"
+                            type="text"
+                            value="${empresa?.nombre ?? ""}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>RUT</label>
+
+                        <input
+                            id="rut"
+                            type="text"
+                            value="${empresa?.rut ?? ""}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Dirección</label>
+
+                        <input
+                            id="direccion"
+                            type="text"
+                            value="${empresa?.direccion ?? ""}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Región</label>
+
+                        <select
+                            id="region"
+                            class="cubika-select">
+
+                            <option value="">
+                                Seleccione una región
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Comuna</label>
+
+                        <select
+                            id="comuna"
+                            class="cubika-select">
+
+                            <option value="">
+                                Seleccione una comuna
+                            </option>
+
+                        </select>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
 
-                    <label>RUT</label>
+                <!-- REPRESENTANTE -->
 
-                    <input
-                        id="rut"
-                        type="text"
-                        value="${empresa?.rut ?? ""}">
+                <div class="empresa-section">
 
-                </div>
+                    <h3>
 
+                        Representante Legal
 
-                <div class="form-group">
-
-                    <label>Dirección</label>
-
-                    <input
-                        id="direccion"
-                        type="text"
-                        value="${empresa?.direccion ?? ""}">
-
-                </div>
+                    </h3>
 
 
-                <div class="form-group">
+                    <div class="form-group">
 
-                    <label>Región</label>
+                        <label>Nombre</label>
 
-                    <select
-                        id="region"
-                        class="cubika-select">
+                        <input
+                            id="representante"
+                            type="text"
+                            value="${
+                                empresa?.representante_legal ?? ""
+                            }">
 
-                        <option value="">
-                            Seleccione una región
-                        </option>
-
-                    </select>
-
-                </div>
+                    </div>
 
 
-                <div class="form-group">
+                    <div class="form-group">
 
-                    <label>Comuna</label>
+                        <label>RUT</label>
 
-                    <select
-                        id="comuna"
-                        class="cubika-select">
+                        <input
+                            id="rutRepresentante"
+                            type="text"
+                            value="${
+                                empresa?.rut_representante ?? ""
+                            }">
 
-                        <option value="">
-                            Seleccione una comuna
-                        </option>
+                    </div>
 
-                    </select>
+
+                    <div class="form-group">
+
+                        <label>Dirección</label>
+
+                        <input
+                            id="direccionRepresentante"
+                            type="text"
+                            value="${
+                                empresa?.direccion_representante ?? ""
+                            }">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Región</label>
+
+                        <select
+                            id="regionRepresentante"
+                            class="cubika-select">
+
+                            <option value="">
+                                Seleccione una región
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Comuna</label>
+
+                        <select
+                            id="comunaRepresentante"
+                            class="cubika-select">
+
+                            <option value="">
+                                Seleccione una comuna
+                            </option>
+
+                        </select>
+
+                    </div>
 
                 </div>
 
@@ -407,7 +509,6 @@ function obtenerFormularioEmpresa(
         </form>
 
     `;
-
 }
 
 
@@ -426,6 +527,63 @@ async function crearEmpresa() {
             .value
             .trim();
 
+    const direccion =
+    document
+        .getElementById("direccion")
+        .value
+        .trim();
+
+
+    const region_id =
+        document
+            .getElementById("region")
+            .value;
+    
+    
+    const comuna_id =
+        document
+            .getElementById("comuna")
+            .value;
+    
+    
+    const representante_legal =
+        document
+            .getElementById("representante")
+            .value
+            .trim();
+    
+    
+    const rut_representante =
+        document
+            .getElementById("rutRepresentante")
+            .value
+            .trim();
+    
+    
+    const direccion_representante =
+        document
+            .getElementById(
+                "direccionRepresentante"
+            )
+            .value
+            .trim();
+    
+    
+    const region_representante_id =
+        document
+            .getElementById(
+                "regionRepresentante"
+            )
+            .value;
+    
+    
+    const comuna_representante_id =
+        document
+            .getElementById(
+                "comunaRepresentante"
+            )
+            .value;
+    
 
     if (!nombre) {
 
@@ -454,15 +612,33 @@ if (!rut) {
     try {
 
         setModalLoading(true);
+        
 
         await empresasService.create({
 
             nombre,
+        
             rut,
-            estado: "Activo"
+        
+            direccion,
+        
+            region_id,
+        
+            comuna_id,
+        
+            representante_legal,
+        
+            rut_representante,
+        
+            direccion_representante,
+        
+            region_representante_id,
+        
+            comuna_representante_id,
+        
+            estado:"Activo"
         
         });
-
         await cargarEmpresas();
 
         await cargarRegionesEmpresa(
@@ -520,6 +696,7 @@ async function editarEmpresa(id) {
             actualizarEmpresa(id)
 
     });
+    
 
     await cargarRegionesEmpresa(
     empresa.region_id
@@ -534,13 +711,11 @@ async function editarEmpresa(id) {
     );
     
     
-/*    await cargarRegionesRepresentante(
+    await cargarRegionesRepresentante(
     
         empresa.region_representante_id
     
     );
-
-
     
     await cargarComunasRepresentante(
     
@@ -549,17 +724,17 @@ async function editarEmpresa(id) {
         empresa.comuna_representante_id
     
     );
-*/
     
-    document.getElementById("region")
-        .addEventListener(
-            "change",
-            async e => {
 
-                await cargarComunasEmpresa(
-                    e.target.value
-                );
+    document
+    .getElementById("region")
+    .addEventListener(
+        "change",
+        async e => {
 
+            await cargarComunasEmpresa(
+                e.target.value
+            );
 
         }
     );
@@ -579,8 +754,10 @@ async function editarEmpresa(id) {
     
             }
         );
+    
+        
+    }
 
-}
 
 async function actualizarEmpresa(id) {
 
@@ -595,6 +772,64 @@ async function actualizarEmpresa(id) {
             .getElementById("rut")
             .value
             .trim();
+
+    const direccion =
+    document
+        .getElementById("direccion")
+        .value
+        .trim();
+
+
+    const region_id =
+        document
+            .getElementById("region")
+            .value;
+    
+    
+    const comuna_id =
+        document
+            .getElementById("comuna")
+            .value;
+    
+    
+    const representante_legal =
+        document
+            .getElementById("representante")
+            .value
+            .trim();
+    
+    
+    const rut_representante =
+        document
+            .getElementById("rutRepresentante")
+            .value
+            .trim();
+    
+    
+    const direccion_representante =
+        document
+            .getElementById(
+                "direccionRepresentante"
+            )
+            .value
+            .trim();
+    
+    
+    const region_representante_id =
+        document
+            .getElementById(
+                "regionRepresentante"
+            )
+            .value;
+    
+    
+    const comuna_representante_id =
+        document
+            .getElementById(
+                "comunaRepresentante"
+            )
+            .value;
+    
 
 
     if (!nombre) {
@@ -625,11 +860,30 @@ if (!rut) {
 
         setModalLoading(true);
 
-        await empresasService.update(id, {
+       await empresasService.update({
 
             nombre,
-            rut
-
+        
+            rut,
+        
+            direccion,
+        
+            region_id,
+        
+            comuna_id,
+        
+            representante_legal,
+        
+            rut_representante,
+        
+            direccion_representante,
+        
+            region_representante_id,
+        
+            comuna_representante_id,
+        
+            estado:"Activo"
+        
         });
 
         await cargarEmpresas();
