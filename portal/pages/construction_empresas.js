@@ -433,6 +433,7 @@ function obtenerFormularioEmpresa(
                         <input
                             id="representante"
                             type="text"
+                            class="cubika-input"
                             value="${empresa?.representante_legal ?? ""}"
                             placeholder="Nombre del representante legal..."
                             required>
