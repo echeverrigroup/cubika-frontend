@@ -957,43 +957,63 @@ EDITOR DOCUMENTAL
 }
 
 
-.wizard-steps{
+.wizard-steps {
 
     display:flex;
 
-    gap:20px;
+    justify-content:center;
 
-    margin-bottom:30px;
+    gap:24px;
+
+    margin:35px 0;
 
 }
 
 
-.wizard-step{
+.wizard-step {
+
+    min-width:220px;
 
     display:flex;
 
     align-items:center;
 
+    justify-content:center;
+
     gap:10px;
 
-    padding:12px 20px;
+    padding:16px 24px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     background:#F1F5F9;
 
     color:#64748B;
 
+    font-weight:500;
+
+    transition:all .25s;
+
 }
 
 
-.wizard-step.active{
+.wizard-step.active {
 
     background:#DBEAFE;
 
     color:#2563EB;
 
     font-weight:600;
+
+    box-shadow:
+
+        0 4px 12px
+        rgba(
+            37,
+            99,
+            235,
+            .12
+        );
 
 }
 
@@ -1025,5 +1045,30 @@ EDITOR DOCUMENTAL
 
 }
 
+
+.contrato-grid {
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+            2,
+            minmax(300px,1fr)
+        );
+
+    gap:24px;
+
+}
+
+@media (max-width:900px){
+
+    .contrato-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
 
 
