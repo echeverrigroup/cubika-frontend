@@ -406,6 +406,7 @@ function obtenerFormularioEmpresa(
 
                     </div>
 
+                </div>
 
 
                 <!-- REPRESENTANTE -->
@@ -496,7 +497,6 @@ function obtenerFormularioEmpresa(
 
                 </div>
 
-            </div>
 
         </div>
 
