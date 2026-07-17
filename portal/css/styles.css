@@ -1088,7 +1088,7 @@ EDITOR DOCUMENTAL
 
     grid-template-columns:1fr 1fr;
 
-    gap:16px;
+    gap:8px;
 
     align-items:start;
 
@@ -1103,7 +1103,7 @@ EDITOR DOCUMENTAL
 
     gap:9px;
 
-    padding:12px;
+    padding:6px;
 
     border:1px solid var(--border-color);
 
