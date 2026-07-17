@@ -575,8 +575,6 @@ function renderPaso3() {
                 </button>
 
 
-                <div class="page-header">
-
                 <button
                     id="btnGenerarContrato"
                     class="btn-cubika-green">
@@ -584,8 +582,6 @@ function renderPaso3() {
                     Aprobar y Generar
 
                 </button>
-
-                </div>
                 
             </div>
 
