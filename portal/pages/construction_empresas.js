@@ -1,6 +1,10 @@
 import { empresasService }
 from "../services/empresasService.js";
 
+import { geograficaService }
+from "../services/geograficaService.js";
+
+
 import {
 
     showConfirmModal,
@@ -256,21 +260,59 @@ async function cargarEmpresas() {
 }
 
 
-function mostrarFormularioNuevaEmpresa() {
+async function mostrarFormularioNuevaEmpresa() {
 
     showFormModal({
 
         title: "Nueva Empresa",
 
-        content: obtenerFormularioEmpresa(),
+        content:
+            obtenerFormularioEmpresa(),
 
         submitText: "Guardar",
 
-        onSubmit: crearEmpresa
+        onSubmit:
+            crearEmpresa
 
     });
 
+
+    await cargarRegionesEmpresa();
+
+    await cargarRegionesRepresentante();
+
+
+    document
+        .getElementById("region")
+        .addEventListener(
+            "change",
+            async e => {
+
+                await cargarComunasEmpresa(
+                    e.target.value
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "regionRepresentante"
+        )
+        .addEventListener(
+            "change",
+            async e => {
+
+                await cargarComunasRepresentante(
+                    e.target.value
+                );
+
+            }
+        );
+
 }
+
 
 
 function obtenerFormularioEmpresa(empresa = null) {
@@ -420,6 +462,62 @@ async function editarEmpresa(id) {
 
     });
 
+    await cargarRegionesEmpresa(
+    empresa.region_id
+    );
+    
+    await cargarComunasEmpresa(
+    
+        empresa.region_id,
+    
+        empresa.comuna_id
+    
+    );
+    
+    
+    await cargarRegionesRepresentante(
+    
+        empresa.region_representante_id
+    
+    );
+    
+    await cargarComunasRepresentante(
+    
+        empresa.region_representante_id,
+    
+        empresa.comuna_representante_id
+    
+    );
+
+    document
+    .getElementById("region")
+    .addEventListener(
+        "change",
+        async e => {
+
+            await cargarComunasEmpresa(
+                e.target.value
+            );
+
+        }
+    );
+
+
+    document
+        .getElementById(
+            "regionRepresentante"
+        )
+        .addEventListener(
+            "change",
+            async e => {
+    
+                await cargarComunasRepresentante(
+                    e.target.value
+                );
+    
+            }
+        );
+
 }
 
 async function actualizarEmpresa(id) {
@@ -558,3 +656,217 @@ async function cambiarEstadoEmpresa(id) {
     });
 
 }
+
+
+async function cargarRegionesEmpresa(
+    regionSeleccionada = null
+){
+
+    const regiones =
+        await geograficaService
+            .getRegiones();
+
+    const select =
+        document.getElementById(
+            "region"
+        );
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una región
+        </option>
+
+    `;
+
+    regiones.forEach(region=>{
+
+        select.innerHTML += `
+
+            <option
+                value="${region.id}"
+                ${
+                    region.id ==
+                    regionSeleccionada
+
+                    ? "selected"
+                    : ""
+                }
+            >
+
+                ${region.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
+async function cargarComunasEmpresa(
+
+    regionId,
+
+    comunaSeleccionada = null
+
+){
+
+    const select =
+        document.getElementById(
+            "comuna"
+        );
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una comuna
+        </option>
+
+    `;
+
+    if(!regionId)
+        return;
+
+    const comunas =
+        await geograficaService
+            .getComunas(regionId);
+
+    comunas.forEach(comuna=>{
+
+        select.innerHTML += `
+
+            <option
+                value="${comuna.id}"
+
+                ${
+                    comuna.id ==
+                    comunaSeleccionada
+
+                    ? "selected"
+                    : ""
+                }
+
+            >
+
+                ${comuna.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
+async function cargarRegionesRepresentante(
+    regionSeleccionada = null
+){
+
+    const regiones =
+        await geograficaService
+            .getRegiones();
+
+    const select =
+        document.getElementById(
+            "regionRepresentante"
+        );
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una región
+        </option>
+
+    `;
+
+    regiones.forEach(region=>{
+
+        select.innerHTML += `
+
+            <option
+                value="${region.id}"
+
+                ${
+                    region.id ==
+                    regionSeleccionada
+
+                    ? "selected"
+                    : ""
+                }
+
+            >
+
+                ${region.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+async function cargarComunasRepresentante(
+
+    regionId,
+
+    comunaSeleccionada = null
+
+){
+
+    const select =
+        document.getElementById(
+            "comunaRepresentante"
+        );
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una comuna
+        </option>
+
+    `;
+
+    if(!regionId)
+        return;
+
+    const comunas =
+        await geograficaService
+            .getComunas(regionId);
+
+    comunas.forEach(comuna=>{
+
+        select.innerHTML += `
+
+            <option
+                value="${comuna.id}"
+
+                ${
+                    comuna.id ==
+                    comunaSeleccionada
+
+                    ? "selected"
+                    : ""
+                }
+
+            >
+
+                ${comuna.nombre}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+
+
