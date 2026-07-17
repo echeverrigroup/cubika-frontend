@@ -551,7 +551,7 @@ async function editarEmpresa(id) {
     );
 */
     
-    .getElementById("region")
+    document.getElementById("region")
         .addEventListener(
             "change",
             async e => {
