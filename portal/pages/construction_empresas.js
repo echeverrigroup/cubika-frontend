@@ -358,6 +358,7 @@ function obtenerFormularioEmpresa(
 
                         <input
                             id="rut"
+                            class="cubika-input"
                             type="text"
                             value="${empresa?.rut ?? ""}">
 
@@ -370,6 +371,7 @@ function obtenerFormularioEmpresa(
 
                         <input
                             id="direccion"
+                            class="cubika-input"
                             type="text"
                             value="${empresa?.direccion ?? ""}">
 
