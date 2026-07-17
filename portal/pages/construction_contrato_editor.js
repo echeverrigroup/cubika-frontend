@@ -394,6 +394,12 @@ function renderPaso1() {
             <div class="wizard-buttons">
 
                 <button
+                    id="btnAnterior"
+                    class="btn-secondary">
+
+                </button>
+
+                <button
                     id="btnSiguiente"
                     class="btn-primary">
 
@@ -415,13 +421,6 @@ function renderPaso2() {
     return `
 
         <div class="editor-section">
-
-            <h2>
-
-                Datos Contractuales
-
-            </h2>
-
 
             <div class="form-grid">
 
@@ -556,13 +555,6 @@ function renderPaso3() {
     return `
 
         <div class="editor-section">
-
-            <h2>
-
-                Vista Previa
-
-            </h2>
-
 
             <div
                 id="previewContrato"
