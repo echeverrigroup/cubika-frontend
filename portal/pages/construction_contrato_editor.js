@@ -136,12 +136,12 @@ export async function renderConstructionContratoEditor() {
 
             <div class="editor-header">
 
-                <h1>
+                <h2>
 
                     Asistente de Generación
                     de Contratos
 
-                </h1>
+                </h2>
 
                 <p>
 
