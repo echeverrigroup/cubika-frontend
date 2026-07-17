@@ -356,11 +356,7 @@ function renderPaso1() {
 
                 <div class="form-group">
 
-                    <label>
-
-                        Obra
-
-                    </label>
+                    <label>Obra</label>
 
                     <select
                         id="obra_id"
