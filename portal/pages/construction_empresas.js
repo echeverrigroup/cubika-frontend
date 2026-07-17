@@ -434,10 +434,8 @@ function obtenerFormularioEmpresa(
                             id="representante"
                             type="text"
                             value="${
-                                empresa?.representante_legal ?? ""
-                            placeholder="Nombre y datos del representante legal..."
-                            }">
-
+                                empresa?.representante_legal ?? ""}"
+                            placeholder="Nombre y datos del representante legal...">
                     </div>
 
 
