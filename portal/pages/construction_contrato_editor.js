@@ -295,7 +295,7 @@ function renderPasoActual() {
 
 function renderPaso1() {
 
-    return `
+    return ` 
 
         <div class="editor-section">
 
