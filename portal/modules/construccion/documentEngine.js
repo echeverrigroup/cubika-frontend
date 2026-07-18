@@ -647,3 +647,58 @@ export function reemplazarVariables(
     return resultado;
 
 }
+
+
+export function validarPlantilla(
+    contenido
+) {
+
+    const variablesUsadas =
+        obtenerVariablesPlantilla(
+            contenido
+        );
+
+    const errores = [];
+
+    variablesUsadas.forEach(
+
+        variable => {
+
+            if (
+
+                !DOCUMENT_VARIABLE_MAP[
+                    variable
+                ]
+
+            ) {
+
+                errores.push({
+
+                    variable,
+
+                    mensaje:
+                        `Variable no reconocida: ${variable}`
+
+                });
+
+            }
+
+        }
+
+    );
+
+    return {
+
+        valido:
+            errores.length === 0,
+
+        variables:
+            variablesUsadas,
+
+        errores
+
+    };
+
+}
+
+
