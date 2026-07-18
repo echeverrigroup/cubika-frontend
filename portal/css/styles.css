@@ -1147,3 +1147,34 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+
+.form-grid-3{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
+    gap:16px;
+
+}
+
+
+.form-grid-4{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0,1fr)
+        );
+
+    gap:16px;
+
+}
