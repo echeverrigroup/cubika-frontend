@@ -577,7 +577,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 <form id="formTrabajador">
 
-    <div class="form-grid">
+    <div class="form-grid3">
 
         <div class="form-group">
 
@@ -658,6 +658,10 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         
         </div>
 
+    </div>
+
+
+    <div class="form-grid4">
 
         <div class="form-group">
 
