@@ -4,6 +4,103 @@ import {
 from "./documentVariableMap.js";
 
 
+const MESES = [
+
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre"
+
+];
+
+
+export function formatearFechaTexto(
+    fecha
+) {
+
+    if (!fecha)
+        return "";
+
+    const d =
+        new Date(fecha);
+
+    if (
+        isNaN(d)
+    ) {
+
+        return "";
+    }
+
+    const dia =
+        d.getDate();
+
+    const mes =
+        MESES[
+            d.getMonth()
+        ];
+
+    const anio =
+        d.getFullYear();
+
+    return `${dia} de ${mes} de ${anio}`;
+
+}
+
+
+export function obtenerNombreCompleto(
+    trabajador
+) {
+
+    if (!trabajador)
+        return "";
+
+    return [
+
+        trabajador.nombres,
+
+        trabajador.apellido_paterno,
+
+        trabajador.apellido_materno
+
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+}
+
+
+export function formatearMoneda(
+    valor
+) {
+
+    if (
+        valor === null ||
+        valor === undefined
+    ) {
+
+        return "";
+    }
+
+    return Number(
+        valor
+    ).toLocaleString(
+        "es-CL"
+    );
+
+}
+
+
+
+
+
 
 /*
 =========================================
@@ -63,6 +160,8 @@ export function construirVariables(
 
     const variables = {};
 
+
+
     Object
         .entries(
             DOCUMENT_VARIABLE_MAP
@@ -74,27 +173,91 @@ export function construirVariables(
                 ruta
             ]) => {
 
-                const valor =
-                    obtenerValorRuta(
-                        datos,
-                        ruta
-                    );
-
                 variables[
                     variable
                 ] =
-                    valor ??
-                    "";
+
+                    obtenerValorRuta(
+                        datos,
+                        ruta
+                    ) ?? "";
 
             }
 
         );
 
+
+
+    variables.TRABAJADOR =
+
+        obtenerNombreCompleto(
+            datos.trabajador
+        );
+
+
+
+    variables.FECHA_ACTUAL =
+
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+
+    variables.FECHA_ACTUAL_TEXTO =
+
+        formatearFechaTexto(
+            new Date()
+        );
+
+
+
+    variables.FECHA_NACIMIENTO_TEXTO =
+
+        formatearFechaTexto(
+
+            variables
+                .FECHA_NACIMIENTO
+
+        );
+
+
+
+    variables.FECHA_INICIO_TEXTO =
+
+        formatearFechaTexto(
+
+            variables
+                .FECHA_INICIO
+
+        );
+
+
+
+    variables.FECHA_TERMINO_TEXTO =
+
+        formatearFechaTexto(
+
+            variables
+                .FECHA_TERMINO
+
+        );
+
+
+
+    variables.SUELDO_TEXTO =
+
+        formatearMoneda(
+
+            variables.SUELDO
+
+        );
+
+
+
     return variables;
 
 }
-
-
 
 /*
 =========================================
