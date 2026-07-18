@@ -958,7 +958,7 @@ async function cargarPaso2() {
         )
         ?.addEventListener("change", actualizarCampoContrato);
     
-  /*  actualizarCampoContrato();  */
+    actualizarCampoContrato(); 
   
 
 
