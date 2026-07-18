@@ -575,6 +575,7 @@ body {
     display:flex;
     flex-direction:column;
     gap:16px;
+    margin-bottom:14px;
 
 }
 
@@ -585,7 +586,7 @@ body {
     
 /*    margin-bottom:4px; */    
 
-    padding:14px 14px;    
+    padding:0 14px;    
 
 }
 
