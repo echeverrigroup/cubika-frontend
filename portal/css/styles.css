@@ -1152,6 +1152,8 @@ EDITOR DOCUMENTAL
 
 .form-grid-3{
 
+    
+
     display:grid;
 
     grid-template-columns:
@@ -1168,6 +1170,8 @@ EDITOR DOCUMENTAL
 .form-grid-4{
 
     display:grid;
+
+    padding:30px;
 
     grid-template-columns:
         repeat(
