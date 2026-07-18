@@ -98,6 +98,288 @@ export function formatearMoneda(
 }
 
 
+const UNIDADES = [
+
+    "",
+    "uno",
+    "dos",
+    "tres",
+    "cuatro",
+    "cinco",
+    "seis",
+    "siete",
+    "ocho",
+    "nueve"
+
+];
+
+const DECENAS = [
+
+    "",
+    "diez",
+    "veinte",
+    "treinta",
+    "cuarenta",
+    "cincuenta",
+    "sesenta",
+    "setenta",
+    "ochenta",
+    "noventa"
+
+];
+
+const CENTENAS = [
+
+    "",
+    "ciento",
+    "doscientos",
+    "trescientos",
+    "cuatrocientos",
+    "quinientos",
+    "seiscientos",
+    "setecientos",
+    "ochocientos",
+    "novecientos"
+
+];
+
+
+function convertirMenor100(
+    numero
+) {
+
+    const especiales = {
+
+        0: "",
+        10: "diez",
+        11: "once",
+        12: "doce",
+        13: "trece",
+        14: "catorce",
+        15: "quince",
+        16: "dieciséis",
+        17: "diecisiete",
+        18: "dieciocho",
+        19: "diecinueve",
+        20: "veinte",
+        21: "veintiuno",
+        22: "veintidós",
+        23: "veintitrés",
+        24: "veinticuatro",
+        25: "veinticinco",
+        26: "veintiséis",
+        27: "veintisiete",
+        28: "veintiocho",
+        29: "veintinueve"
+
+    };
+
+    if (
+        especiales[numero]
+    ) {
+
+        return especiales[
+            numero
+        ];
+
+    }
+
+    const decena =
+        Math.floor(
+            numero / 10
+        );
+
+    const unidad =
+        numero % 10;
+
+    if (!unidad)
+        return DECENAS[
+            decena
+        ];
+
+    return `${DECENAS[
+        decena
+    ]} y ${
+        UNIDADES[
+            unidad
+        ]
+    }`;
+
+}
+
+
+function convertirMenor1000(
+    numero
+) {
+
+    if (numero === 0)
+        return "";
+
+    if (numero === 100)
+        return "cien";
+
+    const centenas =
+        Math.floor(
+            numero / 100
+        );
+
+    const resto =
+        numero % 100;
+
+    let texto = "";
+
+    if (
+        centenas
+    ) {
+
+        texto +=
+            CENTENAS[
+                centenas
+            ];
+
+    }
+
+    if (
+        resto
+    ) {
+
+        if (texto)
+            texto += " ";
+
+        texto +=
+            convertirMenor100(
+                resto
+            );
+
+    }
+
+    return texto;
+
+}
+
+
+export function numeroALetras(
+    numero
+) {
+
+    numero =
+        Number(numero);
+
+    if (
+        !numero
+    ) {
+
+        return "Cero pesos";
+    }
+
+    let texto = "";
+
+
+
+    const millones =
+        Math.floor(
+            numero /
+            1000000
+        );
+
+    numero =
+        numero %
+        1000000;
+
+
+
+    const miles =
+        Math.floor(
+            numero /
+            1000
+        );
+
+    const resto =
+        numero %
+        1000;
+
+
+
+    if (millones) {
+
+        if (
+            millones === 1
+        ) {
+
+            texto +=
+                "un millón";
+
+        }
+        else {
+
+            texto +=
+                `${convertirMenor1000(
+                    millones
+                )} millones`;
+
+        }
+
+    }
+
+
+
+    if (miles) {
+
+        if (texto)
+            texto += " ";
+
+        if (
+            miles === 1
+        ) {
+
+            texto +=
+                "mil";
+
+        }
+        else {
+
+            texto +=
+                `${convertirMenor1000(
+                    miles
+                )} mil`;
+
+        }
+
+    }
+
+
+
+    if (resto) {
+
+        if (texto)
+            texto += " ";
+
+        texto +=
+            convertirMenor1000(
+                resto
+            );
+
+    }
+
+
+
+    texto =
+        texto.trim();
+
+    texto =
+        texto.charAt(0)
+            .toUpperCase()
+        +
+        texto.slice(1);
+
+
+
+    return `${texto} pesos`;
+
+}
+
+
+
 
 
 
@@ -245,19 +527,22 @@ export function construirVariables(
 
 
 
-    variables.SUELDO_TEXTO =
-
+     variables.SUELDO_FORMATO =
+    
         formatearMoneda(
-
             variables.SUELDO
-
         );
-
-
-
-    return variables;
-
-}
+    
+    variables.SUELDO_TEXTO =
+    
+        numeroALetras(
+            variables.SUELDO
+        );
+        
+    
+        return variables;
+    
+    }
 
 /*
 =========================================
