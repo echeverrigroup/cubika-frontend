@@ -355,7 +355,7 @@ async function obtenerFormularioObra(obra = null) {
 
         <form id="formObra">
 
-            <div class="form-grid">
+            <div class="cubika-form-grid">
 
                 <div class="form-group">
 
