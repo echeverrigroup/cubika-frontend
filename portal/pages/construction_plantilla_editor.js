@@ -1,3 +1,11 @@
+import {
+
+    DOCUMENT_VARIABLES
+
+}
+from "./documentVariables.js";
+
+
 import { plantillasDocumentoService }
 from "../services/plantillasDocumentoService.js";
 
@@ -337,68 +345,33 @@ function volverListadoPlantillas() {
 
 
 
-const BIBLIOTECA_VARIABLES = {
-
-    "Empresa": [
-
-        "{{EMPRESA}}",
-        "{{RUT_EMPRESA}}",
-        "{{REPRESENTANTE}}",
-        "{{DIRECCION_EMPRESA}}"
-
-    ],
-
-    "Trabajador": [
-
-        "{{TRABAJADOR}}",
-        "{{RUT_TRABAJADOR}}"
-
-    ],
-
-    "Obra": [
-
-        "{{OBRA}}",
-        "{{CODIGO_OBRA}}",
-        "{{DIRECCION_OBRA}}",
-        "{{COMUNA}}",
-        "{{REGION}}"
-
-    ],
-
-    "Contrato": [
-
-        "{{CARGO}}",
-        "{{FECHA}}",
-        "{{FECHA_INGRESO}}",
-        "{{FECHA_TERMINO}}",
-        "{{SUELDO}}",
-        "{{JORNADA}}"
-
-    ]
-
-};
-
-
-
 function renderBibliotecaVariables() {
 
     const panel =
-        document.getElementById("variablesPanel");
+        document.getElementById(
+            "variablesPanel"
+        );
 
     if (!panel)
         return;
 
-
     let html = "";
 
 
-    Object.entries(BIBLIOTECA_VARIABLES)
+    Object.entries(
+        DOCUMENT_VARIABLES
+    )
+    .forEach(
 
-        .forEach(([categoria, variables]) => {
+        ([
+            categoria,
+            variables
+        ]) => {
 
             html += `
 
-                <div class="variables-category">
+                <div
+                    class="variables-category">
 
                     <h3>
 
@@ -406,25 +379,39 @@ function renderBibliotecaVariables() {
 
                     </h3>
 
-                    <div class="variables-list">
+                    <div
+                        class="variables-list">
 
             `;
 
 
-            variables.forEach(variable => {
+            variables.forEach(
+                variable => {
 
-                html += `
+                    const nombre =
 
-                    <span
-                        class="variable-chip">
+                        variable.variable ??
+                        variable;
 
-                        ${variable}
+                    const descripcion =
 
-                    </span>
+                        variable.descripcion ??
+                        "";
 
-                `;
+                    html += `
 
-            });
+                        <span
+                            class="variable-chip"
+                            title="${descripcion}">
+
+                            {{${nombre}}}
+
+                        </span>
+
+                    `;
+
+                }
+            );
 
 
             html += `
@@ -435,13 +422,15 @@ function renderBibliotecaVariables() {
 
             `;
 
-        });
+        }
 
+    );
 
     panel.innerHTML =
         html;
 
 }
+
 
 
 function inicializarVariables() {
