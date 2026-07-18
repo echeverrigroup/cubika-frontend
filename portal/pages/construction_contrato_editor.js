@@ -1130,7 +1130,7 @@ function actualizarCampoContrato() {
 
 
     if (
-        tipo === "Indefinido"
+        tipo === "Término Indefinido"
     ) {
 
         box.innerHTML =
@@ -1169,7 +1169,11 @@ function actualizarCampoContrato() {
 
     }
 
+    
 
+     if (
+        tipo === "Por Obra o Labor"
+    ) {
 
     box.innerHTML =
 
@@ -1177,11 +1181,11 @@ function actualizarCampoContrato() {
         <input
             id="causal_termino"
             class="cubika-input"
-            placeholder="
-                Ej:
-                Término de la obra
-            ">
+            placeholder="Ej: Término de la obra 55B">
     `;
+
+         return;
 }
 
+}
 
