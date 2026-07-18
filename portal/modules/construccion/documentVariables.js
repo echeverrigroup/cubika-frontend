@@ -1,7 +1,7 @@
 export const DOCUMENT_VARIABLES = {
 
     SISTEMA: [
-
+ 
         "FECHA_ACTUAL",
         "FECHA_ACTUAL_TEXTO",
         "DIA_ACTUAL",
