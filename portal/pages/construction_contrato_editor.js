@@ -55,6 +55,14 @@ let contratoActual = {
 
     jornada: null,
 
+    tipo_contrato_id:null,
+
+    causal_termino:"",
+    
+    distribucion_horaria:"",
+    
+    observaciones:"",
+
     contenido: ""
 
 };
@@ -83,6 +91,14 @@ export function nuevoContrato() {
         sueldo: null,
 
         jornada: null,
+
+        tipo_contrato_id:null,
+        
+        causal_termino:"",
+        
+        distribucion_horaria:"",
+        
+        observaciones:"",
 
         contenido: ""
 
@@ -421,96 +437,126 @@ function renderPaso2() {
                 <div class="form-group">
 
                     <label>
-
                         Fecha Inicio
-
                     </label>
-
+                
                     <input
                         id="fecha_inicio"
                         type="date"
                         class="cubika-input">
-
+                
                 </div>
-
-
+                
+                
                 <div class="form-group">
-
+                
                     <label>
-
-                        Fecha Término
-
+                        Tipo Contrato
                     </label>
-
-                    <input
-                        id="fecha_termino"
-                        type="date"
-                        class="cubika-input">
-
+                
+                    <select
+                        id="tipo_contrato_id"
+                        class="cubika-select">
+                
+                        <option value="">
+                            Seleccione
+                        </option>
+                
+                    </select>
+                
+                </div>
+                
+                
+                <div class="form-group">
+                
+                    <label>
+                        Información Adicional
+                    </label>
+                
+                    <div
+                        id="campoDinamicoContrato">
+                
+                    </div>
+                
                 </div>
 
 
                 <div class="form-group">
 
                     <label>
-
                         Sueldo
-
                     </label>
-
+                
                     <input
                         id="sueldo"
                         type="number"
                         class="cubika-input">
-
+                
                 </div>
-
+                
+                
+                <div class="form-group">
+                
+                    <label>
+                        Jornada
+                    </label>
+                
+                    <input
+                        id="jornada"
+                        class="cubika-input">
+                
+                </div>
+                
+                
+                <div class="form-group">
+                
+                    <label>
+                        Distribución Horaria
+                    </label>
+                
+                    <input
+                        id="distribucion_horaria"
+                        class="cubika-input"
+                        placeholder="
+                            Ej:
+                            Lunes a Viernes
+                            08:00 a 18:00
+                        ">
+                
+                </div>
+                
 
                 <div class="form-group">
 
                     <label>
-
-                        Jornada
-
-                    </label>
-
-                    <input
-                        id="jornada"
-                        type="text"
-                        class="cubika-input"
-                        placeholder="
-                            Ej:
-                            Art.22,
-                            45 horas, etc.
-                        ">
-
-                </div>
-
-
-                <div
-                    class="form-group"
-                    style="
-                        grid-column:1/-1;
-                    ">
-
-                    <label>
-
                         Plantilla
-
                     </label>
-
+                
                     <select
                         id="plantilla_id"
                         class="cubika-select">
-
-                        <option>
-
-                            Seleccione una plantilla
-
-                        </option>
-
+                
                     </select>
-
+                
+                </div>
+                
+                
+                <div
+                    class="form-group"
+                    style="
+                        grid-column:span 2;
+                    ">
+                
+                    <label>
+                        Observaciones
+                    </label>
+                
+                    <input
+                        id="observaciones"
+                        class="cubika-input">
+                
+                </div>
+                
                 </div>
 
             </div>
@@ -694,6 +740,55 @@ function guardarPasoActual() {
                 )
                 ?.value;
 
+        contratoActual
+            .tipo_contrato_id =
+        
+        document
+            .getElementById(
+                "tipo_contrato_id"
+            )
+            ?.value;
+        
+        
+        contratoActual
+            .distribucion_horaria =
+        
+        document
+            .getElementById(
+                "distribucion_horaria"
+            )
+            ?.value;
+        
+        
+        contratoActual
+            .observaciones =
+        
+        document
+            .getElementById(
+                "observaciones"
+            )
+            ?.value;
+        
+        
+        contratoActual
+            .causal_termino =
+        
+        document
+            .getElementById(
+                "causal_termino"
+            )
+            ?.value;
+        
+        
+        contratoActual
+            .fecha_termino =
+        
+        document
+            .getElementById(
+                "fecha_termino"
+            )
+            ?.value;
+
 
         contratoActual.fecha_termino =
 
@@ -831,9 +926,28 @@ async function cargarPaso1() {
 
 async function cargarPaso2() {
 
+
+    const tiposContrato =
+    await tiposContratoService
+        .getAll();
+    
+
     const plantillas =
         await plantillasDocumentoService
             .getAll();
+
+    cargarSelect(
+
+        "tipo_contrato_id",
+    
+        tiposContrato,
+    
+        t => t.nombre,
+    
+        contratoActual
+            .tipo_contrato_id
+    
+    );
 
 
     cargarSelect(
@@ -887,6 +1001,20 @@ async function cargarPaso2() {
 
         contratoActual.jornada
         ?? "";
+
+    document
+        .getElementById(
+            "tipo_contrato_id"
+        )
+        ?.addEventListener(
+    
+            "change",
+    
+            actualizarCampoContrato
+    
+        );
+    
+    actualizarCampoContrato();
 
 }
 
@@ -944,6 +1072,83 @@ function cargarSelect(
 
     });
 
+}
+
+
+function actualizarCampoContrato() {
+
+    const tipo =
+        document
+            .getElementById(
+                "tipo_contrato_id"
+            )
+            .selectedOptions[0]
+            ?.textContent;
+
+    const box =
+        document
+            .getElementById(
+                "campoDinamicoContrato"
+            );
+
+    if (!box)
+        return;
+
+
+
+    if (
+        tipo === "Indefinido"
+    ) {
+
+        box.innerHTML =
+
+        `
+            <label
+                class="
+                    cubika-label
+                ">
+
+                No aplica
+
+            </label>
+        `;
+
+        return;
+
+    }
+
+
+
+    if (
+        tipo === "Plazo Fijo"
+    ) {
+
+        box.innerHTML =
+
+        `
+            <input
+                id="fecha_termino"
+                type="date"
+                class="cubika-input">
+        `;
+
+        return;
+
+    }
+
+
+
+    box.innerHTML =
+
+    `
+        <input
+            id="causal_termino"
+            class="cubika-input"
+            placeholder="
+                Ej:
+                Término de la obra
+            ">
+    `;
 }
 
 
