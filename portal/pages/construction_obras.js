@@ -285,6 +285,8 @@ async function mostrarFormularioNuevaObra() {
 
         submitText: "Guardar",
 
+        sise: "large",
+
         onSubmit: crearObra
 
     });
