@@ -420,7 +420,7 @@ async function obtenerFormularioObra(obra = null) {
             </div>
 
             
-                <div class="form-group">
+                <div class="form-group-2">
                 
                     <label>Descripción</label>
 
