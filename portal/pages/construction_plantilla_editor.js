@@ -358,73 +358,66 @@ function renderBibliotecaVariables() {
     let html = "";
 
 
-    Object.entries(
-        DOCUMENT_VARIABLES
-    )
-    .forEach(
 
-        ([
-            categoria,
-            variables
-        ]) => {
+    Object
+        .entries(
+            DOCUMENT_VARIABLES
+        )
+        .forEach(
 
-            html += `
+            ([
+                categoria,
+                variables
+            ]) => {
 
-                <div
-                    class="variables-category">
-
-                    <h3>
-
-                        ${categoria}
-
-                    </h3>
+                html += `
 
                     <div
-                        class="variables-list">
+                        class="variables-category">
 
-            `;
+                        <h3>
 
+                            ${categoria}
 
-            variables.forEach(
-                variable => {
+                        </h3>
 
-                    const nombre =
+                        <div
+                            class="variables-list">
 
-                        variable.variable ??
-                        variable;
-
-                    const descripcion =
-
-                        variable.descripcion ??
-                        "";
-
-                    html += `
-
-                        <span
-                            class="variable-chip"
-                            title="${descripcion}">
-
-                            {{${nombre}}}
-
-                        </span>
-
-                    `;
-
-                }
-            );
+                `;
 
 
-            html += `
+                variables.forEach(
+                    variable => {
+
+                        html += `
+
+                            <span
+                                class="variable-chip">
+
+                                {{${variable}}}
+
+                            </span>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                        </div>
 
                     </div>
 
-                </div>
+                `;
 
-            `;
+            }
 
-        }
+        );
 
-    );
+
 
     panel.innerHTML =
         html;
