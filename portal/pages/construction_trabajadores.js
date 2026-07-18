@@ -674,6 +674,59 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         </div>
 
 
+        <select id="sexo">
+        
+            <option value="">
+                Seleccione
+            </option>
+        
+            <option
+                value="Masculino"
+                ${worker?.sexo==="Masculino"
+                    ?"selected":""
+                }>
+        
+                Masculino
+        
+            </option>
+        
+            <option
+                value="Femenino"
+                ${worker?.sexo==="Femenino"
+                    ?"selected":""
+                }>
+        
+                Femenino
+        
+            </option>
+        
+        </select>
+
+
+        <div class="form-group">
+
+            <label>Estado Civil</label>
+        
+            <input
+                id="estadoCivil"
+                value="${worker?.estado_civil ?? ""}">
+        
+        </div>
+
+
+        <div class="form-group">
+        
+            <label>Email</label>
+        
+            <input
+                id="email"
+                type="email"
+                value="${worker?.email ?? ""}">
+        
+        </div>
+        
+
+
         <div class="form-group">
 
             <label>Región</label>
@@ -821,7 +874,27 @@ async function crearTrabajador() {
             .getElementById("direccion")
             .value
             .trim();
+
+    const sexo =
+        document
+            .getElementById("sexo")
+            .value;
     
+    const estado_civil =
+        document
+            .getElementById(
+                "estadoCivil"
+            )
+            .value
+            .trim();
+    
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+        
+        
     const region_id =
         document
             .getElementById("region_id")
@@ -925,6 +998,12 @@ async function crearTrabajador() {
             apellido_materno,
         
             direccion,
+            
+            sexo,
+           
+            estado_civil,
+           
+            email,
         
             region_id,
         
@@ -1069,6 +1148,25 @@ async function actualizarTrabajador(id) {
         .value
         .trim();
 
+    const sexo =
+        document
+            .getElementById("sexo")
+            .value;
+    
+    const estado_civil =
+        document
+            .getElementById(
+                "estadoCivil"
+            )
+            .value
+            .trim();
+    
+    const email =
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
 
     const region_id =
         document
@@ -1181,6 +1279,12 @@ async function actualizarTrabajador(id) {
             apellido_materno,
         
             direccion,
+
+            sexo,
+            
+            estado_civil,
+            
+            email,
         
             region_id,
         
