@@ -674,6 +674,8 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         </div>
 
 
+        <div class="form-group">
+
         <select id="sexo">
         
             <option value="">
@@ -701,6 +703,8 @@ async function obtenerFormularioTrabajador(trabajador = null) {
             </option>
         
         </select>
+
+        </div>
 
 
         <div class="form-group">
