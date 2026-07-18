@@ -578,6 +578,16 @@ body {
     
 /*    margin-bottom:14px;   */
 
+
+.form-group2{
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:7px;
+    margin-bottom:7px;
+
+
 }
 
 .form-group label{
