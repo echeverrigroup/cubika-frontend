@@ -378,8 +378,14 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
+            </div>
 
 
+                <div class="cubika-form-grid">
+
+
+                <div class="form-group">
+                
                     <label>Nombre</label>
 
                     <input
@@ -387,6 +393,8 @@ async function obtenerFormularioObra(obra = null) {
                         type="text"
                         value="${obra?.nombre ?? ""}"
                         required>
+
+                </div>
 
 
                 <div class="form-group">
