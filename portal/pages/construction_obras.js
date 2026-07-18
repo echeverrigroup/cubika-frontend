@@ -422,7 +422,8 @@ async function obtenerFormularioObra(obra = null) {
 
             </div>
 
-
+            <div class="cubika-form-grid">
+            
                 <div class="form-group">
 
                     <label>Descripción</label>
@@ -434,7 +435,9 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
-                <div class="cubika-form-grid">
+            </div>
+
+                <div class="form-grid-3">
 
                 <div class="form-group">
 
