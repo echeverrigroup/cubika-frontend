@@ -3,7 +3,7 @@ import {
     DOCUMENT_VARIABLES
 
 }
-from "./documentVariables.js";
+from "../modules/construccion/documentVariables.js";
 
 
 import { plantillasDocumentoService }
