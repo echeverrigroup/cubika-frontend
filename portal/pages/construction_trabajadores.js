@@ -675,7 +675,8 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         <div class="form-group">
 
-        <select id="sexo">
+        <select id="sexo"
+            class="cubika-select">
         
             <option value="">
                 Seleccione
