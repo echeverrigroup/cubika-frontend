@@ -113,10 +113,38 @@ export const DOCUMENT_VARIABLES = {
 };
 
 
+export const DOCUMENT_VARIABLE_DESCRIPTIONS = {
+
+    EMPRESA:
+        "Nombre de la empresa",
+
+    RUT_EMPRESA:
+        "RUT de la empresa",
+
+    TRABAJADOR:
+        "Nombre completo del trabajador",
+
+    SUELDO:
+        "Sueldo base",
+
+    SUELDO_TEXTO:
+        "Sueldo expresado en palabras"
+
+};
+
+
+
+
 export const ALL_DOCUMENT_VARIABLES =
     Object
         .values(DOCUMENT_VARIABLES)
         .flat();
+
+
+export const DOCUMENT_VARIABLE_SET =
+    new Set(
+        ALL_DOCUMENT_VARIABLES
+    );
 
 
 export const DOCUMENT_CATEGORIES =
