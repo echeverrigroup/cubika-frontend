@@ -379,7 +379,6 @@ async function obtenerFormularioObra(obra = null) {
                 </div>
 
 
-                <div class="form-group">
 
                     <label>Nombre</label>
 
@@ -389,7 +388,6 @@ async function obtenerFormularioObra(obra = null) {
                         value="${obra?.nombre ?? ""}"
                         required>
 
-                </div>
 
                 <div class="form-group">
 
