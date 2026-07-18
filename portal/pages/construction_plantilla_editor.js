@@ -6,6 +6,15 @@ import {
 from "../modules/construccion/documentVariables.js";
 
 
+import {
+
+    validarPlantilla
+
+}
+from "../modules/construccion/documentEngine.js";
+
+
+
 import { plantillasDocumentoService }
 from "../services/plantillasDocumentoService.js";
 
@@ -502,15 +511,19 @@ function insertarVariable(variable) {
 }
 
 
-function mostrarErrorEditor(mensaje = "") {
+function mostrarErrorEditor(
+    mensaje = ""
+) {
 
     const box =
-        document.getElementById("editorError");
+        document.getElementById(
+            "editorError"
+        );
 
     if (!box)
         return;
 
-    box.textContent =
+    box.innerHTML =
         mensaje;
 
     box.style.display =
@@ -556,6 +569,30 @@ async function guardarPlantilla(id = null) {
             .getElementById("contenido")
             .value
             .trim();
+
+    const validacion =
+
+        validarPlantilla(
+            contenido
+        );
+    
+    if (
+        !validacion.valido
+    ) {
+    
+        mostrarErrorEditor(
+    
+            validacion.errores
+                .map(
+                    e => e.mensaje
+                )
+                .join("<br>")
+    
+        );
+    
+        return false;
+    
+    }
 
 
     if (!nombre) {
