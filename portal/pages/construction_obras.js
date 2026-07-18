@@ -422,7 +422,6 @@ async function obtenerFormularioObra(obra = null) {
 
             </div>
 
-            <div class="cubika-form-grid">
             
                 <div class="form-group">
 
@@ -435,7 +434,7 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
-            </div>
+
 
                 <div class="form-grid-3">
 
@@ -673,6 +672,8 @@ async function editarObra(id) {
             await obtenerFormularioObra(obra),
 
         submitText: "Actualizar",
+
+        size: "large",
 
         onSubmit: () =>
             actualizarObra(id)
