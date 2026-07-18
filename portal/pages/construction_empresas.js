@@ -391,6 +391,7 @@ function obtenerFormularioEmpresa(
                     
                     </div>
 
+                <div class="cubika-form-grid">
 
                     <div class="form-group">
 
@@ -424,6 +425,8 @@ function obtenerFormularioEmpresa(
                         </select>
 
                     </div>
+
+                </div>
 
                 </div>
 
