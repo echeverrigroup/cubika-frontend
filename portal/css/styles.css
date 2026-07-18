@@ -1171,7 +1171,7 @@ EDITOR DOCUMENTAL
 
     display:grid;
 
-    padding:20px;
+    padding:20px 0;
 
     grid-template-columns:
         repeat(
