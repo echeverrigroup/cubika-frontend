@@ -23,6 +23,12 @@ import {
 }
 from "../services/plantillasDocumentoService.js";
 
+import {
+    tiposContratoService
+}
+from "../services/tiposContratoService.js";
+
+
 
 import {
     navigate
