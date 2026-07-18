@@ -4,6 +4,14 @@ import {
 from "./documentVariableMap.js";
 
 
+import {
+    DOCUMENT_VARIABLE_SET
+}
+from "./documentVariables.js";
+
+
+
+
 const MESES = [
 
     "enero",
@@ -700,5 +708,59 @@ export function validarPlantilla(
     };
 
 }
+
+
+
+
+export function validarPlantilla(
+    contenido = ""
+) {
+
+    const variables =
+
+        obtenerVariablesPlantilla(
+            contenido
+        );
+
+    const errores = [];
+
+    variables.forEach(
+        variable => {
+
+            if (
+
+                !DOCUMENT_VARIABLE_SET.has(
+                    variable
+                )
+
+            ) {
+
+                errores.push({
+
+                    variable,
+
+                    mensaje:
+                        `La variable {{${variable}}} no existe.`
+
+                });
+
+            }
+
+        }
+    );
+
+    return {
+
+        valido:
+            errores.length === 0,
+
+        variables,
+
+        errores
+
+    };
+
+}
+
 
 
