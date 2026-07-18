@@ -104,6 +104,8 @@ export const DOCUMENT_VARIABLES = {
 
         "JORNADA",
 
+        "DISTRIBUCION_HORARIA",
+
         "CAUSAL_TERMINO",
 
         "OBSERVACIONES"
