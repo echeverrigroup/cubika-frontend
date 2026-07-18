@@ -389,15 +389,30 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
+                <input
+                    type="date"
+                    id="fechaInicio"
+                    value="${
+                        obra?.fecha_inicio ?? ""
+                    }">
+
+
+                <input
+                    type="date"
+                    id="fechaTermino"
+                    value="${
+                        obra?.fecha_termino ?? ""
+                    }">
+
 
                 <div class="form-group">
 
-                    <label>Código</label>
+                    <label>Descripción</label>
 
                     <input
-                        id="codigo"
+                        id="descripcion"
                         type="text"
-                        value="${obra?.codigo ?? ""}">
+                        value="${obra?.descripcion ?? ""}">
 
                 </div>
 
@@ -487,16 +502,38 @@ async function crearObra() {
             .getElementById("direccion")
             .value
             .trim();
-        
-           const region_id =
-            document
-                .getElementById("region_id")
-                .value;
-        
-            const comuna_id =
-            document
-                .getElementById("comuna_id")
-                .value;
+
+    const descripcion =
+    document
+        .getElementById(
+            "descripcion"
+        )
+        .value
+        .trim();
+
+    const fecha_inicio =
+        document
+            .getElementById(
+                "fechaInicio"
+            )
+            .value || null;
+    
+    const fecha_termino =
+        document
+            .getElementById(
+                "fechaTermino"
+            )
+            .value || null;
+            
+   const region_id =
+    document
+        .getElementById("region_id")
+        .value;
+    
+    const comuna_id =
+    document
+        .getElementById("comuna_id")
+        .value;
 
 
     // =========================
@@ -558,6 +595,12 @@ async function crearObra() {
                 codigo,
             
                 direccion,
+
+               descripcion,
+                
+               fecha_inicio,
+                
+               fecha_termino,
             
                 region_id,
             
@@ -664,6 +707,29 @@ async function actualizarObra(id) {
             .value
             .trim();
 
+    const descripcion =
+        document
+            .getElementById(
+                "descripcion"
+            )
+            .value
+            .trim();
+    
+    const fecha_inicio =
+        document
+            .getElementById(
+                "fechaInicio"
+            )
+            .value || null;
+    
+    const fecha_termino =
+        document
+            .getElementById(
+                "fechaTermino"
+            )
+            .value || null;
+        
+
    const region_id =
     document
         .getElementById("region_id")
@@ -730,6 +796,12 @@ async function actualizarObra(id) {
             codigo,
         
             direccion,
+
+            descripcion,
+            
+            fecha_inicio,
+            
+            fecha_termino,
         
             region_id,
         
