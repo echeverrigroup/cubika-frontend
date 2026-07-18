@@ -389,20 +389,34 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
+                <div class="form-group">
+
+                    <label>Fecha Inicio</label>
+
                 <input
                     type="date"
                     id="fechaInicio"
+                    class="cubika-input"
                     value="${
                         obra?.fecha_inicio ?? ""
                     }">
 
+                    </div>
+
+
+                <div class="form-group">
+
+                    <label>Fecha Término</label>
 
                 <input
                     type="date"
                     id="fechaTermino"
+                    class="cubika-input"
                     value="${
                         obra?.fecha_termino ?? ""
                     }">
+
+                    </div>
 
 
                 <div class="form-group">
