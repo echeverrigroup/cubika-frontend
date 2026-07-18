@@ -860,31 +860,41 @@ if (!rut) {
 
         setModalLoading(true);
 
-       await empresasService.update({
+      await empresasService.update(
 
-            nombre,
+            id,
         
-            rut,
+            {
         
-            direccion,
+                nombre,
         
-            region_id,
+                rut,
         
-            comuna_id,
+                direccion,
         
-            representante_legal,
+                region_id:
+                    region_id || null,
         
-            rut_representante,
+                comuna_id:
+                    comuna_id || null,
         
-            direccion_representante,
+                representante_legal,
         
-            region_representante_id,
+                rut_representante,
         
-            comuna_representante_id,
+                direccion_representante,
         
-            estado:"Activo"
+                region_representante_id:
+                    region_representante_id || null,
         
-        });
+                comuna_representante_id:
+                    comuna_representante_id || null,
+        
+                estado:"Activo"
+        
+            }
+        
+        );
 
         await cargarEmpresas();
 
