@@ -378,11 +378,6 @@ async function obtenerFormularioObra(obra = null) {
 
                 </div>
 
-            </div>
-
-
-                <div class="cubika-form-grid">
-
 
                 <div class="form-group">
                 
