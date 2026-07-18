@@ -340,7 +340,7 @@ function obtenerFormularioEmpresa(
 
                     <div class="form-group">
 
-                        <label>Nombre</label>
+                        <label>Razón social</label>
 
                         <input
                             id="nombre"
@@ -364,19 +364,7 @@ function obtenerFormularioEmpresa(
                             value="${empresa?.rut ?? ""}">
 
                     </div>
-
-
-                    <div class="form-group">
-
-                        <label>Dirección</label>
-
-                        <input
-                            id="direccion"
-                            class="cubika-input"
-                            type="text"
-                            value="${empresa?.direccion ?? ""}">
-
-                    </div>
+                    
                     
 
                     <div class="form-group">
@@ -390,6 +378,22 @@ function obtenerFormularioEmpresa(
                             value="${empresa?.email ?? ""}">
                     
                     </div>
+
+
+                    
+                    <div class="form-group">
+
+                        <label>Dirección</label>
+
+                        <input
+                            id="direccion"
+                            class="cubika-input"
+                            type="text"
+                            value="${empresa?.direccion ?? ""}">
+
+                    </div>
+                    
+                    
 
                 <div class="cubika-form-grid">
 
@@ -485,6 +489,9 @@ function obtenerFormularioEmpresa(
                     </div>
 
 
+                    <div class="cubika-form-grid">
+
+
                     <div class="form-group">
 
                         <label>Región</label>
@@ -517,6 +524,8 @@ function obtenerFormularioEmpresa(
                         </select>
 
                     </div>
+
+                </div>
 
                 </div>
 
