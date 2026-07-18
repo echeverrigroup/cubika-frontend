@@ -684,7 +684,7 @@ export function validarPlantilla(
                     variable,
 
                     mensaje:
-                        `La variable {{${variable}}} no existe.`
+                        `❌ {{${variable}}} no es una variable válida.`
 
                 });
 
@@ -707,6 +707,21 @@ export function validarPlantilla(
                 x => x.variable
             )
 
+    };
+
+
+    return {
+
+        valido:
+            errores.length === 0,
+    
+        variables,
+    
+        errores,
+    
+        cantidadVariables:
+            variables.length
+    
     };
 
 }
