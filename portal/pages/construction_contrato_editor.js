@@ -955,6 +955,21 @@ async function cargarPaso2() {
     
     );
 
+     document
+        .getElementById(
+            "tipo_contrato_id"
+        )
+        ?.addEventListener(
+    
+            "change",
+    
+            actualizarCampoContrato
+    
+        );
+    
+    actualizarCampoContrato();
+
+
 
     cargarSelect(
 
@@ -979,12 +994,39 @@ async function cargarPaso2() {
         ?? "";
 
 
-    document
-        .getElementById(
-            "fecha_termino"
-        )
-        .value = contratoActual.fecha_termino ?? "";
+    const fechaTermino =
+        
+            document.getElementById(
+                "fecha_termino"
+            );
+        
+        if (fechaTermino) {
+        
+            fechaTermino.value =
+        
+                contratoActual
+                    .fecha_termino
+                ?? "";
+        
+        }
 
+
+    const causalTermino =
+
+        document.getElementById(
+            "causal_termino"
+        );
+    
+    if (causalTermino) {
+    
+        causalTermino.value =
+    
+            contratoActual
+                .causal_termino
+            ?? "";
+    
+    }
+    
 
     document
         .getElementById(
@@ -1005,19 +1047,6 @@ async function cargarPaso2() {
         contratoActual.jornada
         ?? "";
 
-    document
-        .getElementById(
-            "tipo_contrato_id"
-        )
-        ?.addEventListener(
-    
-            "change",
-    
-            actualizarCampoContrato
-    
-        );
-    
-    actualizarCampoContrato();
 
 }
 
