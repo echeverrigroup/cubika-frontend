@@ -524,11 +524,7 @@ function renderPaso2() {
                     <input
                         id="distribucion_horaria"
                         class="cubika-input"
-                        placeholder="
-                            Ej:
-                            Lunes a Viernes
-                            08:00 a 18:00
-                        ">
+                        placeholder="Ej: Lunes a Viernes  -  08:00 a 18:00">
                 
                 </div>
                 
@@ -960,16 +956,10 @@ async function cargarPaso2() {
         .getElementById(
             "tipo_contrato_id"
         )
-        ?.addEventListener(
+        ?.addEventListener("change", actualizarCampoContrato);
     
-            "change",
-    
-            actualizarCampoContrato
-    
-        );
-    
-    actualizarCampoContrato();
-
+  /*  actualizarCampoContrato();  */
+  
 
 
     cargarSelect(
