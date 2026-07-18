@@ -983,10 +983,7 @@ async function cargarPaso2() {
         .getElementById(
             "fecha_termino"
         )
-        .value =
-
-        contratoActual.fecha_termino
-        ?? "";
+        .value = contratoActual.fecha_termino ?? "";
 
 
     document
