@@ -661,6 +661,16 @@ export function validarPlantilla(
     contenido
 ) {
 
+    const variablesSinUsar =
+
+    ALL_DOCUMENT_VARIABLES
+        .filter(
+            x =>
+                !variables.includes(
+                    x
+                )
+        );
+
     const variablesUsadas =
         obtenerVariablesPlantilla(
             contenido
