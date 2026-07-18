@@ -327,6 +327,29 @@ function renderPaso1() {
 
                     <label>
 
+                        Empresa
+
+                    </label>
+
+                    <select
+                        id="empresa_id"
+                        class="cubika-select">
+
+                        <option>
+
+                            Seleccione
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+
                         Trabajador
 
                     </label>
@@ -345,28 +368,6 @@ function renderPaso1() {
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <label>
-
-                        Empresa
-
-                    </label>
-
-                    <select
-                        id="empresa_id"
-                        class="cubika-select">
-
-                        <option>
-
-                            Seleccione
-
-                        </option>
-
-                    </select>
-
-                </div>
 
 
                 <div class="form-group">
