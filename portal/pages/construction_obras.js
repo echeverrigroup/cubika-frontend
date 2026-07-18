@@ -421,8 +421,6 @@ async function obtenerFormularioObra(obra = null) {
 
             
                 <div class="form-group">
-
-                    <br>
                 
                     <label>Descripción</label>
 
@@ -431,7 +429,7 @@ async function obtenerFormularioObra(obra = null) {
                         type="text"
                         value="${obra?.descripcion ?? ""}">
 
-                    <br>
+
 
                 </div>
 
