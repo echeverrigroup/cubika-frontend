@@ -725,7 +725,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
             <input
                 id="email"
                 type="email"
-                value="${worker?.email ?? ""}">
+                value="${trabajador?.email ?? ""}">
         
         </div>
         
