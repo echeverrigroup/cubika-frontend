@@ -422,12 +422,16 @@ async function obtenerFormularioObra(obra = null) {
             
                 <div class="form-group">
 
+                    <br>
+                
                     <label>Descripción</label>
 
                     <input
                         id="descripcion"
                         type="text"
                         value="${obra?.descripcion ?? ""}">
+
+                    <br>
 
                 </div>
 
