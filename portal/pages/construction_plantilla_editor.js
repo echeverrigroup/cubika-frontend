@@ -570,8 +570,7 @@ async function guardarPlantilla(id = null) {
             .value
             .trim();
 
-    const validacion =
-
+   const validacion =
         validarPlantilla(
             contenido
         );
@@ -594,7 +593,7 @@ async function guardarPlantilla(id = null) {
     
     }
 
-
+    
     if (!nombre) {
 
         mostrarErrorEditor(
