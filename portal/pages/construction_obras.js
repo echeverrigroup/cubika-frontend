@@ -396,12 +396,10 @@ async function obtenerFormularioObra(obra = null) {
                     <label>Fecha Inicio</label>
 
                 <input
-                    type="date"
                     id="fechaInicio"
+                    type="date"
                     class="cubika-input"
-                    value="${
-                        obra?.fecha_inicio ?? ""
-                    }">
+                    value="${obra?.fecha_inicio ?? ""}">
 
                 </div>
 
@@ -414,9 +412,7 @@ async function obtenerFormularioObra(obra = null) {
                     type="date"
                     id="fechaTermino"
                     class="cubika-input"
-                    value="${
-                        obra?.fecha_termino ?? ""
-                    }">
+                    value="${obra?.fecha_termino ?? ""}">
 
                 </div>
 
