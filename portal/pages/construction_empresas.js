@@ -620,68 +620,58 @@ if (!rut) {
     try {
 
         setModalLoading(true);
-        
-
+    
         await empresasService.create({
-
+    
             nombre,
-        
+    
             rut,
-        
+    
             direccion,
-        
-            region_id,
-        
-            comuna_id,
-        
+    
+            region_id: region_id || null,
+    
+            comuna_id: comuna_id || null,
+    
             representante_legal,
-        
+    
             rut_representante,
-        
+    
             direccion_representante,
-        
-            region_representante_id,
-        
-            comuna_representante_id,
-        
+    
+            region_representante_id:
+                region_representante_id || null,
+    
+            comuna_representante_id:
+                comuna_representante_id || null,
+    
             estado:"Activo"
-        
+    
         });
+    
         await cargarEmpresas();
-
-        await cargarRegionesEmpresa(
-            empresa.region_id
-            );
-            
-        await cargarComunasEmpresa(
-        
-            empresa.region_id,
-        
-            empresa.comuna_id
-        
-        );
-
+    
         setModalLoading(false);
-        
+    
         return true;
-
+    
     }
-
-        catch (error) {
-
-            console.error(error);
-        
-            setModalLoading(false);
-        
-            setModalError(
-                "No fue posible guardar la empresa."
-            );
-        
-            return false;
-        
-        }
-
+    catch(error){
+    
+        console.error(error);
+    
+        setModalLoading(false);
+    
+        setModalError(
+            "No fue posible guardar la empresa."
+        );
+    
+        return false;
+    
+    }
+    
 }
+
 
 
 async function editarEmpresa(id) {
