@@ -684,7 +684,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         
             <option
                 value="Masculino"
-                ${worker?.sexo==="Masculino"
+                ${trabajador?.sexo==="Masculino"
                     ?"selected":""
                 }>
         
@@ -694,7 +694,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         
             <option
                 value="Femenino"
-                ${worker?.sexo==="Femenino"
+                ${trabajador?.sexo==="Femenino"
                     ?"selected":""
                 }>
         
