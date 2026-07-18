@@ -1230,3 +1230,44 @@ EDITOR DOCUMENTAL
     gap:14px;
 
 }
+
+
+.empresa-layout{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:40px;
+
+    position:relative;
+
+}
+
+
+.empresa-layout::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:10px;
+    bottom:10px;
+
+    left:50%;
+
+    width:1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(0,0,0,.08),
+            rgba(0,0,0,.12),
+            rgba(0,0,0,.08),
+            transparent
+        );
+
+    transform:translateX(-50%);
+
+}
