@@ -403,7 +403,7 @@ async function obtenerFormularioObra(obra = null) {
                         obra?.fecha_inicio ?? ""
                     }">
 
-                    </div>
+                </div>
 
 
                 <div class="form-group">
@@ -418,7 +418,7 @@ async function obtenerFormularioObra(obra = null) {
                         obra?.fecha_termino ?? ""
                     }">
 
-                    </div>
+                </div>
 
 
                 <div class="form-group">
@@ -478,13 +478,13 @@ async function obtenerFormularioObra(obra = null) {
                 
                 </div>
 
-            </div>
-
 
             <div
                 id="modalFormError"
                 class="form-error"
                 style="display:none;">
+            </div>
+
             </div>
 
         </form>
