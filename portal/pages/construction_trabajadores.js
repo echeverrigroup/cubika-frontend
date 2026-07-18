@@ -713,7 +713,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         
             <input
                 id="estadoCivil"
-                value="${worker?.estado_civil ?? ""}">
+                value="${trabajador?.estado_civil ?? ""}">
         
         </div>
 
