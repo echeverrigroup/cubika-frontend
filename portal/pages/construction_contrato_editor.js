@@ -934,8 +934,8 @@ async function cargarPaso2() {
 
 
     const tiposContrato =
-    await tiposContratoService
-        .getAll();
+        await tiposContratoService
+            .getAll();
     
 
     const plantillas =
