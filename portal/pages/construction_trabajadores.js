@@ -645,6 +645,18 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 value="${trabajador?.fecha_nacimiento ?? ""}">
 
         </div>
+        
+
+        <div class="form-group">
+        
+            <label>Email</label>
+        
+            <input
+                id="email"
+                type="email"
+                value="${trabajador?.email ?? ""}">
+        
+        </div>
 
 
         <div class="form-group">
@@ -659,19 +671,6 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         </div>
 
-
-        <div
-            class="form-group">
-
-            <label>Dirección</label>
-
-            <input
-                id="direccion"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.direccion ?? ""}">
-
-        </div>
 
 
         <div class="form-group">
@@ -718,15 +717,18 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         </div>
 
 
-        <div class="form-group">
-        
-            <label>Email</label>
-        
+
+        <div
+            class="form-group">
+
+            <label>Dirección</label>
+
             <input
-                id="email"
-                type="email"
-                value="${trabajador?.email ?? ""}">
-        
+                id="direccion"
+                class="cubika-input"
+                type="text"
+                value="${trabajador?.direccion ?? ""}">
+
         </div>
         
 
