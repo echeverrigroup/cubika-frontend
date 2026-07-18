@@ -377,6 +377,19 @@ function obtenerFormularioEmpresa(
                             value="${empresa?.direccion ?? ""}">
 
                     </div>
+                    
+
+                    <div class="form-group">
+
+                        <label>Email</label>
+                    
+                        <input
+                            id="email"
+                            type="email"
+                            class="cubika-input"
+                            value="${empresa?.email ?? ""}">
+                    
+                    </div>
 
 
                     <div class="form-group">
@@ -541,6 +554,12 @@ async function crearEmpresa() {
         .value
         .trim();
 
+    const email =
+    document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const region_id =
         document
@@ -628,6 +647,8 @@ if (!rut) {
             rut,
     
             direccion,
+
+            email,
     
             region_id: region_id || null,
     
@@ -779,6 +800,12 @@ async function actualizarEmpresa(id) {
         .value
         .trim();
 
+    const email =
+    document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const region_id =
         document
@@ -871,6 +898,8 @@ if (!rut) {
                 rut,
         
                 direccion,
+
+                email,
         
                 region_id:
                     region_id || null,
