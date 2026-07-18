@@ -5,7 +5,8 @@ from "./documentVariableMap.js";
 
 
 import {
-    DOCUMENT_VARIABLE_SET
+    DOCUMENT_VARIABLE_SET,
+    ALL_DOCUMENT_VARIABLES
 }
 from "./documentVariables.js";
 
@@ -657,77 +658,12 @@ export function reemplazarVariables(
 }
 
 
-export function validarPlantilla(
-    contenido
-) {
-
-    const variablesSinUsar =
-
-    ALL_DOCUMENT_VARIABLES
-        .filter(
-            x =>
-                !variables.includes(
-                    x
-                )
-        );
-
-    const variablesUsadas =
-        obtenerVariablesPlantilla(
-            contenido
-        );
-
-    const errores = [];
-
-    variablesUsadas.forEach(
-
-        variable => {
-
-            if (
-
-                !DOCUMENT_VARIABLE_MAP[
-                    variable
-                ]
-
-            ) {
-
-                errores.push({
-
-                    variable,
-
-                    mensaje:
-                        `Variable no reconocida: ${variable}`
-
-                });
-
-            }
-
-        }
-
-    );
-
-    return {
-
-        valido:
-            errores.length === 0,
-
-        variables:
-            variablesUsadas,
-
-        errores
-
-    };
-
-}
-
-
-
 
 export function validarPlantilla(
     contenido = ""
 ) {
 
     const variables =
-
         obtenerVariablesPlantilla(
             contenido
         );
@@ -738,11 +674,9 @@ export function validarPlantilla(
         variable => {
 
             if (
-
                 !DOCUMENT_VARIABLE_SET.has(
                     variable
                 )
-
             ) {
 
                 errores.push({
@@ -766,11 +700,15 @@ export function validarPlantilla(
 
         variables,
 
-        errores
+        errores,
+
+        variablesInvalidas:
+            errores.map(
+                x => x.variable
+            )
 
     };
 
 }
-
 
 
