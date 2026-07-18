@@ -957,6 +957,10 @@ async function cargarPaso2() {
             "tipo_contrato_id"
         )
         ?.addEventListener("change", actualizarCampoContrato);
+
+    console.log(
+    "actualizarCampoContrato"
+    );
     
     actualizarCampoContrato(); 
   
