@@ -144,6 +144,9 @@ export const DOCUMENT_VARIABLE_MAP = {
     JORNADA:
         "contrato.jornada",
 
+    DISTRIBUCION_HORARIA:
+        "contrato.distribucion_horaria",
+
     CAUSAL_TERMINO:
         "contrato.causal_termino",
 
