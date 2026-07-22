@@ -1,4 +1,13 @@
 import {
+
+    construirVariables,
+    reemplazarVariables
+
+}
+from
+"../modules/construccion/documentEngine.js";
+
+import {
     workersService
 }
 from "../services/workersService.js";
