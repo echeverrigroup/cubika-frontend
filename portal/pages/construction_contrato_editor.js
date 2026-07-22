@@ -1111,6 +1111,8 @@ function actualizarCampoContrato() {
             )
             .selectedOptions[0]
             ?.textContent;
+            ?.trim();
+    
 
     console.log(
             "Tipo:",
