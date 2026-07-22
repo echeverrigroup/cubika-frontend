@@ -1155,13 +1155,8 @@ function actualizarCampoContrato() {
         tipo === "Plazo Fijo"
     ) {
 
-        box.innerHTML =
-
-        `
-            <input
-                id="fecha_termino"
-                type="date"
-                class="cubika-input">
+        box.innerHTML = `
+            <h1>FUNCIONA</h1>
         `;
 
         return;
