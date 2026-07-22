@@ -1120,6 +1120,9 @@ function actualizarCampoContrato() {
                 "campoDinamicoContrato"
             );
 
+    console.log(box);
+    
+
     if (!box)
         return;
 
