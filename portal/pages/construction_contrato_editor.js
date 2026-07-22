@@ -849,6 +849,10 @@ async function cargarDatosPaso() {
 
             break;
 
+        case 3:
+            await cargarPaso3();
+            break;
+
     }
 
 }
@@ -1209,4 +1213,14 @@ function actualizarCampoContrato() {
 }
 
 }
+
+
+async function cargarPaso3() {
+
+    await generarVistaPrevia();
+
+}
+
+
+
 
