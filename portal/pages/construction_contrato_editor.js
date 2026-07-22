@@ -1283,16 +1283,57 @@ async function generarVistaPrevia() {
 
     console.log(
         variables
+        );
+    
+        console.log({
+            empresa,
+            trabajador,
+            obra,
+            cargo,
+            plantilla,
+            contratoActual
+        });
+    
+    
+        const contenido =
+    
+        reemplazarVariables(
+    
+            plantilla.contenido,
+            variables
+    
+        );
+    
+    console.log(
+        contenido
     );
 
-    console.log({
-        empresa,
-        trabajador,
-        obra,
-        cargo,
-        plantilla,
-        contratoActual
-    });
+    contratoActual.contenido =
+    contenido;
+
+
+    const preview =
+        document.getElementById(
+            "previewContrato"
+        );
+    
+    if (preview) {
+    
+        preview.innerHTML =
+            `
+            <pre
+                style="
+                    white-space:pre-wrap;
+                    font-family:inherit;
+                    margin:0;
+                "
+            >
+    
+    ${contenido}
+    
+            </pre>
+            `;
+    }
 
 }
 
