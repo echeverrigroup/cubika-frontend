@@ -1320,19 +1320,16 @@ async function generarVistaPrevia() {
     if (preview) {
     
         preview.innerHTML =
-            `
-            <pre
-                style="
-                    white-space:pre-wrap;
-                    font-family:inherit;
-                    margin:0;
-                "
-            >
-    
-    ${contenido}
-    
-            </pre>
-            `;
+        `
+        <div
+            style="
+                white-space:pre-wrap;
+                line-height:1.7;
+            "
+        >
+            ${contenido}
+        </div>
+        `;
     }
 
 }
