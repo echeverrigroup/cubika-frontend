@@ -1110,7 +1110,7 @@ function actualizarCampoContrato() {
                 "tipo_contrato_id"
             )
             .selectedOptions[0]
-            ?.textContent;
+            ?.textContent
             ?.trim();
     
 
