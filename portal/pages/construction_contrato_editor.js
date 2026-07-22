@@ -1112,7 +1112,10 @@ function actualizarCampoContrato() {
             .selectedOptions[0]
             ?.textContent;
 
-    console.log("Tipo:", tipo);
+    console.log(
+            "Tipo:",
+            "[" + tipo + "]"
+        );
 
     const box =
         document
