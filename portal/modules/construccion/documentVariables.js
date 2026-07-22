@@ -130,6 +130,9 @@ export const DOCUMENT_VARIABLE_DESCRIPTIONS = {
     SUELDO:
         "Sueldo base",
 
+    SUELDO_FORMATO:
+    "Sueldo con separador de miles.",
+
     SUELDO_TEXTO:
         "Sueldo expresado en palabras"
 
