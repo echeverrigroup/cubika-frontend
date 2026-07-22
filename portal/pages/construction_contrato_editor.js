@@ -1042,6 +1042,25 @@ async function cargarPaso2() {
         contratoActual.jornada
         ?? "";
 
+    document
+        .getElementById(
+            "distribucion_horaria"
+        )
+        .value =
+        contratoActual
+            .distribucion_horaria
+        ?? "";
+    
+    
+    document
+        .getElementById(
+            "observaciones"
+        )
+        .value =
+        contratoActual
+            .observaciones
+        ?? "";
+
 
 }
 
