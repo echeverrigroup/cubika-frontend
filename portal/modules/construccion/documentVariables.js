@@ -100,6 +100,7 @@ export const DOCUMENT_VARIABLES = {
         "FECHA_TERMINO_TEXTO",
 
         "SUELDO",
+        "SUELDO_FORMATO",
         "SUELDO_TEXTO",
 
         "JORNADA",
