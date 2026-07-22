@@ -1259,6 +1259,22 @@ async function generarVistaPrevia() {
                     .plantilla_id
             );
 
+    const variables =
+    construirVariables({
+
+        empresa,
+        trabajador,
+        obra,
+        cargo,
+        contrato:
+            contratoActual
+
+    });
+
+    console.log(
+        variables
+    );
+
     console.log({
         empresa,
         trabajador,
