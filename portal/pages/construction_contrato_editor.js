@@ -487,7 +487,7 @@ function renderPaso2() {
                 <div class="form-group">
                 
                     <label>
-                        Información Adicional
+                        Información de Término
                     </label>
                 
                     <div
@@ -534,7 +534,7 @@ function renderPaso2() {
                     <input
                         id="distribucion_horaria"
                         class="cubika-input"
-                        placeholder="Ej: Lunes a Viernes  -  08:00 a 18:00">
+                        placeholder="Ej: Lunes a Viernes  -  08:00 a 18:00 Hrs">
                 
                 </div>
                 
@@ -972,8 +972,6 @@ async function cargarPaso2() {
         )
         ?.addEventListener("change", actualizarCampoContrato);
 
-    console.log(
-    "actualizarCampoContrato"
     );
     
     actualizarCampoContrato(); 
@@ -1165,7 +1163,6 @@ function actualizarCampoContrato() {
         return;
 
 
-
     if (
         tipo === "Término Indefinido"
     ) {
@@ -1178,7 +1175,7 @@ function actualizarCampoContrato() {
                     cubika-label
                 ">
 
-                No aplica
+                Sin fecha de Término
 
             </label>
         `;
@@ -1216,7 +1213,7 @@ function actualizarCampoContrato() {
         <input
             id="causal_termino"
             class="cubika-input"
-            placeholder="Ej: Término de la obra 55B">
+            placeholder="Ej: Término de la unidad 55-A">
     `;
 
          return;
