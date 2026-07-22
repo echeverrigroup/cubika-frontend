@@ -38,11 +38,43 @@ export function formatearFechaTexto(
     if (!fecha)
         return "";
 
-    const d =
-        new Date(fecha);
+    let d;
 
     if (
-        isNaN(d)
+        typeof fecha === "string" &&
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            fecha
+        )
+    ) {
+
+        const [
+            anio,
+            mes,
+            dia
+        ] = fecha
+            .split("-")
+            .map(Number);
+
+        d = new Date(
+            anio,
+            mes - 1,
+            dia
+        );
+
+    }
+    else {
+
+        d =
+            new Date(
+                fecha
+            );
+
+    }
+
+    if (
+        isNaN(
+            d.getTime()
+        )
     ) {
 
         return "";
@@ -62,6 +94,8 @@ export function formatearFechaTexto(
     return `${dia} de ${mes} de ${anio}`;
 
 }
+
+
 
 
 export function obtenerNombreCompleto(
