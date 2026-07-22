@@ -1224,9 +1224,49 @@ async function cargarPaso3() {
 
 async function generarVistaPrevia() {
 
-    console.log(
-        "Generando preview..."
-    );
+    const empresa =
+        await empresasService
+            .getById(
+                contratoActual
+                    .empresa_id
+            );
+
+    const trabajador =
+        await workersService
+            .getById(
+                contratoActual
+                    .worker_id
+            );
+
+    const obra =
+        await obrasService
+            .getById(
+                contratoActual
+                    .obra_id
+            );
+
+    const cargo =
+        await cargosService
+            .getById(
+                contratoActual
+                    .cargo_id
+            );
+
+    const plantilla =
+        await plantillasDocumentoService
+            .getById(
+                contratoActual
+                    .plantilla_id
+            );
+
+    console.log({
+        empresa,
+        trabajador,
+        obra,
+        cargo,
+        plantilla,
+        contratoActual
+    });
 
 }
 
