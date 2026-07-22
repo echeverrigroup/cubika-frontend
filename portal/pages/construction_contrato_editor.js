@@ -1,7 +1,8 @@
 import {
 
     construirVariables,
-    reemplazarVariables
+    reemplazarVariables,
+    validarPlantilla
 
 }
 from
