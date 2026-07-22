@@ -1161,7 +1161,10 @@ function actualizarCampoContrato() {
     ) {
 
         box.innerHTML = `
-            <h1>FUNCIONA</h1>
+            <input
+                id="fecha_termino"
+                type="date"
+                class="cubika-input">
         `;
 
         return;
