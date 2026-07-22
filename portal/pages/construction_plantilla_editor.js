@@ -444,17 +444,17 @@ function inicializarVariables() {
         .forEach(chip => {
 
             chip.addEventListener(
-
-                "click",
-
-                () => insertarVariable(
-
-                    chip.textContent.trim()
-
-                )
-
+                "mousedown",
+                e => {
+            
+                    e.preventDefault();
+            
+                    insertarVariable(
+                        chip.textContent.trim()
+                    );
+            
+                }
             );
-
         });
 
 }
@@ -462,6 +462,7 @@ function inicializarVariables() {
 
 
 function insertarVariable(variable) {
+    
 
     const textarea =
         document.getElementById("contenido");
