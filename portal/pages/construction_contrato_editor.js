@@ -753,14 +753,10 @@ function guardarPasoActual() {
                 )
                 ?.value;
 
-        contratoActual
-            .tipo_contrato_id =
-        
-        document
-            .getElementById(
-                "nombre"
-            )
-            ?.value;
+        contratoActual.tipo_contrato_id =
+            document.getElementById(
+                "tipo_contrato_id"
+            ).value;
         
         
         contratoActual
