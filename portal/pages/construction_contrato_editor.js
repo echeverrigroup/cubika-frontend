@@ -970,9 +970,8 @@ async function cargarPaso2() {
         .getElementById(
             "tipo_contrato_id"
         )
-        ?.addEventListener("change", actualizarCampoContrato)
+        ?.addEventListener("change", actualizarCampoContrato);
 
-    );
     
     actualizarCampoContrato(); 
   
