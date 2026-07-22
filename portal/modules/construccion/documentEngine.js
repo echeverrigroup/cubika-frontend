@@ -645,7 +645,7 @@ export function reemplazarVariables(
 
                         regex,
 
-                        valor ?? ""
+                        `<strong>${valor ?? ""}</strong>`
 
                     );
 
