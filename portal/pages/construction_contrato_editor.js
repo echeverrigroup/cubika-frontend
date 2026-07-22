@@ -758,7 +758,7 @@ function guardarPasoActual() {
         
         document
             .getElementById(
-                "tipo_contrato_id"
+                "nombre"
             )
             ?.value;
         
