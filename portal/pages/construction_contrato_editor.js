@@ -1222,5 +1222,14 @@ async function cargarPaso3() {
 }
 
 
+async function generarVistaPrevia() {
+
+    console.log(
+        "Generando preview..."
+    );
+
+}
+
+
 
 
