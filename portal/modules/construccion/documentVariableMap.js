@@ -130,7 +130,7 @@ export const DOCUMENT_VARIABLE_MAP = {
         "contrato.numero_contrato",
 
     TIPO_CONTRATO:
-        "tipoContrato.nombre",
+         "tipos_contrato.nombre",
 
     FECHA_INICIO:
         "contrato.fecha_inicio",
