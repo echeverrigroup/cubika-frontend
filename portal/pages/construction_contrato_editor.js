@@ -1285,7 +1285,7 @@ async function generarVistaPrevia() {
     console.log(
         "Fecha enviada:",
         {
-            ...contratoActual,
+            contratoActual,
             tipo_contrato: tipoContrato
         }.fecha_inicio
     );
