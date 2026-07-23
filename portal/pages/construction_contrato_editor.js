@@ -1315,12 +1315,12 @@ async function generarVistaPrevia() {
     
         console.log(
             "Datos recibidos:",
-            datos.contrato
+            variables.contrato
         );
         
         console.log(
             "Fecha recibida:",
-            datos.contrato.fecha_inicio
+            variables.contrato.fecha_inicio
         );
 
 
