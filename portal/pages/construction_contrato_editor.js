@@ -1247,128 +1247,89 @@ async function cargarPaso3() {
 }
 
 
-async function generarVistaPrevia() {
+async function construirContrato() {
 
     const empresa =
-        await empresasService
-            .getById(
-                contratoActual
-                    .empresa_id
-            );
+        await empresasService.getById(
+            contratoActual.empresa_id
+        );
 
     const trabajador =
-        await workersService
-            .getById(
-                contratoActual
-                    .worker_id
-            );
+        await workersService.getById(
+            contratoActual.worker_id
+        );
 
     const obra =
-        await obrasService
-            .getById(
-                contratoActual
-                    .obra_id
-            );
+        await obrasService.getById(
+            contratoActual.obra_id
+        );
 
     const cargo =
-        await cargosService
-            .getById(
-                contratoActual
-                    .cargo_id
-            );
-
-
-
-
-
-
-
+        await cargosService.getById(
+            contratoActual.cargo_id
+        );
 
     const plantilla =
-        await plantillasDocumentoService
-            .getById(
-                contratoActual
-                    .plantilla_id
-            );
-
-    console.log(contratoActual);
-
-    console.log(
-        contratoActual.causal_termino
+        await plantillasDocumentoService.getById(
+            contratoActual.plantilla_id
         );
-
 
     const variables =
-    construirVariables({
+        construirVariables({
 
-        empresa,
-        trabajador,
-        obra,
-        cargo,
-        contrato:
-            contratoActual
-
-    });
-
-    console.log(
-        variables
-        );
-
-    console.log(
-        variables.TIPO_CONTRATO
-    );
-
-    console.log(
-        variables.CAUSAL_TERMINO
-    );
-
-
-/*    
-        console.log({
             empresa,
             trabajador,
             obra,
             cargo,
-            plantilla,
-            contratoActual
-        });
-    
-    */
 
+            contrato: contratoActual
+
+        });
 
     const tipoContrato =
         await tiposContratoService.getById(
             contratoActual.tipo_contrato_id
         );
-    
+
     variables.TIPO_CONTRATO =
         tipoContrato?.nombre ?? "";
 
-
     if (variables.TIPO_CONTRATO === "Término Indefinido") {
 
-        variables.FECHA_TERMINO = "Sin fecha de término";
-        variables.FECHA_TERMINO_TEXTO = "Sin fecha de término";
-    
+        variables.FECHA_TERMINO =
+            "Sin fecha de término";
+
+        variables.FECHA_TERMINO_TEXTO =
+            "Sin fecha de término";
+
     }
-    
 
-        const contenido =
-
+    const contenidoHtml =
         reemplazarVariables(
-
             plantilla.contenido,
             variables
-
         );
 
-    console.log(
-        contenido
-    );
+    return {
+
+        plantilla,
+
+        variables,
+
+        contenidoHtml
+
+    };
+
+}
+
+
+async function generarVistaPrevia() {
+
+    const contrato =
+        await construirContrato();
 
     contratoActual.contenido =
-    contenido;
-
+        contrato.contenidoHtml;
 
     const preview =
         document.getElementById(
@@ -1377,20 +1338,20 @@ async function generarVistaPrevia() {
 
     if (preview) {
 
-        preview.innerHTML =
-        `
-        <div
-            style="
-                white-space:pre-wrap;
-                line-height:1.7;
-            "
-        >
-            ${contenido}
-        </div>
+        preview.innerHTML = `
+            <div
+                style="
+                    white-space:pre-wrap;
+                    line-height:1.7;
+                ">
+                ${contrato.contenidoHtml}
+            </div>
         `;
+
     }
 
 }
+
 
 
 async function aprobarYGenerarContrato() {
@@ -1400,68 +1361,10 @@ async function aprobarYGenerarContrato() {
     );
 
 
-    const empresa =
-        await empresasService.getById(
-            contratoActual.empresa_id
-        );
-    
-    const trabajador =
-        await workersService.getById(
-            contratoActual.worker_id
-        );
-    
-    const obra =
-        await obrasService.getById(
-            contratoActual.obra_id
-        );
-    
-    const cargo =
-        await cargosService.getById(
-            contratoActual.cargo_id
-        );
-    
-    const plantilla =
-        await plantillasDocumentoService.getById(
-            contratoActual.plantilla_id
-        );
-    
-    const variables =
-        construirVariables({
-    
-            empresa,
-            trabajador,
-            obra,
-            cargo,
-    
-            contrato: contratoActual
-    
-        });
-    
-    const tipoContrato =
-        await tiposContratoService.getById(
-            contratoActual.tipo_contrato_id
-        );
-    
-    variables.TIPO_CONTRATO =
-        tipoContrato?.nombre ?? "";
-    
-    if (variables.TIPO_CONTRATO === "Término Indefinido") {
-    
-        variables.FECHA_TERMINO =
-            "Sin fecha de término";
-    
-        variables.FECHA_TERMINO_TEXTO =
-            "Sin fecha de término";
-    
-    }
-    
-    const contenidoHtml =
-        reemplazarVariables(
-            plantilla.contenido,
-            variables
-        );
+  const contrato =
+    await construirContrato();
 
-
+    
     const contratoGuardar = {
 
         worker_id:
@@ -1504,10 +1407,10 @@ async function aprobarYGenerarContrato() {
             contratoActual.observaciones,
     
         contenido_html:
-            contenidoHtml,
-    
+            contrato.contenidoHtml,
+        
         variables:
-            variables,
+            contrato.variables,
     
         estado:
             "Generado"
