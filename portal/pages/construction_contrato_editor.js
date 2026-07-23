@@ -1287,10 +1287,6 @@ async function generarVistaPrevia() {
         contrato:
             contratoActual
 
-
-
-
-
     });
 
     console.log(
@@ -1317,6 +1313,16 @@ async function generarVistaPrevia() {
         });
     
     */
+
+
+    const tipoContrato =
+        await tiposContratoService.getById(
+            contratoActual.tipo_contrato_id
+        );
+    
+    variables.TIPO_CONTRATO =
+        tipoContrato?.nombre ?? "";
+    
 
         const contenido =
 
