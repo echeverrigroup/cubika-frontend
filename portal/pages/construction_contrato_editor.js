@@ -1257,6 +1257,12 @@ async function generarVistaPrevia() {
             );
 
 
+
+
+
+
+
+
     const plantilla =
         await plantillasDocumentoService
             .getById(
@@ -1265,8 +1271,6 @@ async function generarVistaPrevia() {
             );
 
     console.log(contratoActual);
-
-
 
     console.log(
         contratoActual.causal_termino
@@ -1280,16 +1284,14 @@ async function generarVistaPrevia() {
         trabajador,
         obra,
         cargo,
-        contrato: {
-            
-            contratoActual,
+        contrato:
+            contratoActual
 
 
-        }
+
+
 
     });
-
-
 
     console.log(
         variables
@@ -1298,26 +1300,36 @@ async function generarVistaPrevia() {
     console.log(
         variables.TIPO_CONTRATO
     );
-    
+
     console.log(
         variables.CAUSAL_TERMINO
     );
+
+
+/*    
+        console.log({
+            empresa,
+            trabajador,
+            obra,
+            cargo,
+            plantilla,
+            contratoActual
+        });
     
-    
+    */
+
         const contenido =
-    
+
         reemplazarVariables(
-    
+
             plantilla.contenido,
             variables
-    
+
         );
-    
-  console.log(
+
+    console.log(
         contenido
     );
-    
-    
 
     contratoActual.contenido =
     contenido;
@@ -1327,9 +1339,9 @@ async function generarVistaPrevia() {
         document.getElementById(
             "previewContrato"
         );
-    
+
     if (preview) {
-    
+
         preview.innerHTML =
         `
         <div
@@ -1344,6 +1356,7 @@ async function generarVistaPrevia() {
     }
 
 }
+
 
 
 
