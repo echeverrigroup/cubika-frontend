@@ -1278,7 +1278,17 @@ async function generarVistaPrevia() {
     console.log(
         variables
         );
+
+    console.log(
+        variables.TIPO_CONTRATO
+    );
     
+    console.log(
+        variables.CAUSAL_TERMINO
+    );
+    
+
+/*    
         console.log({
             empresa,
             trabajador,
@@ -1288,6 +1298,7 @@ async function generarVistaPrevia() {
             contratoActual
         });
     
+    */
     
         const contenido =
     
