@@ -1,4 +1,10 @@
 import {
+    contratosGeneradosService
+}
+from "../services/contratosGeneradosService.js";
+
+
+import {
 
     construirVariables,
     reemplazarVariables,
@@ -698,6 +704,21 @@ function inicializarNavegacion() {
 
         );
 
+
+    document
+    .getElementById(
+        "btnGenerarContrato"
+    )
+    ?.addEventListener(
+
+        "click",
+
+        aprobarYGenerarContrato
+
+    );
+
+    
+
 }
 
 
@@ -1368,6 +1389,153 @@ async function generarVistaPrevia() {
         </div>
         `;
     }
+
+}
+
+
+async function aprobarYGenerarContrato() {
+
+    console.log(
+        "Aprobar y Generar"
+    );
+
+
+    const empresa =
+        await empresasService.getById(
+            contratoActual.empresa_id
+        );
+    
+    const trabajador =
+        await workersService.getById(
+            contratoActual.worker_id
+        );
+    
+    const obra =
+        await obrasService.getById(
+            contratoActual.obra_id
+        );
+    
+    const cargo =
+        await cargosService.getById(
+            contratoActual.cargo_id
+        );
+    
+    const plantilla =
+        await plantillasDocumentoService.getById(
+            contratoActual.plantilla_id
+        );
+    
+    const variables =
+        construirVariables({
+    
+            empresa,
+            trabajador,
+            obra,
+            cargo,
+    
+            contrato: contratoActual
+    
+        });
+    
+    const tipoContrato =
+        await tiposContratoService.getById(
+            contratoActual.tipo_contrato_id
+        );
+    
+    variables.TIPO_CONTRATO =
+        tipoContrato?.nombre ?? "";
+    
+    if (variables.TIPO_CONTRATO === "Término Indefinido") {
+    
+        variables.FECHA_TERMINO =
+            "Sin fecha de término";
+    
+        variables.FECHA_TERMINO_TEXTO =
+            "Sin fecha de término";
+    
+    }
+    
+    const contenidoHtml =
+        reemplazarVariables(
+            plantilla.contenido,
+            variables
+        );
+
+
+    const contratoGuardar = {
+
+        worker_id:
+            contratoActual.worker_id,
+    
+        empresa_id:
+            contratoActual.empresa_id,
+    
+        obra_id:
+            contratoActual.obra_id,
+    
+        cargo_id:
+            contratoActual.cargo_id,
+    
+        plantilla_id:
+            contratoActual.plantilla_id,
+    
+        tipo_contrato_id:
+            contratoActual.tipo_contrato_id,
+    
+        fecha_inicio:
+            contratoActual.fecha_inicio,
+    
+        fecha_termino:
+            contratoActual.fecha_termino,
+    
+        sueldo:
+            contratoActual.sueldo,
+    
+        jornada:
+            contratoActual.jornada,
+    
+        distribucion_horaria:
+            contratoActual.distribucion_horaria,
+    
+        causal_termino:
+            contratoActual.causal_termino,
+    
+        observaciones:
+            contratoActual.observaciones,
+    
+        contenido_html:
+            contenidoHtml,
+    
+        variables:
+            variables,
+    
+        estado:
+            "Generado"
+    
+    };
+
+
+    try {
+
+        const contrato =
+    
+            await contratosGeneradosService
+                .create(
+                    contratoGuardar
+                );
+    
+        console.log(
+            "Contrato generado:",
+            contrato
+        );
+    
+    }
+    catch (error) {
+    
+        console.error(error);
+    
+    }
+        
 
 }
 
