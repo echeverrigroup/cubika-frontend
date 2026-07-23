@@ -836,6 +836,21 @@ function guardarPasoActual() {
 
     }
 
+    console.log(
+    "Campo causal:",
+    document.getElementById(
+        "causal_termino"
+    )
+);
+
+console.log(
+    "Valor causal:",
+    document.getElementById(
+        "causal_termino"
+    )?.value
+);
+    
+
 }
 
 
@@ -1023,9 +1038,8 @@ async function cargarPaso2() {
     
         causalTermino.value =
     
-            contratoActual
-                .causal_termino
-            ?? "steven";
+            contratoActual.causal_termino
+            ?? "";
     
     }
     
@@ -1139,11 +1153,6 @@ function actualizarCampoContrato() {
             ?.textContent
             ?.trim();
     
-
-    console.log(
-            "Tipo:",
-            "[" + tipo + "]"
-        );
 
     const box =
         document
