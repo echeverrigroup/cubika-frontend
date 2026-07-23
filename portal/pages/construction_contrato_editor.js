@@ -1270,6 +1270,11 @@ async function generarVistaPrevia() {
 
     console.log(contratoActual);
 
+    console.log(
+        contratoActual.causal_termino
+        );
+    
+
     const variables =
     construirVariables({
 
