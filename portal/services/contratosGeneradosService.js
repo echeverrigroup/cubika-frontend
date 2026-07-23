@@ -1,9 +1,6 @@
-import { supabase }
-from "../../js/supabaseClient.js";
+import { supabase } from "../../js/supabaseClient.js";
 
-const TABLE =
-    "contratos_generados";
-
+const TABLE = "contratos_generados";
 
 export const contratosGeneradosService = {
 
@@ -13,47 +10,19 @@ export const contratosGeneradosService = {
             await supabase
                 .from(TABLE)
                 .select(`
-
                     *,
-
-                    trabajador:workers(
-                        id,
-                        rut,
-                        nombres,
-                        apellido_paterno,
-                        apellido_materno
-                    ),
-
-                    empresa:empresas_construccion(
-                        id,
-                        nombre
-                    ),
-
-                    obra:obras(
-                        id,
-                        nombre
-                    ),
-
-                    cargo:cargos(
-                        id,
-                        nombre
-                    ),
-
-                    plantilla:plantillas_documento(
-                        id,
-                        nombre
-                    )
-
+                    worker:workers(id,nombres,apellido_paterno,apellido_materno),
+                    empresa:empresas_construccion(id,nombre),
+                    obra:obras(id,nombre),
+                    cargo:cargos(id,nombre),
+                    plantilla:plantillas_documento(id,nombre),
+                    tipo_contrato:tipos_contrato(id,nombre)
                 `)
-                .order(
-                    "fecha_generacion",
-                    {
-                        ascending:false
-                    }
-                );
+                .order("fecha_generacion", {
+                    ascending: false
+                });
 
-        if (error)
-            throw error;
+        if (error) throw error;
 
         return data;
 
@@ -66,25 +35,18 @@ export const contratosGeneradosService = {
             await supabase
                 .from(TABLE)
                 .select(`
-
                     *,
-
-                    trabajador:workers(*),
-
-                    empresa:empresas_construccion(*),
-
-                    obra:obras(*),
-
-                    cargo:cargos(*),
-
-                    plantilla:plantillas_documento(*)
-
+                    worker:workers(id,nombres,apellido_paterno,apellido_materno),
+                    empresa:empresas_construccion(id,nombre),
+                    obra:obras(id,nombre),
+                    cargo:cargos(id,nombre),
+                    plantilla:plantillas_documento(id,nombre),
+                    tipo_contrato:tipos_contrato(id,nombre)
                 `)
                 .eq("id", id)
                 .single();
 
-        if (error)
-            throw error;
+        if (error) throw error;
 
         return data;
 
@@ -100,8 +62,7 @@ export const contratosGeneradosService = {
                 .select()
                 .single();
 
-        if (error)
-            throw error;
+        if (error) throw error;
 
         return data;
 
@@ -118,8 +79,7 @@ export const contratosGeneradosService = {
                 .select()
                 .single();
 
-        if (error)
-            throw error;
+        if (error) throw error;
 
         return data;
 
@@ -134,8 +94,9 @@ export const contratosGeneradosService = {
                 .delete()
                 .eq("id", id);
 
-        if (error)
-            throw error;
+        if (error) throw error;
+
+        return true;
 
     }
 
