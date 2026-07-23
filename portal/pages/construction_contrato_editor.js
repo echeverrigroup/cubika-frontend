@@ -1256,6 +1256,13 @@ async function generarVistaPrevia() {
                     .cargo_id
             );
 
+    const tipoContrato =
+        await tiposContratoService
+            .getById(
+                contratoActual
+                    .tipo_contrato_id
+            );
+
     const plantilla =
         await plantillasDocumentoService
             .getById(
@@ -1277,8 +1284,12 @@ async function generarVistaPrevia() {
         trabajador,
         obra,
         cargo,
-        contrato:
-            contratoActual
+        contrato: {
+            contratoActual,
+
+            tipo_contrato:tipoContrato
+
+        }
 
     });
 
@@ -1294,18 +1305,6 @@ async function generarVistaPrevia() {
         variables.CAUSAL_TERMINO
     );
     
-
-/*    
-        console.log({
-            empresa,
-            trabajador,
-            obra,
-            cargo,
-            plantilla,
-            contratoActual
-        });
-    
-    */
     
         const contenido =
     
