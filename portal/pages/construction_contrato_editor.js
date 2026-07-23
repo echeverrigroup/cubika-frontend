@@ -1304,24 +1304,13 @@ async function generarVistaPrevia() {
         obra,
         cargo,
         contrato: {
-            contratoActual,
-
-            tipo_contrato:tipoContrato
+            
+            contratoActual
 
         }
 
     });
 
-    
-        console.log(
-            "Datos recibidos:",
-            variables.contrato
-        );
-        
-        console.log(
-            "Fecha recibida:",
-            variables.contrato.fecha_inicio
-        );
 
 
     console.log(
