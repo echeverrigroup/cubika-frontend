@@ -1283,12 +1283,31 @@ async function generarVistaPrevia() {
     });
 
     console.log(
+        "Fecha enviada:",
+        {
+            ...contratoActual,
+            tipo_contrato: tipoContrato
+        }.fecha_inicio
+    );
+
+    console.log(
         contratoActual.causal_termino
         );
+
     
 
     const variables =
     construirVariables({
+
+        console.log(
+            "Datos recibidos:",
+            datos.contrato
+        );
+        
+        console.log(
+            "Fecha recibida:",
+            datos.contrato.fecha_inicio
+        );
 
         empresa,
         trabajador,
