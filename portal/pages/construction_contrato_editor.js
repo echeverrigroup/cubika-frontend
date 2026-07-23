@@ -1322,6 +1322,14 @@ async function generarVistaPrevia() {
     
     variables.TIPO_CONTRATO =
         tipoContrato?.nombre ?? "";
+
+
+    if (variables.TIPO_CONTRATO === "Término Indefinido") {
+
+        variables.FECHA_TERMINO = "Sin fecha de término";
+        variables.FECHA_TERMINO_TEXTO = "Sin fecha de término";
+    
+    }
     
 
         const contenido =
