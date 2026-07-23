@@ -1299,16 +1299,6 @@ async function generarVistaPrevia() {
     const variables =
     construirVariables({
 
-        console.log(
-            "Datos recibidos:",
-            datos.contrato
-        );
-        
-        console.log(
-            "Fecha recibida:",
-            datos.contrato.fecha_inicio
-        );
-
         empresa,
         trabajador,
         obra,
@@ -1321,6 +1311,18 @@ async function generarVistaPrevia() {
         }
 
     });
+
+    
+        console.log(
+            "Datos recibidos:",
+            datos.contrato
+        );
+        
+        console.log(
+            "Fecha recibida:",
+            datos.contrato.fecha_inicio
+        );
+
 
     console.log(
         variables
@@ -1344,9 +1346,11 @@ async function generarVistaPrevia() {
     
         );
     
-    console.log(
+/*    console.log(
         contenido
     );
+    */
+    
 
     contratoActual.contenido =
     contenido;
