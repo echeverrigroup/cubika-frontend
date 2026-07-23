@@ -1,4 +1,10 @@
 import {
+    documentNumberService
+}
+from "../services/documentNumberService.js";
+
+
+import {
     contratosGeneradosService
 }
 from "../services/contratosGeneradosService.js";
@@ -1360,12 +1366,21 @@ async function aprobarYGenerarContrato() {
         "Aprobar y Generar"
     );
 
+ const numeroContrato =
+    await documentNumberService
+        .generarNumeroDocumento(
+            "CON"
+        );
+
 
   const contrato =
     await construirContrato();
 
     
     const contratoGuardar = {
+
+        numero_contrato:
+            numeroContrato,
 
         worker_id:
             contratoActual.worker_id,
