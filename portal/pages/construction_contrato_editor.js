@@ -1171,13 +1171,8 @@ function actualizarCampoContrato() {
         tipo === "Término Indefinido"
     ) {
 
-        box.innerHTML =
-
-        `
-            <label
-                class="
-                    cubika-label
-                ">
+        box.innerHTML = `
+            <label class="cubika-label">
 
                 Sin fecha de Término
 
