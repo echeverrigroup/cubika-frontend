@@ -1256,12 +1256,6 @@ async function generarVistaPrevia() {
                     .cargo_id
             );
 
-    const tipoContrato =
-        await tiposContratoService
-            .getById(
-                contratoActual
-                    .tipo_contrato_id
-            );
 
     const plantilla =
         await plantillasDocumentoService
@@ -1288,11 +1282,6 @@ async function generarVistaPrevia() {
         );
 
 
-    const tipoContrato = tiposContrato.find(
-        t => t.id === contratoActual.tipo_contrato_id
-    );
-        
-
     const variables =
     construirVariables({
 
@@ -1304,7 +1293,6 @@ async function generarVistaPrevia() {
             
             contratoActual,
 
-            tipo_contrato: tipoContrato
 
         }
 
