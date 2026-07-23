@@ -1270,7 +1270,7 @@ async function generarVistaPrevia() {
                     .plantilla_id
             );
 
-//    console.log(contratoActual);
+    console.log(contratoActual);
 
     console.log("contratoActual:", structuredClone(contratoActual));
 
@@ -1282,13 +1282,6 @@ async function generarVistaPrevia() {
     
     });
 
-    console.log(
-        "Fecha enviada:",
-        {
-            contratoActual,
-            tipo_contrato: tipoContrato
-        }.fecha_inicio
-    );
 
     console.log(
         contratoActual.causal_termino
@@ -1335,10 +1328,10 @@ async function generarVistaPrevia() {
     
         );
     
-/*    console.log(
+  console.log(
         contenido
     );
-    */
+    
     
 
     contratoActual.contenido =
