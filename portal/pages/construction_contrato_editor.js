@@ -1025,7 +1025,7 @@ async function cargarPaso2() {
     
             contratoActual
                 .causal_termino
-            ?? "";
+            ?? "steven";
     
     }
     
