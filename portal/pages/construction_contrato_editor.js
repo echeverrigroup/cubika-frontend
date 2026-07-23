@@ -1270,7 +1270,17 @@ async function generarVistaPrevia() {
                     .plantilla_id
             );
 
-    console.log(contratoActual);
+//    console.log(contratoActual);
+
+    console.log("contratoActual:", structuredClone(contratoActual));
+
+    console.log("contrato enviado:", {
+    
+        ...contratoActual,
+    
+        tipo_contrato: tipoContrato
+    
+    });
 
     console.log(
         contratoActual.causal_termino
