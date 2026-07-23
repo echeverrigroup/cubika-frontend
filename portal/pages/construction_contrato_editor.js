@@ -1211,9 +1211,7 @@ function actualizarCampoContrato() {
         tipo === "Por Obra o Labor"
     ) {
 
-    box.innerHTML =
-
-    `
+    box.innerHTML =`
         <input
             id="causal_termino"
             class="cubika-input"
