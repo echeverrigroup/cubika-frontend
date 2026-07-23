@@ -1287,7 +1287,11 @@ async function generarVistaPrevia() {
         contratoActual.causal_termino
         );
 
-    
+
+    const tipoContrato = tiposContrato.find(
+        t => t.id === contratoActual.tipo_contrato_id
+    );
+        
 
     const variables =
     construirVariables({
@@ -1298,7 +1302,9 @@ async function generarVistaPrevia() {
         cargo,
         contrato: {
             
-            contratoActual
+            contratoActual,
+
+            tipo_contrato: tipoContrato
 
         }
 
