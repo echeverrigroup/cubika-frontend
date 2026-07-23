@@ -1276,7 +1276,7 @@ async function generarVistaPrevia() {
 
     console.log("contrato enviado:", {
     
-        ...contratoActual,
+        contratoActual,
     
         tipo_contrato: tipoContrato
     
