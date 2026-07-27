@@ -717,11 +717,6 @@ async function actualizarObra(id) {
             .value
             .trim();
 
-    const codigo =
-        document
-            .getElementById("codigo")
-            .value
-            .trim();
 
     const direccion =
         document
