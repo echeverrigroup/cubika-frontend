@@ -106,7 +106,6 @@ async function cargarObras() {
             obras.filter(obra =>
 
                 `${obra.nombre}
-                 ${obra.codigo ?? ""}
                  ${obra.comuna?.nombre ?? ""}
                  ${obra.empresa?.nombre ?? ""}`
 
@@ -511,12 +510,7 @@ async function crearObra() {
             .value
             .trim();
 
-    const codigo =
-        document
-            .getElementById("codigo")
-            .value
-            .trim();
-
+    
     const direccion =
         document
             .getElementById("direccion")
@@ -611,8 +605,6 @@ async function crearObra() {
                 empresa_id,
             
                 nombre,
-            
-                codigo,
             
                 direccion,
 
@@ -809,8 +801,6 @@ async function actualizarObra(id) {
             empresa_id,
         
             nombre,
-        
-            codigo,
         
             direccion,
 
