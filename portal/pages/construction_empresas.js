@@ -56,8 +56,8 @@ export async function renderConstructionEmpresas() {
                 class="cubika-tab ${
                 tipoEmpresaActivo === "mandante"
                     ? "active"
-                    : "🏢 Mandantes"
-            }"
+                    : ""
+            }🏢 Mandantes"
             
             </button>
         
