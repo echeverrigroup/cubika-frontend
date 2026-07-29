@@ -157,7 +157,7 @@ async function cargarEmpresas() {
 
 
     let empresas =
-        await empresasService.getAll();
+        await servicioActivo.getAll();
 
 
     if (filtro) {
