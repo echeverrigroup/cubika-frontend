@@ -13,7 +13,7 @@ export const obrasService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    empresa:empresas_construccion(
+                    constructora:constructoras(
                         id,
                         nombre
                     ),
@@ -43,7 +43,7 @@ export const obrasService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    empresa:empresas_construccion(
+                    constructora:constructoras(
                         id,
                         nombre
                     ),
