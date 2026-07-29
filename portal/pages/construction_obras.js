@@ -360,7 +360,7 @@ async function obtenerFormularioObra(obra = null) {
                     <label>Constructora</label>
 
                     <select
-                        id="constructora_id",
+                        id="constructora_id"
                         class="cubika-select"
                         required>
 
