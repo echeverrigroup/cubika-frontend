@@ -53,17 +53,22 @@ export async function renderConstructionEmpresas() {
 
             <button
                 id="tabMandantes"
-                class="cubika-tab active">
-        
-                Empresas Mandantes
-        
+                class="cubika-tab ${
+                tipoEmpresaActivo === "mandante"
+                    ? "active"
+                    : ""
+            }"
+            
             </button>
         
             <button
                 id="tabConstructoras"
-                class="cubika-tab">
-        
-                Constructoras
+                class="cubika-tab ${
+                tipoEmpresaActivo === "constructora"
+                    ? "active"
+                    : ""
+            }"
+                🏗  Constructoras
         
             </button>
         
