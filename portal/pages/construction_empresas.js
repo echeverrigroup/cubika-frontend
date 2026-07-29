@@ -1026,7 +1026,7 @@ if (!rut) {
 async function cambiarEstadoEmpresa(id) {
 
     const empresa =
-        await empresasService.getById(id);
+        await servicioActivo.getById(id);
 
     if (!empresa)
         return;
@@ -1059,7 +1059,7 @@ async function cambiarEstadoEmpresa(id) {
 
             try {
 
-                await empresasService.update(id, {
+                await servicioActivo.update(id, {
 
                     estado: nuevoEstado
 
