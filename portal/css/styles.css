@@ -24,6 +24,83 @@ body {
     padding: 0 30px;
 }
 
+
+
+.cubika-tabs{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    margin:24px 0;
+
+}
+
+
+.cubika-tab{
+
+    min-width:220px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:14px 22px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#F1F5F9;
+
+    color:#64748B;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:all .25s;
+
+}
+
+
+.cubika-tab:hover{
+
+    background:#E2E8F0;
+
+}
+
+
+.cubika-tab.active{
+
+    background:#DBEAFE;
+
+    color:#2563EB;
+
+    font-weight:600;
+
+    box-shadow:
+
+        0 4px 12px
+        rgba(
+            37,
+            99,
+            235,
+            .12
+        );
+
+}
+
+
+
+
+
 .logo {
     height: 66px;
 }
