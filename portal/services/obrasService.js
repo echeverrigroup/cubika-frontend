@@ -50,7 +50,7 @@ export const obrasService = {
 
     return data;
 
-}
+},
 
 
     async create(obra) {
