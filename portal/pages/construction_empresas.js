@@ -1,3 +1,6 @@
+import { constructorasService }
+from "../services/constructorasService.js";
+
 import { empresasService }
 from "../services/empresasService.js";
 
@@ -14,6 +17,13 @@ import {
 
 }
 from "../components/modal.js";
+
+
+let servicioActivo =
+    empresasService;
+
+let tipoEmpresaActivo =
+    "mandante";
 
 
 
@@ -36,6 +46,27 @@ export async function renderConstructionEmpresas() {
 
             </button>
 
+        </div>
+
+
+        <div class="cubika-tabs">
+
+            <button
+                id="tabMandantes"
+                class="cubika-tab active">
+        
+                Empresas Mandantes
+        
+            </button>
+        
+            <button
+                id="tabConstructoras"
+                class="cubika-tab">
+        
+                Constructoras
+        
+            </button>
+        
         </div>
 
 
@@ -76,6 +107,36 @@ export async function renderConstructionEmpresas() {
             "click",
             mostrarFormularioNuevaEmpresa
         );
+
+
+    document
+    .getElementById("tabMandantes")
+    ?.addEventListener("click", () => {
+
+        servicioActivo =
+            empresasService;
+
+        tipoEmpresaActivo =
+            "mandante";
+
+        renderConstructionEmpresas();
+
+    });
+
+
+document
+    .getElementById("tabConstructoras")
+    ?.addEventListener("click", () => {
+
+        servicioActivo =
+            constructorasService;
+
+        tipoEmpresaActivo =
+            "constructora";
+
+        renderConstructionEmpresas();
+
+    });
 
 }
 
