@@ -13,7 +13,7 @@ export const constructorasService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    region:regiones(
+                    region:regiones!constructoras_region_fkey(
                         id,
                         nombre
                     ),
@@ -47,7 +47,7 @@ export const constructorasService = {
                 .from(TABLE)
                 .select(`
                     *,
-                    region:regiones(
+                    region:regiones!constructoras_region_fkey(
                         id,
                         nombre
                     ),
@@ -55,7 +55,7 @@ export const constructorasService = {
                         id,
                         nombre
                     ),
-                    region_representante:regiones(
+                    region_representante:regiones!constructoras_region_rep_fkey(
                         id,
                         nombre
                     ),
