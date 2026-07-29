@@ -17,7 +17,7 @@ export const constructorasService = {
                         id,
                         nombre
                     ),
-                    comuna:comunas(
+                    comuna:comunas!constructoras_comuna_fkey(
                         id,
                         nombre
                     ),
@@ -25,7 +25,7 @@ export const constructorasService = {
                         id,
                         nombre
                     ),
-                    comuna_representante:comunas(
+                    comuna_representante:comunas!constructoras_comuna_rep_fkey(
                         id,
                         nombre
                     )
@@ -51,7 +51,7 @@ export const constructorasService = {
                         id,
                         nombre
                     ),
-                    comuna:comunas(
+                    comuna:comunas!constructoras_comuna_fkey(
                         id,
                         nombre
                     ),
@@ -59,7 +59,7 @@ export const constructorasService = {
                         id,
                         nombre
                     ),
-                    comuna_representante:comunas(
+                    comuna_representante:comunas!constructoras_comuna_rep_fkey(
                         id,
                         nombre
                     )
