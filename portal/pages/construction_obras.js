@@ -1,8 +1,8 @@
 import { geograficaService }
 from "../services/geograficaService.js";
 
-import { empresasService }
-from "../services/empresasService.js";
+import { constructorasService }
+from "../services/constructorasService.js";
 
 import { obrasService }
 from "../services/obrasService.js";
@@ -107,7 +107,7 @@ async function cargarObras() {
 
                 `${obra.nombre}
                  ${obra.comuna?.nombre ?? ""}
-                 ${obra.empresa?.nombre ?? ""}`
+                 ${obra.constructora?.nombre ?? ""}`
 
                     .toUpperCase()
 
@@ -128,7 +128,7 @@ async function cargarObras() {
 
                     <th>Nombre</th>
 
-                    <th>Empresa</th>
+                    <th>Constructora</th>
 
                     <th>Comúna</th>
 
@@ -180,7 +180,7 @@ async function cargarObras() {
 
                 <td>
 
-                    ${obra.empresa?.nombre ?? ""}
+                    ${obra.constructora?.nombre ?? ""}
 
                 </td>
 
@@ -311,20 +311,19 @@ async function mostrarFormularioNuevaObra() {
 
 async function obtenerFormularioObra(obra = null) {
 
-    const empresas =
-        await empresasService.getAll();
+    const constructoras =
+        await constructorasService.getAll();
 
 
-    const opcionesEmpresas =
-        empresas
-
+   const opcionesConstructoras =
+        constructoras
             .filter(e =>
 
                 e.estado === "Activo"
 
                 ||
 
-                e.id === obra?.empresa_id
+                e.id === obra?.constructora_id
 
             )
 
@@ -333,7 +332,7 @@ async function obtenerFormularioObra(obra = null) {
                 <option
                     value="${e.id}"
 
-                    ${obra?.empresa_id === e.id
+                    obra?.constructora_id === e.id
                         ? "selected"
                         : ""}>
 
@@ -358,20 +357,20 @@ async function obtenerFormularioObra(obra = null) {
 
                 <div class="form-group">
 
-                    <label>Empresa</label>
+                    <label>Constructora</label>
 
                     <select
-                        id="empresa_id",
+                        id="constructora_id",
                         class="cubika-select"
                         required>
 
                         <option value="">
 
-                            Seleccione una empresa
+                            Seleccione una constructora
 
                         </option>
 
-                        ${opcionesEmpresas}
+                        ${opcionesConstructoras}
 
                     </select>
 
@@ -499,9 +498,9 @@ async function obtenerFormularioObra(obra = null) {
 
 async function crearObra() {
 
-    const empresa_id =
+    const constructora_id =
         document
-            .getElementById("empresa_id")
+            .getElementById("constructora_id")
             .value;
 
     const nombre =
@@ -575,10 +574,10 @@ async function crearObra() {
         
         }    
 
-    if (!empresa_id) {
+    if (!constructora_id) {
 
         setModalError(
-            "Debe seleccionar una empresa."
+            "Debe seleccionar una constructora."
         );
 
         return false;
@@ -602,7 +601,7 @@ async function crearObra() {
 
            await obrasService.create({
 
-                empresa_id,
+                constructora_id,
             
                 nombre,
             
@@ -698,9 +697,9 @@ document
 
 async function actualizarObra(id) {
 
-    const empresa_id =
+    const constructora_id =
         document
-            .getElementById("empresa_id")
+            .getElementById("constructora_id")
             .value;
 
     const nombre =
@@ -771,10 +770,10 @@ async function actualizarObra(id) {
     }
     
 
-    if (!empresa_id) {
+    if (!constructora_id) {
 
         setModalError(
-            "Debe seleccionar una empresa."
+            "Debe seleccionar una constructora."
         );
 
         return false;
@@ -798,7 +797,7 @@ async function actualizarObra(id) {
 
         await obrasService.update(id, {
 
-            empresa_id,
+            constructora_id,
         
             nombre,
         
