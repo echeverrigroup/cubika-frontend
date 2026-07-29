@@ -713,7 +713,7 @@ if (!rut) {
 
         setModalLoading(true);
     
-        await empresasService.create({
+        await servicioActivo.create({
     
             nombre,
     
@@ -771,7 +771,7 @@ if (!rut) {
 async function editarEmpresa(id) {
 
     const empresa =
-        await empresasService.getById(id);
+        await servicioActivo.getById(id);
 
     if (!empresa)
         return;
@@ -960,7 +960,7 @@ if (!rut) {
 
         setModalLoading(true);
 
-      await empresasService.update(
+      await servicioActivo.update(
 
             id,
         
