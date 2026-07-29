@@ -11,25 +11,7 @@ export const constructorasService = {
         const { data, error } =
             await supabase
                 .from(TABLE)
-                .select(`
-                    *,
-                    region:regiones!constructoras_region_fkey(
-                        id,
-                        nombre
-                    ),
-                    comuna:comunas!constructoras_comuna_fkey(
-                        id,
-                        nombre
-                    ),
-                    region_representante:regiones(
-                        id,
-                        nombre
-                    ),
-                    comuna_representante:comunas!constructoras_comuna_rep_fkey(
-                        id,
-                        nombre
-                    )
-                `)
+                .select("*")
                 .order("nombre");
 
         if (error)
@@ -45,25 +27,7 @@ export const constructorasService = {
         const { data, error } =
             await supabase
                 .from(TABLE)
-                .select(`
-                    *,
-                    region:regiones!constructoras_region_fkey(
-                        id,
-                        nombre
-                    ),
-                    comuna:comunas!constructoras_comuna_fkey(
-                        id,
-                        nombre
-                    ),
-                    region_representante:regiones!constructoras_region_rep_fkey(
-                        id,
-                        nombre
-                    ),
-                    comuna_representante:comunas!constructoras_comuna_rep_fkey(
-                        id,
-                        nombre
-                    )
-                `)
+                .select("*")
                 .eq("id", id)
                 .single();
 
