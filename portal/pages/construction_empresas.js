@@ -57,7 +57,7 @@ export async function renderConstructionEmpresas() {
                 tipoEmpresaActivo === "mandante"
                     ? "active"
                     : ""
-            }"🏢 Mandantes
+            }">🏢 Mandantes
             
             </button>
         
@@ -66,8 +66,8 @@ export async function renderConstructionEmpresas() {
                 class="cubika-tab ${
                 tipoEmpresaActivo === "constructora"
                     ? "active"
-                    : "🏗  Constructoras"
-            }"
+                    : ""
+            }">🏗 Constructoras
         
             </button>
         
