@@ -36,23 +36,38 @@ export const obrasService = {
     },
 
 
-    async getById(id) {
 
-    const { data, error } =
-        await supabase
-            .from(TABLE)
-            .select("*")
-            .eq("id", id)
-            .single();
+async getById(id) {
 
-    if (error)
-        throw error;
+        const { data, error } =
+            await supabase
+                .from(TABLE)
+                .select(`
+                    *,
+                    constructora:constructoras(
+                        id,
+                        nombre
+                    ),
+                    region:regiones(
+                        id,
+                        nombre
+                    ),
+                    comuna:comunas(
+                        id,
+                        nombre
+                    )
+                `)
+                .eq("id", id)
+                .single();
 
-    return data;
+        if (error)
+            throw error;
 
-},
+        return data;
 
+    },    
 
+    
     async create(obra) {
 
         const { data, error } =
