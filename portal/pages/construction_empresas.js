@@ -332,8 +332,13 @@ async function mostrarFormularioNuevaEmpresa() {
         title: "Nueva Empresa",
 
         content:
-            obtenerFormularioEmpresa(),
 
+            tipoEmpresaActivo === "mandante"
+        
+                ? obtenerFormularioMandante()
+        
+                : obtenerFormularioConstructora(),
+        
         submitText: "Guardar",
 
         size: "large",
@@ -382,7 +387,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
 
 
-function obtenerFormularioEmpresa(
+function obtenerFormularioMandante(
     
     empresa = null
 ){
@@ -610,6 +615,96 @@ function obtenerFormularioEmpresa(
 }
 
 
+function obtenerFormularioConstructora(
+    constructora = null
+){
+
+    return `
+
+        <form id="formConstructora">
+
+            <div class="empresa-layout">
+
+                <div class="empresa-section">
+
+                    <h3>
+
+                        Datos de la Constructora
+
+                    </h3>
+
+
+                    <div class="form-group">
+
+                        <label>Razón Social</label>
+
+                        <input
+                            id="nombre"
+                            type="text"
+                            class="cubika-input"
+                            value="${constructora?.nombre ?? ""}"
+                            placeholder="Nombre de la constructora..."
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>RUT</label>
+
+                        <input
+                            id="rut"
+                            class="cubika-input"
+                            type="text"
+                            value="${constructora?.rut ?? ""}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Email</label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            class="cubika-input"
+                            value="${constructora?.email ?? ""}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Dirección</label>
+
+                        <input
+                            id="direccion"
+                            class="cubika-input"
+                            type="text"
+                            value="${constructora?.direccion ?? ""}">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="modalFormError"
+                class="form-error"
+                style="display:none;">
+            </div>
+
+        </form>
+
+    `;
+
+}
+
+
 
 async function crearEmpresa() {
 
@@ -784,7 +879,13 @@ async function editarEmpresa(id) {
 
         title: "Editar Empresa",
 
-        content: obtenerFormularioEmpresa(empresa),
+        content:
+
+            tipoEmpresaActivo === "mandante"
+        
+                ? obtenerFormularioMandante(empresa)
+        
+                : obtenerFormularioConstructora(empresa),
 
         submitText: "Actualizar",
 
