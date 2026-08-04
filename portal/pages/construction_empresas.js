@@ -329,24 +329,35 @@ async function mostrarFormularioNuevaEmpresa() {
 
     showFormModal({
 
-        title: "Nueva Empresa",
+    title:
 
-        content:
+        tipoEmpresaActivo === "mandante"
 
-            tipoEmpresaActivo === "mandante"
-        
-                ? obtenerFormularioMandante()
-        
-                : obtenerFormularioConstructora(),
-        
-        submitText: "Guardar",
+            ? "Nueva Empresa Mandante"
 
-        size: "large",
+            : "Nueva Constructora",
 
-        onSubmit:
-            crearEmpresa
+    content:
 
-    });
+        tipoEmpresaActivo === "mandante"
+
+            ? obtenerFormularioMandante()
+
+            : obtenerFormularioConstructora(),
+
+    submitText: "Guardar",
+
+    size: "large",
+
+    onSubmit:
+
+        tipoEmpresaActivo === "mandante"
+
+            ? crearEmpresa
+
+            : crearConstructora
+
+});
 
 
     await cargarRegionesEmpresa();
@@ -877,7 +888,13 @@ async function editarEmpresa(id) {
 
     showFormModal({
 
-        title: "Editar Empresa",
+        title:
+
+            tipoEmpresaActivo === "mandante"
+        
+                ? "Editar Empresa Mandante"
+        
+                : "Editar Constructora",
 
         content:
 
@@ -892,7 +909,12 @@ async function editarEmpresa(id) {
         size: "large",
 
         onSubmit: () =>
-            actualizarEmpresa(id)
+
+        tipoEmpresaActivo === "mandante"
+    
+            ? actualizarEmpresa(id)
+    
+            : actualizarConstructora(id)
 
     });
     
@@ -1395,6 +1417,29 @@ async function cargarComunasRepresentante(
         `;
 
     });
+
+}
+
+
+async function crearConstructora(){
+
+    console.log(
+        "Crear Constructora"
+    );
+
+    return true;
+
+}
+
+
+async function actualizarConstructora(id){
+
+    console.log(
+        "Actualizar Constructora",
+        id
+    );
+
+    return true;
 
 }
 
