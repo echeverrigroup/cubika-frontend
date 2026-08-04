@@ -1421,25 +1421,139 @@ async function cargarComunasRepresentante(
 }
 
 
-async function crearConstructora(){
+async function crearConstructora() {
 
-    console.log(
-        "Crear Constructora"
-    );
+    const constructora = {
 
-    return true;
+        nombre:
+            document
+                .getElementById("nombre")
+                ?.value
+                ?.trim(),
+
+        rut:
+            document
+                .getElementById("rut")
+                ?.value
+                ?.trim(),
+
+        email:
+            document
+                .getElementById("email")
+                ?.value
+                ?.trim(),
+
+        direccion:
+            document
+                .getElementById("direccion")
+                ?.value
+                ?.trim(),
+
+        estado:
+            "Activo"
+
+    };
+
+
+    if (!constructora.nombre) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar el nombre de la constructora."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        await constructorasService.create(
+            constructora
+        );
+
+        closeModal();
+
+        await cargarEmpresas();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        mostrarErrorFormulario(
+            error.message
+        );
+
+    }
 
 }
 
+async function actualizarConstructora(id) {
 
-async function actualizarConstructora(id){
+    const constructora = {
 
-    console.log(
-        "Actualizar Constructora",
-        id
-    );
+        nombre:
+            document
+                .getElementById("nombre")
+                ?.value
+                ?.trim(),
 
-    return true;
+        rut:
+            document
+                .getElementById("rut")
+                ?.value
+                ?.trim(),
+
+        email:
+            document
+                .getElementById("email")
+                ?.value
+                ?.trim(),
+
+        direccion:
+            document
+                .getElementById("direccion")
+                ?.value
+                ?.trim()
+
+    };
+
+
+    if (!constructora.nombre) {
+
+        mostrarErrorFormulario(
+            "Debe ingresar el nombre de la constructora."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        await constructorasService.update(
+            id,
+            constructora
+        );
+
+        closeModal();
+
+        await cargarEmpresas();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        mostrarErrorFormulario(
+            error.message
+        );
+
+    }
 
 }
 
