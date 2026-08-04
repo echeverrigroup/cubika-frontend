@@ -57,7 +57,7 @@ export async function renderConstructionEmpresas() {
                 tipoEmpresaActivo === "mandante"
                     ? "active"
                     : ""
-            }">🏢 Mandantes
+            }"> Mandantes
             
             </button>
         
@@ -67,7 +67,7 @@ export async function renderConstructionEmpresas() {
                 tipoEmpresaActivo === "constructora"
                     ? "active"
                     : ""
-            }">🏗 Constructoras
+            }"> Constructoras
         
             </button>
         
