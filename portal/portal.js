@@ -72,6 +72,11 @@ async function init() {
             `${perfil.cargo ?? "Usuario "}  ·  ${perfil.empresas?.nombre_fantasia ?? " "}`;
         }
 
+       document.getElementById("user-role").textContent =
+            `${perfil.empresas?.nombre_fantasia ?? " "}`;
+        }
+    
+
     document
     .querySelectorAll("[data-page]")
     .forEach(item => {
