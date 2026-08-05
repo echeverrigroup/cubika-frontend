@@ -333,21 +333,21 @@ async function mostrarFormularioNuevaEmpresa() {
 
     title:
 
-        tipoEmpresaActivo === "mandante"
+        tipoEmpresaActivo === "constructora"
 
-            ? "Nueva Empresa Mandante"
+            ? "Nueva Constructora"
 
-            : "Nueva Constructora",
+            : "Nueva Empresa Mandante",
 
         
 
     content:
 
-        tipoEmpresaActivo === "mandante"
+        tipoEmpresaActivo === "constructora"
 
-            ? obtenerFormularioMandante() 
+            ? obtenerFormularioConstructora() 
 
-            : obtenerFormularioConstructora(),
+            : obtenerFormularioMandante(),
 
     submitText: "Guardar",
 
@@ -356,11 +356,11 @@ async function mostrarFormularioNuevaEmpresa() {
 
     onSubmit:
 
-        tipoEmpresaActivo === "mandante"
+        tipoEmpresaActivo === "constructora"
 
-            ? crearEmpresa
+            ? crearConstructora
 
-            : crearConstructora
+            : crearEmpresa
 
 });
 
