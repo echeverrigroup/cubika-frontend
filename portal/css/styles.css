@@ -79,11 +79,13 @@ body {
 
 .cubika-tab.active{
 
-    background:#DBEAFE;
+    background:#D7F3EA;
 
-  /*  color:#2563EB;  */
+    /*      background:#DBEAFE;
 
-     color:#D7F3EA;
+            color:#2563EB;  */
+
+     color:#2563EB;
 
     font-weight:600;
 
