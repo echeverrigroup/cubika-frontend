@@ -339,7 +339,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
             : "Nueva Constructora",
 
-        size: "small",
+        
 
     content:
 
@@ -351,7 +351,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
     submitText: "Guardar",
 
-    size: "large",
+   // size: "large",
 
     onSubmit:
 
