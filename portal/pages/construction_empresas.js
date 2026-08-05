@@ -345,7 +345,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
         tipoEmpresaActivo === "mandante"
 
-            ? obtenerFormularioMandante()    
+            ? obtenerFormularioMandante(), 
 
             size: "large",
 
