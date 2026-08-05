@@ -329,6 +329,8 @@ async function mostrarFormularioNuevaEmpresa() {
 
     showFormModal({
 
+        
+
     title:
 
         tipoEmpresaActivo === "mandante"
@@ -336,6 +338,8 @@ async function mostrarFormularioNuevaEmpresa() {
             ? "Nueva Empresa Mandante"
 
             : "Nueva Constructora",
+
+        size: "small",
 
     content:
 
