@@ -345,13 +345,15 @@ async function mostrarFormularioNuevaEmpresa() {
 
         tipoEmpresaActivo === "mandante"
 
-            ? obtenerFormularioMandante()
+            ? obtenerFormularioMandante()    
+
+            size: "large",
 
             : obtenerFormularioConstructora(),
 
     submitText: "Guardar",
 
-   // size: "large",
+    
 
     onSubmit:
 
