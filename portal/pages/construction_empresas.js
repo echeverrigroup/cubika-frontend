@@ -351,7 +351,8 @@ async function mostrarFormularioNuevaEmpresa() {
 
     submitText: "Guardar",
 
-    
+
+        size: "large",    
 
     onSubmit:
 
