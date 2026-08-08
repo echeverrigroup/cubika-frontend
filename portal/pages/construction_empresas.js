@@ -895,19 +895,19 @@ async function editarEmpresa(id) {
 
         title:
 
-            tipoEmpresaActivo === "mandante"
+            tipoEmpresaActivo === "constructora"
         
-                ? "Editar Empresa Mandante"
+                ? "Editar Constructora"
         
-                : "Editar Constructora",
+                : "Editar Empresa Mandante",
 
         content:
 
-            tipoEmpresaActivo === "mandante"
+            tipoEmpresaActivo === "constructora"
         
-                ? obtenerFormularioMandante(empresa)
+                ? obtenerFormularioConstructora(empresa)
         
-                : obtenerFormularioConstructora(empresa),
+                : obtenerFormularioMandante(empresa),
 
         submitText: "Actualizar",
 
