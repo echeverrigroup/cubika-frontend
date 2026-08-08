@@ -329,75 +329,78 @@ async function mostrarFormularioNuevaEmpresa() {
 
     showFormModal({
 
-        
+        title:
 
-    title:
+            tipoEmpresaActivo === "constructora"
 
-        tipoEmpresaActivo === "constructora"
+                ? "Nueva Constructora"
 
-            ? "Nueva Constructora"
-
-            : "Nueva Empresa Mandante",
-
-        
-
-    content:
-
-        tipoEmpresaActivo === "constructora"
-
-            ? obtenerFormularioConstructora() 
-
-            : obtenerFormularioMandante(),
-
-    submitText: "Guardar",
+                : "Nueva Empresa Mandante",
 
 
-        size: "large",    
+        content:
 
-    onSubmit:
+            tipoEmpresaActivo === "constructora"
 
-        tipoEmpresaActivo === "constructora"
+                ? obtenerFormularioConstructora()
 
-            ? crearConstructora
-
-            : crearEmpresa
-
-});
+                : obtenerFormularioMandante(),
 
 
-    await cargarRegionesEmpresa();
+        submitText: "Guardar",
 
-    await cargarRegionesRepresentante();
+        size: "large",
 
+        onSubmit:
 
-    document
-        .getElementById("region")
-        .addEventListener(
-            "change",
-            async e => {
+            tipoEmpresaActivo === "constructora"
 
-                await cargarComunasEmpresa(
-                    e.target.value
-                );
+                ? crearConstructora
 
-            }
-        );
+                : crearEmpresa
+
+    });
 
 
-    document
-        .getElementById(
-            "regionRepresentante"
-        )
-        .addEventListener(
-            "change",
-            async e => {
+    if (
+        tipoEmpresaActivo === "mandante"
+    ) {
 
-                await cargarComunasRepresentante(
-                    e.target.value
-                );
+        await cargarRegionesEmpresa();
 
-            }
-        );
+        await cargarRegionesRepresentante();
+
+
+        document
+            .getElementById("region")
+            .addEventListener(
+                "change",
+                async e => {
+
+                    await cargarComunasEmpresa(
+                        e.target.value
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "regionRepresentante"
+            )
+            .addEventListener(
+                "change",
+                async e => {
+
+                    await cargarComunasRepresentante(
+                        e.target.value
+                    );
+
+                }
+            );
+
+    }
 
 }
 
