@@ -57,7 +57,8 @@ export function renderConstructionContratos() {
                 de Contratos
 
             </h2>
-/*
+
+        */
             <p>
 
                 Genere contratos laborales
@@ -66,7 +67,8 @@ export function renderConstructionContratos() {
                 plantillas documentales.
 
             </p>
-          */ 
+          /*
+          
         </div>
  
  
