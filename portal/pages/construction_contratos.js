@@ -53,8 +53,7 @@ export function renderConstructionContratos() {
 
             <h2>
 
-                Asistente de Generación
-                de Contratos <br>
+                Historial de documentos generados. <br>
 
             </h2>
 
