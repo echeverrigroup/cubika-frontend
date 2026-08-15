@@ -349,7 +349,10 @@ async function mostrarFormularioNuevaEmpresa() {
 
         submitText: "Guardar",
 
-        size: "large",
+        size:
+        tipoEmpresaActivo === "constructora"
+            ? "medium"
+            : "large",
 
         onSubmit:
 
@@ -914,7 +917,10 @@ async function editarEmpresa(id) {
 
         submitText: "Actualizar",
 
-        size: "large",
+        size:
+        tipoEmpresaActivo === "constructora"
+            ? "medium"
+            : "large",
 
         onSubmit: () =>
 
