@@ -645,7 +645,6 @@ function obtenerFormularioConstructora(
 
         <form id="formConstructora">
 
-            <div class="empresa-layout">
 
                 <div class="empresa-section">
 
@@ -710,8 +709,6 @@ function obtenerFormularioConstructora(
                     </div>
 
                 </div>
-
-            </div>
 
 
             <div
