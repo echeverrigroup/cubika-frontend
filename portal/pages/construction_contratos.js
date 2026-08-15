@@ -333,23 +333,24 @@ function formatearFechaHora(fecha) {
 }
 
 
-function formatearFechaHora(fecha) {
+function formatearSueldo(valor) {
 
-    if (!fecha)
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    )
         return "-";
 
-    const date =
-        new Date(fecha);
-
-    return date.toLocaleString(
-        "es-CL",
-        {
-            dateStyle: "short",
-            timeStyle: "short"
-        }
-    );
+    return Number(valor)
+        .toLocaleString(
+            "es-CL",
+            {
+                style: "currency",
+                currency: "CLP",
+                maximumFractionDigits: 0
+            }
+        );
 
 }
-
-
 
