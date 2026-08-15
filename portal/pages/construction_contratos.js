@@ -46,21 +46,7 @@ export function renderConstructionContratos() {
 
             </button>
 
-        </div>
-
-
-        <div class="card">
-
-            <h2>
-
-                Asistente de Generación
-                de Contratos <br>
-
-            </h2>
-
-          
-        </div>
- 
+       
  
         <div id="contratosTable">
 
