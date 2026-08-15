@@ -15,6 +15,11 @@ import {
 }
 from "./construction_contrato_editor.js";
 
+import {
+    contratosGeneradosService
+}
+from "../services/contratosGeneradosService.js";
+
 
 
 
