@@ -899,17 +899,17 @@ async function editarEmpresa(id) {
         title:
 
             tipoEmpresaActivo === "constructora"
-        
+
                 ? "Editar Constructora"
-        
+
                 : "Editar Empresa Mandante",
 
         content:
 
             tipoEmpresaActivo === "constructora"
-        
+
                 ? obtenerFormularioConstructora(empresa)
-        
+
                 : obtenerFormularioMandante(empresa),
 
         submitText: "Actualizar",
@@ -918,74 +918,82 @@ async function editarEmpresa(id) {
 
         onSubmit: () =>
 
-        tipoEmpresaActivo === "mandante"
-    
-            ? actualizarEmpresa(id)
-    
-            : actualizarConstructora(id)
+            tipoEmpresaActivo === "mandante"
+
+                ? actualizarEmpresa(id)
+
+                : actualizarConstructora(id)
 
     });
-    
 
-    await cargarRegionesEmpresa(
-    empresa.region_id
-    );
-    
-    await cargarComunasEmpresa(
-    
-        empresa.region_id,
-    
-        empresa.comuna_id
-    
-    );
-    
-    
-    await cargarRegionesRepresentante(
-    
-        empresa.region_representante_id
-    
-    );
-    
-    await cargarComunasRepresentante(
-    
-        empresa.region_representante_id,
-    
-        empresa.comuna_representante_id
-    
-    );
-    
 
-    document
-    .getElementById("region")
-    .addEventListener(
-        "change",
-        async e => {
+    if (
+        tipoEmpresaActivo === "mandante"
+    ) {
 
-            await cargarComunasEmpresa(
-                e.target.value
+        await cargarRegionesEmpresa(
+            empresa.region_id
+        );
+
+
+        await cargarComunasEmpresa(
+
+            empresa.region_id,
+
+            empresa.comuna_id
+
+        );
+
+
+        await cargarRegionesRepresentante(
+
+            empresa.region_representante_id
+
+        );
+
+
+        await cargarComunasRepresentante(
+
+            empresa.region_representante_id,
+
+            empresa.comuna_representante_id
+
+        );
+
+
+        document
+            .getElementById("region")
+            .addEventListener(
+                "change",
+                async e => {
+
+                    await cargarComunasEmpresa(
+                        e.target.value
+                    );
+
+                }
             );
 
-        }
-    );
 
+        document
+            .getElementById(
+                "regionRepresentante"
+            )
+            .addEventListener(
+                "change",
+                async e => {
 
-    document
-        .getElementById(
-            "regionRepresentante"
-        )
-        .addEventListener(
-            "change",
-            async e => {
-    
-                await cargarComunasRepresentante(
-                    e.target.value
-                );
-    
-            }
-        );
-    
-        
+                    await cargarComunasRepresentante(
+                        e.target.value
+                    );
+
+                }
+            );
+
     }
+
+}
+
 
 
 async function actualizarEmpresa(id) {
