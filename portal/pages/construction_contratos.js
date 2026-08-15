@@ -296,3 +296,60 @@ async function cargarContratosGenerados() {
     `;
 
 }
+
+
+function formatearFecha(fecha) {
+
+    if (!fecha)
+        return "-";
+
+    const partes =
+        fecha.split("-");
+
+    if (partes.length !== 3)
+        return fecha;
+
+    return `${partes[2]}-${partes[1]}-${partes[0]}`;
+
+}
+
+
+function formatearFechaHora(fecha) {
+
+    if (!fecha)
+        return "-";
+
+    const date =
+        new Date(fecha);
+
+    return date.toLocaleString(
+        "es-CL",
+        {
+            dateStyle: "short",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+function formatearFechaHora(fecha) {
+
+    if (!fecha)
+        return "-";
+
+    const date =
+        new Date(fecha);
+
+    return date.toLocaleString(
+        "es-CL",
+        {
+            dateStyle: "short",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+
