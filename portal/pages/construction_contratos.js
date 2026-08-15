@@ -94,4 +94,200 @@ export function renderConstructionContratos() {
 
         );
 
+    cargarContratosGenerados();
+
+}
+
+
+async function cargarContratosGenerados() {
+
+    const tabla =
+        document.getElementById(
+            "contratosTable"
+        );
+
+    if (!tabla)
+        return;
+
+
+    const contratos =
+        await contratosGeneradosService
+            .getAll();
+
+
+    if (!contratos.length) {
+
+        tabla.innerHTML = `
+
+            <div class="card">
+
+                <p>
+
+                    No hay contratos
+                    generados todavía.
+
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    tabla.innerHTML = `
+
+        <div class="card">
+
+            <div class="table-container">
+
+                <table class="cubika-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Fecha generación</th>
+
+                            <th>RUT trabajador</th>
+
+                            <th>Trabajador</th>
+
+                            <th>Tipo documento</th>
+
+                            <th>Tipo contrato</th>
+
+                            <th>Fecha inicio</th>
+
+                            <th>Fecha fin</th>
+
+                            <th>Causal fin</th>
+
+                            <th>Sueldo base</th>
+
+                            <th>Constructora</th>
+
+                            <th>Obra</th>
+
+                            <th>Cargo</th>
+
+                            <th>Estado</th>
+
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${contratos.map(
+                            contrato => {
+
+                                const trabajador =
+
+                                    contrato.worker
+                                        ? `${contrato.worker.nombres ?? ""}
+                                            ${contrato.worker.apellido_paterno ?? ""}
+                                            ${contrato.worker.apellido_materno ?? ""}`
+                                        .trim()
+                                        : "-";
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${formatearFechaHora(
+                                                contrato.fecha_generacion
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.worker?.rut ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${trabajador}
+                                        </td>
+
+                                        <td>
+                                            Contrato
+                                        </td>
+
+                                        <td>
+                                            ${contrato.tipo_contrato?.nombre ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${formatearFecha(
+                                                contrato.fecha_inicio
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${formatearFecha(
+                                                contrato.fecha_termino
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.causal_termino ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${formatearSueldo(
+                                                contrato.sueldo
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.obra?.constructora?.nombre ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.obra?.nombre ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.cargo?.nombre ?? "-"}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.estado ?? "-"}
+                                        </td>
+
+                                        <td>
+
+                                            <button
+                                                class="btn-cubika-secondary"
+                                                data-contrato-id="${contrato.id}">
+
+                                                Ver
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        ).join("")}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    `;
+
 }
