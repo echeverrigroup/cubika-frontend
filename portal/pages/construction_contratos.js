@@ -54,20 +54,10 @@ export function renderConstructionContratos() {
             <h2>
 
                 Asistente de Generación
-                de Contratos
+                de Contratos <br>
 
             </h2>
 
-        */
-            <p>
-
-                Genere contratos laborales
-                utilizando trabajadores,
-                empresas, obras, cargos y
-                plantillas documentales.
-
-            </p>
-          /*
           
         </div>
  
