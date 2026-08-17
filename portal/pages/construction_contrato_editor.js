@@ -1,4 +1,9 @@
 import {
+    estadosContratoService
+}
+from "../services/estadosContratoService.js";
+
+import {
     documentNumberService
 }
 from "../services/documentNumberService.js";
