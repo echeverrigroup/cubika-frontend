@@ -196,102 +196,56 @@ async function cargarContratosGenerados() {
                     <tbody>
 
                         ${contratos.map(
-                            contrato => {
-
-                                const trabajador =
-
-                                    contrato.worker
-                                        ? `${contrato.worker.nombres ?? ""}
-                                            ${contrato.worker.apellido_paterno ?? ""}
-                                            ${contrato.worker.apellido_materno ?? ""}`
+                        contrato => {
+                    
+                            const codigoEstado =
+                                determinarEstadoContrato(
+                                    contrato
+                                );
+                    
+                            const trabajador =
+                    
+                                contrato.worker
+                                    ? `${contrato.worker.nombres ?? ""}
+                                        ${contrato.worker.apellido_paterno ?? ""}
+                                        ${contrato.worker.apellido_materno ?? ""}`
                                         .trim()
-                                        : "-";
-
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            ${formatearFechaHora(
-                                                contrato.fecha_generacion
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.worker?.rut ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${trabajador}
-                                        </td>
-
-                                        <td>
-                                            Contrato
-                                        </td>
-
-                                        <td>
-                                            ${contrato.tipo_contrato?.nombre ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${formatearFecha(
-                                                contrato.fecha_inicio
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${formatearFecha(
-                                                contrato.fecha_termino
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.causal_termino ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${formatearSueldo(
-                                                contrato.sueldo
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.obra?.constructora?.nombre ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.obra?.nombre ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.cargo?.nombre ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.estado?.nombre ?? "-"}
-
-                                        </td>
-                                        
-                                        <td>
-
-                                            <button
-                                                class="btn-cubika-secondary"
-                                                data-contrato-id="${contrato.id}">
-
-                                                Ver
-
-                                            </button>
-
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        ).join("")}
-
+                    
+                                    : "-";
+                    
+                    
+                            return `
+                    
+                                <tr>
+                    
+                                    ...
+                    
+                                    <td>
+                    
+                                        <span
+                                            class="estado-indicador ${
+                                                codigoEstado
+                                                    .toLowerCase()
+                                                    .replace("_", "-")
+                                            }"
+                                            title="${contrato.estado?.nombre ?? ""}"
+                                        >
+                    
+                                            ${contrato.estado?.simbolo ?? "●"}
+                    
+                                        </span>
+                    
+                                    </td>
+                    
+                                    ...
+                    
+                                </tr>
+                    
+                            `;
+                    
+                        }
+                    ).join("")}
+                    
                     </tbody>
 
                 </table>
