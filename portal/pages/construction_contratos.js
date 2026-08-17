@@ -20,6 +20,9 @@ import {
 }
 from "../services/contratosGeneradosService.js";
 
+import { supabase }
+from "../../js/supabaseClient.js";
+
 
 
 
@@ -111,6 +114,18 @@ async function cargarContratosGenerados() {
     const contratos =
         await contratosGeneradosService
             .getAll();
+
+        for (
+            const contrato
+            of contratos
+        ) {
+        
+            await sincronizarEstadoContrato(
+                contrato
+            );
+        
+        }
+    
 
     contratos.forEach(
             contrato => {
@@ -477,6 +492,63 @@ function determinarEstadoContrato(contrato) {
 
 
     return "ACTIVO";
+
+}
+
+
+async function sincronizarEstadoContrato(contrato) {
+
+    const codigoEstado =
+        determinarEstadoContrato(
+            contrato
+        );
+
+
+    const estadoActual =
+        contrato.estado?.codigo;
+
+
+    if (
+        codigoEstado === estadoActual
+    ) {
+
+        return contrato;
+
+    }
+
+
+    const { data: nuevoEstado, error } =
+        await supabase
+            .from("estados_contrato")
+            .select("id, codigo, nombre, simbolo")
+            .eq(
+                "codigo",
+                codigoEstado
+            )
+            .single();
+
+
+    if (error)
+        throw error;
+
+
+    await contratosGeneradosService.update(
+
+        contrato.id,
+
+        {
+            estado_id:
+                nuevoEstado.id
+        }
+
+    );
+
+
+    contrato.estado =
+        nuevoEstado;
+
+
+    return contrato;
 
 }
 
