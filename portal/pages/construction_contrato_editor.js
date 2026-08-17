@@ -1,4 +1,10 @@
 import {
+    constructorasService
+}
+from "./services/constructorasService.js";
+
+
+import {
     estadosContratoService
 }
 from "../services/estadosContratoService.js";
@@ -74,6 +80,8 @@ let contratoActual = {
 
     empresa_id: null,
 
+    constructora_id: null,
+
     obra_id: null,
 
     cargo_id: null,
@@ -98,6 +106,8 @@ let contratoActual = {
 
     contenido: ""
 
+    
+
 };
 
 
@@ -110,6 +120,8 @@ export function nuevoContrato() {
         worker_id: null,
 
         empresa_id: null,
+
+        constructora_id: null,
 
         obra_id: null,
 
@@ -370,6 +382,24 @@ function renderPaso1() {
 
                     </select>
 
+                </div>
+
+                <div class="form-group">
+                
+                    <label>
+                        Empresa Constructora
+                    </label>
+                
+                    <select
+                        id="constructora_id"
+                        class="cubika-select">
+                
+                        <option>
+                            Seleccione
+                        </option>
+                
+                    </select>
+                
                 </div>
 
 
@@ -754,6 +784,14 @@ function guardarPasoActual() {
                 )
                 ?.value;
 
+        contratoActual.constructora_id =
+
+            document
+                .getElementById(
+                    "constructora_id"
+                )
+                ?.value;
+
 
         contratoActual.obra_id =
 
@@ -919,6 +957,9 @@ async function cargarPaso1() {
     const empresas =
         await empresasService.getAll();
 
+    const constructoras =
+    await constructorasService.getAll();
+
     const obras =
         await obrasService.getAll();
 
@@ -954,6 +995,19 @@ async function cargarPaso1() {
         contratoActual.empresa_id
 
     );
+
+
+    cargarSelect(
+
+            "constructora_id",
+        
+            constructoras,
+        
+            c => c.nombre,
+        
+            contratoActual.constructora_id
+        
+        );
 
 
     cargarSelect(
@@ -1377,6 +1431,12 @@ async function aprobarYGenerarContrato() {
             "CON"
         );
 
+    const estadoGenerado =
+    await estadosContratoService
+        .getByCodigo(
+            "GENERADO"
+        );
+
 
   const contrato =
     await construirContrato();
@@ -1432,8 +1492,8 @@ async function aprobarYGenerarContrato() {
         variables:
             contrato.variables,
     
-        estado:
-            "Generado"
+        estado_id:
+            estadoGenerado.id
     
     };
 
