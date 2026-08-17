@@ -1319,6 +1319,11 @@ async function construirContrato() {
             contratoActual.empresa_id
         );
 
+    const constructora =
+        await constructorasService.getById(
+            contratoActual.constructora_id
+        );
+
     const trabajador =
         await workersService.getById(
             contratoActual.worker_id
@@ -1340,17 +1345,19 @@ async function construirContrato() {
         );
 
     const variables =
-        construirVariables({
+    construirVariables({
 
-            empresa,
-            trabajador,
-            obra,
-            cargo,
+        empresa,
+        constructora,
+        trabajador,
+        obra,
+        cargo,
 
-            contrato: contratoActual
+        contrato: contratoActual
 
-        });
+    });
 
+    
     const tipoContrato =
         await tiposContratoService.getById(
             contratoActual.tipo_contrato_id
