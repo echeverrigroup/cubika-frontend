@@ -197,21 +197,21 @@ async function cargarContratosGenerados() {
 
                         ${contratos.map(
                             contrato => {
-
+                        
+                                const codigoEstado =
+                                    determinarEstadoContrato(
+                                        contrato
+                                    );
+                        
                                 const trabajador =
-
+                        
                                     contrato.worker
                                         ? `${contrato.worker.nombres ?? ""}
                                             ${contrato.worker.apellido_paterno ?? ""}
                                             ${contrato.worker.apellido_materno ?? ""}`
-
-
-
-
-
-                                        .trim()
+                                            .trim()
+                        
                                         : "-";
-
 
                                 return `
 
@@ -276,6 +276,23 @@ async function cargarContratosGenerados() {
                                         <td>
                                             ${contrato.estado?.nombre ?? "-"}
 
+                                        </td>
+
+                                        <td>
+                        
+                                            <span
+                                                class="estado-indicador ${
+                                                    codigoEstado
+                                                        .toLowerCase()
+                                                        .replace("_", "-")
+                                                }"
+                                                title="${contrato.estado?.nombre ?? ""}"
+                                            >
+                        
+                                                ${contrato.estado?.simbolo ?? "●"}
+                        
+                                            </span>
+                        
                                         </td>
                                         
                                         <td>
