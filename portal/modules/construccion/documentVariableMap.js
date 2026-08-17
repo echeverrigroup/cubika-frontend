@@ -33,6 +33,9 @@ export const DOCUMENT_VARIABLE_MAP = {
     REGION_REPRESENTANTE:
         "empresa.region_representante.nombre",
 
+    EMPRESA_CONSTRUCTORA:
+        "constructora.nombre",
+
 
 
 
