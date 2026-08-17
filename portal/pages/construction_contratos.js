@@ -289,7 +289,7 @@ async function cargarContratosGenerados() {
                                         </td>
                                         
 
-                                        <td>
+                                        <td class="estado-cell">                                        
                         
                                             <span
                                                 class="estado-indicador ${
