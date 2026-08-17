@@ -4,7 +4,7 @@ const TABLE = "contratos_generados";
 
 export const contratosGeneradosService = {
 
-    async getAll() {
+   async getAll() {
 
     const { data, error } =
         await supabase
@@ -47,6 +47,12 @@ export const contratosGeneradosService = {
 
                 tipo_contrato:tipos_contrato(
                     id,
+                    nombre
+                ),
+
+                estado:estados_contrato(
+                    id,
+                    codigo,
                     nombre
                 )
             `)
