@@ -112,6 +112,19 @@ async function cargarContratosGenerados() {
         await contratosGeneradosService
             .getAll();
 
+    contratos.forEach(
+            contrato => {
+        
+                console.log(
+                    contrato.numero_contrato,
+                    determinarEstadoContrato(
+                        contrato
+                    )
+                );
+        
+            }
+        );
+
 
     if (!contratos.length) {
 
@@ -342,6 +355,107 @@ function formatearSueldo(valor) {
                 maximumFractionDigits: 0
             }
         );
+
+}
+
+
+function determinarEstadoContrato(contrato) {
+
+    const hoy =
+        new Date();
+
+    const fechaInicio =
+        contrato.fecha_inicio
+            ? new Date(
+                contrato.fecha_inicio
+            )
+            : null;
+
+    const fechaTermino =
+        contrato.fecha_termino
+            ? new Date(
+                contrato.fecha_termino
+            )
+            : null;
+
+
+    // Finiquitado es un estado
+    // explícitamente asignado.
+    if (
+        contrato.estado?.codigo ===
+        "FINIQUITADO"
+    ) {
+
+        return "FINIQUITADO";
+
+    }
+
+
+    // Un contrato sin fecha de término
+    // nunca puede vencer.
+    if (
+        !fechaTermino
+    ) {
+
+        if (
+            fechaInicio &&
+            hoy < fechaInicio
+        ) {
+
+            return "GENERADO";
+
+        }
+
+        return "ACTIVO";
+
+    }
+
+
+    // Ya pasó la fecha de término.
+    if (
+        hoy > fechaTermino
+    ) {
+
+        return "VENCIDO";
+
+    }
+
+
+    // Faltan 15 días o menos.
+    const diferenciaMs =
+        fechaTermino - hoy;
+
+    const diasRestantes =
+        diferenciaMs /
+        (
+            1000 *
+            60 *
+            60 *
+            24
+        );
+
+
+    if (
+        diasRestantes <= 15
+    ) {
+
+        return "PROXIMO_VENCER";
+
+    }
+
+
+    // Todavía no comienza.
+    if (
+        fechaInicio &&
+        hoy < fechaInicio
+    ) {
+
+        return "GENERADO";
+
+    }
+
+
+    return "ACTIVO";
 
 }
 
