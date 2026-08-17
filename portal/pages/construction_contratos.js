@@ -270,6 +270,9 @@ async function cargarContratosGenerados() {
 
                                         <td>
                                             ${contrato.estado?.nombre ?? "-"}
+
+                                        </td>
+                                        
                                         <td>
 
                                             <button
