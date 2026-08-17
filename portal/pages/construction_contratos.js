@@ -272,11 +272,7 @@ async function cargarContratosGenerados() {
                                         <td>
                                             ${contrato.cargo?.nombre ?? "-"}
                                         </td>
-
-                                        <td>
-                                            ${contrato.estado?.nombre ?? "-"}
-
-                                        </td>
+                                        
 
                                         <td>
                         
