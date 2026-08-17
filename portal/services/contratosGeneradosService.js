@@ -70,29 +70,69 @@ export const contratosGeneradosService = {
 
 },
 
-    async getById(id) {
+   
+async getById(id) {
 
-        const { data, error } =
-            await supabase
-                .from(TABLE)
-                .select(`
-                    *,
-                    worker:workers(id,nombres,apellido_paterno,apellido_materno),
-                    empresa:empresas_construccion(id,nombre),
-                    obra:obras(id,nombre),
-                    cargo:cargos(id,nombre),
-                    plantilla:plantillas_documento(id,nombre),
-                    tipo_contrato:tipos_contrato(id,nombre)
-                `)
-                .eq("id", id)
-                .single();
+    const { data, error } =
+        await supabase
+            .from(TABLE)
+            .select(`
+                *,
 
-        if (error) throw error;
+                worker:workers(
+                    id,
+                    rut,
+                    nombres,
+                    apellido_paterno,
+                    apellido_materno
+                ),
 
-        return data;
+                empresa:empresas_construccion(
+                    id,
+                    nombre
+                ),
 
-    },
+                obra:obras(
+                    id,
+                    nombre,
 
+                    constructora:constructoras(
+                        id,
+                        nombre
+                    )
+                ),
+
+                cargo:cargos(
+                    id,
+                    nombre
+                ),
+
+                plantilla:plantillas_documento(
+                    id,
+                    nombre
+                ),
+
+                tipo_contrato:tipos_contrato(
+                    id,
+                    nombre
+                ),
+
+                estado:estados_contrato(
+                    id,
+                    codigo,
+                    nombre
+                )
+            `)
+            .eq("id", id)
+            .single();
+
+    if (error)
+        throw error;
+
+    return data;
+
+},
+   
 
     async create(contrato) {
 
