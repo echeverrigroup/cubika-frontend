@@ -1355,3 +1355,53 @@ EDITOR DOCUMENTAL
     transform:translateX(-50%);
 
 }
+
+
+.estado-indicador {
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-right:6px;
+
+    font-size:14px;
+
+}
+
+
+.estado-indicador.generado {
+
+    color:#94A3B8;
+
+}
+
+
+.estado-indicador.activo {
+
+    color:#22C55E;
+
+}
+
+
+.estado-indicador.proximo-vencer {
+
+    color:#EAB308;
+
+}
+
+
+.estado-indicador.vencido {
+
+    color:#EF4444;
+
+}
+
+
+.estado-indicador.finiquitado {
+
+    color:#475569;
+
+}
