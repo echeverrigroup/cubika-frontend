@@ -1384,7 +1384,7 @@ function actualizarCampoContrato() {
     
 
      if (
-        tipo === "Por Obra o Labor"
+        tipo === "Por Obra o Faena"
     ) {
 
     box.innerHTML =`
