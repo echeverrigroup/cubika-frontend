@@ -496,7 +496,7 @@ function construirDistribucionHoraria(
 
 
     const TEXTO_COLACION =
-        "con una hora de colación.";
+        "La jornada de trabajo será interrumpida por un descanso de colación de 1 hora.";
 
 
     return distribuciones
@@ -520,12 +520,12 @@ function construirDistribucionHoraria(
                     distribucion.colacion
                 ) {
 
-                    return `${texto}, ${TEXTO_COLACION}`;
+                    return `• ${texto}, ${TEXTO_COLACION}`;
 
                 }
 
 
-                return `${texto}.`;
+                return `• ${texto}.`;
 
             }
 
