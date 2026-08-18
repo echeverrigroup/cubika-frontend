@@ -960,8 +960,6 @@ async function cargarPaso1() {
     const constructoras =
     await constructorasService.getAll();
 
-    const obras =
-        await obrasService.getAll();
 
     const cargos =
         await cargosService.getAll();
@@ -1010,17 +1008,28 @@ async function cargarPaso1() {
         );
 
 
-    cargarSelect(
+    document
+    .getElementById(
+        "constructora_id"
+    )
+    ?.addEventListener(
+        "change",
+        async e => {
 
-        "obra_id",
+            contratoActual.constructora_id =
+                e.target.value;
 
-        obras,
+            contratoActual.obra_id =
+                null;
 
-        o => o.nombre,
+            await cargarObrasPorConstructora(
+                e.target.value
+            );
 
-        contratoActual.obra_id
-
+        }
     );
+
+
 
 
     cargarSelect(
@@ -1530,6 +1539,68 @@ async function aprobarYGenerarContrato() {
 }
 
 
+async function cargarObrasPorConstructora(
+    constructoraId,
+    obraSeleccionada = null
+) {
 
+    const select =
+        document.getElementById(
+            "obra_id"
+        );
+
+    if (!select)
+        return;
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Seleccione una obra
+        </option>
+
+    `;
+
+
+    if (!constructoraId)
+        return;
+
+
+    const obras =
+        await obrasService.getAll();
+
+
+    const obrasFiltradas =
+        obras.filter(
+            obra =>
+                obra.constructora_id ===
+                constructoraId
+        );
+
+
+    obrasFiltradas.forEach(
+        obra => {
+
+            select.innerHTML += `
+
+                <option
+                    value="${obra.id}"
+                    ${
+                        obra.id === obraSeleccionada
+                            ? "selected"
+                            : ""
+                    }
+                >
+
+                    ${obra.nombre}
+
+                </option>
+
+            `;
+
+        }
+    );
+
+}
 
 
