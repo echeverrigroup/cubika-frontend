@@ -479,6 +479,63 @@ CONSTRUIR VARIABLES
 =========================================
 */
 
+
+function construirDistribucionHoraria(
+    distribuciones = []
+) {
+
+    if (
+        !Array.isArray(
+            distribuciones
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    const TEXTO_COLACION =
+        "con una hora de colación.";
+
+
+    return distribuciones
+
+        .filter(
+            distribucion =>
+                distribucion?.texto
+                    ?.trim()
+        )
+
+        .map(
+            distribucion => {
+
+                const texto =
+                    distribucion
+                        .texto
+                        .trim();
+
+
+                if (
+                    distribucion.colacion
+                ) {
+
+                    return `${texto}, ${TEXTO_COLACION}`;
+
+                }
+
+
+                return `${texto}.`;
+
+            }
+
+        )
+
+        .join("\n");
+
+}
+
+
 export function construirVariables(
     datos
 ) {
@@ -575,6 +632,17 @@ export function construirVariables(
         formatearMoneda(
             variables.SUELDO
         );
+
+
+    variables.DISTRIBUCION_HORARIA =
+
+        construirDistribucionHoraria(
+    
+            datos.contrato
+                ?.distribucion_horaria
+    
+        );
+    
     
     variables.SUELDO_TEXTO =
     
