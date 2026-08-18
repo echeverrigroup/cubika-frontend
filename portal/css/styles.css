@@ -1446,7 +1446,7 @@ EDITOR DOCUMENTAL
 
     align-items: center;
 
-    gap: 6px;
+    gap: 3px;
 
     white-space: nowrap;
 
@@ -1466,6 +1466,6 @@ EDITOR DOCUMENTAL
 
     flex-shrink: 0;
 
-    padding: 1px 5px;
+    padding: 1px 1px;
 
 }
