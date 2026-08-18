@@ -183,7 +183,7 @@ export async function renderConstructionContratoEditor() {
                     id="btnGuardarBorrador"
                     class="btn-secondary">
 
-                    Guardar Borrador
+                    Ver Plantillas
 
                 </button>
 
