@@ -1413,3 +1413,59 @@ EDITOR DOCUMENTAL
     vertical-align: middle;
 
 }
+
+
+.distribucion-horaria-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+}
+
+
+.distribucion-horaria-row
+.distribucion-input {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.distribucion-colacion {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+}
+
+
+.distribucion-checkbox {
+
+    margin: 0;
+
+}
+
+
+.distribucion-eliminar {
+
+    flex-shrink: 0;
+
+    padding: 6px 10px;
+
+}
