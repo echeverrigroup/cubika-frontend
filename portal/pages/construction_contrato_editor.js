@@ -841,14 +841,43 @@ function guardarPasoActual() {
             ).value;
         
         
-        contratoActual
-            .distribucion_horaria =
+        const filasDistribucion =
+            document.querySelectorAll(
+                "#distribucionesHorarias .distribucion-horaria-row"
+            );
         
-        document
-            .getElementById(
-                "distribucion_horaria"
-            )
-            ?.value;
+        
+        contratoActual.distribucion_horaria =
+            Array.from(filasDistribucion)
+                .map(fila => {
+        
+                    const input =
+                        fila.querySelector(
+                            ".distribucion-input"
+                        );
+        
+                    const checkbox =
+                        fila.querySelector(
+                            ".distribucion-checkbox"
+                        );
+        
+                    return {
+        
+                        texto:
+                            input?.value?.trim()
+                            ?? "",
+        
+                        colacion:
+                            checkbox?.checked
+                            ?? false
+        
+                    };
+        
+                })
+                .filter(
+                    distribucion =>
+                        distribucion.texto !== ""
+                );
         
         
         contratoActual
@@ -870,15 +899,6 @@ function guardarPasoActual() {
             )
             ?.value;
         
-        
-        contratoActual
-            .fecha_termino =
-        
-        document
-            .getElementById(
-                "fecha_termino"
-            )
-            ?.value;
 
 
         contratoActual.fecha_termino =
