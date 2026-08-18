@@ -1174,14 +1174,53 @@ async function cargarPaso2() {
         contratoActual.jornada
         ?? "";
 
-    document
-        .getElementById(
-            "distribucion_horaria"
-        )
-        .value =
-        contratoActual
-            .distribucion_horaria
-        ?? "";
+   const contenedorDistribuciones =
+        document.getElementById(
+            "distribucionesHorarias"
+        );
+    
+    if (contenedorDistribuciones) {
+    
+        contenedorDistribuciones.innerHTML = "";
+    
+    
+        if (
+            Array.isArray(
+                contratoActual
+                    .distribucion_horaria
+            )
+            &&
+            contratoActual
+                .distribucion_horaria
+                .length > 0
+        ) {
+    
+            contratoActual
+                .distribucion_horaria
+                .forEach(
+                    distribucion => {
+    
+                        agregarDistribucionHoraria(
+    
+                            distribucion.texto
+                                ?? "",
+    
+                            distribucion.colacion
+                                ?? false
+    
+                        );
+    
+                    }
+                );
+    
+        }
+        else {
+    
+            agregarDistribucionHoraria();
+    
+        }
+    
+    }
 
     document
     .getElementById(
@@ -1196,22 +1235,6 @@ async function cargarPaso2() {
         }
     );
 
-
-    const contenedorDistribuciones =
-            document.getElementById(
-                "distribucionesHorarias"
-            );
-        
-        if (
-            contenedorDistribuciones &&
-            contenedorDistribuciones
-                .children.length === 0
-        ) {
-        
-            agregarDistribucionHoraria();
-        
-        }
-    
     
     document
         .getElementById(
