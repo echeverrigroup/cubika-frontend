@@ -588,7 +588,7 @@ function renderPaso2() {
                     id="btnAgregarDistribucion"
                     class="btn-secondary"
                     style="
-                        margin-top:10px;
+                        margin-top:5px;
                     ">
             
                     + Agregar distribución
