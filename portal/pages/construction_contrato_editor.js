@@ -573,17 +573,29 @@ function renderPaso2() {
                 
                 
                 <div class="form-group">
-                
-                    <label>
-                        Distribución Horaria
-                    </label>
-                
-                    <input
-                        id="distribucion_horaria"
-                        class="cubika-input"
-                        placeholder="Ej: Lunes a Viernes  -  08:00 a 18:00 Hrs">
-                
+
+                <label>
+                    Distribución Horaria
+                </label>
+            
+                <div
+                    id="distribucionesHorarias">
+            
                 </div>
+            
+                <button
+                    type="button"
+                    id="btnAgregarDistribucion"
+                    class="btn-secondary"
+                    style="
+                        margin-top:10px;
+                    ">
+            
+                    + Agregar distribución
+            
+                </button>
+            
+            </div>
                 
 
                 <div class="form-group">
@@ -1170,6 +1182,35 @@ async function cargarPaso2() {
         contratoActual
             .distribucion_horaria
         ?? "";
+
+    document
+    .getElementById(
+        "btnAgregarDistribucion"
+    )
+    ?.addEventListener(
+        "click",
+        () => {
+
+            agregarDistribucionHoraria();
+
+        }
+    );
+
+
+    const contenedorDistribuciones =
+            document.getElementById(
+                "distribucionesHorarias"
+            );
+        
+        if (
+            contenedorDistribuciones &&
+            contenedorDistribuciones
+                .children.length === 0
+        ) {
+        
+            agregarDistribucionHoraria();
+        
+        }
     
     
     document
@@ -1604,6 +1645,91 @@ async function cargarObrasPorConstructora(
 
         }
     );
+
+}
+
+
+function agregarDistribucionHoraria(
+    texto = "",
+    colacion = false
+) {
+
+    const contenedor =
+        document.getElementById(
+            "distribucionesHorarias"
+        );
+
+    if (!contenedor)
+        return;
+
+
+    const id =
+        `distribucion_${Date.now()}_${Math.random()
+            .toString(36)
+            .substring(2, 7)}`;
+
+
+    const fila =
+        document.createElement("div");
+
+    fila.className =
+        "distribucion-horaria-row";
+
+
+    fila.dataset.id = id;
+
+
+    fila.innerHTML = `
+
+        <input
+            type="text"
+            class="cubika-input distribucion-input"
+            value="${texto}"
+            placeholder="Ej: Lunes a Viernes - 08:00 a 18:00 Hrs"
+        >
+
+
+        <label
+            class="distribucion-colacion">
+
+            <input
+                type="checkbox"
+                class="distribucion-checkbox"
+                ${colacion ? "checked" : ""}>
+
+            Hora de colación
+
+        </label>
+
+
+        <button
+            type="button"
+            class="btn-secondary distribucion-eliminar">
+
+            ×
+
+        </button>
+
+    `;
+
+
+    contenedor.appendChild(
+        fila
+    );
+
+
+    fila
+        .querySelector(
+            ".distribucion-eliminar"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                fila.remove();
+
+            }
+        );
 
 }
 
