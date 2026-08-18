@@ -520,12 +520,12 @@ function construirDistribucionHoraria(
                     distribucion.colacion
                 ) {
 
-                    return `• ${texto}, ${TEXTO_COLACION}`;
+                   return `&nbsp;&nbsp;&nbsp;&nbsp;• ${texto}, ${TEXTO_COLACION}`;
 
                 }
 
 
-                return `• ${texto}.`;
+                return `&nbsp;&nbsp;&nbsp;&nbsp;• ${texto}.`;
 
             }
 
@@ -757,13 +757,22 @@ export function reemplazarVariables(
 
                     );
 
+                const valorFinal =
+
+                    variable === "DISTRIBUCION_HORARIA"
+                
+                        ? valor ?? ""
+                
+                        : `<strong>${valor ?? ""}</strong>`;
+                
+                
                 resultado =
                     resultado.replace(
-
+                
                         regex,
-
-                        `<strong>${valor ?? ""}</strong>`
-
+                
+                        valorFinal
+                
                     );
 
             }
