@@ -958,93 +958,97 @@ async function cargarPaso1() {
         await empresasService.getAll();
 
     const constructoras =
-    await constructorasService.getAll();
-
+        await constructorasService.getAll();
 
     const cargos =
         await cargosService.getAll();
 
 
     cargarSelect(
-
         "worker_id",
-
         trabajadores,
-
         t =>
-
             `${t.nombres}
              ${t.apellido_paterno}
              ${t.apellido_materno ?? ""}`,
-
         contratoActual.worker_id
-
     );
 
 
     cargarSelect(
-
         "empresa_id",
-
         empresas,
-
         e => e.nombre,
-
         contratoActual.empresa_id
-
     );
 
 
     cargarSelect(
+        "constructora_id",
+        constructoras,
+        c => c.nombre,
+        contratoActual.constructora_id
+    );
 
-            "constructora_id",
-        
-            constructoras,
-        
-            c => c.nombre,
-        
-            contratoActual.constructora_id
-        
+
+    cargarSelect(
+        "cargo_id",
+        cargos,
+        c => c.nombre,
+        contratoActual.cargo_id
+    );
+
+
+    await cargarObrasPorConstructora(
+        contratoActual.constructora_id,
+        contratoActual.obra_id
+    );
+
+
+    const selectConstructora =
+        document.getElementById(
+            "constructora_id"
         );
 
+    if (selectConstructora) {
 
-    document
-    .getElementById(
-        "constructora_id"
-    )
-    ?.addEventListener(
-        "change",
-        async e => {
+        selectConstructora.onchange =
+            async e => {
 
-            contratoActual.constructora_id =
-                e.target.value;
+                contratoActual.constructora_id =
+                    e.target.value;
 
-            contratoActual.obra_id =
-                null;
+                contratoActual.obra_id =
+                    null;
 
-            await cargarObrasPorConstructora(
-                e.target.value
-            );
+                await cargarObrasPorConstructora(
+                    e.target.value
+                );
 
-        }
-    );
+            };
+
+    }
 
 
+    const selectObra =
+        document.getElementById(
+            "obra_id"
+        );
 
+    if (selectObra) {
 
-    cargarSelect(
+        selectObra.onchange =
+            e => {
 
-        "cargo_id",
+                contratoActual.obra_id =
+                    e.target.value;
 
-        cargos,
+            };
 
-        c => c.nombre,
-
-        contratoActual.cargo_id
-
-    );
+    }
 
 }
+
 
 
 async function cargarPaso2() {
