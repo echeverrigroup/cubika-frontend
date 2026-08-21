@@ -68,7 +68,7 @@ import {
     showResultModal,
     setModalLoading,
     setModalError
-} from "../../js/modal.js";
+} from "../components/modal.js";
 
 
 
