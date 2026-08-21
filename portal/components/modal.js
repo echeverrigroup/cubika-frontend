@@ -141,6 +141,81 @@ export function showConfirmModal({
 }
 
 
+
+export function showResultModal({
+
+    title,
+    message,
+    primaryText = "Continuar",
+    onPrimary = null
+
+}) {
+
+    const {
+
+        overlay,
+        modal,
+        title: modalTitle,
+        body,
+        cancel,
+        confirm
+
+    } = getModalElements();
+
+
+    modal.classList.remove(
+        "large"
+    );
+
+
+    modalTitle.textContent =
+        title;
+
+
+    body.innerHTML = `
+
+        <div
+            style="
+                text-align:center;
+                line-height:1.6;
+            "
+        >
+
+            ${message}
+
+        </div>
+
+    `;
+
+
+    confirm.textContent =
+        primaryText;
+
+
+    overlay.style.display =
+        "flex";
+
+
+    cancel.onclick =
+        closeModal;
+
+
+    confirm.onclick =
+        async () => {
+
+            if (onPrimary) {
+
+                await onPrimary();
+
+            }
+
+        };
+
+}
+
+
+
+
 export function showFormModal({
 
     title,
@@ -277,3 +352,5 @@ export function setModalError(message = "") {
             : "none";
 
 }
+
+
