@@ -707,6 +707,34 @@ function obtenerFormularioConstructora(
                             value="${constructora?.direccion ?? ""}">
 
                     </div>
+                    
+                    
+                         <div class="form-group">
+                    
+                        <label>Representante Legal</label>
+                    
+                        <input
+                            id="representante"
+                            type="text"
+                            class="cubika-input"
+                            value="${constructora?.representante_legal ?? ""}"
+                            placeholder="Nombre del representante legal..."
+                            required>
+                    
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                    
+                        <label>RUT del Representante</label>
+                    
+                        <input
+                            id="rutRepresentante"
+                            type="text"
+                            class="cubika-input"
+                            value="${constructora?.rut_representante ?? ""}">
+                    
+                    </div>
 
                 </div>
 
@@ -1469,7 +1497,20 @@ async function crearConstructora() {
                 ?.trim(),
 
         estado:
-            "Activo"
+            "Activo",
+
+
+        representante_legal:
+            document
+                .getElementById("representante")
+                ?.value
+                ?.trim(),
+        
+        rut_representante:
+            document
+                .getElementById("rutRepresentante")
+                ?.value
+                ?.trim()
 
     };
 
@@ -1534,6 +1575,18 @@ async function actualizarConstructora(id) {
         direccion:
             document
                 .getElementById("direccion")
+                ?.value
+                ?.trim(),
+
+        representante_legal:
+            document
+                .getElementById("representante")
+                ?.value
+                ?.trim(),
+        
+        rut_representante:
+            document
+                .getElementById("rutRepresentante")
                 ?.value
                 ?.trim()
 
