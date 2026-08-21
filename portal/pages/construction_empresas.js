@@ -1484,6 +1484,18 @@ async function crearConstructora() {
                 ?.value
                 ?.trim(),
 
+        representante_legal:
+            document
+                .getElementById("representante")
+                ?.value
+                ?.trim(),
+
+        rut_representante:
+            document
+                .getElementById("rutRepresentante")
+                ?.value
+                ?.trim(),
+
         email:
             document
                 .getElementById("email")
@@ -1496,45 +1508,35 @@ async function crearConstructora() {
                 ?.value
                 ?.trim(),
 
-        estado:
-            "Activo",
-
-
-        representante_legal:
-            document
-                .getElementById("representante")
-                ?.value
-                ?.trim(),
-        
-        rut_representante:
-            document
-                .getElementById("rutRepresentante")
-                ?.value
-                ?.trim()
+        estado: "Activo"
 
     };
 
 
     if (!constructora.nombre) {
 
-        mostrarErrorFormulario(
+        setModalError(
             "Debe ingresar el nombre de la constructora."
         );
 
-        return;
+        return false;
 
     }
 
 
     try {
 
+        setModalLoading(true);
+
         await constructorasService.create(
             constructora
         );
 
-        closeModal();
-
         await cargarEmpresas();
+
+        setModalLoading(false);
+
+        return true;
 
     }
 
@@ -1542,13 +1544,20 @@ async function crearConstructora() {
 
         console.error(error);
 
-        mostrarErrorFormulario(
-            error.message
+        setModalLoading(false);
+
+        setModalError(
+            error.message ||
+            "No fue posible guardar la constructora."
         );
+
+        return false;
 
     }
 
 }
+
+
 
 async function actualizarConstructora(id) {
 
@@ -1566,6 +1575,18 @@ async function actualizarConstructora(id) {
                 ?.value
                 ?.trim(),
 
+        representante_legal:
+            document
+                .getElementById("representante")
+                ?.value
+                ?.trim(),
+
+        rut_representante:
+            document
+                .getElementById("rutRepresentante")
+                ?.value
+                ?.trim(),
+
         email:
             document
                 .getElementById("email")
@@ -1576,18 +1597,6 @@ async function actualizarConstructora(id) {
             document
                 .getElementById("direccion")
                 ?.value
-                ?.trim(),
-
-        representante_legal:
-            document
-                .getElementById("representante")
-                ?.value
-                ?.trim(),
-        
-        rut_representante:
-            document
-                .getElementById("rutRepresentante")
-                ?.value
                 ?.trim()
 
     };
@@ -1595,25 +1604,29 @@ async function actualizarConstructora(id) {
 
     if (!constructora.nombre) {
 
-        mostrarErrorFormulario(
+        setModalError(
             "Debe ingresar el nombre de la constructora."
         );
 
-        return;
+        return false;
 
     }
 
 
     try {
 
+        setModalLoading(true);
+
         await constructorasService.update(
             id,
             constructora
         );
 
-        closeModal();
-
         await cargarEmpresas();
+
+        setModalLoading(false);
+
+        return true;
 
     }
 
@@ -1621,14 +1634,16 @@ async function actualizarConstructora(id) {
 
         console.error(error);
 
-        mostrarErrorFormulario(
-            error.message
+        setModalLoading(false);
+
+        setModalError(
+            error.message ||
+            "No fue posible actualizar la constructora."
         );
+
+        return false;
 
     }
 
 }
-
-
-
 
