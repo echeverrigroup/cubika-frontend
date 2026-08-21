@@ -378,7 +378,7 @@ function renderPaso1() {
 
                     <label>
 
-                        Empresa
+                        Empresa Mandante
 
                     </label>
 
