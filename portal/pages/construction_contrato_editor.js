@@ -62,6 +62,18 @@ import {
 from "../services/tiposContratoService.js";
 
 
+import {
+    showFormModal,
+    showConfirmModal,
+    showResultModal,
+    setModalLoading,
+    setModalError
+} from "../../js/modal.js";
+
+
+
+
+
 
 import {
     navigate
@@ -1602,25 +1614,70 @@ async function aprobarYGenerarContrato() {
 
     try {
 
-        const contrato =
-    
-            await contratosGeneradosService
-                .create(
-                    contratoGuardar
-                );
-    
-        console.log(
-            "Contrato generado:",
-            contrato
-        );
-    
-    }
-    catch (error) {
-    
-        console.error(error);
-    
-    }
+            const contrato =
+                await contratosGeneradosService
+                    .create(
+                        contratoGuardar
+                    );
         
+            console.log(
+                "Contrato generado:",
+                contrato
+            );
+        
+        
+            showResultModal({
+        
+                title:
+                    "Contrato generado correctamente",
+        
+                message: `
+        
+                    <div
+                        style="
+                            font-size:15px;
+                        "
+                    >
+        
+                        El contrato
+        
+                        <strong>
+                            ${contrato.numero_contrato}
+                        </strong>
+        
+                        fue generado y guardado
+                        correctamente.
+        
+                    </div>
+        
+                `,
+        
+                primaryText:
+                    "Obtener PDF",
+        
+                onPrimary: async () => {
+        
+                    console.log(
+                        "Obtener PDF:",
+                        contrato.id
+                    );
+        
+                    // Próximamente:
+                    // generarPDF(contrato.id)
+        
+                }
+        
+            });
+        
+        }
+        catch (error) {
+        
+            console.error(
+                "Error al generar contrato:",
+                error
+            );
+        
+        }
 
 }
 
