@@ -173,3 +173,36 @@ if (dashboardItem) {
    
 
 init();
+
+
+// =========================================================
+// MENÚ DE USUARIO RESPONSIVE
+// =========================================================
+
+const userMenu = document.querySelector(".user-menu");
+
+if (userMenu) {
+
+    const syncUserMenu = () => {
+
+        if (window.innerWidth <= 768) {
+
+            // En móvil comienza cerrado
+            userMenu.removeAttribute("open");
+
+        } else {
+
+            // En desktop permanece siempre abierto
+            userMenu.setAttribute("open", "");
+
+        }
+
+    };
+
+    // Estado inicial
+    syncUserMenu();
+
+    // Adaptar si cambia el tamaño de la ventana
+    window.addEventListener("resize", syncUserMenu);
+
+}
