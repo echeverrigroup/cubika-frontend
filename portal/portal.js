@@ -1,60 +1,112 @@
-/**
- * Portal Principal
- * Punto de entrada de la aplicación
- * Refactorizado para usar los nuevos módulos
- */
-
-import { requireAuth } from "./core/auth/authGuard.js";
-import { navigate, router } from "./core/router.js";
-import { navigator } from "./core/navigator.js";
-import { navbar } from "./components/common/Navbar/Navbar.js";
-import { sidebar } from "./components/common/Sidebar/Sidebar.js";
-import { showConfirmModal } from "./components/common/Modal/Modal.js";
-import { authService } from "./core/auth/authService.js";
-import { MESSAGES, ROUTES } from "./config/constants.js";
+import { supabase } from "../js/supabaseClient.js";
+import { requireAuth } from "./auth.js";
+import { navigate } from "./router.js";
+import { showConfirmModal }
+    from "./components/modal.js";
 
 async function init() {
-    
-    // 1. Verifica autenticación
+
     const user = await requireAuth();
+
     if (!user) return;
-    
-    // 2. Inicializa el router
-    router.init();
-    
-    // 3. Inicializa el navbar
-    await navbar.init(handleLogout);
-    
-    // 4. Inicializa el sidebar
-    sidebar.init();
-    
-    // 5. Configura los listeners de navegación
-    navigator.initMenuListeners((page, params) => {
-        navigate(page, params);
-    });
-    
-    // 6. Navega al dashboard por defecto
-    navigate(ROUTES.DASHBOARD);
-    navigator.activateMenuItem(ROUTES.DASHBOARD);
-}
 
-/**
- * Maneja el logout del usuario
- */
-async function handleLogout() {
-    showConfirmModal({
-        title: MESSAGES.LOGOUT_CONFIRMATION.title,
-        message: MESSAGES.LOGOUT_CONFIRMATION.message,
-        onConfirm: async () => {
-            const success = await authService.logout();
-            if (success) {
-                window.location.href = "/login.html";
+    const logoutBtn =
+    document.getElementById("logoutBtn");
+
+    logoutBtn.addEventListener(
+    "click",
+    () => {
+
+        showConfirmModal({
+
+            title: "Cerrar sesión",
+
+            message:
+                "¿Deseas abandonar la sesión actual de Cubika?",
+
+            onConfirm: async () => {
+
+                await supabase.auth.signOut();
+
+                window.location.href =
+                    "/login.html";
+
             }
-        }
-    });
-}
 
-// Inicia la aplicación
-init().catch(error => {
-    console.error("Error al inicializar portal:", error);
-});
+        });
+
+    }
+);
+
+    
+    const { data: perfil, error } = await supabase
+    .from("usuarios")
+    .select(`
+        nombre,
+        apellido,
+        cargo,
+        empresas (
+            nombre_fantasia
+        )
+    `)
+    .eq("auth_user_id", user.id)
+    .single();
+
+    if (error) {
+
+    console.error(error);
+
+    document.getElementById("user-name").textContent =
+        "Error de perfil";
+
+    return;
+    }
+
+
+    if (perfil) {
+
+        document.getElementById("user-name").textContent =
+            `${perfil.nombre} ${perfil.apellido ?? ""}`;
+
+       document.getElementById("user-role").textContent =
+            `${perfil.cargo ?? "Usuario "}`;
+
+        document.getElementById("user-empresa").textContent =
+            `${perfil.empresas?.nombre_fantasia ?? " "}`;
+        }
+    
+
+    document
+    .querySelectorAll("[data-page]")
+    .forEach(item => {
+
+        item.addEventListener("click", () => {
+
+            document
+                .querySelectorAll("[data-page]")
+                .forEach(i =>
+                    i.classList.remove("active")
+                );
+
+            item.classList.add("active");
+
+            navigate(item.dataset.page);
+        });
+
+    });
+    
+     navigate("dashboard");
+
+    const dashboardItem =
+    document.querySelector(
+        '[data-page="dashboard"]'
+    );
+
+if (dashboardItem) {
+
+    dashboardItem.classList.add("active");
+}
+}
+   
+
+init();
