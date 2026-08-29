@@ -23,6 +23,15 @@
     <header class="navbar">
 
         <div class="navbar-left">
+            <button
+                id="mobileMenuBtn"
+                class="mobile-menu-btn"
+                type="button"
+                aria-label="Abrir menú"
+                aria-expanded="false">
+                ☰
+            </button>
+
             <img src="../img/isologo-2.png" alt="Cubika" class="logo">
         </div>
 
@@ -60,6 +69,13 @@
 
     <!-- Contenido principal -->
     <div class="main-container">
+
+        <!-- Overlay del menú móvil -->
+        <div
+            id="mobileSidebarOverlay"
+            class="mobile-sidebar-overlay"
+            aria-hidden="true">
+        </div>
 
         <!-- Sidebar -->
     <aside class="sidebar">
