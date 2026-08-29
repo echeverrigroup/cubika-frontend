@@ -1469,3 +1469,504 @@ EDITOR DOCUMENTAL
     padding: 1px 1px;
 
 }
+
+
+/* =========================================================
+   RESPONSIVE — SMARTPHONES
+   Capa de adaptación móvil.
+   No modifica el comportamiento desktop existente.
+   ========================================================= */
+
+.mobile-menu-btn {
+    display: none;
+}
+
+
+/* ---------------------------------------------------------
+   TABLETS PEQUEÑAS / SMARTPHONES
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    /* NAVBAR */
+
+    .navbar {
+        height: 64px;
+        padding: 0 14px;
+    }
+
+    .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .logo {
+        height: 50px;
+        width: auto;
+    }
+
+    .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 40px;
+        height: 40px;
+
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+
+        background: #F1F5F9;
+        color: #0B2F5B;
+
+        font-size: 22px;
+        line-height: 1;
+
+        cursor: pointer;
+        flex-shrink: 0;
+
+        transition:
+            background .2s ease,
+            transform .2s ease;
+    }
+
+    .mobile-menu-btn:hover {
+        background: #E2E8F0;
+    }
+
+    .mobile-menu-btn:active {
+        transform: scale(.96);
+    }
+
+
+    /* INFORMACIÓN DEL USUARIO */
+
+    .user-card {
+        gap: 8px;
+    }
+
+    .user-info {
+        min-width: 0;
+        max-width: 145px;
+        overflow: hidden;
+    }
+
+    #user-name {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #user-role,
+    #user-empresa {
+        display: none;
+    }
+
+    #logoutBtn {
+        padding: 9px 11px;
+        border-radius: 9px;
+        font-size: 12px;
+        flex-shrink: 0;
+    }
+
+
+    /* LAYOUT PRINCIPAL */
+
+    .main-container {
+        position: relative;
+        height: calc(100vh - 64px);
+        min-width: 0;
+    }
+
+    .content {
+        width: 100%;
+        min-width: 0;
+        padding: 18px 14px 28px;
+    }
+
+
+    /* SIDEBAR */
+
+    .sidebar {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        bottom: 0;
+
+        width: min(280px, 84vw);
+        height: auto;
+
+        padding: 18px 14px;
+
+        z-index: 1000;
+
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+
+        box-shadow: 8px 0 24px rgba(11,47,91,.10);
+    }
+
+    .main-container.mobile-menu-open .sidebar {
+        transform: translateX(0);
+    }
+
+    .mobile-sidebar-overlay {
+        display: block;
+
+        position: fixed;
+        inset: 64px 0 0 0;
+
+        background: rgba(11,47,91,.20);
+
+        z-index: 999;
+
+        opacity: 0;
+        pointer-events: none;
+
+        transition: opacity .25s ease;
+    }
+
+    .main-container.mobile-menu-open
+    .mobile-sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .sidebar h3 {
+        margin-top: 18px;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .sidebar-menu li {
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+
+        padding: 10px 12px;
+
+        font-size: 14px;
+    }
+
+
+    /* ENCABEZADOS DE PÁGINA */
+
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+        line-height: 1.25;
+    }
+
+    .page-header button {
+        width: 100%;
+        min-height: 42px;
+    }
+
+
+    /* FILTROS / BÚSQUEDA */
+
+    .table-filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .table-filters > *,
+    #filtroEstado,
+    #filtroRubro,
+    #busquedaEmpresa {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+
+    .search-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    /* FORMULARIOS */
+
+    .cubika-form-grid,
+    .form-grid,
+    .form-grid-3,
+    .form-grid-4 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .form-grid-4 {
+        padding: 12px 0;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .form-group label,
+    .form-group-2 label {
+        padding: 0 10px;
+    }
+
+    .form-group input,
+    .form-group-2 input,
+    .cubika-input,
+    .cubika-select {
+        min-height: 38px;
+    }
+
+
+    /* LAYOUTS DE FORMULARIOS */
+
+    .contrato-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .empresa-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .empresa-layout::after {
+        display: none;
+    }
+
+    .empresa-section {
+        padding: 12px;
+    }
+
+
+    /* TABS */
+
+    .cubika-tabs {
+        justify-content: flex-start;
+        gap: 8px;
+
+        margin: 16px 0;
+
+        overflow-x: auto;
+        padding-bottom: 3px;
+
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .cubika-tab {
+        min-width: max-content;
+        flex-shrink: 0;
+
+        padding: 11px 16px;
+        font-size: 14px;
+    }
+
+
+    /* TABLAS */
+
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .cubika-table {
+        min-width: 760px;
+    }
+
+    .cubika-table th,
+    .cubika-table td {
+        padding: 8px 9px;
+        font-size: .72rem;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-restore,
+    .btn-toggle-estado {
+        padding: 7px 9px;
+        margin-right: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+
+    /* MODALES */
+
+    .modal {
+        width: calc(100vw - 28px);
+        max-width: none;
+
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
+
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .modal.large {
+        width: calc(100vw - 28px);
+        max-width: none;
+    }
+
+    .modal-footer {
+        flex-wrap: wrap;
+    }
+
+    .modal-footer button {
+        min-height: 40px;
+    }
+
+
+    /* EDITOR DOCUMENTAL */
+
+    .editor-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .editor-sidebar {
+        position: static;
+    }
+
+    .editor-sidebar .editor-section {
+        max-height: none;
+        padding: 16px;
+    }
+
+    .document-preview {
+        min-height: 360px;
+        padding: 18px;
+        overflow-x: auto;
+    }
+
+
+    /* ASISTENTES */
+
+    .wizard-steps {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin: 16px 0;
+    }
+
+    .wizard-step {
+        min-width: 0;
+        width: 100%;
+
+        justify-content: flex-start;
+
+        padding: 12px 16px;
+    }
+
+    .wizard-buttons {
+        margin-top: 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .wizard-buttons button {
+        width: 100%;
+        min-height: 42px;
+    }
+
+
+    /* VARIABLES DOCUMENTALES */
+
+    .variables-list {
+        gap: 8px;
+    }
+
+    .variable-chip {
+        padding: 8px 11px;
+        font-size: 12px;
+
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* DISTRIBUCIÓN HORARIA */
+
+    .distribucion-horaria-row {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .distribucion-horaria-row
+    .distribucion-input {
+        flex: 1 1 100%;
+    }
+
+    .distribucion-colacion {
+        font-size: 13px;
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   SMARTPHONES ESTRECHOS
+   --------------------------------------------------------- */
+
+@media (max-width: 480px) {
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .logo {
+        height: 46px;
+    }
+
+    .user-info {
+        max-width: 105px;
+    }
+
+    #user-name {
+        font-size: 12px;
+    }
+
+    #logoutBtn {
+        padding: 8px 9px;
+        font-size: 11px;
+    }
+
+    .content {
+        padding: 14px 10px 24px;
+    }
+
+    .page-header h1 {
+        font-size: 20px;
+    }
+
+    .cubika-table {
+        min-width: 680px;
+    }
+
+    .modal {
+        width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
+        padding: 16px;
+    }
+
+    .modal.large {
+        width: calc(100vw - 20px);
+    }
+
+}
