@@ -175,17 +175,6 @@ body {
     position: relative;
 }
 
-.user-menu-trigger {
-    display: none;
-}
-
-/* En desktop el menú de usuario funciona como
-   un contenedor normal, sin comportamiento desplegable */
-
-.user-menu {
-    position: relative;
-}
-
 .user-menu .user-card {
     display: flex;
     align-items: center;
@@ -199,7 +188,6 @@ body {
 .user-menu-trigger::-webkit-details-marker {
     display: none;
 }
-
 
 .user-info{
     text-align:right;
@@ -1576,18 +1564,6 @@ EDITOR DOCUMENTAL
         transform: scale(.96);
     }
 
-    /* =========================================================
-   AJUSTE FINAL — MENÚ DE USUARIO MÓVIL
-   ========================================================= */
-
-.user-menu .user-card {
-    display: none;
-}
-
-.user-menu[open] .user-card {
-    display: flex;
-}
-
 
     /* INFORMACIÓN DEL USUARIO */
 
@@ -2087,6 +2063,18 @@ EDITOR DOCUMENTAL
 
 }
 
+@media (min-width: 769px) {
+
+    .user-menu .user-card {
+        position: static;
+        display: flex;
+    }
+
+    .user-menu-trigger {
+        display: none;
+    }
+
+}
 
 /* ---------------------------------------------------------
    SMARTPHONES ESTRECHOS
