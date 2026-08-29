@@ -166,6 +166,24 @@ body {
     gap:16px;
 }
 
+
+/* =========================================================
+   MENÚ DE USUARIO
+   ========================================================= */
+
+.user-menu {
+    position: relative;
+}
+
+.user-menu-trigger {
+    display: none;
+}
+
+.user-menu-trigger::-webkit-details-marker {
+    display: none;
+}
+
+
 .user-info{
     text-align:right;
 }
@@ -1541,38 +1559,171 @@ EDITOR DOCUMENTAL
         transform: scale(.96);
     }
 
+    /* =========================================================
+   AJUSTE FINAL — MENÚ DE USUARIO MÓVIL
+   ========================================================= */
+
+.user-menu .user-card {
+    display: none;
+}
+
+.user-menu[open] .user-card {
+    display: flex;
+}
+
 
     /* INFORMACIÓN DEL USUARIO */
 
-    .user-card {
-        gap: 8px;
-    }
+    /* =========================================================
+   MENÚ DE USUARIO — MÓVIL
+   ========================================================= */
 
-    .user-info {
-        min-width: 0;
-        max-width: 145px;
-        overflow: hidden;
-    }
+.user-menu {
+    position: relative;
+}
 
-    #user-name {
-        font-size: 13px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+/* Botón compacto que aparece en el navbar */
 
-    #user-role,
-    #user-empresa {
-        display: none;
-    }
+.user-menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
 
-    #logoutBtn {
-        padding: 9px 11px;
-        border-radius: 9px;
-        font-size: 12px;
-        flex-shrink: 0;
-    }
+    width: 40px;
+    height: 40px;
 
+    padding: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #F1F5F9;
+    color: #0B2F5B;
+
+    cursor: pointer;
+
+    list-style: none;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.user-menu-trigger:hover {
+    background: #E2E8F0;
+}
+
+.user-menu-trigger:active {
+    transform: scale(.96);
+}
+
+.user-avatar {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.user-menu-chevron {
+    font-size: 13px;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+/* ---------------------------------------------------------
+   PANEL DESPLEGABLE
+   --------------------------------------------------------- */
+
+.user-menu .user-card {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 240px;
+
+    display: none;
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 14px;
+
+    padding: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.12);
+
+    z-index: 1000;
+}
+
+/* Mostrar panel cuando se abre <details> */
+
+.user-menu[open] .user-card {
+    display: flex;
+}
+
+/* Información del usuario */
+
+.user-menu .user-info {
+    max-width: none;
+
+    overflow: visible;
+
+    text-align: left;
+}
+
+.user-menu #user-name {
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #0B2F5B;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-menu #user-role,
+.user-menu #user-empresa {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-menu #user-role {
+    color: #6B7280;
+}
+
+.user-menu #user-empresa {
+    color: #146C5B;
+}
+
+/* Logout */
+
+.user-menu #logoutBtn {
+    width: 100%;
+
+    padding: 9px 12px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+
+    flex-shrink: 0;
+}
+
+    
 
     /* LAYOUT PRINCIPAL */
 
@@ -1934,17 +2085,8 @@ EDITOR DOCUMENTAL
         height: 46px;
     }
 
-    .user-info {
-        max-width: 105px;
-    }
-
-    #user-name {
-        font-size: 12px;
-    }
-
-    #logoutBtn {
-        padding: 8px 9px;
-        font-size: 11px;
+   .user-menu .user-card {
+    width: min(240px, calc(100vw - 20px));
     }
 
     .content {
