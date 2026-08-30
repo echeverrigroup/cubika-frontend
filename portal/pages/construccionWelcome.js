@@ -419,7 +419,7 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-copy">
 
                         <span class="construction-welcome-kicker">
-                            CONSTRUCCIÓN - Gestor de Documentos
+                            CONSTRUCCIÓN - Gestor documental
                         </span>
 
                         <h2>
