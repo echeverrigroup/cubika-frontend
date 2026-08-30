@@ -5,6 +5,10 @@ import {
 }
 from "../portal/pages/empresas.js";
 import { renderUsuarios } from "./pages/usuarios.js";
+
+import { renderConstructionWelcome }
+from "./pages/construccionWelcome.js";
+
 import { renderConstructionEmpresas } from "./pages/construction_empresas.js";
 import { renderConstructionTrabajadores } from "./pages/construction_trabajadores.js";
 import { renderConstructionObras } from "./pages/construction_obras.js";
@@ -42,6 +46,10 @@ export function navigate(page, params = null) {
 
         case "usuarios":
         renderUsuarios();
+        break;
+
+        case "construction_welcome":
+        renderConstructionWelcome();
         break;
 
 
