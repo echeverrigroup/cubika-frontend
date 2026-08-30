@@ -1,25 +1,29 @@
-import { supabase }
-from "../js/supabaseClient.js";
-
+import { usuariosService }
+from "../services/usuariosService.js";
 
 import { empresasService }
 from "../services/empresasService.js";
 
-
 import {
+
     showConfirmModal,
     showFormModal,
     setModalLoading,
     setModalError
+
 }
 from "../components/modal.js";
 
 
+let usuarios = [];
+
+let empresas = [];
+
 
 /*
-=========================================================
-RENDER PRINCIPAL
-=========================================================
+|--------------------------------------------------------------------------
+| RENDER PRINCIPAL
+|--------------------------------------------------------------------------
 */
 
 export async function renderUsuarios() {
@@ -27,14 +31,11 @@ export async function renderUsuarios() {
     const content =
         document.querySelector(".content");
 
-
     content.innerHTML = `
 
         <div class="page-header">
 
-            <h1>
-                Usuarios
-            </h1>
+            <h1>Usuarios</h1>
 
             <button
                 id="btnNuevoUsuario"
@@ -49,12 +50,19 @@ export async function renderUsuarios() {
 
         <div class="table-filters">
 
+            <input
+                id="buscarUsuario"
+                class="cubika-input"
+                type="text"
+                placeholder="Buscar usuario...">
+
+
             <select
                 id="filtroEstado"
                 class="cubika-select">
 
                 <option value="">
-                    Todos los Estados
+                    Todos los estados
                 </option>
 
                 <option value="ACTIVO">
@@ -71,21 +79,6 @@ export async function renderUsuarios() {
 
             </select>
 
-
-            <div class="search-box">
-
-                <span class="search-icon">
-                    🔍
-                </span>
-
-                <input
-                    id="buscarUsuario"
-                    class="cubika-input"
-                    type="text"
-                    placeholder="Buscar por nombre, email, RUT o cargo...">
-
-            </div>
-
         </div>
 
 
@@ -98,221 +91,160 @@ export async function renderUsuarios() {
     `;
 
 
-    await cargarUsuarios();
+    await cargarDatos();
 
 
     document
-        .getElementById("btnNuevoUsuario")
-        .addEventListener(
-            "click",
-            mostrarFormularioNuevoUsuario
+        .getElementById("buscarUsuario")
+        ?.addEventListener(
+            "keyup",
+            renderTabla
         );
 
 
     document
         .getElementById("filtroEstado")
-        .addEventListener(
+        ?.addEventListener(
             "change",
-            cargarUsuarios
+            renderTabla
         );
 
 
     document
-        .getElementById("buscarUsuario")
-        .addEventListener(
-            "input",
-            cargarUsuarios
+        .getElementById("btnNuevoUsuario")
+        ?.addEventListener(
+            "click",
+            mostrarFormularioNuevoUsuario
         );
 
 }
 
 
-
 /*
-=========================================================
-CARGAR USUARIOS
-=========================================================
+|--------------------------------------------------------------------------
+| CARGAR DATOS
+|--------------------------------------------------------------------------
 */
 
-async function cargarUsuarios() {
-
-    const table =
-        document.getElementById(
-            "usuariosTable"
-        );
-
-
-    if (!table)
-        return;
-
+async function cargarDatos() {
 
     try {
 
-        let query =
-            supabase
-                .from("usuarios")
-                .select(`
-                    id,
-                    empresa_id,
-                    sucursal_id,
-                    nombre,
-                    apellido,
-                    rut,
-                    email,
-                    telefono,
-                    cargo,
-                    nivel,
-                    estado,
-                    ultimo_acceso,
-                    created_at,
-                    updated_at,
-                    auth_user_id,
-                    empresas (
-                        id,
-                        razon_social,
-                        nombre_fantasia
-                    )
-                `)
-                .order(
-                    "nombre",
-                    {
-                        ascending: true
-                    }
-                );
+        usuarios =
+            await usuariosService.getAll();
 
 
-        const filtroEstado =
-            document
-                .getElementById(
-                    "filtroEstado"
-                )
-                ?.value;
+        empresas =
+            await empresasService.getAll();
 
 
-        const filtroBusqueda =
-            document
-                .getElementById(
-                    "buscarUsuario"
-                )
-                ?.value
-                .trim()
-                .toUpperCase();
-
-
-        if (filtroEstado) {
-
-            query =
-                query.eq(
-                    "estado",
-                    filtroEstado
-                );
-
-        }
-
-
-        const {
-            data: usuarios,
-            error
-        } =
-            await query;
-
-
-        if (error)
-            throw error;
-
-
-        let usuariosFiltrados =
-            usuarios || [];
-
-
-        /*
-        -------------------------------------------------
-        FILTRO DE BÚSQUEDA
-        -------------------------------------------------
-        */
-
-        if (filtroBusqueda) {
-
-            usuariosFiltrados =
-                usuariosFiltrados.filter(
-                    usuario => {
-
-                        const texto = `
-
-                            ${usuario.nombre ?? ""}
-
-                            ${usuario.apellido ?? ""}
-
-                            ${usuario.email ?? ""}
-
-                            ${usuario.rut ?? ""}
-
-                            ${usuario.cargo ?? ""}
-
-                            ${obtenerNombreEmpresa(
-                                usuario
-                            )}
-
-                        `
-                            .toUpperCase();
-
-
-                        return texto.includes(
-                            filtroBusqueda
-                        );
-
-                    }
-                );
-
-        }
-
-
-        renderTablaUsuarios(
-            usuariosFiltrados
-        );
+        renderTabla();
 
     }
 
     catch (error) {
 
-        console.error(
-            "Error cargando usuarios:",
-            error
-        );
+        console.error(error);
 
+        const table =
+            document.getElementById(
+                "usuariosTable"
+            );
 
-        table.innerHTML = `
+        if (table) {
 
-            <div class="form-error"
-                 style="display:block;">
+            table.innerHTML = `
 
-                No fue posible cargar
-                los usuarios.
+                <div class="form-error">
 
-            </div>
+                    No fue posible cargar los usuarios.
 
-        `;
+                </div>
+
+            `;
+
+        }
 
     }
 
 }
 
 
-
 /*
-=========================================================
-TABLA
-=========================================================
+|--------------------------------------------------------------------------
+| TABLA
+|--------------------------------------------------------------------------
 */
 
-function renderTablaUsuarios(
-    usuarios
-) {
+function renderTabla() {
 
     const table =
         document.getElementById(
             "usuariosTable"
         );
+
+    if (!table)
+        return;
+
+
+    const filtro =
+        document
+            .getElementById("buscarUsuario")
+            ?.value
+            ?.trim()
+            ?.toUpperCase();
+
+
+    const estado =
+        document
+            .getElementById("filtroEstado")
+            ?.value;
+
+
+    let filtrados =
+        [...usuarios];
+
+
+    /*
+     * BUSCADOR
+     */
+
+    if (filtro) {
+
+        filtrados =
+            filtrados.filter(usuario => {
+
+                const texto = `
+
+                    ${usuario.nombre ?? ""}
+                    ${usuario.apellido ?? ""}
+                    ${usuario.email ?? ""}
+                    ${usuario.rut ?? ""}
+
+                `
+                    .toUpperCase();
+
+
+                return texto.includes(filtro);
+
+            });
+
+    }
+
+
+    /*
+     * FILTRO ESTADO
+     */
+
+    if (estado) {
+
+        filtrados =
+            filtrados.filter(
+                usuario =>
+                    usuario.estado === estado
+            );
+
+    }
 
 
     let html = `
@@ -323,33 +255,21 @@ function renderTablaUsuarios(
 
                 <tr>
 
-                    <th>
-                        Usuario
-                    </th>
+                    <th>Nombre</th>
 
-                    <th>
-                        Empresa
-                    </th>
+                    <th>Email</th>
 
-                    <th>
-                        Email
-                    </th>
+                    <th>Empresa</th>
 
-                    <th>
-                        Cargo
-                    </th>
+                    <th>Cargo</th>
 
-                    <th>
-                        Nivel
-                    </th>
+                    <th>Nivel</th>
 
-                    <th>
-                        Estado
-                    </th>
+                    <th>Estado</th>
 
-                    <th>
-                        Acciones
-                    </th>
+                    <th>Último acceso</th>
+
+                    <th>Acciones</th>
 
                 </tr>
 
@@ -360,21 +280,20 @@ function renderTablaUsuarios(
     `;
 
 
-    if (!usuarios.length) {
+    if (!filtrados.length) {
 
         html += `
 
             <tr>
 
                 <td
-                    colspan="7"
+                    colspan="8"
                     style="
                         text-align:center;
                         padding:30px;
                     ">
 
-                    No existen usuarios
-                    registrados.
+                    No existen usuarios registrados.
 
                 </td>
 
@@ -385,31 +304,30 @@ function renderTablaUsuarios(
     }
 
 
-    usuarios.forEach(usuario => {
+    filtrados.forEach(usuario => {
 
-        const nombreCompleto =
-            `${usuario.nombre ?? ""}
-             ${usuario.apellido ?? ""}`
-                .trim();
-
-
-        const estado =
-            (usuario.estado || "")
-                .toUpperCase();
+        const empresa =
+            empresas.find(
+                empresa =>
+                    empresa.id ==
+                    usuario.empresa_id
+            );
 
 
-        let estadoClase =
-            "inactivo";
+        const estadoClase =
+            usuario.estado === "ACTIVO"
+                ? "activo"
+                : usuario.estado === "PENDIENTE"
+                    ? "pendiente"
+                    : "inactivo";
 
 
-        if (
-            estado === "ACTIVO"
-        ) {
-
-            estadoClase =
-                "activo";
-
-        }
+        const ultimoAcceso =
+            usuario.ultimo_acceso
+                ? formatearFecha(
+                    usuario.ultimo_acceso
+                )
+                : "Nunca";
 
 
         html += `
@@ -419,62 +337,39 @@ function renderTablaUsuarios(
                 <td>
 
                     <strong>
-                        ${escapeHtml(
-                            nombreCompleto
-                        )}
+                        ${usuario.nombre ?? ""}
+                        ${usuario.apellido ?? ""}
                     </strong>
 
-                    ${
-                        usuario.rut
-                            ? `
-                                <br>
+                </td>
 
-                                <small>
-                                    ${escapeHtml(
-                                        usuario.rut
-                                    )}
-                                </small>
-                              `
-                            : ""
-                    }
+
+                <td>
+
+                    ${usuario.email ?? ""}
 
                 </td>
 
 
                 <td>
 
-                    ${escapeHtml(
-                        obtenerNombreEmpresa(
-                            usuario
-                        )
-                    )}
+                    ${empresa
+                        ? empresa.razon_social
+                        : "—"}
 
                 </td>
 
 
                 <td>
 
-                    ${escapeHtml(
-                        usuario.email ?? ""
-                    )}
+                    ${usuario.cargo ?? "—"}
 
                 </td>
 
 
                 <td>
 
-                    ${escapeHtml(
-                        usuario.cargo ?? "—"
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHtml(
-                        usuario.nivel ?? "USUARIO"
-                    )}
+                    ${usuario.nivel ?? "—"}
 
                 </td>
 
@@ -487,11 +382,16 @@ function renderTablaUsuarios(
                             ${estadoClase}
                         ">
 
-                        ${escapeHtml(
-                            usuario.estado ?? ""
-                        )}
+                        ${usuario.estado ?? ""}
 
                     </span>
+
+                </td>
+
+
+                <td>
+
+                    ${ultimoAcceso}
 
                 </td>
 
@@ -509,14 +409,14 @@ function renderTablaUsuarios(
 
                     <button
                         class="${
-                            estado === "ACTIVO"
+                            usuario.estado === "ACTIVO"
                                 ? "btn-danger"
-                                : "btn-primary"
-                        } btn-toggle-estado"
+                                : "btn-restore"
+                        } btn-toggle-usuario"
                         data-id="${usuario.id}">
 
                         ${
-                            estado === "ACTIVO"
+                            usuario.estado === "ACTIVO"
                                 ? "Desactivar"
                                 : "Activar"
                         }
@@ -541,20 +441,15 @@ function renderTablaUsuarios(
     `;
 
 
-    table.innerHTML =
-        html;
+    table.innerHTML = html;
 
 
     /*
-    -------------------------------------------------
-    BOTONES EDITAR
-    -------------------------------------------------
-    */
+     * EVENTO EDITAR
+     */
 
     document
-        .querySelectorAll(
-            "#usuariosTable .btn-edit"
-        )
+        .querySelectorAll(".btn-edit")
         .forEach(btn => {
 
             btn.addEventListener(
@@ -569,15 +464,11 @@ function renderTablaUsuarios(
 
 
     /*
-    -------------------------------------------------
-    BOTONES ESTADO
-    -------------------------------------------------
-    */
+     * EVENTO ESTADO
+     */
 
     document
-        .querySelectorAll(
-            "#usuariosTable .btn-toggle-estado"
-        )
+        .querySelectorAll(".btn-toggle-usuario")
         .forEach(btn => {
 
             btn.addEventListener(
@@ -593,17 +484,20 @@ function renderTablaUsuarios(
 }
 
 
-
 /*
-=========================================================
-FORMULARIO NUEVO USUARIO
-=========================================================
+|--------------------------------------------------------------------------
+| FORMULARIO NUEVO USUARIO
+|--------------------------------------------------------------------------
 */
 
 async function mostrarFormularioNuevoUsuario() {
 
-    const contenido =
-        await obtenerFormularioUsuario();
+    if (!empresas.length) {
+
+        empresas =
+            await empresasService.getAll();
+
+    }
 
 
     showFormModal({
@@ -611,11 +505,18 @@ async function mostrarFormularioNuevoUsuario() {
         title:
             "Nuevo Usuario",
 
+
         content:
-            contenido,
+            obtenerFormularioUsuario(),
+
 
         submitText:
             "Enviar invitación",
+
+
+        size:
+            "large",
+
 
         onSubmit:
             crearUsuario
@@ -625,240 +526,241 @@ async function mostrarFormularioNuevoUsuario() {
 }
 
 
-
 /*
-=========================================================
-OBTENER FORMULARIO
-=========================================================
+|--------------------------------------------------------------------------
+| FORMULARIO
+|--------------------------------------------------------------------------
 */
 
-async function obtenerFormularioUsuario(
+function obtenerFormularioUsuario(
     usuario = null
 ) {
-
-    const empresas =
-        await empresasService.getAll();
-
-
-    const opcionesEmpresas =
-        empresas
-
-            .filter(empresa =>
-
-                empresa.estado === "Activo"
-
-                ||
-                empresa.id ===
-                    usuario?.empresa_id
-
-            )
-
-            .map(empresa => {
-
-                const nombreEmpresa =
-                    empresa.nombre_fantasia
-                    ||
-                    empresa.razon_social
-                    ||
-                    "Empresa";
-
-
-                const seleccionada =
-                    String(
-                        empresa.id
-                    ) ===
-                    String(
-                        usuario?.empresa_id
-                    );
-
-
-                return `
-
-                    <option
-                        value="${empresa.id}"
-                        ${
-                            seleccionada
-                                ? "selected"
-                                : ""
-                        }>
-
-                        ${escapeHtml(
-                            nombreEmpresa
-                        )}
-
-                        ${
-                            empresa.estado ===
-                            "Inactivo"
-
-                                ? " (Inactiva)"
-
-                                : ""
-                        }
-
-                    </option>
-
-                `;
-
-            })
-
-            .join("");
-
 
     return `
 
         <form id="formUsuario">
 
-            <div class="cubika-form-grid">
+
+            <div class="empresa-layout">
 
 
-                <!-- EMPRESA -->
+                <!-- DATOS DEL USUARIO -->
 
-                <div class="form-group">
+                <div class="empresa-section">
 
-                    <label>
-                        Empresa *
-                    </label>
-
-                    <select
-                        id="empresa_id"
-                        class="cubika-select"
-                        required>
-
-                        <option value="">
-
-                            Seleccione una empresa
-
-                        </option>
-
-                        ${opcionesEmpresas}
-
-                    </select>
-
-                </div>
+                    <h3>
+                        Datos del Usuario
+                    </h3>
 
 
-                <!-- NOMBRE -->
+                    <div class="form-group">
 
-                <div class="form-group">
+                        <label>
+                            Empresa
+                        </label>
 
-                    <label>
-                        Nombre *
-                    </label>
+                        <select
+                            id="empresa_id"
+                            class="cubika-select"
+                            required>
 
-                    <input
-                        id="nombre"
-                        type="text"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.nombre
-                        )}"
-                        placeholder="Nombre..."
-                        required>
+                            <option value="">
+                                Seleccione una empresa
+                            </option>
 
-                </div>
+                            ${
+                                empresas
+                                    .filter(
+                                        empresa =>
+                                            empresa.estado ===
+                                            "Activo"
+                                    )
+                                    .map(
+                                        empresa => `
 
+                                            <option
+                                                value="${empresa.id}"
+                                                ${
+                                                    usuario?.empresa_id ==
+                                                    empresa.id
+                                                        ? "selected"
+                                                        : ""
+                                                }>
 
-                <!-- APELLIDO -->
+                                                ${
+                                                    empresa.nombre_fantasia ||
+                                                    empresa.razon_social
+                                                }
 
-                <div class="form-group">
+                                            </option>
 
-                    <label>
-                        Apellido
-                    </label>
+                                        `
+                                    )
+                                    .join("")
+                            }
 
-                    <input
-                        id="apellido"
-                        type="text"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.apellido
-                        )}"
-                        placeholder="Apellido...">
+                        </select>
 
-                </div>
-
-
-                <!-- RUT -->
-
-                <div class="form-group">
-
-                    <label>
-                        RUT
-                    </label>
-
-                    <input
-                        id="rut"
-                        type="text"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.rut
-                        )}"
-                        placeholder="12.345.678-9">
-
-                </div>
+                    </div>
 
 
-                <!-- EMAIL -->
-
-                <div
-                    class="form-group"
-                    style="
-                        grid-column:1/-1;
-                    ">
-
-                    <label>
-                        Correo electrónico *
-                    </label>
-
-                    <input
-                        id="email"
-                        type="email"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.email
-                        )}"
-                        placeholder="usuario@empresa.cl"
-                        required>
-
-                </div>
+                    <div class="cubika-form-grid">
 
 
-                <!-- TELÉFONO -->
+                        <div class="form-group">
 
-                <div class="form-group">
+                            <label>
+                                Nombre
+                            </label>
 
-                    <label>
-                        Teléfono
-                    </label>
+                            <input
+                                id="nombre"
+                                type="text"
+                                class="cubika-input"
+                                value="${
+                                    usuario?.nombre ?? ""
+                                }"
+                                required>
 
-                    <input
-                        id="telefono"
-                        type="text"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.telefono
-                        )}"
-                        placeholder="+56 9...">
-
-                </div>
+                        </div>
 
 
-                <!-- CARGO -->
+                        <div class="form-group">
 
-                <div class="form-group">
+                            <label>
+                                Apellido
+                            </label>
 
-                    <label>
-                        Cargo
-                    </label>
+                            <input
+                                id="apellido"
+                                type="text"
+                                class="cubika-input"
+                                value="${
+                                    usuario?.apellido ?? ""
+                                }">
 
-                    <input
-                        id="cargo"
-                        type="text"
-                        class="cubika-input"
-                        value="${escapeAttribute(
-                            usuario?.cargo
-                        )}"
-                        placeholder="Cargo...">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            class="cubika-input"
+                            value="${
+                                usuario?.email ?? ""
+                            }"
+                            required>
+
+                    </div>
+
+
+                    <div class="cubika-form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                RUT
+                            </label>
+
+                            <input
+                                id="rut"
+                                type="text"
+                                class="cubika-input"
+                                value="${
+                                    usuario?.rut ?? ""
+                                }">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Teléfono
+                            </label>
+
+                            <input
+                                id="telefono"
+                                type="text"
+                                class="cubika-input"
+                                value="${
+                                    usuario?.telefono ?? ""
+                                }">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Cargo
+                        </label>
+
+                        <input
+                            id="cargo"
+                            type="text"
+                            class="cubika-input"
+                            value="${
+                                usuario?.cargo ?? ""
+                            }">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Nivel de usuario
+                        </label>
+
+                        <select
+                            id="nivel"
+                            class="cubika-select">
+
+                            <option
+                                value="USUARIO"
+                                ${
+                                    !usuario ||
+                                    usuario.nivel === "USUARIO"
+                                        ? "selected"
+                                        : ""
+                                }>
+
+                                Usuario
+
+                            </option>
+
+
+                            <option
+                                value="ADMIN_EMPRESA"
+                                ${
+                                    usuario?.nivel ===
+                                    "ADMIN_EMPRESA"
+                                        ? "selected"
+                                        : ""
+                                }>
+
+                                Administrador de Empresa
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
 
                 </div>
 
@@ -869,11 +771,9 @@ async function obtenerFormularioUsuario(
             <div
                 id="modalFormError"
                 class="form-error"
-                style="
-                    display:none;
-                    margin-top:20px;
-                ">
+                style="display:none;">
             </div>
+
 
         </form>
 
@@ -882,83 +782,72 @@ async function obtenerFormularioUsuario(
 }
 
 
-
 /*
-=========================================================
-CREAR USUARIO / INVITAR
-=========================================================
+|--------------------------------------------------------------------------
+| CREAR / INVITAR USUARIO
+|--------------------------------------------------------------------------
 */
 
 async function crearUsuario() {
 
     const empresa_id =
         document
-            .getElementById(
-                "empresa_id"
-            )
+            .getElementById("empresa_id")
             ?.value;
 
 
     const nombre =
         document
-            .getElementById(
-                "nombre"
-            )
+            .getElementById("nombre")
             ?.value
-            .trim();
+            ?.trim();
 
 
     const apellido =
         document
-            .getElementById(
-                "apellido"
-            )
+            .getElementById("apellido")
             ?.value
-            .trim();
-
-
-    const rut =
-        document
-            .getElementById(
-                "rut"
-            )
-            ?.value
-            .trim();
+            ?.trim();
 
 
     const email =
         document
-            .getElementById(
-                "email"
-            )
+            .getElementById("email")
             ?.value
-            .trim()
-            .toLowerCase();
+            ?.trim()
+            ?.toLowerCase();
+
+
+    const rut =
+        document
+            .getElementById("rut")
+            ?.value
+            ?.trim();
 
 
     const telefono =
         document
-            .getElementById(
-                "telefono"
-            )
+            .getElementById("telefono")
             ?.value
-            .trim();
+            ?.trim();
 
 
     const cargo =
         document
-            .getElementById(
-                "cargo"
-            )
+            .getElementById("cargo")
             ?.value
-            .trim();
+            ?.trim();
+
+
+    const nivel =
+        document
+            .getElementById("nivel")
+            ?.value;
 
 
     /*
-    -------------------------------------------------
-    VALIDACIONES
-    -------------------------------------------------
-    */
+     * VALIDACIONES
+     */
 
     if (!empresa_id) {
 
@@ -977,6 +866,10 @@ async function crearUsuario() {
             "Debe ingresar el nombre del usuario."
         );
 
+        document
+            .getElementById("nombre")
+            ?.focus();
+
         return false;
 
     }
@@ -988,10 +881,18 @@ async function crearUsuario() {
             "Debe ingresar el correo electrónico."
         );
 
+        document
+            .getElementById("email")
+            ?.focus();
+
         return false;
 
     }
 
+
+    /*
+     * VALIDAR EMAIL
+     */
 
     const emailValido =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -1001,8 +902,12 @@ async function crearUsuario() {
     if (!emailValido) {
 
         setModalError(
-            "El correo electrónico no es válido."
+            "Debe ingresar un correo electrónico válido."
         );
+
+        document
+            .getElementById("email")
+            ?.focus();
 
         return false;
 
@@ -1010,77 +915,59 @@ async function crearUsuario() {
 
 
     /*
-    -------------------------------------------------
-    INVITAR
-    -------------------------------------------------
-    */
+     * EVITAR DUPLICADOS
+     */
+
+    const existe =
+        usuarios.some(
+            usuario =>
+                usuario.email?.toLowerCase() ===
+                email
+        );
+
+
+    if (existe) {
+
+        setModalError(
+            "Ya existe un usuario registrado con este correo electrónico."
+        );
+
+        return false;
+
+    }
+
 
     try {
 
         setModalLoading(true);
 
 
-        const {
-            data,
-            error
-        } =
-            await supabase
-                .functions
-                .invoke(
-                    "invite-user",
-                    {
-                        body: {
+        await usuariosService.invitar({
 
-                            empresa_id,
+            empresa_id:
+                Number(empresa_id),
 
-                            nombre,
+            nombre,
 
-                            apellido,
+            apellido,
 
-                            email,
+            email,
 
-                            rut,
+            rut,
 
-                            telefono,
+            telefono,
 
-                            cargo,
+            cargo,
 
-                            nivel:
-                                "USUARIO"
+            nivel
 
-                        }
-
-                    }
-                );
+        });
 
 
-        if (error)
-            throw error;
+        await cargarDatos();
 
 
-        if (
-            data?.error
-        ) {
-
-            throw new Error(
-                data.error
-            );
-
-        }
-
-
-        /*
-        -------------------------------------------------
-        RECARGAR TABLA
-        -------------------------------------------------
-        */
-
-        await cargarUsuarios();
-
-
-        setModalLoading(
-            false
-        );
+        setModalLoading(false);
 
 
         return true;
@@ -1089,21 +976,15 @@ async function crearUsuario() {
 
     catch (error) {
 
-        console.error(
-            "Error invitando usuario:",
-            error
-        );
+        console.error(error);
 
 
-        setModalLoading(
-            false
-        );
+        setModalLoading(false);
 
 
         setModalError(
-            obtenerMensajeError(
-                error
-            )
+            error?.message ||
+            "No fue posible enviar la invitación."
         );
 
 
@@ -1114,148 +995,115 @@ async function crearUsuario() {
 }
 
 
-
 /*
-=========================================================
-EDITAR USUARIO
-=========================================================
+|--------------------------------------------------------------------------
+| EDITAR USUARIO
+|--------------------------------------------------------------------------
 */
 
 async function editarUsuario(id) {
 
-    try {
-
-        const {
-            data: usuario,
-            error
-        } =
-            await supabase
-                .from("usuarios")
-                .select("*")
-                .eq("id", id)
-                .single();
+    const usuario =
+        await usuariosService.getById(id);
 
 
-        if (error)
-            throw error;
+    if (!usuario)
+        return;
 
 
-        if (!usuario)
-            return;
+    showFormModal({
+
+        title:
+            "Editar Usuario",
 
 
-        showFormModal({
+        content:
+            obtenerFormularioUsuario(
+                usuario
+            ),
 
-            title:
-                "Editar Usuario",
 
-            content:
-                await obtenerFormularioUsuario(
-                    usuario
-                ),
+        submitText:
+            "Guardar cambios",
 
-            submitText:
-                "Guardar cambios",
 
-            onSubmit:
-                () =>
-                    actualizarUsuario(
-                        id
-                    )
+        size:
+            "large",
 
-        });
 
-    }
+        onSubmit:
+            () =>
+                actualizarUsuario(
+                    id
+                )
 
-    catch (error) {
-
-        console.error(
-            "Error obteniendo usuario:",
-            error
-        );
-
-    }
+    });
 
 }
 
 
-
 /*
-=========================================================
-ACTUALIZAR USUARIO
-=========================================================
+|--------------------------------------------------------------------------
+| ACTUALIZAR USUARIO
+|--------------------------------------------------------------------------
 */
 
 async function actualizarUsuario(id) {
 
     const empresa_id =
         document
-            .getElementById(
-                "empresa_id"
-            )
+            .getElementById("empresa_id")
             ?.value;
 
 
     const nombre =
         document
-            .getElementById(
-                "nombre"
-            )
+            .getElementById("nombre")
             ?.value
-            .trim();
+            ?.trim();
 
 
     const apellido =
         document
-            .getElementById(
-                "apellido"
-            )
+            .getElementById("apellido")
             ?.value
-            .trim();
-
-
-    const rut =
-        document
-            .getElementById(
-                "rut"
-            )
-            ?.value
-            .trim();
+            ?.trim();
 
 
     const email =
         document
-            .getElementById(
-                "email"
-            )
+            .getElementById("email")
             ?.value
-            .trim()
-            .toLowerCase();
+            ?.trim()
+            ?.toLowerCase();
+
+
+    const rut =
+        document
+            .getElementById("rut")
+            ?.value
+            ?.trim();
 
 
     const telefono =
         document
-            .getElementById(
-                "telefono"
-            )
+            .getElementById("telefono")
             ?.value
-            .trim();
+            ?.trim();
 
 
     const cargo =
         document
-            .getElementById(
-                "cargo"
-            )
+            .getElementById("cargo")
             ?.value
-            .trim();
+            ?.trim();
 
 
-    /*
-    -------------------------------------------------
-    VALIDACIONES
-    -------------------------------------------------
-    */
+    const nivel =
+        document
+            .getElementById("nivel")
+            ?.value;
+
 
     if (!empresa_id) {
 
@@ -1295,52 +1143,45 @@ async function actualizarUsuario(id) {
         setModalLoading(true);
 
 
-        const {
-            error
-        } =
-            await supabase
-                .from("usuarios")
-                .update({
+        await usuariosService.update(
 
-                    empresa_id,
+            id,
 
-                    nombre,
+            {
 
-                    apellido:
-                        apellido || null,
+                empresa_id:
+                    Number(empresa_id),
 
-                    rut:
-                        rut || null,
+                nombre,
 
-                    email,
+                apellido,
 
-                    telefono:
-                        telefono || null,
+                email,
 
-                    cargo:
-                        cargo || null,
+                rut:
+                    rut || null,
 
-                    updated_at:
-                        new Date()
-                            .toISOString()
+                telefono:
+                    telefono || null,
 
-                })
-                .eq(
-                    "id",
-                    id
-                );
+                cargo:
+                    cargo || null,
 
+                nivel:
+                    nivel || "USUARIO",
 
-        if (error)
-            throw error;
+                updated_at:
+                    new Date().toISOString()
 
+            }
 
-        await cargarUsuarios();
-
-
-        setModalLoading(
-            false
         );
+
+
+        await cargarDatos();
+
+
+        setModalLoading(false);
 
 
         return true;
@@ -1349,18 +1190,14 @@ async function actualizarUsuario(id) {
 
     catch (error) {
 
-        console.error(
-            "Error actualizando usuario:",
-            error
-        );
+        console.error(error);
 
 
-        setModalLoading(
-            false
-        );
+        setModalLoading(false);
 
 
         setModalError(
+            error?.message ||
             "No fue posible actualizar el usuario."
         );
 
@@ -1372,303 +1209,123 @@ async function actualizarUsuario(id) {
 }
 
 
-
 /*
-=========================================================
-CAMBIAR ESTADO
-=========================================================
+|--------------------------------------------------------------------------
+| CAMBIAR ESTADO
+|--------------------------------------------------------------------------
 */
 
 async function cambiarEstadoUsuario(id) {
 
-    try {
-
-        const {
-            data: usuario,
-            error
-        } =
-            await supabase
-                .from("usuarios")
-                .select(`
-                    id,
-                    nombre,
-                    apellido,
-                    estado
-                `)
-                .eq(
-                    "id",
-                    id
-                )
-                .single();
+    const usuario =
+        await usuariosService.getById(id);
 
 
-        if (error)
-            throw error;
+    if (!usuario)
+        return;
 
 
-        if (!usuario)
-            return;
+    const nuevoEstado =
+        usuario.estado === "ACTIVO"
+            ? "INACTIVO"
+            : "ACTIVO";
 
 
-        const estadoActual =
-            (
-                usuario.estado ||
-                ""
-            ).toUpperCase();
+    const accion =
+        nuevoEstado === "ACTIVO"
+            ? "Activar"
+            : "Desactivar";
 
 
-        const nuevoEstado =
-            estadoActual === "ACTIVO"
+    showConfirmModal({
 
-                ? "INACTIVO"
-
-                : "ACTIVO";
+        title:
+            `${accion} usuario`,
 
 
-        const accion =
-            nuevoEstado === "ACTIVO"
+        message: `
 
-                ? "Activar"
+            El usuario
 
-                : "Desactivar";
+            <strong>
+                ${usuario.nombre}
+                ${usuario.apellido ?? ""}
+            </strong>
 
+            será marcado como
 
-        const nombre =
-            `${usuario.nombre ?? ""}
-             ${usuario.apellido ?? ""}`
-                .trim();
+            <strong>
+                ${nuevoEstado}
+            </strong>.
 
-
-        showConfirmModal({
-
-            title:
-                `${accion} usuario`,
-
-            message: `
-
-                El usuario
-
-                <strong>
-                    ${escapeHtml(nombre)}
-                </strong>
-
-                será marcado como
-
-                <strong>
-                    ${nuevoEstado}
-                </strong>.
-
-                <br><br>
-
-                Podrás cambiar su estado
-                nuevamente cuando lo necesites.
-
-            `,
-
-            onConfirm:
-                async () => {
-
-                    try {
-
-                        await supabase
-                            .from("usuarios")
-                            .update({
-
-                                estado:
-                                    nuevoEstado,
-
-                                updated_at:
-                                    new Date()
-                                        .toISOString()
-
-                            })
-                            .eq(
-                                "id",
-                                id
-                            );
+        `,
 
 
-                        await cargarUsuarios();
+        onConfirm:
+            async () => {
 
+                try {
 
-                        return true;
-
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "Error cambiando estado:",
-                            error
+                    await usuariosService
+                        .cambiarEstado(
+                            id,
+                            nuevoEstado
                         );
 
 
-                        return false;
+                    await cargarDatos();
 
-                    }
+
+                    return true;
 
                 }
 
-        });
+                catch (error) {
 
-    }
+                    console.error(error);
 
-    catch (error) {
+                    return false;
 
-        console.error(
-            "Error obteniendo usuario:",
-            error
-        );
+                }
 
-    }
+            }
+
+    });
 
 }
 
 
-
 /*
-=========================================================
-UTILIDADES
-=========================================================
+|--------------------------------------------------------------------------
+| FORMATEAR FECHA
+|--------------------------------------------------------------------------
 */
 
+function formatearFecha(fecha) {
 
-function obtenerNombreEmpresa(
-    usuario
-) {
+    try {
 
-    if (
-        !usuario?.empresas
-    ) {
+        return new Intl.DateTimeFormat(
+            "es-CL",
+            {
+
+                dateStyle:
+                    "short",
+
+                timeStyle:
+                    "short"
+
+            }
+        ).format(
+            new Date(fecha)
+        );
+
+    }
+
+    catch {
 
         return "—";
 
     }
-
-
-    return (
-
-        usuario.empresas.nombre_fantasia
-
-        ||
-
-        usuario.empresas.razon_social
-
-        ||
-
-        "—"
-
-    );
-
-}
-
-
-
-function obtenerMensajeError(
-    error
-) {
-
-    if (
-        error?.message
-    ) {
-
-        return error.message;
-
-    }
-
-
-    if (
-        error?.context?.body
-    ) {
-
-        try {
-
-            const body =
-                typeof error.context.body ===
-                "string"
-
-                    ? JSON.parse(
-                        error.context.body
-                    )
-
-                    : error.context.body;
-
-
-            if (
-                body?.error
-            ) {
-
-                return body.error;
-
-            }
-
-        }
-
-        catch {
-
-            // Continuar
-        }
-
-    }
-
-
-    return (
-        "No fue posible enviar la invitación."
-    );
-
-}
-
-
-
-/*
-=========================================================
-SEGURIDAD BÁSICA DE HTML
-=========================================================
-*/
-
-function escapeHtml(
-    valor
-) {
-
-    return String(
-        valor ?? ""
-    )
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-
-function escapeAttribute(
-    valor
-) {
-
-    return escapeHtml(
-        valor
-    );
 
 }
