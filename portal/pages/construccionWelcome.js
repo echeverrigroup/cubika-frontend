@@ -1,0 +1,1340 @@
+/*
+|--------------------------------------------------------------------------
+| CUBIKA — BIENVENIDA MÓDULO CONSTRUCCIÓN
+|--------------------------------------------------------------------------
+|
+| Wizard de onboarding para nuevos usuarios del módulo Construcción.
+|
+| Objetivos:
+| - Presentar el módulo.
+| - Explicar responsabilidades y alcance.
+| - Introducir seguridad, usuarios y soporte.
+| - Mostrar el servicio contratado.
+| - Derivar a la documentación completa.
+|
+|--------------------------------------------------------------------------
+*/
+
+import { navigate } from "../router.js";
+
+
+let currentStep = 0;
+
+
+/*
+|--------------------------------------------------------------------------
+| CONFIGURACIÓN
+|--------------------------------------------------------------------------
+|
+| Por ahora estos valores son estáticos.
+| Posteriormente podrán venir desde Supabase según el servicio contratado.
+|
+|--------------------------------------------------------------------------
+*/
+
+const steps = [
+    {
+        number: "01",
+        label: "Bienvenido"
+    },
+    {
+        number: "02",
+        label: "Tu espacio"
+    },
+    {
+        number: "03",
+        label: "Tu información"
+    },
+    {
+        number: "04",
+        label: "Seguridad"
+    },
+    {
+        number: "05",
+        label: "Tu servicio"
+    }
+];
+
+
+/*
+|--------------------------------------------------------------------------
+| ICONOS SVG
+|--------------------------------------------------------------------------
+|
+| Se utilizan SVG neutros para mantener el ADN visual del Portal.
+|
+|--------------------------------------------------------------------------
+*/
+
+const icons = {
+
+    building: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+            <path d="M16 9h2a2 2 0 0 1 2 2v10"/>
+            <path d="M8 7h4"/>
+            <path d="M8 11h4"/>
+            <path d="M8 15h4"/>
+            <path d="M9 21v-3h2v3"/>
+        </svg>
+    `,
+
+    workers: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="9" cy="8" r="3"/>
+            <path d="M3 21a6 6 0 0 1 12 0"/>
+            <path d="M16 4a3 3 0 0 1 0 6"/>
+            <path d="M18 14a6 6 0 0 1 3 5"/>
+        </svg>
+    `,
+
+    construction: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 21h18"/>
+            <path d="M5 21V9l7-5 7 5v12"/>
+            <path d="M9 21v-7h6v7"/>
+            <path d="M9 9h6"/>
+        </svg>
+    `,
+
+    briefcase: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <rect x="3" y="7" width="18" height="13" rx="2"/>
+            <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            <path d="M3 12h18"/>
+            <path d="M10 12v2h4v-2"/>
+        </svg>
+    `,
+
+    document: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M6 3h9l4 4v14H6z"/>
+            <path d="M14 3v5h5"/>
+            <path d="M9 13h6"/>
+            <path d="M9 17h6"/>
+        </svg>
+    `,
+
+    settings: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-2.6v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H4.3v-2.6h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V4.3h2.6v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2V13h-.2a1.7 1.7 0 0 0-1.5 1z"/>
+        </svg>
+    `,
+
+    shield: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6z"/>
+            <path d="m9 12 2 2 4-4"/>
+        </svg>
+    `,
+
+    users: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="9" cy="8" r="3"/>
+            <path d="M3 20a6 6 0 0 1 12 0"/>
+            <path d="M16 11a3 3 0 1 0 0-6"/>
+            <path d="M16 14a5 5 0 0 1 5 5"/>
+        </svg>
+    `,
+
+    activity: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M3 12h4l2-6 4 12 2-6h6"/>
+        </svg>
+    `,
+
+    lightbulb: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 21h4"/>
+            <path d="M8.5 14.5A6 6 0 1 1 15.5 14"/>
+            <path d="M9 14c1 .7 2 .9 3 .9s2-.2 3-.9"/>
+        </svg>
+    `,
+
+    arrow: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="m13 6 6 6-6 6"/>
+        </svg>
+    `,
+
+    check: `
+        <svg viewBox="0 0 24 24"
+             aria-hidden="true"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <path d="m5 12 4 4L19 6"/>
+        </svg>
+    `
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| RENDER PRINCIPAL
+|--------------------------------------------------------------------------
+*/
+
+export function renderConstructionWelcome() {
+
+    const content =
+        document.querySelector(".content");
+
+    if (!content) return;
+
+
+    currentStep = 0;
+
+
+    const userName =
+        document
+            .getElementById("user-name")
+            ?.textContent
+            ?.trim()
+            ?.split(" ")[0] || "usuario";
+
+
+    content.innerHTML = `
+
+        <section class="construction-welcome">
+
+            <!-- =====================================================
+                 ENCABEZADO
+                 ===================================================== -->
+
+            <div class="construction-welcome-header">
+
+                <div>
+
+                    <div class="construction-welcome-eyebrow">
+                        GUÍA DE INICIO · CONSTRUCCIÓN
+                    </div>
+
+                    <h1>
+                        ¡Bienvenido a Cúbika, ${userName}!
+                    </h1>
+
+                    <p>
+                        Antes de comenzar, queremos mostrarte
+                        algunos aspectos importantes de tu espacio
+                        de trabajo.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 NAVEGACIÓN DEL WIZARD
+                 ===================================================== -->
+
+            <nav
+                class="construction-welcome-steps"
+                aria-label="Guía de inicio">
+
+                ${steps.map((step, index) => `
+
+                    <button
+                        type="button"
+                        class="construction-welcome-step ${
+                            index === 0 ? "active" : ""
+                        }"
+                        data-welcome-step="${index}">
+
+                        <span class="construction-welcome-step-number">
+                            ${step.number}
+                        </span>
+
+                        <span class="construction-welcome-step-label">
+                            ${step.label}
+                        </span>
+
+                    </button>
+
+                `).join("")}
+
+            </nav>
+
+
+            <!-- =====================================================
+                 CONTENEDOR DEL CONTENIDO
+                 ===================================================== -->
+
+            <div
+                id="constructionWelcomeContent"
+                class="construction-welcome-panel">
+            </div>
+
+
+            <!-- =====================================================
+                 FOOTER / NAVEGACIÓN
+                 ===================================================== -->
+
+            <div class="construction-welcome-footer">
+
+                <div
+                    id="constructionWelcomeProgress"
+                    class="construction-welcome-progress">
+                </div>
+
+
+                <div class="construction-welcome-navigation">
+
+                    <button
+                        type="button"
+                        id="constructionWelcomeBack"
+                        class="construction-welcome-btn secondary">
+
+                        Atrás
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="constructionWelcomeNext"
+                        class="construction-welcome-btn primary">
+
+                        Continuar
+                        ${icons.arrow}
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    `;
+
+
+    bindEvents();
+
+    renderStep();
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTENIDO DE CADA PASO
+|--------------------------------------------------------------------------
+*/
+
+function getStepContent(step) {
+
+    switch (step) {
+
+
+        /*
+        ==============================================================
+        PASO 01
+        ==============================================================
+        */
+
+        case 0:
+
+            return `
+
+                <div class="construction-welcome-intro">
+
+                    <div class="construction-welcome-intro-visual">
+
+                        <div class="construction-welcome-cube">
+
+                            <div class="construction-welcome-cube-inner">
+                                C
+                            </div>
+
+                        </div>
+
+                        <div class="construction-welcome-flow flow-one"></div>
+                        <div class="construction-welcome-flow flow-two"></div>
+                        <div class="construction-welcome-flow flow-three"></div>
+
+                    </div>
+
+
+                    <div class="construction-welcome-intro-copy">
+
+                        <span class="construction-welcome-kicker">
+                            TU ESPACIO DE TRABAJO
+                        </span>
+
+                        <h2>
+                            Construcción, más simple y conectada.
+                        </h2>
+
+                        <p>
+                            Cúbika centraliza la información y los
+                            procesos administrativos relacionados con
+                            tus empresas, trabajadores y obras.
+                        </p>
+
+                        <p>
+                            Desde un mismo espacio podrás organizar
+                            información, gestionar procesos y generar
+                            documentos de forma más ordenada y trazable.
+                        </p>
+
+
+                        <div class="construction-welcome-highlight">
+
+                            ${icons.check}
+
+                            <span>
+                                Cúbika pone la tecnología.
+                                Tú mantienes el control de tu operación.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+        /*
+        ==============================================================
+        PASO 02
+        ==============================================================
+        */
+
+        case 1:
+
+            return `
+
+                <div class="construction-welcome-section">
+
+                    <div class="construction-welcome-section-heading">
+
+                        <span class="construction-welcome-kicker">
+                            TU ESPACIO DE TRABAJO
+                        </span>
+
+                        <h2>
+                            Todo lo que necesitas, en un solo lugar.
+                        </h2>
+
+                        <p>
+                            El módulo Construcción reúne los principales
+                            elementos de tu gestión administrativa y los
+                            conecta entre sí.
+                        </p>
+
+                    </div>
+
+
+                    <div class="construction-welcome-module-grid">
+
+                        ${moduleCard(
+                            icons.building,
+                            "Empresas",
+                            "Organiza las empresas que forman parte de tu operación."
+                        )}
+
+                        ${moduleCard(
+                            icons.workers,
+                            "Trabajadores",
+                            "Centraliza la información de las personas que gestionas."
+                        )}
+
+                        ${moduleCard(
+                            icons.construction,
+                            "Obras",
+                            "Administra los proyectos y lugares asociados a tu operación."
+                        )}
+
+                        ${moduleCard(
+                            icons.briefcase,
+                            "Cargos",
+                            "Define los cargos utilizados en tus procesos."
+                        )}
+
+                        ${moduleCard(
+                            icons.document,
+                            "Contratos",
+                            "Gestiona información contractual e historial documental."
+                        )}
+
+                        ${moduleCard(
+                            icons.document,
+                            "Motor Documental",
+                            "Genera documentos utilizando plantillas y datos disponibles."
+                        )}
+
+                    </div>
+
+
+                    <div class="construction-welcome-note">
+
+                        ${icons.settings}
+
+                        <span>
+                            Los módulos trabajan sobre una misma estructura
+                            de información para reducir duplicaciones y tareas manuales.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+        /*
+        ==============================================================
+        PASO 03
+        ==============================================================
+        */
+
+        case 2:
+
+            return `
+
+                <div class="construction-welcome-section">
+
+                    <div class="construction-welcome-section-heading">
+
+                        <span class="construction-welcome-kicker">
+                            INFORMACIÓN Y RESPONSABILIDAD
+                        </span>
+
+                        <h2>
+                            Tu información. Tu control.
+                        </h2>
+
+                        <p>
+                            Cúbika proporciona la infraestructura tecnológica
+                            para gestionar tu operación. Tu organización mantiene
+                            el control sobre la información y las decisiones que toma.
+                        </p>
+
+                    </div>
+
+
+                    <div class="construction-welcome-two-columns">
+
+                        <div class="construction-welcome-info-card">
+
+                            <div class="construction-welcome-card-icon">
+                                ${icons.users}
+                            </div>
+
+                            <h3>
+                                Tú decides
+                            </h3>
+
+                            <ul>
+                                <li>Qué información ingresas.</li>
+                                <li>Qué usuarios tienen acceso.</li>
+                                <li>Qué parámetros utilizas.</li>
+                                <li>Qué documentos generas.</li>
+                                <li>Qué decisiones tomas.</li>
+                            </ul>
+
+                        </div>
+
+
+                        <div class="construction-welcome-info-card">
+
+                            <div class="construction-welcome-card-icon">
+                                ${icons.settings}
+                            </div>
+
+                            <h3>
+                                Cúbika proporciona
+                            </h3>
+
+                            <ul>
+                                <li>La plataforma.</li>
+                                <li>La infraestructura tecnológica.</li>
+                                <li>Las herramientas de gestión.</li>
+                                <li>La generación automatizada.</li>
+                                <li>La trazabilidad del sistema.</li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="construction-welcome-responsibility">
+
+                        <div class="construction-welcome-responsibility-icon">
+                            ${icons.document}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Cúbika genera. Tú revisas.
+                            </h3>
+
+                            <p>
+                                Cúbika proporciona la infraestructura tecnológica
+                                para generar documentos utilizando las plantillas,
+                                datos y configuraciones disponibles en la plataforma.
+                            </p>
+
+                            <p>
+                                La generación automática de un documento
+                                <strong>
+                                    no constituye una certificación de su validez
+                                    o adecuación legal por parte de Cúbika.
+                                </strong>
+                            </p>
+
+                            <p>
+                                Antes de utilizar, firmar o entregar un documento,
+                                corresponde a tu organización revisar su contenido
+                                y determinar si resulta adecuado para su propósito
+                                y obligaciones.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="construction-welcome-disclaimer">
+
+                        <strong>
+                            Importante
+                        </strong>
+
+                        <span>
+                            Cúbika es una herramienta tecnológica y no reemplaza
+                            la asesoría jurídica, laboral, contable o profesional
+                            que pueda requerir tu organización.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+        /*
+        ==============================================================
+        PASO 04
+        ==============================================================
+        */
+
+        case 3:
+
+            return `
+
+                <div class="construction-welcome-section">
+
+                    <div class="construction-welcome-section-heading">
+
+                        <span class="construction-welcome-kicker">
+                            SEGURIDAD Y SOPORTE
+                        </span>
+
+                        <h2>
+                            Trabaja seguro. Trabaja con trazabilidad.
+                        </h2>
+
+                        <p>
+                            El uso correcto de Cúbika comienza con una buena
+                            gestión de usuarios, accesos y responsabilidades.
+                        </p>
+
+                    </div>
+
+
+                    <div class="construction-welcome-security-grid">
+
+                        ${securityCard(
+                            icons.users,
+                            "Usuarios y permisos",
+                            "Cada persona debe utilizar su propia cuenta. Los permisos y funcionalidades dependen del rol asignado."
+                        )}
+
+                        ${securityCard(
+                            icons.shield,
+                            "Protege tus accesos",
+                            "Nunca compartas tus credenciales. Si otra persona necesita acceso, crea una cuenta para ella."
+                        )}
+
+                        ${securityCard(
+                            icons.activity,
+                            "Trazabilidad",
+                            "Las acciones relevantes pueden quedar asociadas al usuario que las ejecutó, permitiendo mantener un historial de actividad."
+                        )}
+
+                        ${securityCard(
+                            icons.lightbulb,
+                            "Tu feedback importa",
+                            "Puedes reportar errores, sugerir mejoras o plantear nuevas necesidades relacionadas con tu operación."
+                        )}
+
+                    </div>
+
+
+                    <div class="construction-welcome-support">
+
+                        <div>
+
+                            <span class="construction-welcome-kicker">
+                                SOPORTE
+                            </span>
+
+                            <h3>
+                                ¿Necesitas ayuda?
+                            </h3>
+
+                            <p>
+                                Estamos aquí para ayudarte a utilizar
+                                correctamente las herramientas que forman
+                                parte de tu servicio.
+                            </p>
+
+                        </div>
+
+
+                        <div class="construction-welcome-support-types">
+
+                            <span>Error</span>
+                            <span>Ayuda</span>
+                            <span>Mejora</span>
+                            <span>Nueva funcionalidad</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+        /*
+        ==============================================================
+        PASO 05
+        ==============================================================
+        */
+
+        case 4:
+
+            return `
+
+                <div class="construction-welcome-section">
+
+                    <div class="construction-welcome-section-heading">
+
+                        <span class="construction-welcome-kicker">
+                            TU SERVICIO
+                        </span>
+
+                        <h2>
+                            Esto es lo que tienes disponible.
+                        </h2>
+
+                        <p>
+                            Tu servicio Cúbika está configurado de acuerdo
+                            con el alcance contratado.
+                        </p>
+
+                    </div>
+
+
+                    <div class="construction-welcome-service-card">
+
+                        <div class="construction-welcome-service-header">
+
+                            <div>
+
+                                <span class="construction-welcome-service-label">
+                                    MÓDULO CONTRATADO
+                                </span>
+
+                                <h3>
+                                    Construcción
+                                </h3>
+
+                            </div>
+
+
+                            <div class="construction-welcome-service-badge">
+                                ACTIVO
+                            </div>
+
+                        </div>
+
+
+                        <div class="construction-welcome-service-meta">
+
+                            <div>
+                                <span>
+                                    Inicio
+                                </span>
+
+                                <strong>
+                                    Según contrato
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>
+                                    Vigencia
+                                </span>
+
+                                <strong>
+                                    Según contrato
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>
+                                    Usuarios
+                                </span>
+
+                                <strong>
+                                    Según servicio
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="construction-welcome-service-divider"></div>
+
+
+                        <div>
+
+                            <span class="construction-welcome-service-label">
+                                FUNCIONALIDADES
+                            </span>
+
+                            <div class="construction-welcome-service-features">
+
+                                ${serviceFeature("Empresas")}
+                                ${serviceFeature("Trabajadores")}
+                                ${serviceFeature("Obras")}
+                                ${serviceFeature("Cargos")}
+                                ${serviceFeature("Contratos")}
+                                ${serviceFeature("Motor Documental")}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="construction-welcome-evolution">
+
+                        <div class="construction-welcome-card-icon">
+                            ${icons.lightbulb}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Cúbika seguirá evolucionando.
+                            </h3>
+
+                            <p>
+                                Tu experiencia puede ayudarnos a mejorar el producto.
+                                Puedes compartir sugerencias, reportar problemas o
+                                plantear nuevas necesidades.
+                            </p>
+
+                            <p>
+                                Las funcionalidades, mejoras y desarrollos que
+                                forman parte de Cúbika permanecen bajo propiedad
+                                de Cúbika.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="construction-welcome-documents">
+
+                        <div>
+
+                            <span class="construction-welcome-kicker">
+                                DOCUMENTACIÓN
+                            </span>
+
+                            <h3>
+                                ¿Quieres conocer todos los detalles?
+                            </h3>
+
+                            <p>
+                                La documentación contractual, legal y técnica
+                                de tu servicio estará disponible permanentemente
+                                desde el menú lateral.
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="constructionWelcomeDocuments"
+                            class="construction-welcome-link-btn">
+
+                            Ver documentación
+
+                            ${icons.arrow}
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="construction-welcome-complete">
+
+                        <div class="construction-welcome-complete-icon">
+                            ${icons.check}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Ya estás listo para comenzar.
+                            </h3>
+
+                            <p>
+                                Ahora conoces los aspectos principales
+                                de tu servicio Cúbika.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+        default:
+            return "";
+
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TARJETA DE MÓDULO
+|--------------------------------------------------------------------------
+*/
+
+function moduleCard(icon, title, description) {
+
+    return `
+
+        <div class="construction-welcome-module-card">
+
+            <div class="construction-welcome-card-icon">
+                ${icon}
+            </div>
+
+            <div>
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <p>
+                    ${description}
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TARJETA DE SEGURIDAD
+|--------------------------------------------------------------------------
+*/
+
+function securityCard(icon, title, description) {
+
+    return `
+
+        <div class="construction-welcome-security-card">
+
+            <div class="construction-welcome-card-icon">
+                ${icon}
+            </div>
+
+            <h3>
+                ${title}
+            </h3>
+
+            <p>
+                ${description}
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| FUNCIONALIDAD CONTRATADA
+|--------------------------------------------------------------------------
+*/
+
+function serviceFeature(label) {
+
+    return `
+
+        <span class="construction-welcome-feature">
+
+            ${icons.check}
+
+            ${label}
+
+        </span>
+
+    `;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EVENTOS
+|--------------------------------------------------------------------------
+*/
+
+function bindEvents() {
+
+    document
+        .querySelectorAll("[data-welcome-step]")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const step =
+                        Number(
+                            button.dataset.welcomeStep
+                        );
+
+                    if (
+                        Number.isInteger(step) &&
+                        step >= 0 &&
+                        step < steps.length
+                    ) {
+
+                        currentStep = step;
+
+                        renderStep();
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    document
+        .getElementById("constructionWelcomeBack")
+        ?.addEventListener(
+            "click",
+            () => {
+
+                if (currentStep > 0) {
+
+                    currentStep--;
+
+                    renderStep();
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById("constructionWelcomeNext")
+        ?.addEventListener(
+            "click",
+            () => {
+
+                if (currentStep < steps.length - 1) {
+
+                    currentStep++;
+
+                    renderStep();
+
+                    return;
+
+                }
+
+
+                /*
+                ------------------------------------------------------
+                FINALIZAR
+                ------------------------------------------------------
+                |
+                | Como todavía no existe un dashboard específico
+                | de Construcción, dirigimos al primer módulo operativo.
+                |
+                ------------------------------------------------------
+                */
+
+                navigate("construction_empresas");
+
+            }
+        );
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RENDER DEL PASO ACTUAL
+|--------------------------------------------------------------------------
+*/
+
+function renderStep() {
+
+    const container =
+        document.getElementById(
+            "constructionWelcomeContent"
+        );
+
+    if (!container) return;
+
+
+    container.innerHTML =
+        getStepContent(currentStep);
+
+
+    /*
+    ------------------------------------------------------
+    ESTADO DE LOS PASOS
+    ------------------------------------------------------
+    */
+
+    document
+        .querySelectorAll("[data-welcome-step]")
+        .forEach((button, index) => {
+
+            button.classList.toggle(
+                "active",
+                index === currentStep
+            );
+
+            button.classList.toggle(
+                "completed",
+                index < currentStep
+            );
+
+        });
+
+
+    /*
+    ------------------------------------------------------
+    PROGRESO
+    ------------------------------------------------------
+    */
+
+    const progress =
+        document.getElementById(
+            "constructionWelcomeProgress"
+        );
+
+    if (progress) {
+
+        progress.innerHTML = `
+
+            <span>
+                ${String(currentStep + 1).padStart(2, "0")}
+                /
+                ${String(steps.length).padStart(2, "0")}
+            </span>
+
+            <strong>
+                ${steps[currentStep].label}
+            </strong>
+
+        `;
+
+    }
+
+
+    /*
+    ------------------------------------------------------
+    BOTÓN ATRÁS
+    ------------------------------------------------------
+    */
+
+    const backBtn =
+        document.getElementById(
+            "constructionWelcomeBack"
+        );
+
+    if (backBtn) {
+
+        backBtn.disabled =
+            currentStep === 0;
+
+    }
+
+
+    /*
+    ------------------------------------------------------
+    BOTÓN SIGUIENTE
+    ------------------------------------------------------
+    */
+
+    const nextBtn =
+        document.getElementById(
+            "constructionWelcomeNext"
+        );
+
+    if (nextBtn) {
+
+        if (currentStep === steps.length - 1) {
+
+            nextBtn.innerHTML = `
+                Comenzar a trabajar
+                ${icons.arrow}
+            `;
+
+        } else {
+
+            nextBtn.innerHTML = `
+                Continuar
+                ${icons.arrow}
+            `;
+
+        }
+
+    }
+
+
+    /*
+    ------------------------------------------------------
+    DOCUMENTACIÓN
+    ------------------------------------------------------
+    */
+
+    document
+        .getElementById(
+            "constructionWelcomeDocuments"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+
+                /*
+                 * Por ahora dejamos preparado el punto
+                 * de navegación.
+                 *
+                 * Cuando exista la página "documentacion",
+                 * se reemplazará por:
+                 *
+                 * navigate("documentacion");
+                 */
+
+                console.info(
+                    "Documentación: página pendiente de implementación."
+                );
+
+            }
+        );
+
+}
