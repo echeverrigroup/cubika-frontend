@@ -419,7 +419,7 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-copy">
 
                         <span class="construction-welcome-kicker">
-                            BIENVENIDO A CUBIKA
+                            CONSTRUCCIÓN - Gestor de Documentos
                         </span>
 
                         <h2>
