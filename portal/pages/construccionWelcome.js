@@ -524,7 +524,7 @@ function getStepContent(step) {
                         
 
                         ${moduleCard(
-                            icons.calendarClock,
+                            icons.documentClock,
                             "Control de Vigencia",
                             "Seguimiento de contratos según su vigencia y fechas relevantes."
                         )}
