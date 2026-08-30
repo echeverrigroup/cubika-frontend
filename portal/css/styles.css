@@ -1528,6 +1528,7 @@ EDITOR DOCUMENTAL
     .logo {
         height: 50px;
         width: auto;
+        align-items: center;
     }
 
     .mobile-menu-btn {
@@ -1740,7 +1741,7 @@ EDITOR DOCUMENTAL
         left: 0;
         bottom: 0;
 
-        width: min(280px, 84vw);
+        width: min(210px, 84vw);
         height: auto;
 
         padding: 18px 14px;
