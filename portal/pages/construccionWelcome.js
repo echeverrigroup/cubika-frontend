@@ -481,7 +481,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            El módulo Construcción reúne los principales
+                            El módulo <strong>Construcción - Gestor Documental</strong> reúne los principales
                             elementos de tu gestión administrativa y los
                             relaciona dentro de una misma estructura.
                         </p>
@@ -515,17 +515,20 @@ function getStepContent(step) {
                             "Define los cargos utilizados en tus procesos."
                         )}
 
-                        ${moduleCard(
-                            icons.document,
-                            "Contratos",
-                            "Gestiona información contractual e historial documental."
-                        )}
 
                         ${moduleCard(
                             icons.document,
                             "Motor Documental",
-                            "Genera documentos utilizando plantillas y datos disponibles en la plataforma."
+                            "Genera contratos y documentos utilizando plantillas y datos previamente registrados."
                         )}
+                        
+
+                        ${moduleCard(
+                            icons.document,
+                            "Control de vigencia documental",
+                            "Seguimiento de contratos según su vigencia y fechas relevantes."
+                        )}
+
 
                     </div>
 
