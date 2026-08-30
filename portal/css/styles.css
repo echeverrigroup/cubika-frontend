@@ -1633,7 +1633,7 @@ EDITOR DOCUMENTAL
     top: calc(100% + 10px);
     right: 0;
 
-    width: 200px;
+    width: 180px;
 
     display: none;
 
@@ -1667,7 +1667,7 @@ EDITOR DOCUMENTAL
 
     overflow: visible;
 
-    text-align: left;
+    text-align: right;
 }
 
 .user-menu #user-name {
