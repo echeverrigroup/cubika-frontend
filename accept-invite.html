@@ -12,205 +12,767 @@
     content="width=device-width, initial-scale=1.0"
   />
 
+
   <style>
+
+    /* ==================================================
+       BASE
+       ================================================== */
 
     * {
       box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
     }
 
+
     body {
+
       margin: 0;
-      background: #f4f6f8;
+
+      min-height: 100vh;
+
+      padding: 24px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      min-height: 100vh;
-      padding: 20px;
+      background:
+        radial-gradient(
+          circle at 15% 20%,
+          rgba(37, 99, 235, 0.05),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 85% 80%,
+          rgba(34, 197, 94, 0.05),
+          transparent 30%
+        ),
+        #f4f6f8;
+
+      color: #1f2937;
+
+      font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
     }
 
-    .card {
-      width: 100%;
-      max-width: 460px;
 
-      padding: 32px;
+    /* ==================================================
+       CARD
+       ================================================== */
+
+    .card {
+
+      width: 100%;
+
+      max-width: 500px;
+
+      padding: 38px 40px 34px;
 
       background: #ffffff;
 
-      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+
+      border-radius: 14px;
 
       box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.08);
+        0 18px 45px rgba(15, 23, 42, 0.08);
+
     }
+
+
+    /* ==================================================
+       HEADER
+       ================================================== */
 
     .header {
+
       text-align: center;
-      margin-bottom: 24px;
+
+      margin-bottom: 28px;
+
     }
 
-    .header img {
-      width: 140px;
-      margin-bottom: 12px;
+
+    .logo {
+
+      width: 145px;
+
+      max-width: 70%;
+
+      height: auto;
+
+      margin-bottom: 18px;
+
     }
+
 
     .header h1 {
-      font-size: 20px;
+
       margin: 0;
-      color: #1f2933;
+
+      font-size: 24px;
+
+      line-height: 1.25;
+
+      font-weight: 700;
+
+      letter-spacing: -0.3px;
+
+      color: #102a43;
+
     }
+
 
     .header p {
+
+      margin: 8px 0 0;
+
       font-size: 14px;
-      color: #6b7280;
-      margin-top: 6px;
+
+      line-height: 1.5;
+
+      color: #64748b;
+
     }
+
+
+    /* ==================================================
+       USER INFO
+       ================================================== */
 
     .info-box {
-      background: #f9fafb;
 
-      border: 1px solid #e5e7eb;
+      position: relative;
 
-      padding: 14px;
+      margin-bottom: 26px;
 
-      border-radius: 6px;
+      padding: 18px 18px 17px;
+
+      background: #f8fafc;
+
+      border: 1px solid #e2e8f0;
+
+      border-radius: 10px;
+
+    }
+
+
+    .info-title {
+
+      margin-bottom: 13px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 0.8px;
+
+      text-transform: uppercase;
+
+      color: #64748b;
+
+    }
+
+
+    .info-row {
+
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 12px;
+
+      padding: 7px 0;
+
+    }
+
+
+    .info-row + .info-row {
+
+      border-top: 1px solid #e9eef3;
+
+    }
+
+
+    .info-icon {
+
+      width: 28px;
+
+      height: 28px;
+
+      flex: 0 0 28px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-radius: 7px;
+
+      background: #eef4ff;
+
+      color: #2563eb;
 
       font-size: 13px;
 
-      margin-bottom: 20px;
+      font-weight: 700;
 
-      line-height: 1.7;
     }
 
-    .info-box strong {
-      color: #1f2933;
+
+    .info-content {
+
+      min-width: 0;
+
+      flex: 1;
+
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
 
-    label {
+    .info-label {
+
       display: block;
 
-      font-size: 13px;
+      margin-bottom: 2px;
 
-      margin-bottom: 6px;
+      font-size: 11px;
 
-      color: #374151;
+      color: #94a3b8;
+
     }
 
-    input {
-      width: 100%;
 
-      padding: 10px 12px;
+    .info-value {
 
-      border: 1px solid #d1d5db;
-
-      border-radius: 6px;
+      display: block;
 
       font-size: 14px;
 
-      transition: all 0.2s ease;
+      line-height: 1.4;
+
+      color: #1e293b;
+
+      overflow-wrap: anywhere;
+
     }
 
+
+    .info-value.primary {
+
+      font-weight: 600;
+
+      color: #102a43;
+
+    }
+
+
+    /* ==================================================
+       FORM HEADER
+       ================================================== */
+
+    .form-header {
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .form-header h2 {
+
+      margin: 0;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      color: #102a43;
+
+    }
+
+
+    .form-header p {
+
+      margin: 5px 0 0;
+
+      font-size: 13px;
+
+      color: #64748b;
+
+    }
+
+
+    /* ==================================================
+       FORM
+       ================================================== */
+
+    .form-group {
+
+      margin-bottom: 18px;
+
+    }
+
+
+    label {
+
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 13px;
+
+      font-weight: 500;
+
+      color: #334155;
+
+    }
+
+
+    input {
+
+      width: 100%;
+
+      height: 44px;
+
+      padding: 0 13px;
+
+      border: 1px solid #cbd5e1;
+
+      border-radius: 8px;
+
+      background: #ffffff;
+
+      color: #1e293b;
+
+      font-family: inherit;
+
+      font-size: 14px;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+    }
+
+
+    input::placeholder {
+
+      color: #94a3b8;
+
+    }
+
+
     input:focus {
+
       outline: none;
 
       border-color: #2563eb;
+
+      box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+
     }
 
-    input[readonly] {
-      background: #f3f4f6;
 
-      cursor: not-allowed;
+    input.input-error {
+
+      border-color: #dc2626;
+
+      box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.08);
+
     }
+
+
+    input.input-valid {
+
+      border-color: #16a34a;
+
+      box-shadow:
+        0 0 0 3px rgba(22, 163, 74, 0.08);
+
+    }
+
+
+    /* ==================================================
+       PASSWORD REQUIREMENTS
+       ================================================== */
+
+    .password-hint {
+
+      margin-top: 8px;
+
+      font-size: 12px;
+
+      line-height: 1.45;
+
+      color: #64748b;
+
+    }
+
+
+    .password-requirements {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      margin-top: 10px;
+
+    }
+
+
+    .requirement {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 5px;
+
+      padding: 5px 8px;
+
+      border-radius: 6px;
+
+      background: #f8fafc;
+
+      border: 1px solid #e2e8f0;
+
+      font-size: 11px;
+
+      color: #64748b;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+
+    }
+
+
+    .requirement-icon {
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+    }
+
+
+    .requirement.valid {
+
+      background: #f0fdf4;
+
+      border-color: #bbf7d0;
+
+      color: #15803d;
+
+    }
+
+
+    /* ==================================================
+       PASSWORD MATCH
+       ================================================== */
+
+    .match-message {
+
+      min-height: 17px;
+
+      margin-top: 7px;
+
+      font-size: 12px;
+
+    }
+
+
+    .match-message.success {
+
+      color: #15803d;
+
+    }
+
+
+    .match-message.error {
+
+      color: #dc2626;
+
+    }
+
+
+    /* ==================================================
+       BUTTON
+       ================================================== */
 
     button {
+
       width: 100%;
 
-      padding: 12px;
+      height: 46px;
+
+      margin-top: 4px;
+
+      border: none;
+
+      border-radius: 8px;
 
       background: #2563eb;
 
       color: #ffffff;
 
-      border: none;
+      font-family: inherit;
 
-      border-radius: 6px;
+      font-size: 14px;
 
-      font-size: 15px;
+      font-weight: 600;
 
       cursor: pointer;
 
-      transition: all 0.2s ease;
+      transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+
     }
+
 
     button:hover:not(:disabled) {
-      opacity: 0.92;
+
+      background: #1d4ed8;
+
+      box-shadow:
+        0 5px 14px rgba(37, 99, 235, 0.20);
+
     }
+
+
+    button:active:not(:disabled) {
+
+      transform: translateY(1px);
+
+    }
+
 
     button:disabled {
-      background: #9ca3af;
+
+      background: #94a3b8;
 
       cursor: not-allowed;
+
+      box-shadow: none;
+
     }
 
-    .message {
-      padding: 12px;
 
-      border-radius: 6px;
+    .button-loading {
+
+      opacity: 0.85;
+
+      pointer-events: none;
+
+    }
+
+
+    /* ==================================================
+       MENSAJES
+       ================================================== */
+
+    .message {
+
+      display: none;
+
+      margin-bottom: 18px;
+
+      padding: 13px 14px;
+
+      border-radius: 8px;
 
       font-size: 13px;
 
-      margin-bottom: 16px;
-
-      display: none;
-
       line-height: 1.5;
+
     }
+
 
     .message.error {
-      background: #fee2e2;
 
-      color: #991b1b;
+      background: #fef2f2;
+
+      border: 1px solid #fecaca;
+
+      color: #b91c1c;
+
     }
+
 
     .message.success {
-      background: #ecfdf5;
 
-      color: #065f46;
+      background: #f0fdf4;
+
+      border: 1px solid #bbf7d0;
+
+      color: #166534;
+
     }
+
 
     .message.info {
-      background: #e0f2fe;
 
-      color: #075985;
+      background: #eff6ff;
+
+      border: 1px solid #bfdbfe;
+
+      color: #1d4ed8;
+
     }
 
-    .password-hint {
-      font-size: 12px;
 
-      color: #6b7280;
+    /* ==================================================
+       LOADING INDICATOR
+       ================================================== */
 
-      margin-top: 6px;
+    .loading-content {
 
-      line-height: 1.4;
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 9px;
+
     }
 
-    .button-loading {
-      opacity: 0.8;
 
-      pointer-events: none;
+    .spinner {
+
+      width: 15px;
+
+      height: 15px;
+
+      border: 2px solid rgba(37, 99, 235, 0.20);
+
+      border-top-color: #2563eb;
+
+      border-radius: 50%;
+
+      animation: spin 0.8s linear infinite;
+
     }
 
-    .input-error {
-      border-color: #dc2626;
+
+    @keyframes spin {
+
+      to {
+        transform: rotate(360deg);
+      }
+
     }
+
+
+    /* ==================================================
+       FOOTER
+       ================================================== */
+
+    .footer {
+
+      margin-top: 24px;
+
+      padding-top: 18px;
+
+      border-top: 1px solid #eef2f6;
+
+      text-align: center;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+
+      color: #94a3b8;
+
+    }
+
+
+    .footer strong {
+
+      color: #64748b;
+
+      font-weight: 600;
+
+    }
+
+
+    /* ==================================================
+       FORM OCULTO INICIALMENTE
+       ================================================== */
 
     #activateForm {
+
       display: none;
+
+    }
+
+
+    /* ==================================================
+       RESPONSIVE
+       ================================================== */
+
+    @media (max-width: 540px) {
+
+      body {
+
+        padding: 14px;
+
+        align-items: flex-start;
+
+      }
+
+
+      .card {
+
+        margin-top: 14px;
+
+        padding: 30px 22px 24px;
+
+        border-radius: 12px;
+
+      }
+
+
+      .header h1 {
+
+        font-size: 22px;
+
+      }
+
+
+      .logo {
+
+        width: 135px;
+
+      }
+
+
+      .password-requirements {
+
+        gap: 5px;
+
+      }
+
+
+      .requirement {
+
+        font-size: 10px;
+
+      }
+
     }
 
   </style>
@@ -224,25 +786,32 @@
   <div class="card">
 
 
+    <!-- ==================================================
+         HEADER
+         ================================================== -->
+
     <div class="header">
 
       <img
+        class="logo"
         src="img/isologo-2.png"
-        alt="Cubika"
+        alt="Cubika - Soluciones Logísticas"
       />
 
       <h1>
-        Activar cuenta
+        Activa tu cuenta
       </h1>
 
       <p>
-        Completa los datos para comenzar a usar Cubika
+        Completa tus datos para comenzar a usar Cubika
       </p>
 
     </div>
 
 
-    <!-- Información del usuario -->
+    <!-- ==================================================
+         INFORMACIÓN DEL USUARIO
+         ================================================== -->
 
     <div
       class="info-box"
@@ -250,30 +819,104 @@
       style="display:none;"
     >
 
-      <div>
-        <strong>Empresa:</strong>
-        <span id="companyName"></span>
+      <div class="info-title">
+        Tu cuenta
       </div>
 
-      <div>
-        <strong>Usuario:</strong>
-        <span id="userName"></span>
+
+      <div class="info-row">
+
+        <div class="info-icon">
+          U
+        </div>
+
+        <div class="info-content">
+
+          <span class="info-label">
+            Usuario
+          </span>
+
+          <span
+            class="info-value primary"
+            id="userName"
+          ></span>
+
+        </div>
+
       </div>
 
-      <div>
-        <strong>Correo:</strong>
-        <span id="userEmail"></span>
+
+      <div class="info-row">
+
+        <div class="info-icon">
+          @
+        </div>
+
+        <div class="info-content">
+
+          <span class="info-label">
+            Correo electrónico
+          </span>
+
+          <span
+            class="info-value"
+            id="userEmail"
+          ></span>
+
+        </div>
+
       </div>
 
-      <div>
-        <strong>Cargo:</strong>
-        <span id="userRole"></span>
+
+      <div class="info-row">
+
+        <div class="info-icon">
+          E
+        </div>
+
+        <div class="info-content">
+
+          <span class="info-label">
+            Empresa
+          </span>
+
+          <span
+            class="info-value primary"
+            id="companyName"
+          ></span>
+
+        </div>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <div class="info-icon">
+          C
+        </div>
+
+        <div class="info-content">
+
+          <span class="info-label">
+            Cargo
+          </span>
+
+          <span
+            class="info-value"
+            id="userRole"
+          ></span>
+
+        </div>
+
       </div>
 
     </div>
 
 
-    <!-- Mensajes -->
+    <!-- ==================================================
+         MENSAJES
+         ================================================== -->
 
     <div
       class="message error"
@@ -284,10 +927,7 @@
     <div
       class="message success"
       id="successMessage"
-    >
-      Cuenta activada correctamente.
-      Redirigiendo al inicio de sesión…
-    </div>
+    ></div>
 
 
     <div
@@ -295,14 +935,41 @@
       id="loadingMessage"
       style="display:block;"
     >
-      Verificando invitación…
+
+      <div class="loading-content">
+
+        <span class="spinner"></span>
+
+        <span>
+          Verificando invitación…
+        </span>
+
+      </div>
+
     </div>
 
 
-    <!-- Formulario -->
+    <!-- ==================================================
+         FORMULARIO
+         ================================================== -->
 
     <form id="activateForm">
 
+
+      <div class="form-header">
+
+        <h2>
+          Crea tu contraseña
+        </h2>
+
+        <p>
+          Utiliza una contraseña segura para proteger tu cuenta.
+        </p>
+
+      </div>
+
+
+      <!-- CONTRASEÑA -->
 
       <div class="form-group">
 
@@ -313,18 +980,61 @@
         <input
           type="password"
           id="password"
-          placeholder="••••••••••"
+          placeholder="Ingresa una contraseña segura"
           autocomplete="new-password"
           required
         />
 
+
         <div class="password-hint">
-          Mínimo 10 caracteres.
-          Se recomienda combinar letras, números y símbolos.
+          Mínimo 10 caracteres. Se recomienda combinar letras,
+          números y símbolos.
+        </div>
+
+
+        <div class="password-requirements">
+
+          <div
+            class="requirement"
+            id="reqLength"
+          >
+            <span class="requirement-icon">✓</span>
+            10 caracteres
+          </div>
+
+
+          <div
+            class="requirement"
+            id="reqLetter"
+          >
+            <span class="requirement-icon">✓</span>
+            Letras
+          </div>
+
+
+          <div
+            class="requirement"
+            id="reqNumber"
+          >
+            <span class="requirement-icon">✓</span>
+            Números
+          </div>
+
+
+          <div
+            class="requirement"
+            id="reqSymbol"
+          >
+            <span class="requirement-icon">✓</span>
+            Símbolos
+          </div>
+
         </div>
 
       </div>
 
+
+      <!-- CONFIRMAR -->
 
       <div class="form-group">
 
@@ -335,474 +1045,444 @@
         <input
           type="password"
           id="confirmPassword"
-          placeholder="••••••••••"
+          placeholder="Repite tu contraseña"
           autocomplete="new-password"
           required
         />
+
+
+        <div
+          class="match-message"
+          id="matchMessage"
+        ></div>
 
       </div>
 
 
       <button type="submit">
-        Activar cuenta
+
+        Activar mi cuenta
+
       </button>
 
 
     </form>
 
 
+    <!-- ==================================================
+         FOOTER
+         ================================================== -->
+
+    <div class="footer">
+
+      <strong>Cubika</strong> · Soluciones Logísticas
+
+      <br />
+
+      Plataforma de gestión logística inteligente
+
+    </div>
+
+
   </div>
 
 
-<script type="module">
 
-  import { supabase }
-  from "./js/supabaseClient.js";
+  <!-- ====================================================
+       JAVASCRIPT
+       ==================================================== -->
 
-
-  const activateForm =
-    document.getElementById("activateForm");
-
-  const loadingMessage =
-    document.getElementById("loadingMessage");
-
-  const errorMessage =
-    document.getElementById("errorMessage");
-
-  const successMessage =
-    document.getElementById("successMessage");
-
-  const userInfo =
-    document.getElementById("userInfo");
+  <script type="module">
 
 
-  /*
-   * --------------------------------------------------
-   * UTILIDADES
-   * --------------------------------------------------
-   */
+    import { supabase }
+    from "./js/supabaseClient.js";
 
 
-  function showMessage(
-    type,
-    message
-  ) {
+    /* ==================================================
+       ELEMENTOS
+       ================================================== */
 
-    loadingMessage.style.display = "none";
-
-    errorMessage.style.display = "none";
-
-    successMessage.style.display = "none";
+    const activateForm =
+      document.getElementById(
+        "activateForm"
+      );
 
 
-    if (type === "error") {
+    const loadingMessage =
+      document.getElementById(
+        "loadingMessage"
+      );
 
-      errorMessage.textContent =
-        message;
+
+    const errorMessage =
+      document.getElementById(
+        "errorMessage"
+      );
+
+
+    const successMessage =
+      document.getElementById(
+        "successMessage"
+      );
+
+
+    const userInfo =
+      document.getElementById(
+        "userInfo"
+      );
+
+
+    const password =
+      document.getElementById(
+        "password"
+      );
+
+
+    const confirmPassword =
+      document.getElementById(
+        "confirmPassword"
+      );
+
+
+    const matchMessage =
+      document.getElementById(
+        "matchMessage"
+      );
+
+
+    /* ==================================================
+       UTILIDADES
+       ================================================== */
+
+
+    function showMessage(
+      type,
+      message
+    ) {
+
+      loadingMessage.style.display =
+        "none";
 
       errorMessage.style.display =
-        "block";
-
-    }
-
-
-    if (type === "success") {
-
-      successMessage.textContent =
-        message;
+        "none";
 
       successMessage.style.display =
-        "block";
-
-    }
-
-
-    if (type === "info") {
-
-      loadingMessage.textContent =
-        message;
-
-      loadingMessage.style.display =
-        "block";
-
-    }
-
-  }
-
-
-  function setLoading(
-    isLoading
-  ) {
-
-    const button =
-      activateForm.querySelector("button");
-
-    const inputs =
-      activateForm.querySelectorAll("input");
-
-
-    if (isLoading) {
-
-      button.dataset.originalText =
-        button.innerText;
-
-      button.innerText =
-        "Activando cuenta...";
-
-      button.disabled = true;
-
-      inputs.forEach(
-        input =>
-          input.disabled = true
-      );
-
-    }
-    else {
-
-      button.innerText =
-        button.dataset.originalText;
-
-      button.disabled = false;
-
-      inputs.forEach(
-        input =>
-          input.disabled = false
-      );
-
-    }
-
-  }
-
-
-  function clearErrors() {
-
-    activateForm
-      .querySelectorAll("input")
-      .forEach(input => {
-
-        input.classList.remove(
-          "input-error"
-        );
-
-      });
-
-  }
-
-
-  /*
-   * --------------------------------------------------
-   * CARGAR INFORMACIÓN DE LA INVITACIÓN
-   * --------------------------------------------------
-   */
-
-
-  async function cargarInvitacion() {
-
-    try {
-
-      /*
-       * 1. Obtener sesión creada
-       *    por el enlace de invitación
-       */
-
-      const {
-        data: sessionData,
-        error: sessionError
-      } =
-        await supabase.auth.getSession();
-
-
-      if (sessionError)
-        throw sessionError;
-
-
-      const session =
-        sessionData.session;
-
-
-      if (!session) {
-
-        showMessage(
-          "error",
-          "El enlace de invitación es inválido o ha expirado."
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 2. Obtener usuario autenticado
-       */
-
-      const {
-        data: userData,
-        error: userError
-      } =
-        await supabase.auth.getUser();
-
-
-      if (userError)
-        throw userError;
-
-
-      const authUser =
-        userData.user;
-
-
-      if (!authUser) {
-
-        showMessage(
-          "error",
-          "No fue posible identificar la cuenta invitada."
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 3. Buscar usuario en public.usuarios
-       */
-
-      const {
-        data: usuario,
-        error: usuarioError
-      } =
-        await supabase
-          .from("usuarios")
-          .select(`
-            id,
-            empresa_id,
-            nombre,
-            apellido,
-            email,
-            cargo,
-            nivel,
-            estado
-          `)
-          .eq(
-            "auth_user_id",
-            authUser.id
-          )
-          .single();
-
-
-      if (usuarioError)
-        throw usuarioError;
-
-
-      if (!usuario) {
-
-        showMessage(
-          "error",
-          "No encontramos el registro de usuario asociado a esta invitación."
-        );
-
-        return;
-
-      }
-
-/*
-       * --------------------------------------------------
-       * 4. Obtener empresa
-       * --------------------------------------------------
-       */
-      
-     const {
-          data: empresa,
-          error: empresaError
-        } = await supabase
-          .from("empresas")
-          .select("id, razon_social, nombre_fantasia")
-          .eq("id", usuario.empresa_id)
-          .single();
-        
-        if (empresaError) {
-          throw empresaError;
-        }
-        
-        if (!empresa) {
-          throw new Error(
-            "No fue posible encontrar la empresa asociada a esta cuenta."
-          );
-        }
-
-      
-
-            /*
-       * --------------------------------------------------
-       * 5. Mostrar información
-       * --------------------------------------------------
-       */
-      
-      document.getElementById(
-        "companyName"
-      ).textContent =
-      empresa.nombre_fantasia ||
-      empresa.razon_social ||
-      "—";
-      
-      
-      document.getElementById(
-        "userName"
-      ).textContent =
-        `${usuario.nombre ?? ""} ${usuario.apellido ?? ""}`.trim();
-      
-      
-      document.getElementById(
-        "userEmail"
-      ).textContent =
-        usuario.email ?? authUser.email ?? "—";
-      
-      
-      document.getElementById(
-        "userRole"
-      ).textContent =
-        usuario.cargo ?? "—";
-      
-      
-      userInfo.style.display =
-        "block";
-      
-      
-      loadingMessage.style.display =
-        "none";
-      
-      
-      activateForm.style.display =
-        "block";
-
-      
-      /*
-       * 6. Mostrar formulario
-       */
-
-      loadingMessage.style.display =
         "none";
 
-      activateForm.style.display =
-        "block";
 
-    }
+      if (type === "error") {
 
-    catch (error) {
+        errorMessage.textContent =
+          message;
 
-      console.error(
-        "Error cargando invitación:",
-        error
-      );
-
-      showMessage(
-        "error",
-        "No fue posible validar la invitación. Intenta nuevamente o solicita una nueva invitación al administrador."
-      );
-
-    }
-
-  }
-
-
-  /*
-   * --------------------------------------------------
-   * ACTIVAR CUENTA
-   * --------------------------------------------------
-   */
-
-
-  activateForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-      clearErrors();
-
-
-      const password =
-        document.getElementById(
-          "password"
-        );
-
-      const confirmPassword =
-        document.getElementById(
-          "confirmPassword"
-        );
-
-
-      /*
-       * Validaciones
-       */
-
-      if (
-        password.value.length < 10
-      ) {
-
-        password.classList.add(
-          "input-error"
-        );
-
-        showMessage(
-          "error",
-          "La contraseña debe tener al menos 10 caracteres."
-        );
-
-        return;
+        errorMessage.style.display =
+          "block";
 
       }
 
 
-      if (
-        password.value !==
-        confirmPassword.value
-      ) {
+      if (type === "success") {
 
-        password.classList.add(
-          "input-error"
+        successMessage.textContent =
+          message;
+
+        successMessage.style.display =
+          "block";
+
+      }
+
+
+      if (type === "info") {
+
+        loadingMessage.innerHTML = `
+
+          <div class="loading-content">
+
+            <span class="spinner"></span>
+
+            <span>
+              ${message}
+            </span>
+
+          </div>
+
+        `;
+
+        loadingMessage.style.display =
+          "block";
+
+      }
+
+    }
+
+
+
+    function setLoading(
+      isLoading
+    ) {
+
+      const button =
+        activateForm.querySelector(
+          "button"
+        );
+
+
+      const inputs =
+        activateForm.querySelectorAll(
+          "input"
+        );
+
+
+      if (isLoading) {
+
+        button.dataset.originalText =
+          button.innerText;
+
+        button.innerText =
+          "Activando cuenta...";
+
+        button.disabled =
+          true;
+
+        button.classList.add(
+          "button-loading"
+        );
+
+
+        inputs.forEach(
+          input =>
+            input.disabled = true
+        );
+
+      }
+
+      else {
+
+        button.innerText =
+          button.dataset.originalText ||
+          "Activar mi cuenta";
+
+        button.disabled =
+          false;
+
+        button.classList.remove(
+          "button-loading"
+        );
+
+
+        inputs.forEach(
+          input =>
+            input.disabled = false
+        );
+
+      }
+
+    }
+
+
+
+    function clearErrors() {
+
+      activateForm
+        .querySelectorAll("input")
+        .forEach(
+          input => {
+
+            input.classList.remove(
+              "input-error"
+            );
+
+          }
+        );
+
+    }
+
+
+
+    /* ==================================================
+       REQUISITOS DE CONTRASEÑA
+       ================================================== */
+
+
+    function actualizarRequisitosPassword() {
+
+      const value =
+        password.value;
+
+
+      actualizarRequisito(
+        "reqLength",
+        value.length >= 10
+      );
+
+
+      actualizarRequisito(
+        "reqLetter",
+        /[A-Za-zÁÉÍÓÚáéíóúÑñ]/.test(value)
+      );
+
+
+      actualizarRequisito(
+        "reqNumber",
+        /\d/.test(value)
+      );
+
+
+      actualizarRequisito(
+        "reqSymbol",
+        /[^A-Za-zÁÉÍÓÚáéíóúÑñ0-9]/.test(value)
+      );
+
+    }
+
+
+
+    function actualizarRequisito(
+      id,
+      valido
+    ) {
+
+      const element =
+        document.getElementById(id);
+
+
+      if (!element)
+        return;
+
+
+      element.classList.toggle(
+        "valid",
+        valido
+      );
+
+    }
+
+
+
+    function actualizarCoincidencia() {
+
+      const pass =
+        password.value;
+
+      const confirm =
+        confirmPassword.value;
+
+
+      matchMessage.textContent =
+        "";
+
+      matchMessage.className =
+        "match-message";
+
+
+      confirmPassword.classList.remove(
+        "input-error"
+      );
+
+
+      confirmPassword.classList.remove(
+        "input-valid"
+      );
+
+
+      if (!confirm)
+        return;
+
+
+      if (pass === confirm) {
+
+        matchMessage.textContent =
+          "Las contraseñas coinciden.";
+
+        matchMessage.classList.add(
+          "success"
+        );
+
+        confirmPassword.classList.add(
+          "input-valid"
+        );
+
+      }
+
+      else {
+
+        matchMessage.textContent =
+          "Las contraseñas no coinciden.";
+
+        matchMessage.classList.add(
+          "error"
         );
 
         confirmPassword.classList.add(
           "input-error"
         );
 
-        showMessage(
-          "error",
-          "Las contraseñas no coinciden."
-        );
-
-        return;
-
       }
 
+    }
+
+
+
+    password.addEventListener(
+      "input",
+      actualizarRequisitosPassword
+    );
+
+
+    confirmPassword.addEventListener(
+      "input",
+      actualizarCoincidencia
+    );
+
+
+    /* ==================================================
+       CARGAR INFORMACIÓN DE LA INVITACIÓN
+       ================================================== */
+
+
+    async function cargarInvitacion() {
 
       try {
 
-        setLoading(true);
-
 
         /*
-         * 1. Establecer contraseña
+         * ------------------------------------------------
+         * 1. Obtener sesión creada por el enlace
+         * ------------------------------------------------
          */
 
         const {
-          error: passwordError
+          data: sessionData,
+          error: sessionError
         } =
-          await supabase.auth.updateUser({
-
-            password:
-              password.value
-
-          });
+          await supabase.auth.getSession();
 
 
-        if (passwordError)
-          throw passwordError;
+        if (sessionError)
+          throw sessionError;
+
+
+        const session =
+          sessionData.session;
+
+
+        if (!session) {
+
+          showMessage(
+            "error",
+            "El enlace de invitación es inválido o ha expirado."
+          );
+
+          return;
+
+        }
 
 
         /*
+         * ------------------------------------------------
          * 2. Obtener usuario autenticado
+         * ------------------------------------------------
          */
 
         const {
@@ -820,102 +1500,416 @@
           userData.user;
 
 
+        if (!authUser) {
+
+          showMessage(
+            "error",
+            "No fue posible identificar la cuenta invitada."
+          );
+
+          return;
+
+        }
+
+
         /*
-         * 3. Actualizar estado
+         * ------------------------------------------------
+         * 3. Buscar usuario en public.usuarios
+         * ------------------------------------------------
          */
 
         const {
-          error: updateError
+          data: usuario,
+          error: usuarioError
         } =
           await supabase
             .from("usuarios")
-            .update({
-
-              estado: "ACTIVO",
-
-              updated_at:
-                new Date().toISOString()
-
-            })
+            .select(`
+              id,
+              empresa_id,
+              nombre,
+              apellido,
+              email,
+              cargo,
+              nivel,
+              estado
+            `)
             .eq(
               "auth_user_id",
               authUser.id
-            );
+            )
+            .single();
 
 
-        if (updateError)
-          throw updateError;
+        if (usuarioError)
+          throw usuarioError;
+
+
+        if (!usuario) {
+
+          showMessage(
+            "error",
+            "No encontramos el registro de usuario asociado a esta invitación."
+          );
+
+          return;
+
+        }
 
 
         /*
-         * 4. Mostrar éxito
+         * ------------------------------------------------
+         * 4. Obtener empresa
+         * ------------------------------------------------
          */
 
-        setLoading(false);
+        const {
+          data: empresa,
+          error: empresaError
+        } =
+          await supabase
+            .from("empresas")
+            .select(`
+              id,
+              razon_social,
+              nombre_fantasia
+            `)
+            .eq(
+              "id",
+              usuario.empresa_id
+            )
+            .single();
 
-        activateForm.style.display =
-          "none";
+
+        if (empresaError)
+          throw empresaError;
+
+
+        if (!empresa) {
+
+          throw new Error(
+            "No fue posible encontrar la empresa asociada a esta cuenta."
+          );
+
+        }
+
+
+        /*
+         * ------------------------------------------------
+         * 5. Mostrar información
+         * ------------------------------------------------
+         */
+
+        document.getElementById(
+          "companyName"
+        ).textContent =
+          empresa.nombre_fantasia ||
+          empresa.razon_social ||
+          "—";
+
+
+        document.getElementById(
+          "userName"
+        ).textContent =
+          `${usuario.nombre ?? ""} ${usuario.apellido ?? ""}`
+            .trim() || "—";
+
+
+        document.getElementById(
+          "userEmail"
+        ).textContent =
+          usuario.email ??
+          authUser.email ??
+          "—";
+
+
+        document.getElementById(
+          "userRole"
+        ).textContent =
+          usuario.cargo ??
+          "—";
+
 
         userInfo.style.display =
-          "none";
-
-
-        showMessage(
-          "success",
-          "Cuenta activada correctamente. Redirigiendo al inicio de sesión…"
-        );
+          "block";
 
 
         /*
-         * 5. Cerrar sesión
-         *
-         * El usuario deberá iniciar sesión
-         * normalmente desde el Login.
+         * ------------------------------------------------
+         * 6. Mostrar formulario
+         * ------------------------------------------------
          */
 
-        await supabase.auth.signOut();
+        loadingMessage.style.display =
+          "none";
 
 
-        setTimeout(() => {
-
-          window.location.href =
-            "/login.html";
-
-        }, 1800);
+        activateForm.style.display =
+          "block";
 
       }
+
 
       catch (error) {
 
         console.error(
-          "Error activando cuenta:",
+          "Error cargando invitación:",
           error
         );
 
-        setLoading(false);
 
         showMessage(
           "error",
-          error.message ||
-          "No fue posible activar la cuenta."
+          "No fue posible validar la invitación. Intenta nuevamente o solicita una nueva invitación al administrador."
         );
 
       }
 
     }
-  );
 
 
-  /*
-   * --------------------------------------------------
-   * INICIO
-   * --------------------------------------------------
-   */
 
-  cargarInvitacion();
+    /* ==================================================
+       ACTIVAR CUENTA
+       ================================================== */
 
-</script>
+
+    activateForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        clearErrors();
+
+
+        const pass =
+          password.value;
+
+
+        const confirm =
+          confirmPassword.value;
+
+
+        /*
+         * ------------------------------------------------
+         * Validación de contraseña
+         * ------------------------------------------------
+         */
+
+        if (pass.length < 10) {
+
+          password.classList.add(
+            "input-error"
+          );
+
+
+          showMessage(
+            "error",
+            "La contraseña debe tener al menos 10 caracteres."
+          );
+
+
+          password.focus();
+
+
+          return;
+
+        }
+
+
+        /*
+         * ------------------------------------------------
+         * Validación de coincidencia
+         * ------------------------------------------------
+         */
+
+        if (pass !== confirm) {
+
+          password.classList.add(
+            "input-error"
+          );
+
+
+          confirmPassword.classList.add(
+            "input-error"
+          );
+
+
+          showMessage(
+            "error",
+            "Las contraseñas no coinciden."
+          );
+
+
+          confirmPassword.focus();
+
+
+          return;
+
+        }
+
+
+        try {
+
+
+          setLoading(true);
+
+
+          /*
+           * ------------------------------------------------
+           * 1. Establecer contraseña en Supabase Auth
+           * ------------------------------------------------
+           */
+
+          const {
+            error: passwordError
+          } =
+            await supabase.auth.updateUser({
+
+              password:
+                pass
+
+            });
+
+
+          if (passwordError)
+            throw passwordError;
+
+
+          /*
+           * ------------------------------------------------
+           * 2. Obtener usuario autenticado
+           * ------------------------------------------------
+           */
+
+          const {
+            data: userData,
+            error: userError
+          } =
+            await supabase.auth.getUser();
+
+
+          if (userError)
+            throw userError;
+
+
+          const authUser =
+            userData.user;
+
+
+          /*
+           * ------------------------------------------------
+           * 3. Actualizar estado en Cubika
+           * ------------------------------------------------
+           */
+
+          const {
+            error: updateError
+          } =
+            await supabase
+              .from("usuarios")
+              .update({
+
+                estado:
+                  "ACTIVO",
+
+                updated_at:
+                  new Date().toISOString()
+
+              })
+              .eq(
+                "auth_user_id",
+                authUser.id
+              );
+
+
+          if (updateError)
+            throw updateError;
+
+
+          /*
+           * ------------------------------------------------
+           * 4. Mostrar éxito
+           * ------------------------------------------------
+           */
+
+          setLoading(false);
+
+
+          activateForm.style.display =
+            "none";
+
+
+          userInfo.style.display =
+            "none";
+
+
+          showMessage(
+            "success",
+            "Cuenta activada correctamente. Redirigiendo al inicio de sesión…"
+          );
+
+
+          /*
+           * ------------------------------------------------
+           * 5. Cerrar sesión
+           * ------------------------------------------------
+           *
+           * El usuario deberá iniciar sesión
+           * normalmente desde el Login.
+           */
+
+          await supabase.auth.signOut();
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                "/login.html";
+
+            },
+            1800
+          );
+
+        }
+
+
+        catch (error) {
+
+          console.error(
+            "Error activando cuenta:",
+            error
+          );
+
+
+          setLoading(false);
+
+
+          showMessage(
+            "error",
+            error.message ||
+            "No fue posible activar la cuenta."
+          );
+
+        }
+
+      }
+    );
+
+
+    /* ==================================================
+       INICIO
+       ================================================== */
+
+    cargarInvitacion();
+
+
+  </script>
 
 
 </body>
+
 </html>
