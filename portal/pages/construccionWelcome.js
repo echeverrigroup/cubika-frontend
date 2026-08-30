@@ -874,9 +874,9 @@ function getStepContent(step) {
                                     MÓDULO CONTRATADO
                                 </span>
 
-                                <h3>
-                                    CONSTRUCCIÓN - GESTOR DE DOCUMENTOS
-                                </h3>
+                                <h4>
+                                    CONSTRUCCIÓN - GESTOR DOCUMENTAL
+                                </h4>
 
                             </div>
 
