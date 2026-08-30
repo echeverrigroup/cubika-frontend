@@ -871,7 +871,7 @@ function getStepContent(step) {
                             <div>
 
                                 <span class="construction-welcome-service-label">
-                                    MÓDULO CONTRATADO -  <h4>CONSTRUCCIÓN</h4>
+                                    <h4>MÓDULO CONTRATADO - CONSTRUCCIÓN</h4>
                                 </span>
 
                                 <h3>
