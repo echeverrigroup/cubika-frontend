@@ -535,9 +535,10 @@ function getStepContent(step) {
                         ${icons.settings}
 
                         <span>
-                            Los módulos comparten una misma estructura de
-                            información para reducir duplicaciones y tareas
-                            manuales.
+                            Los módulos de Cubika están diseñados para compartir información y evitar duplicaciones entre procesos.
+
+                            Por ejemplo, los datos gestionados en este <strong>Gestor Documental</strong> pueden utilizarse posteriormente en <strong>Asistencia y Remuneraciones</strong>.
+                            Puedes incorporar nuevos módulos según las necesidades de tu operación.
                         </span>
 
                     </div>
