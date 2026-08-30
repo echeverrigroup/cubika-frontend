@@ -514,10 +514,6 @@ async function mostrarFormularioNuevoUsuario() {
             "Enviar invitación",
 
 
-        size:
-            "large",
-
-
         onSubmit:
             crearUsuario
 
