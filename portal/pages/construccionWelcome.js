@@ -442,9 +442,9 @@ function getStepContent(step) {
                             MODULO:
                         </span>
 
-                        <div class="construction-welcome-header p">
+                        <p>
                                 Gestor Documental
-                        </div>
+                        </p>
 
 
                         <h2>
