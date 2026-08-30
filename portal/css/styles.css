@@ -2121,7 +2121,7 @@ EDITOR DOCUMENTAL
     .modal {
         width: calc(100vw - 20px);
         max-height: calc(100vh - 20px);
-        padding: 16px;
+        padding: 32px;
     }
 
     .modal.large {
