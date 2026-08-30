@@ -672,7 +672,7 @@ function getStepContent(step) {
                             <p>
                                 Cubika proporciona la infraestructura tecnológica
                                 para generar documentos a partir de las plantillas,
-                                datos y configuraciones disponibles en la plataforma.
+                                datos y configuraciones que tu mismo proporcionas a la plataforma.
                             </p>
 
                             <p>
