@@ -301,7 +301,7 @@ export function renderConstructionWelcome() {
                     </div>
 
                     <h1>
-                        ¡Bienvenido(a), ${userName}!
+                        ¡Bienvenido(a) ${userName}!
                     </h1>
 
                     <p>
@@ -595,10 +595,10 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            La información que ingresas y gestionas en Cubika
+                            La información que ingresas y gestionas en la plataforma
                             corresponde a tu organización. Cubika proporciona
                             la infraestructura tecnológica necesaria para
-                            procesarla y prestar el servicio contratado.
+                            procesarla y prestarte el servicio contratado.
                         </p>
 
                     </div>
@@ -660,11 +660,11 @@ function getStepContent(step) {
                                 </li>
 
                                 <li>
-                                    La infraestructura tecnológica.
+                                    Las herramientas de gestión.
                                 </li>
 
                                 <li>
-                                    Las herramientas de gestión.
+                                    Las alertas y seguimiento.
                                 </li>
 
                                 <li>
