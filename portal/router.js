@@ -4,6 +4,7 @@ import {
     renderEmpresas
 }
 from "../portal/pages/empresas.js";
+import { renderUsuarios } from "./pages/usuarios.js";
 import { renderConstructionEmpresas } from "./pages/construction_empresas.js";
 import { renderConstructionTrabajadores } from "./pages/construction_trabajadores.js";
 import { renderConstructionObras } from "./pages/construction_obras.js";
@@ -37,6 +38,12 @@ export function navigate(page, params = null) {
         case "empresas":
         renderEmpresas();
         break;
+
+
+        case "usuarios":
+        renderUsuarios();
+        break;
+
 
         case "construction_empresas":
         renderConstructionEmpresas();
