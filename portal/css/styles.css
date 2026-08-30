@@ -2103,7 +2103,7 @@ EDITOR DOCUMENTAL
     }
 
    .user-menu .user-card {
-    width: min(210px, calc(100vw - 20px));
+    width: min(230px, calc(100vw - 20px));
     }
 
     .content {
