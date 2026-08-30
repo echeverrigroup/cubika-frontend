@@ -2116,3 +2116,1157 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+
+/* =========================================================
+   CUBIKA — BIENVENIDA CONSTRUCCIÓN
+   ========================================================= */
+
+.construction-welcome {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-bottom: 30px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.construction-welcome-header {
+    margin-bottom: 24px;
+}
+
+.construction-welcome-eyebrow,
+.construction-welcome-kicker {
+    display: block;
+
+    color: #146C5B;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .09em;
+    text-transform: uppercase;
+
+    margin-bottom: 7px;
+}
+
+.construction-welcome-header h1 {
+    margin: 0;
+
+    color: #0B2F5B;
+
+    font-size: 30px;
+    line-height: 1.2;
+
+    font-weight: 700;
+}
+
+.construction-welcome-header p {
+    max-width: 700px;
+
+    margin-top: 9px;
+
+    color: #64748B;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   WIZARD STEPS
+   ========================================================= */
+
+.construction-welcome-steps {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    overflow-x: auto;
+
+    padding-bottom: 3px;
+}
+
+.construction-welcome-step {
+    flex: 1;
+
+    min-width: 150px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 12px 16px;
+
+    border: 1px solid #E2E8F0;
+
+    border-radius: 12px;
+
+    background: #F8FAFC;
+
+    color: #64748B;
+
+    cursor: pointer;
+
+    transition:
+        background .2s,
+        border-color .2s,
+        color .2s,
+        transform .2s;
+}
+
+.construction-welcome-step:hover {
+    background: #F1F5F9;
+}
+
+.construction-welcome-step.active {
+    background: #D7F3EA;
+
+    border-color: #C5E8DD;
+
+    color: #146C5B;
+
+    font-weight: 600;
+}
+
+.construction-welcome-step.completed {
+    color: #146C5B;
+}
+
+.construction-welcome-step-number {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 27px;
+    height: 27px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #E2E8F0;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.construction-welcome-step.active
+.construction-welcome-step-number {
+    background: #146C5B;
+
+    color: white;
+}
+
+.construction-welcome-step-label {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PANEL PRINCIPAL
+   ========================================================= */
+
+.construction-welcome-panel {
+    background: white;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, .035);
+}
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.construction-welcome-intro {
+    display: grid;
+
+    grid-template-columns: 360px 1fr;
+
+    gap: 42px;
+
+    align-items: center;
+
+    min-height: 440px;
+}
+
+.construction-welcome-intro-visual {
+    position: relative;
+
+    min-height: 340px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #EEF9F5 0%,
+            #F8FAFC 65%,
+            #FFFFFF 100%
+        );
+}
+
+.construction-welcome-cube {
+    position: relative;
+
+    width: 135px;
+    height: 135px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: rotate(45deg);
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        145deg,
+        #D7F3EA,
+        #B9E6D8
+    );
+
+    box-shadow:
+        24px 24px 45px rgba(20, 108, 91, .10);
+}
+
+.construction-welcome-cube-inner {
+    width: 88px;
+    height: 88px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: rotate(-45deg);
+
+    border-radius: 14px;
+
+    background: white;
+
+    color: #0B2F5B;
+
+    font-size: 38px;
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, .08);
+}
+
+.construction-welcome-flow {
+    position: absolute;
+
+    width: 240px;
+    height: 90px;
+
+    border: 1px solid #B9E6D8;
+
+    border-radius: 50%;
+
+    opacity: .55;
+}
+
+.construction-welcome-flow.flow-one {
+    transform: rotate(20deg);
+}
+
+.construction-welcome-flow.flow-two {
+    transform: rotate(-35deg);
+}
+
+.construction-welcome-flow.flow-three {
+    width: 180px;
+    height: 65px;
+
+    transform: rotate(70deg);
+
+    opacity: .35;
+}
+
+.construction-welcome-intro-copy h2,
+.construction-welcome-section-heading h2 {
+    margin: 0 0 12px;
+
+    color: #0B2F5B;
+
+    font-size: 25px;
+    line-height: 1.25;
+}
+
+.construction-welcome-intro-copy p,
+.construction-welcome-section-heading p {
+    max-width: 760px;
+
+    margin: 0 0 12px;
+
+    color: #64748B;
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.construction-welcome-highlight {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 22px;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    background: #F0F9F5;
+
+    color: #146C5B;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.construction-welcome-highlight svg {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SECCIONES
+   ========================================================= */
+
+.construction-welcome-section {
+    min-height: 440px;
+}
+
+.construction-welcome-section-heading {
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   MÓDULOS
+   ========================================================= */
+
+.construction-welcome-module-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.construction-welcome-module-card {
+    display: flex;
+
+    gap: 14px;
+
+    padding: 17px;
+
+    border: 1px solid #E8EDF2;
+
+    border-radius: 12px;
+
+    background: #FFFFFF;
+
+    transition:
+        transform .2s,
+        box-shadow .2s,
+        border-color .2s;
+}
+
+.construction-welcome-module-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #D7F3EA;
+
+    box-shadow:
+        0 8px 22px rgba(15, 23, 42, .05);
+}
+
+.construction-welcome-card-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #EEF8F5;
+
+    color: #146C5B;
+}
+
+.construction-welcome-card-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.construction-welcome-module-card h3,
+.construction-welcome-info-card h3,
+.construction-welcome-security-card h3,
+.construction-welcome-evolution h3 {
+    margin: 1px 0 5px;
+
+    color: #0B2F5B;
+
+    font-size: 14px;
+}
+
+.construction-welcome-module-card p,
+.construction-welcome-security-card p,
+.construction-welcome-evolution p {
+    margin: 0;
+
+    color: #64748B;
+
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+.construction-welcome-note {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    background: #F8FAFC;
+
+    color: #64748B;
+
+    font-size: 12.5px;
+}
+
+.construction-welcome-note svg {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    color: #146C5B;
+}
+
+
+/* =========================================================
+   INFORMACIÓN / RESPONSABILIDAD
+   ========================================================= */
+
+.construction-welcome-two-columns {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+}
+
+.construction-welcome-info-card {
+    padding: 20px;
+
+    border: 1px solid #E8EDF2;
+
+    border-radius: 12px;
+
+    background: #FAFCFD;
+}
+
+.construction-welcome-info-card ul {
+    margin: 14px 0 0;
+
+    padding-left: 18px;
+
+    color: #64748B;
+
+    font-size: 12.5px;
+
+    line-height: 1.9;
+}
+
+.construction-welcome-responsibility {
+    display: flex;
+
+    gap: 16px;
+
+    padding: 20px;
+
+    border: 1px solid #CDE9DF;
+
+    border-radius: 13px;
+
+    background: #F3FBF8;
+}
+
+.construction-welcome-responsibility-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #D7F3EA;
+
+    color: #146C5B;
+}
+
+.construction-welcome-responsibility-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+.construction-welcome-responsibility h3 {
+    margin: 1px 0 8px;
+
+    color: #0B2F5B;
+
+    font-size: 15px;
+}
+
+.construction-welcome-responsibility p {
+    margin: 0 0 8px;
+
+    color: #536274;
+
+    font-size: 12.5px;
+    line-height: 1.65;
+}
+
+.construction-welcome-responsibility p:last-child {
+    margin-bottom: 0;
+}
+
+.construction-welcome-disclaimer {
+    display: flex;
+
+    gap: 9px;
+
+    margin-top: 14px;
+
+    color: #64748B;
+
+    font-size: 11.5px;
+
+    line-height: 1.6;
+}
+
+.construction-welcome-disclaimer strong {
+    color: #0B2F5B;
+}
+
+
+/* =========================================================
+   SEGURIDAD
+   ========================================================= */
+
+.construction-welcome-security-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+.construction-welcome-security-card {
+    padding: 18px;
+
+    border: 1px solid #E8EDF2;
+
+    border-radius: 12px;
+
+    background: #FFFFFF;
+}
+
+.construction-welcome-security-card .construction-welcome-card-icon {
+    margin-bottom: 12px;
+}
+
+.construction-welcome-support {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-top: 18px;
+
+    padding: 18px 20px;
+
+    border-radius: 12px;
+
+    background: #F8FAFC;
+}
+
+.construction-welcome-support h3 {
+    margin: 0 0 5px;
+
+    color: #0B2F5B;
+
+    font-size: 15px;
+}
+
+.construction-welcome-support p {
+    margin: 0;
+
+    color: #64748B;
+
+    font-size: 12.5px;
+}
+
+.construction-welcome-support-types {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+
+    gap: 7px;
+}
+
+.construction-welcome-support-types span {
+    padding: 7px 10px;
+
+    border-radius: 20px;
+
+    background: white;
+
+    border: 1px solid #E2E8F0;
+
+    color: #64748B;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   SERVICIO
+   ========================================================= */
+
+.construction-welcome-service-card {
+    padding: 20px;
+
+    border: 1px solid #DCE5EA;
+
+    border-radius: 13px;
+
+    background: #FFFFFF;
+
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, .035);
+}
+
+.construction-welcome-service-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.construction-welcome-service-label {
+    display: block;
+
+    color: #64748B;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: .08em;
+}
+
+.construction-welcome-service-header h3 {
+    margin: 5px 0 0;
+
+    color: #0B2F5B;
+
+    font-size: 20px;
+}
+
+.construction-welcome-service-badge {
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    background: #E8F7ED;
+
+    color: #1F8B4D;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: .05em;
+}
+
+.construction-welcome-service-meta {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.construction-welcome-service-meta span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #94A3B8;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+}
+
+.construction-welcome-service-meta strong {
+    color: #475569;
+
+    font-size: 12.5px;
+}
+
+.construction-welcome-service-divider {
+    height: 1px;
+
+    margin: 20px 0;
+
+    background: #E8EDF2;
+}
+
+.construction-welcome-service-features {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 11px;
+}
+
+.construction-welcome-feature {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: #F0F9F5;
+
+    color: #146C5B;
+
+    font-size: 11.5px;
+}
+
+.construction-welcome-feature svg {
+    width: 14px;
+    height: 14px;
+}
+
+.construction-welcome-evolution {
+    display: flex;
+
+    gap: 14px;
+
+    margin-top: 16px;
+
+    padding: 17px;
+
+    border-radius: 12px;
+
+    background: #F8FAFC;
+}
+
+.construction-welcome-documents {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 16px;
+
+    padding: 18px 20px;
+
+    border-radius: 12px;
+
+    background: #F3F7FA;
+}
+
+.construction-welcome-documents h3 {
+    margin: 0 0 5px;
+
+    color: #0B2F5B;
+
+    font-size: 15px;
+}
+
+.construction-welcome-documents p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: #64748B;
+
+    font-size: 12.5px;
+
+    line-height: 1.6;
+}
+
+.construction-welcome-link-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #146C5B;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.construction-welcome-link-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.construction-welcome-complete {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 18px;
+
+    padding: 15px 17px;
+
+    border-radius: 11px;
+
+    background: #E8F7ED;
+}
+
+.construction-welcome-complete-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #1F8B4D;
+
+    color: white;
+}
+
+.construction-welcome-complete-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+.construction-welcome-complete h3 {
+    margin: 0 0 3px;
+
+    color: #146C5B;
+
+    font-size: 14px;
+}
+
+.construction-welcome-complete p {
+    margin: 0;
+
+    color: #4F6B60;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.construction-welcome-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 16px;
+}
+
+.construction-welcome-progress {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #64748B;
+
+    font-size: 12px;
+}
+
+.construction-welcome-progress span {
+    color: #94A3B8;
+
+    font-weight: 600;
+}
+
+.construction-welcome-progress strong {
+    color: #0B2F5B;
+}
+
+.construction-welcome-navigation {
+    display: flex;
+
+    gap: 9px;
+}
+
+.construction-welcome-btn {
+    min-width: 100px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    border: none;
+
+    font-size: 12.5px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s,
+        background .2s;
+}
+
+.construction-welcome-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.construction-welcome-btn.primary {
+    background: #0B2F5B;
+
+    color: white;
+}
+
+.construction-welcome-btn.primary:hover {
+    background: #123E70;
+}
+
+.construction-welcome-btn.secondary {
+    background: #F1F5F9;
+
+    color: #475569;
+}
+
+.construction-welcome-btn.secondary:hover {
+    background: #E2E8F0;
+}
+
+.construction-welcome-btn:disabled {
+    opacity: .4;
+
+    cursor: not-allowed;
+}
+
+.construction-welcome-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .construction-welcome-intro {
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+
+        min-height: auto;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 250px;
+    }
+
+    .construction-welcome-module-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .construction-welcome {
+        padding-bottom: 15px;
+    }
+
+    .construction-welcome-panel {
+        padding: 20px;
+    }
+
+    .construction-welcome-header h1 {
+        font-size: 24px;
+    }
+
+    .construction-welcome-step {
+        min-width: 125px;
+
+        justify-content: flex-start;
+    }
+
+    .construction-welcome-step-label {
+        font-size: 12px;
+    }
+
+    .construction-welcome-module-grid,
+    .construction-welcome-two-columns,
+    .construction-welcome-security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .construction-welcome-service-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .construction-welcome-support,
+    .construction-welcome-documents {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .construction-welcome-support-types {
+        justify-content: flex-start;
+    }
+
+    .construction-welcome-footer {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .construction-welcome-navigation {
+        width: 100%;
+    }
+
+    .construction-welcome-btn {
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .construction-welcome-panel {
+        padding: 16px;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 210px;
+    }
+
+    .construction-welcome-cube {
+        width: 105px;
+        height: 105px;
+    }
+
+    .construction-welcome-cube-inner {
+        width: 70px;
+        height: 70px;
+
+        font-size: 30px;
+    }
+
+    .construction-welcome-section-heading h2,
+    .construction-welcome-intro-copy h2 {
+        font-size: 21px;
+    }
+
+    .construction-welcome-responsibility {
+        flex-direction: column;
+    }
+
+}
