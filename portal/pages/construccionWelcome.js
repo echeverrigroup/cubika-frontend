@@ -851,7 +851,7 @@ function getStepContent(step) {
                                 </span>
 
                                 <h3>
-                                    Construcción
+                                    CONSTRUCCIÓN - GESTOR DE DOCUMENTOS
                                 </h3>
 
                             </div>
