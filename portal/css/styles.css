@@ -2099,11 +2099,11 @@ EDITOR DOCUMENTAL
     }
 
     .logo {
-        height: 55px;
+        height: 52px;
     }
 
    .user-menu .user-card {
-    width: min(240px, calc(100vw - 20px));
+    width: min(210px, calc(100vw - 20px));
     }
 
     .content {
