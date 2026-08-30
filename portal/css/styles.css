@@ -1531,6 +1531,18 @@ EDITOR DOCUMENTAL
         align-items: center;
     }
 
+    /* Logo centrado en navbar móvil */
+
+        .navbar {
+            position: relative;
+        }
+        
+        .navbar .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
     .mobile-menu-btn {
         display: inline-flex;
         align-items: center;
