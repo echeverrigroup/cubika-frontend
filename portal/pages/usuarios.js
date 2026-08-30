@@ -537,9 +537,6 @@ function obtenerFormularioUsuario(
         <form id="formUsuario">
 
 
-            <div class="empresa-layout">
-
-
                 <!-- DATOS DEL USUARIO -->
 
                 <div class="empresa-section">
@@ -760,8 +757,6 @@ function obtenerFormularioUsuario(
 
                 </div>
 
-
-            </div>
 
 
             <div
