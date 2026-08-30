@@ -538,7 +538,7 @@ function getStepContent(step) {
                             Los módulos de Cubika están diseñados para compartir información y evitar duplicaciones entre procesos.
 
                             <br>Por ejemplo, los datos gestionados en este <strong>Gestor Documental</strong> pueden utilizarse posteriormente en <strong>Asistencia y Remuneraciones</strong>.
-                            <br>Puedes incorporar nuevos módulos según las necesidades de tu operación.
+                            <br><br>Puedes incorporar nuevos módulos según las necesidades de tu operación.
                         </span>
 
                     </div>
