@@ -279,7 +279,7 @@ export function renderConstructionWelcome() {
                 <div>
 
                     <div class="construction-welcome-eyebrow">
-                        Resumen · MODULO: CONSTRUCCIÓN
+                        Resumen  ·  MODULO: CONSTRUCCIÓN
                     </div>
 
                     <h1>
