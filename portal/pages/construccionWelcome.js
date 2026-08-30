@@ -439,8 +439,13 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-copy">
 
                         <span class="construction-welcome-kicker">
-                            MODULO: <strong>  Gestor Documental</strong>
+                            MODULO:
                         </span>
+
+                        <span class="construction-welcome-header p">
+                                Gestor Documental
+                        </span>
+
 
                         <h2>
                             Una forma más simple de gestionar tu operación.
