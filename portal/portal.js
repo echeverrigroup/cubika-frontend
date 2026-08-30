@@ -158,7 +158,7 @@ async function init() {
 
     });
     
-     navigate("construccionWelcome");
+     navigate("construction_welcome");
 
     const dashboardItem =
     document.querySelector(
