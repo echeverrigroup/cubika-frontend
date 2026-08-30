@@ -1,8 +1,8 @@
 import { usuariosService }
 from "../services/usuariosService.js";
 
-import { empresasService }
-from "../services/empresasService.js";
+import { usuariosEmpresasService }
+from "../services/usuariosEmpresasService.js";
 
 import {
 
@@ -135,7 +135,7 @@ async function cargarDatos() {
 
 
         empresas =
-            await empresasService.getAll();
+            await usuariosEmpresasService.getAll();
 
 
         renderTabla();
@@ -495,7 +495,7 @@ async function mostrarFormularioNuevoUsuario() {
     if (!empresas.length) {
 
         empresas =
-            await empresasService.getAll();
+            await usuariosEmpresasService.getAll();
 
     }
 
