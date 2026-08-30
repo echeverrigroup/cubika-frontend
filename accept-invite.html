@@ -56,7 +56,6 @@
         Arial,
         Helvetica,
         sans-serif;
-
     }
 
 
@@ -80,7 +79,6 @@
 
       box-shadow:
         0 18px 45px rgba(15, 23, 42, 0.08);
-
     }
 
 
@@ -93,7 +91,6 @@
       text-align: center;
 
       margin-bottom: 28px;
-
     }
 
 
@@ -101,12 +98,11 @@
 
       width: 145px;
 
-      max-width: 70%;
+      max-width: 80%;
 
       height: auto;
 
       margin-bottom: 18px;
-
     }
 
 
@@ -123,7 +119,6 @@
       letter-spacing: -0.3px;
 
       color: #102a43;
-
     }
 
 
@@ -136,7 +131,6 @@
       line-height: 1.5;
 
       color: #64748b;
-
     }
 
 
@@ -157,24 +151,6 @@
       border: 1px solid #e2e8f0;
 
       border-radius: 10px;
-
-    }
-
-
-    .info-title {
-
-      margin-bottom: 13px;
-
-      font-size: 11px;
-
-      font-weight: 700;
-
-      letter-spacing: 0.8px;
-
-      text-transform: uppercase;
-
-      color: #64748b;
-
     }
 
 
@@ -187,41 +163,12 @@
       gap: 12px;
 
       padding: 7px 0;
-
     }
 
 
     .info-row + .info-row {
 
       border-top: 1px solid #e9eef3;
-
-    }
-
-
-    .info-icon {
-
-      width: 28px;
-
-      height: 28px;
-
-      flex: 0 0 28px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      border-radius: 7px;
-
-      background: #eef4ff;
-
-      color: #2563eb;
-
-      font-size: 13px;
-
-      font-weight: 700;
-
     }
 
 
@@ -230,7 +177,6 @@
       min-width: 0;
 
       flex: 1;
-
     }
 
 
@@ -243,7 +189,6 @@
       font-size: 11px;
 
       color: #94a3b8;
-
     }
 
 
@@ -258,7 +203,6 @@
       color: #1e293b;
 
       overflow-wrap: anywhere;
-
     }
 
 
@@ -267,7 +211,6 @@
       font-weight: 600;
 
       color: #102a43;
-
     }
 
 
@@ -278,7 +221,6 @@
     .form-header {
 
       margin-bottom: 18px;
-
     }
 
 
@@ -291,7 +233,6 @@
       font-weight: 700;
 
       color: #102a43;
-
     }
 
 
@@ -302,7 +243,6 @@
       font-size: 13px;
 
       color: #64748b;
-
     }
 
 
@@ -313,7 +253,6 @@
     .form-group {
 
       margin-bottom: 18px;
-
     }
 
 
@@ -328,7 +267,18 @@
       font-weight: 500;
 
       color: #334155;
+    }
 
+
+    /*
+     * Contenedor especial para inputs de contraseña
+     */
+
+    .password-wrapper {
+
+      position: relative;
+
+      width: 100%;
     }
 
 
@@ -356,14 +306,23 @@
         border-color 0.2s ease,
         box-shadow 0.2s ease,
         background 0.2s ease;
+    }
 
+
+    /*
+     * Dejamos espacio para el icono
+     * cuando el input es de contraseña.
+     */
+
+    .password-wrapper input {
+
+      padding-right: 46px;
     }
 
 
     input::placeholder {
 
       color: #94a3b8;
-
     }
 
 
@@ -375,7 +334,6 @@
 
       box-shadow:
         0 0 0 3px rgba(37, 99, 235, 0.10);
-
     }
 
 
@@ -385,7 +343,6 @@
 
       box-shadow:
         0 0 0 3px rgba(220, 38, 38, 0.08);
-
     }
 
 
@@ -395,7 +352,92 @@
 
       box-shadow:
         0 0 0 3px rgba(22, 163, 74, 0.08);
+    }
 
+
+    /* ==================================================
+       TOGGLE PASSWORD
+       ================================================== */
+
+    .password-toggle {
+
+      position: absolute;
+
+      top: 50%;
+
+      right: 10px;
+
+      transform: translateY(-50%);
+
+      width: 32px;
+
+      height: 32px;
+
+      margin: 0;
+
+      padding: 0;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border: none;
+
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #64748b;
+
+      cursor: pointer;
+
+      box-shadow: none;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .password-toggle:hover {
+
+      background: #f1f5f9;
+
+      color: #2563eb;
+
+      box-shadow: none;
+    }
+
+
+    .password-toggle:active {
+
+      transform:
+        translateY(-50%);
+    }
+
+
+    .password-toggle:focus {
+
+      outline: none;
+
+      background: #eff6ff;
+
+      color: #2563eb;
+
+      box-shadow:
+        0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
+
+
+    .password-toggle svg {
+
+      width: 18px;
+
+      height: 18px;
+
+      display: block;
     }
 
 
@@ -412,7 +454,6 @@
       line-height: 1.45;
 
       color: #64748b;
-
     }
 
 
@@ -425,7 +466,6 @@
       gap: 7px;
 
       margin-top: 10px;
-
     }
 
 
@@ -453,7 +493,6 @@
         color 0.2s ease,
         background 0.2s ease,
         border-color 0.2s ease;
-
     }
 
 
@@ -462,7 +501,6 @@
       font-size: 10px;
 
       font-weight: 700;
-
     }
 
 
@@ -473,7 +511,6 @@
       border-color: #bbf7d0;
 
       color: #15803d;
-
     }
 
 
@@ -488,29 +525,26 @@
       margin-top: 7px;
 
       font-size: 12px;
-
     }
 
 
     .match-message.success {
 
       color: #15803d;
-
     }
 
 
     .match-message.error {
 
       color: #dc2626;
-
     }
 
 
     /* ==================================================
-       BUTTON
+       BUTTON PRINCIPAL
        ================================================== */
 
-    button {
+    form > button[type="submit"] {
 
       width: 100%;
 
@@ -539,35 +573,31 @@
         transform 0.15s ease,
         box-shadow 0.2s ease,
         opacity 0.2s ease;
-
     }
 
 
-    button:hover:not(:disabled) {
+    form > button[type="submit"]:hover:not(:disabled) {
 
       background: #1d4ed8;
 
       box-shadow:
         0 5px 14px rgba(37, 99, 235, 0.20);
-
     }
 
 
-    button:active:not(:disabled) {
+    form > button[type="submit"]:active:not(:disabled) {
 
       transform: translateY(1px);
-
     }
 
 
-    button:disabled {
+    form > button[type="submit"]:disabled {
 
       background: #94a3b8;
 
       cursor: not-allowed;
 
       box-shadow: none;
-
     }
 
 
@@ -576,7 +606,6 @@
       opacity: 0.85;
 
       pointer-events: none;
-
     }
 
 
@@ -597,7 +626,6 @@
       font-size: 13px;
 
       line-height: 1.5;
-
     }
 
 
@@ -608,7 +636,6 @@
       border: 1px solid #fecaca;
 
       color: #b91c1c;
-
     }
 
 
@@ -619,7 +646,6 @@
       border: 1px solid #bbf7d0;
 
       color: #166534;
-
     }
 
 
@@ -630,7 +656,6 @@
       border: 1px solid #bfdbfe;
 
       color: #1d4ed8;
-
     }
 
 
@@ -647,7 +672,6 @@
       justify-content: center;
 
       gap: 9px;
-
     }
 
 
@@ -664,14 +688,15 @@
       border-radius: 50%;
 
       animation: spin 0.8s linear infinite;
-
     }
 
 
     @keyframes spin {
 
       to {
+
         transform: rotate(360deg);
+
       }
 
     }
@@ -696,7 +721,6 @@
       line-height: 1.5;
 
       color: #94a3b8;
-
     }
 
 
@@ -705,7 +729,6 @@
       color: #64748b;
 
       font-weight: 600;
-
     }
 
 
@@ -716,7 +739,6 @@
     #activateForm {
 
       display: none;
-
     }
 
 
@@ -731,7 +753,6 @@
         padding: 14px;
 
         align-items: flex-start;
-
       }
 
 
@@ -742,35 +763,30 @@
         padding: 30px 22px 24px;
 
         border-radius: 12px;
-
       }
 
 
       .header h1 {
 
         font-size: 22px;
-
       }
 
 
       .logo {
 
         width: 135px;
-
       }
 
 
       .password-requirements {
 
         gap: 5px;
-
       }
 
 
       .requirement {
 
         font-size: 10px;
-
       }
 
     }
@@ -798,12 +814,14 @@
         alt="Cubika - Soluciones Logísticas"
       />
 
+
       <h1>
         Activa tu cuenta
       </h1>
 
+
       <p>
-        Completa tus datos para comenzar a usar Cubika
+        y comienza a usar tu plataforma.
       </p>
 
     </div>
@@ -858,7 +876,7 @@
 
       <div class="info-row">
 
-       <div class="info-content">
+        <div class="info-content">
 
           <span class="info-label">
             Empresa
@@ -876,7 +894,7 @@
 
       <div class="info-row">
 
-       <div class="info-content">
+        <div class="info-content">
 
           <span class="info-label">
             Cargo
@@ -890,6 +908,7 @@
         </div>
 
       </div>
+
 
     </div>
 
@@ -949,7 +968,9 @@
       </div>
 
 
-      <!-- CONTRASEÑA -->
+      <!-- ==================================================
+           CONTRASEÑA
+           ================================================== -->
 
       <div class="form-group">
 
@@ -957,29 +978,78 @@
           Contraseña
         </label>
 
-        <input
-          type="password"
-          id="password"
-          placeholder="Ingresa una contraseña segura"
-          autocomplete="new-password"
-          required
-        />
+
+        <div class="password-wrapper">
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Ingresa una contraseña segura"
+            autocomplete="new-password"
+            required
+          />
+
+
+          <button
+            type="button"
+            class="password-toggle"
+            id="togglePassword"
+            aria-label="Mostrar contraseña"
+            title="Mostrar contraseña"
+          >
+
+            <!-- OJO CERRADO -->
+
+            <svg
+              id="eyePassword"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+
+              <path
+                d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="2.5"
+              />
+
+            </svg>
+
+          </button>
+
+        </div>
 
 
         <div class="password-hint">
+
           Mínimo 10 caracteres. Se recomienda combinar letras,
           números y símbolos.
+
         </div>
 
 
         <div class="password-requirements">
 
+
           <div
             class="requirement"
             id="reqLength"
           >
-            <span class="requirement-icon">✓</span>
+
+            <span class="requirement-icon">
+              ✓
+            </span>
+
             10 caracteres
+
           </div>
 
 
@@ -987,8 +1057,13 @@
             class="requirement"
             id="reqLetter"
           >
-            <span class="requirement-icon">✓</span>
+
+            <span class="requirement-icon">
+              ✓
+            </span>
+
             Letras
+
           </div>
 
 
@@ -996,8 +1071,13 @@
             class="requirement"
             id="reqNumber"
           >
-            <span class="requirement-icon">✓</span>
+
+            <span class="requirement-icon">
+              ✓
+            </span>
+
             Números
+
           </div>
 
 
@@ -1005,16 +1085,24 @@
             class="requirement"
             id="reqSymbol"
           >
-            <span class="requirement-icon">✓</span>
+
+            <span class="requirement-icon">
+              ✓
+            </span>
+
             Símbolos
+
           </div>
+
 
         </div>
 
       </div>
 
 
-      <!-- CONFIRMAR -->
+      <!-- ==================================================
+           CONFIRMAR CONTRASEÑA
+           ================================================== -->
 
       <div class="form-group">
 
@@ -1022,13 +1110,52 @@
           Confirmar contraseña
         </label>
 
-        <input
-          type="password"
-          id="confirmPassword"
-          placeholder="Repite tu contraseña"
-          autocomplete="new-password"
-          required
-        />
+
+        <div class="password-wrapper">
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Repite tu contraseña"
+            autocomplete="new-password"
+            required
+          />
+
+
+          <button
+            type="button"
+            class="password-toggle"
+            id="toggleConfirmPassword"
+            aria-label="Mostrar contraseña"
+            title="Mostrar contraseña"
+          >
+
+            <svg
+              id="eyeConfirmPassword"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+
+              <path
+                d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="2.5"
+              />
+
+            </svg>
+
+          </button>
+
+        </div>
 
 
         <div
@@ -1040,9 +1167,7 @@
 
 
       <button type="submit">
-
         Activar mi cuenta
-
       </button>
 
 
@@ -1055,7 +1180,8 @@
 
     <div class="footer">
 
-      <strong>Cubika</strong> · Soluciones Logísticas
+      <strong>Cubika</strong>
+      · Soluciones Logísticas
 
       <br />
 
@@ -1067,13 +1193,11 @@
   </div>
 
 
-
   <!-- ====================================================
        JAVASCRIPT
        ==================================================== -->
 
   <script type="module">
-
 
     import { supabase }
     from "./js/supabaseClient.js";
@@ -1131,10 +1255,139 @@
       );
 
 
+    const togglePassword =
+      document.getElementById(
+        "togglePassword"
+      );
+
+
+    const toggleConfirmPassword =
+      document.getElementById(
+        "toggleConfirmPassword"
+      );
+
+
+    const eyePassword =
+      document.getElementById(
+        "eyePassword"
+      );
+
+
+    const eyeConfirmPassword =
+      document.getElementById(
+        "eyeConfirmPassword"
+      );
+
+
+    /* ==================================================
+       ICONOS OJO
+       ================================================== */
+
+    const eyeOpen = `
+
+      <path
+        d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+      />
+
+      <circle
+        cx="12"
+        cy="12"
+        r="2.5"
+      />
+
+    `;
+
+
+    const eyeClosed = `
+
+      <path
+        d="M3 3l18 18"
+      />
+
+      <path
+        d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+      />
+
+      <path
+        d="M9.9 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a18.2 18.2 0 0 1-3.1 3.9"
+      />
+
+      <path
+        d="M6.2 6.2C3.5 8.2 2 12 2 12s3.5 7 10 7c1.7 0 3.1-.4 4.4-1"
+      />
+
+    `;
+
+
+    /* ==================================================
+       MOSTRAR / OCULTAR CONTRASEÑA
+       ================================================== */
+
+    function togglePasswordVisibility(
+      input,
+      button,
+      icon
+    ) {
+
+      const isPassword =
+        input.type === "password";
+
+
+      input.type =
+        isPassword
+          ? "text"
+          : "password";
+
+
+      icon.innerHTML =
+        isPassword
+          ? eyeClosed
+          : eyeOpen;
+
+
+      button.setAttribute(
+        "aria-label",
+        isPassword
+          ? "Ocultar contraseña"
+          : "Mostrar contraseña"
+      );
+
+
+      button.setAttribute(
+        "title",
+        isPassword
+          ? "Ocultar contraseña"
+          : "Mostrar contraseña"
+      );
+
+    }
+
+
+    togglePassword.addEventListener(
+      "click",
+      () =>
+        togglePasswordVisibility(
+          password,
+          togglePassword,
+          eyePassword
+        )
+    );
+
+
+    toggleConfirmPassword.addEventListener(
+      "click",
+      () =>
+        togglePasswordVisibility(
+          confirmPassword,
+          toggleConfirmPassword,
+          eyeConfirmPassword
+        )
+    );
+
+
     /* ==================================================
        UTILIDADES
        ================================================== */
-
 
     function showMessage(
       type,
@@ -1197,20 +1450,25 @@
     }
 
 
-
     function setLoading(
       isLoading
     ) {
 
       const button =
         activateForm.querySelector(
-          "button"
+          "button[type='submit']"
         );
 
 
       const inputs =
         activateForm.querySelectorAll(
           "input"
+        );
+
+
+      const toggleButtons =
+        activateForm.querySelectorAll(
+          ".password-toggle"
         );
 
 
@@ -1235,7 +1493,14 @@
             input.disabled = true
         );
 
+
+        toggleButtons.forEach(
+          toggle =>
+            toggle.disabled = true
+        );
+
       }
+
 
       else {
 
@@ -1256,10 +1521,15 @@
             input.disabled = false
         );
 
+
+        toggleButtons.forEach(
+          toggle =>
+            toggle.disabled = false
+        );
+
       }
 
     }
-
 
 
     function clearErrors() {
@@ -1279,11 +1549,9 @@
     }
 
 
-
     /* ==================================================
        REQUISITOS DE CONTRASEÑA
        ================================================== */
-
 
     function actualizarRequisitosPassword() {
 
@@ -1317,7 +1585,6 @@
     }
 
 
-
     function actualizarRequisito(
       id,
       valido
@@ -1339,11 +1606,11 @@
     }
 
 
-
     function actualizarCoincidencia() {
 
       const pass =
         password.value;
+
 
       const confirm =
         confirmPassword.value;
@@ -1351,6 +1618,7 @@
 
       matchMessage.textContent =
         "";
+
 
       matchMessage.className =
         "match-message";
@@ -1375,9 +1643,11 @@
         matchMessage.textContent =
           "Las contraseñas coinciden.";
 
+
         matchMessage.classList.add(
           "success"
         );
+
 
         confirmPassword.classList.add(
           "input-valid"
@@ -1385,14 +1655,17 @@
 
       }
 
+
       else {
 
         matchMessage.textContent =
           "Las contraseñas no coinciden.";
 
+
         matchMessage.classList.add(
           "error"
         );
+
 
         confirmPassword.classList.add(
           "input-error"
@@ -1401,7 +1674,6 @@
       }
 
     }
-
 
 
     password.addEventListener(
@@ -1419,7 +1691,6 @@
     /* ==================================================
        CARGAR INFORMACIÓN DE LA INVITACIÓN
        ================================================== */
-
 
     async function cargarInvitacion() {
 
@@ -1648,11 +1919,9 @@
     }
 
 
-
     /* ==================================================
        ACTIVAR CUENTA
        ================================================== */
-
 
     activateForm.addEventListener(
       "submit",
@@ -1732,7 +2001,6 @@
 
 
         try {
-
 
           setLoading(true);
 
@@ -1885,7 +2153,6 @@
        ================================================== */
 
     cargarInvitacion();
-
 
   </script>
 
