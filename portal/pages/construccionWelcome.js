@@ -297,7 +297,7 @@ export function renderConstructionWelcome() {
                 <div>
 
                     <div class="construction-welcome-eyebrow">
-                        GUÍA DE INICIO · MÓDULO CONSTRUCCIÓN
+                        GUÍA DE INICIO · ÁREA CONSTRUCCIÓN
                     </div>
 
                     <h1>
@@ -439,7 +439,7 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-copy">
 
                         <span class="construction-welcome-kicker">
-                            CONSTRUCCIÓN - Gestor Documental
+                            MODULO: <strong>- Gestor Documental -</strong>
                         </span>
 
                         <h2>
