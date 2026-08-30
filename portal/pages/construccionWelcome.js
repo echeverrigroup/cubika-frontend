@@ -26,8 +26,14 @@ let currentStep = 0;
 | CONFIGURACIÓN
 |--------------------------------------------------------------------------
 |
-| Por ahora estos valores son estáticos.
-| Posteriormente podrán venir desde Supabase según el servicio contratado.
+| Estos datos son actualmente demostrativos.
+| Posteriormente podrán venir desde Supabase según:
+|
+| - empresa
+| - servicio contratado
+| - módulos habilitados
+| - cantidad de usuarios
+| - vigencia
 |
 |--------------------------------------------------------------------------
 */
@@ -59,10 +65,6 @@ const steps = [
 /*
 |--------------------------------------------------------------------------
 | ICONOS SVG
-|--------------------------------------------------------------------------
-|
-| Se utilizan SVG neutros para mantener el ADN visual del Portal.
-|
 |--------------------------------------------------------------------------
 */
 
@@ -270,36 +272,28 @@ export function renderConstructionWelcome() {
 
         <section class="construction-welcome">
 
-            <!-- =====================================================
-                 ENCABEZADO
-                 ===================================================== -->
-
             <div class="construction-welcome-header">
 
                 <div>
 
                     <div class="construction-welcome-eyebrow">
-                        Resumen  ·  MODULO: CONSTRUCCIÓN
+                        GUÍA DE INICIO · MÓDULO CONSTRUCCIÓN
                     </div>
 
                     <h1>
-                        ¡Bienvenido(a)  ${userName}!
+                        ¡Bienvenido(a), ${userName}!
                     </h1>
 
                     <p>
-                        Antes de comenzar, queremos mostrarte
-                        algunos aspectos importantes de tu espacio
-                        de trabajo.
+                        Antes de comenzar, queremos mostrarte algunos
+                        aspectos importantes sobre tu espacio de trabajo,
+                        tu servicio y el uso de Cubika.
                     </p>
 
                 </div>
 
             </div>
 
-
-            <!-- =====================================================
-                 NAVEGACIÓN DEL WIZARD
-                 ===================================================== -->
 
             <nav
                 class="construction-welcome-steps"
@@ -312,7 +306,8 @@ export function renderConstructionWelcome() {
                         class="construction-welcome-step ${
                             index === 0 ? "active" : ""
                         }"
-                        data-welcome-step="${index}">
+                        data-welcome-step="${index}"
+                        aria-label="Paso ${step.number}: ${step.label}">
 
                         <span class="construction-welcome-step-number">
                             ${step.number}
@@ -329,19 +324,11 @@ export function renderConstructionWelcome() {
             </nav>
 
 
-            <!-- =====================================================
-                 CONTENEDOR DEL CONTENIDO
-                 ===================================================== -->
-
             <div
                 id="constructionWelcomeContent"
                 class="construction-welcome-panel">
             </div>
 
-
-            <!-- =====================================================
-                 FOOTER / NAVEGACIÓN
-                 ===================================================== -->
 
             <div class="construction-welcome-footer">
 
@@ -432,23 +419,24 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-copy">
 
                         <span class="construction-welcome-kicker">
-                            TU ESPACIO DE TRABAJO
+                            BIENVENIDO A CUBIKA
                         </span>
 
                         <h2>
-                            Construcción, más simple y conectada.
+                            Una forma más simple de gestionar tu operación.
                         </h2>
 
                         <p>
-                            Cubika centraliza la información y los
-                            procesos administrativos relacionados con
-                            tus empresas, trabajadores y obras.
+                            Cubika es la infraestructura tecnológica que
+                            permite centralizar y conectar distintos procesos
+                            administrativos de tu operación.
                         </p>
 
                         <p>
-                            Desde un mismo espacio podrás organizar
-                            información, gestionar procesos y generar
-                            documentos de forma más ordenada y trazable.
+                            En el módulo Construcción podrás organizar
+                            información de empresas, trabajadores, obras,
+                            cargos y procesos documentales desde un mismo
+                            espacio.
                         </p>
 
 
@@ -489,13 +477,13 @@ function getStepContent(step) {
                         </span>
 
                         <h2>
-                            Todo lo que necesitas, en un solo lugar.
+                            Todo lo que necesitas, conectado.
                         </h2>
 
                         <p>
                             El módulo Construcción reúne los principales
                             elementos de tu gestión administrativa y los
-                            conecta entre sí.
+                            relaciona dentro de una misma estructura.
                         </p>
 
                     </div>
@@ -536,7 +524,7 @@ function getStepContent(step) {
                         ${moduleCard(
                             icons.document,
                             "Motor Documental",
-                            "Genera documentos utilizando plantillas y datos disponibles."
+                            "Genera documentos utilizando plantillas y datos disponibles en la plataforma."
                         )}
 
                     </div>
@@ -547,8 +535,9 @@ function getStepContent(step) {
                         ${icons.settings}
 
                         <span>
-                            Los módulos trabajan sobre una misma estructura
-                            de información para reducir duplicaciones y tareas manuales.
+                            Los módulos comparten una misma estructura de
+                            información para reducir duplicaciones y tareas
+                            manuales.
                         </span>
 
                     </div>
@@ -581,9 +570,10 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            Cubika proporciona la infraestructura tecnológica
-                            para gestionar tu operación. Tu organización mantiene
-                            el control sobre la información y las decisiones que toma.
+                            La información que ingresas y gestionas en Cubika
+                            corresponde a tu organización. Cubika proporciona
+                            la infraestructura tecnológica necesaria para
+                            procesarla y prestar el servicio contratado.
                         </p>
 
                     </div>
@@ -602,11 +592,27 @@ function getStepContent(step) {
                             </h3>
 
                             <ul>
-                                <li>Qué información ingresas.</li>
-                                <li>Qué usuarios tienen acceso.</li>
-                                <li>Qué parámetros utilizas.</li>
-                                <li>Qué documentos generas.</li>
-                                <li>Qué decisiones tomas.</li>
+
+                                <li>
+                                    Qué información ingresas.
+                                </li>
+
+                                <li>
+                                    Qué usuarios tienen acceso.
+                                </li>
+
+                                <li>
+                                    Qué datos y parámetros utilizas.
+                                </li>
+
+                                <li>
+                                    Qué documentos generas.
+                                </li>
+
+                                <li>
+                                    Qué decisiones tomas a partir de esa información.
+                                </li>
+
                             </ul>
 
                         </div>
@@ -623,11 +629,27 @@ function getStepContent(step) {
                             </h3>
 
                             <ul>
-                                <li>La plataforma.</li>
-                                <li>La infraestructura tecnológica.</li>
-                                <li>Las herramientas de gestión.</li>
-                                <li>La generación automatizada.</li>
-                                <li>La trazabilidad del sistema.</li>
+
+                                <li>
+                                    La plataforma.
+                                </li>
+
+                                <li>
+                                    La infraestructura tecnológica.
+                                </li>
+
+                                <li>
+                                    Las herramientas de gestión.
+                                </li>
+
+                                <li>
+                                    La automatización disponible.
+                                </li>
+
+                                <li>
+                                    La trazabilidad propia del sistema.
+                                </li>
+
                             </ul>
 
                         </div>
@@ -644,28 +666,28 @@ function getStepContent(step) {
                         <div>
 
                             <h3>
-                                Cubika genera. Tú revisas.
+                                Los documentos generados requieren tu revisión.
                             </h3>
 
                             <p>
                                 Cubika proporciona la infraestructura tecnológica
-                                para generar documentos utilizando las plantillas,
+                                para generar documentos a partir de las plantillas,
                                 datos y configuraciones disponibles en la plataforma.
                             </p>
 
                             <p>
                                 La generación automática de un documento
                                 <strong>
-                                    no constituye una certificación de su validez
-                                    o adecuación legal por parte de Cubika.
+                                    no constituye una certificación de su validez,
+                                    suficiencia o adecuación legal por parte de Cubika.
                                 </strong>
                             </p>
 
                             <p>
-                                Antes de utilizar, firmar o entregar un documento,
-                                corresponde a tu organización revisar su contenido
-                                y determinar si resulta adecuado para su propósito
-                                y obligaciones.
+                                Antes de utilizar, firmar, presentar o entregar
+                                un documento, corresponde a tu organización
+                                revisar su contenido y determinar si es adecuado
+                                para el propósito correspondiente.
                             </p>
 
                         </div>
@@ -845,6 +867,7 @@ function getStepContent(step) {
                         <div class="construction-welcome-service-meta">
 
                             <div>
+
                                 <span>
                                     Inicio
                                 </span>
@@ -852,9 +875,12 @@ function getStepContent(step) {
                                 <strong>
                                     Según contrato
                                 </strong>
+
                             </div>
 
+
                             <div>
+
                                 <span>
                                     Vigencia
                                 </span>
@@ -862,9 +888,12 @@ function getStepContent(step) {
                                 <strong>
                                     Según contrato
                                 </strong>
+
                             </div>
 
+
                             <div>
+
                                 <span>
                                     Usuarios
                                 </span>
@@ -872,6 +901,7 @@ function getStepContent(step) {
                                 <strong>
                                     Según servicio
                                 </strong>
+
                             </div>
 
                         </div>
@@ -883,8 +913,9 @@ function getStepContent(step) {
                         <div>
 
                             <span class="construction-welcome-service-label">
-                                FUNCIONALIDADES
+                                FUNCIONALIDADES DISPONIBLES
                             </span>
+
 
                             <div class="construction-welcome-service-features">
 
@@ -915,15 +946,17 @@ function getStepContent(step) {
                             </h3>
 
                             <p>
-                                Tu experiencia puede ayudarnos a mejorar el producto.
-                                Puedes compartir sugerencias, reportar problemas o
-                                plantear nuevas necesidades.
+                                Tu experiencia puede ayudarnos a mejorar
+                                el producto. Puedes compartir sugerencias,
+                                reportar problemas o plantear nuevas necesidades.
                             </p>
 
                             <p>
-                                Las funcionalidades, mejoras y desarrollos que
-                                forman parte de Cubika permanecen bajo propiedad
-                                de Cubika.
+                                El feedback de nuestros clientes puede influir
+                                en la evolución de Cubika, pero las funcionalidades,
+                                mejoras, desarrollos, infraestructura y conocimiento
+                                que forman parte de la plataforma permanecen bajo
+                                propiedad de Cubika.
                             </p>
 
                         </div>
@@ -940,13 +973,14 @@ function getStepContent(step) {
                             </span>
 
                             <h3>
-                                ¿Quieres conocer todos los detalles?
+                                Toda la información importante, siempre disponible.
                             </h3>
 
                             <p>
+                                Esta guía es un resumen para comenzar.
                                 La documentación contractual, legal y técnica
-                                de tu servicio estará disponible permanentemente
-                                desde el menú lateral.
+                                aplicable a tu servicio estará disponible
+                                permanentemente desde el menú lateral.
                             </p>
 
                         </div>
@@ -979,8 +1013,9 @@ function getStepContent(step) {
                             </h3>
 
                             <p>
-                                Ahora conoces los aspectos principales
-                                de tu servicio Cubika.
+                                Has revisado los aspectos principales de tu
+                                servicio Cubika. La documentación completa
+                                seguirá disponible desde tu panel.
                             </p>
 
                         </div>
@@ -1110,6 +1145,7 @@ function bindEvents() {
                             button.dataset.welcomeStep
                         );
 
+
                     if (
                         Number.isInteger(step) &&
                         step >= 0 &&
@@ -1167,10 +1203,14 @@ function bindEvents() {
                 ------------------------------------------------------
                 FINALIZAR
                 ------------------------------------------------------
-                |
-                | Como todavía no existe un dashboard específico
-                | de Construcción, dirigimos al primer módulo operativo.
-                |
+
+                Por ahora dirigimos al primer módulo operativo.
+                Posteriormente aquí podremos:
+
+                1. Registrar onboarding completado.
+                2. Guardar versión de la guía aceptada.
+                3. Registrar fecha/hora.
+                4. Dirigir al dashboard de Construcción.
                 ------------------------------------------------------
                 */
 
@@ -1195,6 +1235,7 @@ function renderStep() {
             "constructionWelcomeContent"
         );
 
+
     if (!container) return;
 
 
@@ -1217,6 +1258,7 @@ function renderStep() {
                 index === currentStep
             );
 
+
             button.classList.toggle(
                 "completed",
                 index < currentStep
@@ -1235,6 +1277,7 @@ function renderStep() {
         document.getElementById(
             "constructionWelcomeProgress"
         );
+
 
     if (progress) {
 
@@ -1266,6 +1309,7 @@ function renderStep() {
             "constructionWelcomeBack"
         );
 
+
     if (backBtn) {
 
         backBtn.disabled =
@@ -1284,6 +1328,7 @@ function renderStep() {
         document.getElementById(
             "constructionWelcomeNext"
         );
+
 
     if (nextBtn) {
 
@@ -1321,11 +1366,9 @@ function renderStep() {
             () => {
 
                 /*
-                 * Por ahora dejamos preparado el punto
-                 * de navegación.
+                 * Punto preparado para futura integración.
                  *
-                 * Cuando exista la página "documentacion",
-                 * se reemplazará por:
+                 * Cuando exista la página correspondiente:
                  *
                  * navigate("documentacion");
                  */
