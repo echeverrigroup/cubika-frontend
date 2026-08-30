@@ -870,8 +870,8 @@ function getStepContent(step) {
 
                             <div>
 
-                                <span class="construction-welcome-service-label">
-                                    <h4>MÓDULO CONTRATADO - CONSTRUCCIÓN</h4>
+                                <span class="construction-welcome-service-label" font-size: 12px;>
+                                    MÓDULO CONTRATADO - CONSTRUCCIÓN
                                 </span>
 
                                 <h3>
