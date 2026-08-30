@@ -222,6 +222,13 @@ input {
   </div>
 
 
+<script type="module">
+  import { supabase } from "./js/supabaseClient.js";
+
+  window.supabaseClient = supabase;
+</script>
+
+
 <script>
   function setLoading(form, isLoading, loadingText = "Procesando...") {
     const button = form.querySelector("button");
@@ -255,38 +262,429 @@ input {
   }
 </script>
 
-<script>
-  const activateForm = document.getElementById("activateForm");
 
-  activateForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+<script type="module">
 
-    clearErrors(activateForm);
+  import { supabase }
+  from "./js/supabaseClient.js";
 
-    const pass = document.getElementById("password");
-    const confirm = document.getElementById("confirmPassword");
 
-    if (pass.value.length < 10) {
-      pass.classList.add("input-error");
-      return;
+  const activateForm =
+    document.getElementById("activateForm");
+
+  const pass =
+    document.getElementById("password");
+
+  const confirm =
+    document.getElementById("confirmPassword");
+
+
+  /*
+  =========================================
+  MOSTRAR DATOS DEL USUARIO INVITADO
+  =========================================
+  */
+
+  async function cargarInvitacion() {
+
+    try {
+
+      const {
+        data: {
+          session
+        }
+      } =
+        await supabase.auth.getSession();
+
+
+      if (!session) {
+
+        showMessage("errorMessage");
+
+        activateForm.style.display = "none";
+
+        return;
+
+      }
+
+
+      const user =
+        session.user;
+
+
+      /*
+      Correo real proveniente de Auth
+      */
+
+      const email =
+        user.email || "";
+
+
+      document
+        .getElementById("userEmail")
+        .textContent = email;
+
+
+      /*
+      =========================================
+      BUSCAR PERFIL CUBIKA
+      =========================================
+      */
+
+      const {
+        data: usuario,
+        error
+      } =
+        await supabase
+          .from("usuarios")
+          .select(`
+            id,
+            nombre,
+            apellido,
+            estado,
+            auth_user_id,
+            empresa_id,
+            empresas (
+              nombre_fantasia,
+              razon_social
+            )
+          `)
+          .eq(
+            "auth_user_id",
+            user.id
+          )
+          .maybeSingle();
+
+
+      if (error)
+        throw error;
+
+
+      if (!usuario) {
+
+        showMessage("errorMessage");
+
+        activateForm.style.display = "none";
+
+        return;
+
+      }
+
+
+      /*
+      =========================================
+      VALIDAR ESTADO
+      =========================================
+      */
+
+      if (
+        usuario.estado !== "PENDIENTE"
+      ) {
+
+        /*
+        Si ya estaba activo,
+        no permitimos volver a activar.
+        */
+
+        if (
+          usuario.estado === "ACTIVO"
+        ) {
+
+          showMessage("successMessage");
+
+          activateForm.style.display =
+            "none";
+
+          return;
+
+        }
+
+
+        showMessage("errorMessage");
+
+        activateForm.style.display =
+          "none";
+
+        return;
+
+      }
+
+
+      /*
+      =========================================
+      MOSTRAR INFORMACIÓN
+      =========================================
+      */
+
+      const empresa =
+        usuario.empresas;
+
+
+      document
+        .getElementById("companyName")
+        .textContent =
+          empresa?.nombre_fantasia
+          ||
+          empresa?.razon_social
+          ||
+          "Empresa";
+
+
+      /*
+      Por ahora mostramos el nivel
+      como rol visual.
+      Más adelante lo reemplazaremos
+      por nuestro sistema de roles/permisos.
+      */
+
+      document
+        .getElementById("userRole")
+        .textContent =
+          usuario.nombre
+          ? "Usuario"
+          : "Usuario";
+
+
     }
 
-    if (pass.value !== confirm.value) {
-      pass.classList.add("input-error");
-      confirm.classList.add("input-error");
-      return;
+    catch (error) {
+
+      console.error(
+        "Error cargando invitación:",
+        error
+      );
+
+      showMessage("errorMessage");
+
+      activateForm.style.display =
+        "none";
+
     }
 
-    setLoading(activateForm, true, "Activando cuenta...");
+  }
 
-    setTimeout(() => {
-      setLoading(activateForm, false);
-      showMessage("successMessage");
-    }, 1500);
-  });
+
+  /*
+  =========================================
+  ACTIVAR CUENTA
+  =========================================
+  */
+
+  activateForm.addEventListener(
+    "submit",
+    async function(e) {
+
+      e.preventDefault();
+
+      clearErrors(
+        activateForm
+      );
+
+
+      /*
+      VALIDACIÓN CONTRASEÑA
+      */
+
+      if (
+        pass.value.length < 10
+      ) {
+
+        pass.classList.add(
+          "input-error"
+        );
+
+        pass.focus();
+
+        return;
+
+      }
+
+
+      if (
+        pass.value !== confirm.value
+      ) {
+
+        pass.classList.add(
+          "input-error"
+        );
+
+        confirm.classList.add(
+          "input-error"
+        );
+
+        confirm.focus();
+
+        return;
+
+      }
+
+
+      try {
+
+        setLoading(
+          activateForm,
+          true,
+          "Activando cuenta..."
+        );
+
+
+        /*
+        =========================================
+        1. OBTENER SESIÓN
+        =========================================
+        */
+
+        const {
+          data: {
+            session
+          }
+        } =
+          await supabase.auth.getSession();
+
+
+        if (!session) {
+
+          throw new Error(
+            "La invitación no es válida o ha expirado."
+          );
+
+        }
+
+
+        const user =
+          session.user;
+
+
+        /*
+        =========================================
+        2. CAMBIAR CONTRASEÑA
+        =========================================
+        */
+
+        const {
+          error: passwordError
+        } =
+          await supabase.auth.updateUser({
+
+            password:
+              pass.value
+
+          });
+
+
+        if (passwordError)
+          throw passwordError;
+
+
+        /*
+        =========================================
+        3. ACTIVAR PERFIL CUBIKA
+        =========================================
+        */
+
+        const {
+          error: profileError
+        } =
+          await supabase
+            .from("usuarios")
+            .update({
+
+              estado: "ACTIVO"
+
+            })
+            .eq(
+              "auth_user_id",
+              user.id
+            )
+            .eq(
+              "estado",
+              "PENDIENTE"
+            );
+
+
+        if (profileError)
+          throw profileError;
+
+
+        /*
+        =========================================
+        4. ÉXITO
+        =========================================
+        */
+
+        showMessage(
+          "successMessage"
+        );
+
+
+        activateForm.style.display =
+          "none";
+
+
+        /*
+        =========================================
+        5. REDIRECCIÓN
+        =========================================
+        */
+
+        setTimeout(() => {
+
+          window.location.href =
+            "/login.html";
+
+        }, 2000);
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Error activando cuenta:",
+          error
+        );
+
+
+        setLoading(
+          activateForm,
+          false
+        );
+
+
+        showMessage(
+          "errorMessage"
+        );
+
+
+        /*
+        Cambiamos temporalmente
+        el texto del error.
+        */
+
+        document
+          .getElementById(
+            "errorMessage"
+          )
+          .textContent =
+            error?.message
+            ||
+            "No fue posible activar la cuenta.";
+
+      }
+
+    }
+  );
+
+
+  /*
+  =========================================
+  INICIALIZAR
+  =========================================
+  */
+
+  cargarInvitacion();
+
 </script>
-
-  
   
 </body>
 </html>
