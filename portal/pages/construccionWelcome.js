@@ -228,6 +228,26 @@ const icons = {
         </svg>
     `,
 
+    calendarClock: `
+            <svg viewBox="0 0 24 24"
+                 aria-hidden="true"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+        
+                <path d="M7 3v4"/>
+                <path d="M17 3v4"/>
+                <path d="M4 9h16"/>
+        
+                <rect x="4" y="5" width="16" height="15" rx="2"/>
+        
+                <circle cx="16" cy="16" r="3"/>
+                <path d="M16 14.5v1.5l1 1"/>
+            </svg>
+        `,
+
     check: `
         <svg viewBox="0 0 24 24"
              aria-hidden="true"
@@ -524,7 +544,7 @@ function getStepContent(step) {
                         
 
                         ${moduleCard(
-                            icons.documentClock,
+                            icons.calencarClock,
                             "Control de Vigencia",
                             "Seguimiento de contratos según su vigencia y fechas relevantes."
                         )}
