@@ -519,13 +519,13 @@ function getStepContent(step) {
                         ${moduleCard(
                             icons.document,
                             "Motor Documental",
-                            "Genera contratos y documentos utilizando plantillas y datos previamente registrados."
+                            "Genera contratos y anexos usando plantillas y datos previamente registrados."
                         )}
                         
 
                         ${moduleCard(
                             icons.document,
-                            "Control de vigencia documental",
+                            "Control de Vigencia",
                             "Seguimiento de contratos según su vigencia y fechas relevantes."
                         )}
 
