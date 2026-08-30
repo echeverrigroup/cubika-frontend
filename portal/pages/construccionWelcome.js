@@ -305,7 +305,7 @@ export function renderConstructionWelcome() {
                     </h1>
 
                     <p>
-                        Antes de comenzar, queremos mostrarte algunos
+                        Queremos mostrarte algunos
                         aspectos importantes sobre tu espacio de trabajo,
                         tu servicio y el uso de Cubika.
                     </p>
@@ -453,7 +453,7 @@ function getStepContent(step) {
                         </p>
 
                         <p>
-                            En el módulo Construcción podrás organizar
+                            En este módulo de Construcción podrás organizar
                             información de empresas, trabajadores, obras,
                             cargos y procesos documentales desde un mismo
                             espacio.
@@ -501,7 +501,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            El módulo <strong>Construcción - Gestor Documental</strong> reúne los principales
+                            El módulo <strong>Gestor Documental</strong> de Construcción, reúne los principales
                             elementos de tu gestión administrativa y los
                             relaciona dentro de una misma estructura.
                         </p>
