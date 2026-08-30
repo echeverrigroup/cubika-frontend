@@ -605,61 +605,80 @@
 
       }
 
-
-      /*
+/*
+       * --------------------------------------------------
        * 4. Obtener empresa
+       * --------------------------------------------------
        */
-
-      const {
-        data: empresa,
-        error: empresaError
-      } =
-        await supabase
+      
+     const {
+          data: empresa,
+          error: empresaError
+        } = await supabase
           .from("empresas")
-          .select("nombre")
-          .eq(
-            "id",
-            usuario.empresa_id
-          )
+          .select("id, razon_social, nombre_fantasia")
+          .eq("id", usuario.empresa_id)
           .single();
+        
+        if (empresaError) {
+          throw empresaError;
+        }
+        
+        if (!empresa) {
+          throw new Error(
+            "No fue posible encontrar la empresa asociada a esta cuenta."
+          );
+        }
+      
+      
+        return;
+      
+      }
 
-
-      if (empresaError)
-        throw empresaError;
-
-
-      /*
+            /*
+       * --------------------------------------------------
        * 5. Mostrar información
+       * --------------------------------------------------
        */
-
+      
       document.getElementById(
         "companyName"
       ).textContent =
-        empresa?.nombre ?? "—";
-
-
+      empresa.nombre_fantasia ||
+      empresa.razon_social ||
+      "—";
+      
+      
       document.getElementById(
         "userName"
       ).textContent =
         `${usuario.nombre ?? ""} ${usuario.apellido ?? ""}`.trim();
-
-
+      
+      
       document.getElementById(
         "userEmail"
       ).textContent =
         usuario.email ?? authUser.email ?? "—";
-
-
+      
+      
       document.getElementById(
         "userRole"
       ).textContent =
         usuario.cargo ?? "—";
-
-
+      
+      
       userInfo.style.display =
         "block";
+      
+      
+      loadingMessage.style.display =
+        "none";
+      
+      
+      activateForm.style.display =
+        "block";
 
-
+      
       /*
        * 6. Mostrar formulario
        */
