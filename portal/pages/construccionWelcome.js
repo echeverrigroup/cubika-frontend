@@ -279,11 +279,11 @@ export function renderConstructionWelcome() {
                 <div>
 
                     <div class="construction-welcome-eyebrow">
-                        GUÍA DE INICIO · CONSTRUCCIÓN
+                        Resumen · MODULO: CONSTRUCCIÓN
                     </div>
 
                     <h1>
-                        ¡Bienvenido a Cúbika, ${userName}!
+                        ¡Bienvenido(a) ${userName}!
                     </h1>
 
                     <p>
@@ -440,7 +440,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            Cúbika centraliza la información y los
+                            Cubika centraliza la información y los
                             procesos administrativos relacionados con
                             tus empresas, trabajadores y obras.
                         </p>
@@ -457,7 +457,7 @@ function getStepContent(step) {
                             ${icons.check}
 
                             <span>
-                                Cúbika pone la tecnología.
+                                Cubika pone la tecnología.
                                 Tú mantienes el control de tu operación.
                             </span>
 
@@ -581,7 +581,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            Cúbika proporciona la infraestructura tecnológica
+                            Cubika proporciona la infraestructura tecnológica
                             para gestionar tu operación. Tu organización mantiene
                             el control sobre la información y las decisiones que toma.
                         </p>
@@ -619,7 +619,7 @@ function getStepContent(step) {
                             </div>
 
                             <h3>
-                                Cúbika proporciona
+                                Cubika proporciona
                             </h3>
 
                             <ul>
@@ -644,11 +644,11 @@ function getStepContent(step) {
                         <div>
 
                             <h3>
-                                Cúbika genera. Tú revisas.
+                                Cubika genera. Tú revisas.
                             </h3>
 
                             <p>
-                                Cúbika proporciona la infraestructura tecnológica
+                                Cubika proporciona la infraestructura tecnológica
                                 para generar documentos utilizando las plantillas,
                                 datos y configuraciones disponibles en la plataforma.
                             </p>
@@ -657,7 +657,7 @@ function getStepContent(step) {
                                 La generación automática de un documento
                                 <strong>
                                     no constituye una certificación de su validez
-                                    o adecuación legal por parte de Cúbika.
+                                    o adecuación legal por parte de Cubika.
                                 </strong>
                             </p>
 
@@ -680,7 +680,7 @@ function getStepContent(step) {
                         </strong>
 
                         <span>
-                            Cúbika es una herramienta tecnológica y no reemplaza
+                            Cubika es una herramienta tecnológica y no reemplaza
                             la asesoría jurídica, laboral, contable o profesional
                             que pueda requerir tu organización.
                         </span>
@@ -715,7 +715,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            El uso correcto de Cúbika comienza con una buena
+                            El uso correcto de Cubika comienza con una buena
                             gestión de usuarios, accesos y responsabilidades.
                         </p>
 
@@ -811,7 +811,7 @@ function getStepContent(step) {
                         </h2>
 
                         <p>
-                            Tu servicio Cúbika está configurado de acuerdo
+                            Tu servicio Cubika está configurado de acuerdo
                             con el alcance contratado.
                         </p>
 
@@ -911,7 +911,7 @@ function getStepContent(step) {
                         <div>
 
                             <h3>
-                                Cúbika seguirá evolucionando.
+                                Cubika seguirá evolucionando.
                             </h3>
 
                             <p>
@@ -922,8 +922,8 @@ function getStepContent(step) {
 
                             <p>
                                 Las funcionalidades, mejoras y desarrollos que
-                                forman parte de Cúbika permanecen bajo propiedad
-                                de Cúbika.
+                                forman parte de Cubika permanecen bajo propiedad
+                                de Cubika.
                             </p>
 
                         </div>
@@ -980,7 +980,7 @@ function getStepContent(step) {
 
                             <p>
                                 Ahora conoces los aspectos principales
-                                de tu servicio Cúbika.
+                                de tu servicio Cubika.
                             </p>
 
                         </div>
