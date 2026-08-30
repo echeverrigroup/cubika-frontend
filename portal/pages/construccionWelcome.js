@@ -424,7 +424,7 @@ function getStepContent(step) {
                         <div class="construction-welcome-cube">
 
                             <div class="construction-welcome-cube-inner">
-                                C
+                                G
                             </div>
 
                         </div>
