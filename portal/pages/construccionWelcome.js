@@ -442,9 +442,9 @@ function getStepContent(step) {
                             MODULO:
                         </span>
 
-                        <p>
+                        <h3>
                                 Gestor Documental
-                        </p>
+                        </h3>
 
 
                         <h2>
