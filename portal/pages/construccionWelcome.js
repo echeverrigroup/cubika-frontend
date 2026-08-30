@@ -283,7 +283,7 @@ export function renderConstructionWelcome() {
                     </div>
 
                     <h1>
-                        ¡Bienvenido(a) ${userName}!
+                        ¡Bienvenido(a)  ${userName}!
                     </h1>
 
                     <p>
