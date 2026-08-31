@@ -843,7 +843,7 @@ async function actualizarObra(id) {
 }
 
 
-export function cambiarEstadoObra(id) {
+export async function cambiarEstadoObra(id) {
 
     const obra =
         await obrasService.getById(id);
