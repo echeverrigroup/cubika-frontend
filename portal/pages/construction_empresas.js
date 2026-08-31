@@ -62,7 +62,7 @@ export async function renderConstructionEmpresas() {
             <button
                 id="tabMandantes"
                 class="cubika-tab ${
-                tipoEmpresaActivo === "mandante"
+                tipoEntidadActivo === "mandante"
                     ? "active"
                     : ""
             }"> Mandantes
@@ -72,7 +72,7 @@ export async function renderConstructionEmpresas() {
             <button
                 id="tabConstructoras"
                 class="cubika-tab ${
-                tipoEmpresaActivo === "constructora"
+                tipoEntidadActivo === "constructora"
                     ? "active"
                     : ""
             }"> Constructoras
@@ -142,7 +142,7 @@ export async function renderConstructionEmpresas() {
         servicioActivo =
             empresasService;
 
-        tipoEmpresaActivo =
+        tipoEntidadActivo =
             "mandante";
 
         renderConstructionEmpresas();
@@ -157,7 +157,7 @@ document
         servicioActivo =
             constructorasService;
 
-        tipoEmpresaActivo =
+        tipoEntidadActivo =
             "constructora";
 
         renderConstructionEmpresas();
@@ -353,7 +353,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
         title:
 
-            tipoEmpresaActivo === "constructora"
+            tipoEntidadActivo === "constructora"
 
                 ? "Nueva Constructora"
 
@@ -362,7 +362,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
         content:
 
-            tipoEmpresaActivo === "constructora"
+            tipoEntidadActivo === "constructora"
 
                 ? obtenerFormularioConstructora()
 
@@ -372,13 +372,13 @@ async function mostrarFormularioNuevaEmpresa() {
         submitText: "Guardar",
 
         size:
-        tipoEmpresaActivo === "constructora"
+        tipoEntidadActivo === "constructora"
             ? "medium"
             : "large",
 
         onSubmit:
 
-            tipoEmpresaActivo === "constructora"
+            tipoEntidadActivo === "constructora"
 
                 ? crearConstructora
 
@@ -388,7 +388,7 @@ async function mostrarFormularioNuevaEmpresa() {
 
 
     if (
-        tipoEmpresaActivo === "mandante"
+        tipoEntidadActivo === "mandante"
     ) {
 
         await cargarRegionesEmpresa();
@@ -948,7 +948,7 @@ async function editarEmpresa(id) {
 
         title:
 
-            tipoEmpresaActivo === "constructora"
+            tipoEntidadActivo === "constructora"
 
                 ? "Editar Constructora"
 
@@ -956,7 +956,7 @@ async function editarEmpresa(id) {
 
         content:
 
-            tipoEmpresaActivo === "constructora"
+            tipoEntidadActivo === "constructora"
 
                 ? obtenerFormularioConstructora(empresa)
 
@@ -965,13 +965,13 @@ async function editarEmpresa(id) {
         submitText: "Actualizar",
 
         size:
-        tipoEmpresaActivo === "constructora"
+        tipoEntidadActivo === "constructora"
             ? "medium"
             : "large",
 
         onSubmit: () =>
 
-            tipoEmpresaActivo === "mandante"
+            tipoEntidadActivo === "mandante"
 
                 ? actualizarEmpresa(id)
 
@@ -981,7 +981,7 @@ async function editarEmpresa(id) {
 
 
     if (
-        tipoEmpresaActivo === "mandante"
+        tipoEntidadActivo === "mandante"
     ) {
 
         await cargarRegionesEmpresa(
