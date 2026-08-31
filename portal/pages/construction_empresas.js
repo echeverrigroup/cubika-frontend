@@ -378,7 +378,9 @@ async function cargarEmpresas() {
 
         btn.addEventListener(
             "click",
-            () => if (tipoEntidadActivo === "obra") {
+            () => {
+                
+                if (tipoEntidadActivo === "obra") {
 
                 cambiarEstadoObra(btn.dataset.id);
             
@@ -386,6 +388,8 @@ async function cargarEmpresas() {
             }
             
             cambiarEstadoEmpresa(btn.dataset.id);
+
+            }
         );
 
     });
