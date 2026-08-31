@@ -925,7 +925,7 @@ function getStepContent(step) {
                                 </span>
 
                                 <strong>
-                                    Según servicio
+                                    1
                                 </strong>
 
                             </div>
