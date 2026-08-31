@@ -10,6 +10,11 @@ from "../services/empresasService.js";
 import { geograficaService }
 from "../services/geograficaService.js";
 
+import {
+    mostrarFormularioNuevaObra,
+    editarObra,
+    cambiarEstadoObra
+} from "./construction_obras.js";
 
 import {
 
