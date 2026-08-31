@@ -274,7 +274,7 @@ async function cargarObras() {
 }
 
 
-export function mostrarFormularioNuevaObra() {
+export async function mostrarFormularioNuevaObra() {
 
     showFormModal({
 
@@ -646,7 +646,7 @@ async function crearObra() {
 }
 
 
-export function editarObra(id) {
+export async function editarObra(id) {
 
     const obra =
         await obrasService.getById(id);
