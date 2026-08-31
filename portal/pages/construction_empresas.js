@@ -121,14 +121,14 @@ export async function renderConstructionEmpresas() {
     `;
 
 
-    await cargarEmpresas();
+    await cargarEntidades();
 
 
     document
         .getElementById("buscarEmpresa")
         .addEventListener(
             "keyup",
-            cargarEmpresas
+            cargarEntidades
         );
 
 
@@ -196,7 +196,7 @@ document
 
 
 
-async function cargarEmpresas() {
+async function cargarEntidades() {
 
     const table =
         document.getElementById("empresasTable");
@@ -964,7 +964,7 @@ if (!rut) {
     
         });
     
-        await cargarEmpresas();
+        await cargarEntidades();
     
         setModalLoading(false);
     
@@ -1247,7 +1247,7 @@ if (!rut) {
         
         );
 
-        await cargarEmpresas();
+        await cargarEntidades();
 
         setModalLoading(false);
         
@@ -1314,7 +1314,7 @@ async function cambiarEstadoEmpresa(id) {
 
                 });
 
-                await cargarEmpresas();
+                await cargarEntidades();
 
                 return true;
 
@@ -1607,7 +1607,7 @@ async function crearConstructora() {
             constructora
         );
 
-        await cargarEmpresas();
+        await cargarEntidades();
 
         setModalLoading(false);
 
@@ -1697,7 +1697,7 @@ async function actualizarConstructora(id) {
             constructora
         );
 
-        await cargarEmpresas();
+        await cargarEntidades();
 
         setModalLoading(false);
 
