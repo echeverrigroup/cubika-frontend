@@ -382,7 +382,10 @@ async function cargarEmpresas() {
                 
                 if (tipoEntidadActivo === "obra") {
 
-                cambiarEstadoObra(btn.dataset.id);
+                cambiarEstadoObra(
+                    btn.dataset.id,
+                    cargarEntidades
+                );
             
                 return;
             }
