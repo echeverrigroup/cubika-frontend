@@ -164,6 +164,21 @@ document
 
     });
 
+
+    document
+    .getElementById("tabObras")
+    ?.addEventListener("click", () => {
+
+        servicioActivo =
+            obrasService;
+
+        tipoEntidadActivo =
+            "obra";
+
+        renderConstructionEmpresas();
+
+    });
+
 }
 
 
