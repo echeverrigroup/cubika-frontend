@@ -133,11 +133,19 @@ export async function renderConstructionEmpresas() {
 
 
     document
-        .getElementById("btnNuevaEmpresa")
-        .addEventListener(
-            "click",
-            mostrarFormularioNuevaEmpresa
-        );
+    .getElementById("btnNuevaEmpresa")
+    ?.addEventListener("click", () => {
+
+        if (tipoEntidadActivo === "obra") {
+
+            mostrarFormularioNuevaObra();
+
+            return;
+        }
+
+        mostrarFormularioNuevaEmpresa();
+
+    });
 
 
     document
@@ -347,7 +355,14 @@ async function cargarEmpresas() {
 
             btn.addEventListener(
                 "click",
-                () => editarEmpresa(btn.dataset.id)
+                () => if (tipoEntidadActivo === "obra") {
+                
+                    editarObra(btn.dataset.id);
+                
+                    return;
+                }
+                
+                editarEmpresa(btn.dataset.id);
             );
 
         });
@@ -359,7 +374,14 @@ async function cargarEmpresas() {
 
         btn.addEventListener(
             "click",
-            () => cambiarEstadoEmpresa(btn.dataset.id)
+            () => if (tipoEntidadActivo === "obra") {
+
+                cambiarEstadoObra(btn.dataset.id);
+            
+                return;
+            }
+            
+            cambiarEstadoEmpresa(btn.dataset.id);
         );
 
     });
