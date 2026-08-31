@@ -352,19 +352,23 @@ async function cargarEmpresas() {
     document
         .querySelectorAll(".btn-edit")
         .forEach(btn => {
-
+    
             btn.addEventListener(
                 "click",
-                () => if (tipoEntidadActivo === "obra") {
-                
-                    editarObra(btn.dataset.id);
-                
-                    return;
+                () => {
+    
+                    if (tipoEntidadActivo === "obra") {
+    
+                        editarObra(btn.dataset.id);
+    
+                        return;
+                    }
+    
+                    editarEmpresa(btn.dataset.id);
+    
                 }
-                
-                editarEmpresa(btn.dataset.id);
             );
-
+    
         });
 
 
