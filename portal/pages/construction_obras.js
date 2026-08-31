@@ -843,7 +843,7 @@ async function actualizarObra(id) {
 }
 
 
-export async function cambiarEstadoObra(id) {
+export async function cambiarEstadoObra(id, onSuccess = null) {
 
     const obra =
         await obrasService.getById(id);
@@ -904,7 +904,9 @@ export async function cambiarEstadoObra(id) {
 
                 });
 
-                await cargarObras();
+                if (onSuccess) {
+                    await onSuccess();
+                }
 
             }
 
