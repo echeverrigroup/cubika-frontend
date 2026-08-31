@@ -1,6 +1,9 @@
 import { constructorasService }
 from "../services/constructorasService.js";
 
+import { obrasService }
+from "../services/obrasService.js";
+
 import { empresasService }
 from "../services/empresasService.js";
 
@@ -22,7 +25,7 @@ from "../components/modal.js";
 let servicioActivo =
     empresasService;
 
-let tipoEmpresaActivo =
+let tipoEntidadActivo =
     "mandante";
 
 
@@ -42,8 +45,13 @@ export async function renderConstructionEmpresas() {
                 id="btnNuevaEmpresa"
                 class="btn-primary">
 
-                + Nueva Empresa
-
+               ${
+                    tipoEntidadActivo === "obra"
+                        ? "+ Nueva Obra"
+                        : tipoEntidadActivo === "constructora"
+                            ? "+ Nueva Constructora"
+                            : "+ Nueva Empresa"
+                }
             </button>
 
         </div>
@@ -70,6 +78,16 @@ export async function renderConstructionEmpresas() {
             }"> Constructoras
         
             </button>
+
+            <button
+                id="tabObras"
+                class="cubika-tab ${
+                    tipoEntidadActivo === "obra"
+                        ? "active"
+                        : ""
+                }">
+                Obras
+            </button>
         
         </div>
 
@@ -80,7 +98,11 @@ export async function renderConstructionEmpresas() {
                 id="buscarEmpresa"
                 class="cubika-input"
                 type="text"
-                placeholder="Buscar empresa...">
+                placeholder="${
+                tipoEntidadActivo === "obra"
+                    ? "Buscar obra..."
+                    : "Buscar empresa..."
+            }"
 
         </div>
 
