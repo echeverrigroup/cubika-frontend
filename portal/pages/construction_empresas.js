@@ -201,7 +201,6 @@ async function cargarEntidades() {
     const table =
         document.getElementById("empresasTable");
 
-
     const filtro =
         document
             .getElementById("buscarEmpresa")
@@ -209,28 +208,67 @@ async function cargarEntidades() {
             .trim()
             .toUpperCase();
 
-
-    let empresas =
+    let entidades =
         await servicioActivo.getAll();
 
+    /*
+     * =====================================================
+     * FILTRO
+     * =====================================================
+     */
 
     if (filtro) {
 
-        empresas =
-            empresas.filter(empresa =>
+        if (tipoEntidadActivo === "obra") {
 
-                `${empresa.nombre}
-                 ${empresa.rut}`
-                    .toUpperCase()
-                    .includes(filtro)
+            entidades =
+                entidades.filter(obra =>
+                    `
+                    ${obra.nombre ?? ""}
+                    ${obra.constructora?.nombre ?? ""}
+                    ${obra.region?.nombre ?? ""}
+                    ${obra.comuna?.nombre ?? ""}
+                    `
+                        .toUpperCase()
+                        .includes(filtro)
+                );
 
-            );
+        } else {
 
+            entidades =
+                entidades.filter(empresa =>
+                    `
+                    ${empresa.nombre ?? ""}
+                    ${empresa.rut ?? ""}
+                    `
+                        .toUpperCase()
+                        .includes(filtro)
+                );
+        }
     }
 
 
-    let html = `
+    /*
+     * =====================================================
+     * OBRAS
+     * =====================================================
+     */
 
+    if (tipoEntidadActivo === "obra") {
+
+        cargarTablaObras(entidades);
+
+        return;
+    }
+
+
+    /*
+     * =====================================================
+     * MANDANTES / CONSTRUCTORAS
+     * =====================================================
+     */
+
+    let html = `
         <table class="cubika-table">
 
             <thead>
@@ -250,46 +288,37 @@ async function cargarEntidades() {
             </thead>
 
             <tbody>
-
     `;
 
 
-    if (!empresas.length) {
+    if (!entidades.length) {
 
         html += `
-
             <tr>
 
-                <td colspan="4"
-                    style="text-align:center;padding:30px;">
-
+                <td
+                    colspan="4"
+                    style="text-align:center;padding:30px;"
+                >
                     No existen empresas registradas.
-
                 </td>
 
             </tr>
-
         `;
-
     }
 
 
-    empresas.forEach(empresa => {
+    entidades.forEach(empresa => {
 
         html += `
-
             <tr>
 
                 <td>
-
                     ${empresa.nombre}
-
                 </td>
 
                 <td>
-
                     ${empresa.rut ?? ""}
-
                 </td>
 
                 <td>
@@ -298,7 +327,8 @@ async function cargarEntidades() {
                         estado-badge
                         ${empresa.estado === "Activo"
                             ? "activo"
-                            : "inactivo"}">
+                            : "inactivo"}"
+                    >
 
                         ${empresa.estado}
 
@@ -310,94 +340,252 @@ async function cargarEntidades() {
 
                     <button
                         class="btn-edit"
-                        data-id="${empresa.id}">
-
+                        data-id="${empresa.id}"
+                    >
                         Editar
-
                     </button>
 
                     <button
-                        class="${empresa.estado === "Activo"
-                            ? "btn-danger"
-                            : "btn-restore"} btn-toggle-estado"
-                        data-id="${empresa.id}">
-                    
+                        class="
+                            ${empresa.estado === "Activo"
+                                ? "btn-danger"
+                                : "btn-restore"}
+                            btn-toggle-estado
+                        "
+                        data-id="${empresa.id}"
+                    >
+
                         ${empresa.estado === "Activo"
                             ? "Desactivar"
                             : "Activar"}
-                    
+
                     </button>
 
                 </td>
 
             </tr>
-
         `;
-
     });
 
 
     html += `
-
             </tbody>
 
         </table>
-
     `;
 
 
     table.innerHTML = html;
 
 
-    document
+    /*
+     * =====================================================
+     * ACCIONES MANDANTES / CONSTRUCTORAS
+     * =====================================================
+     */
+
+    table
         .querySelectorAll(".btn-edit")
         .forEach(btn => {
-    
-            btn.addEventListener(
-                "click",
-                () => {
-    
-                    if (tipoEntidadActivo === "obra") {
-    
-                        editarObra(btn.dataset.id);
-    
-                        return;
-                    }
-    
-                    editarEmpresa(btn.dataset.id);
-    
-                }
-            );
-    
+
+            btn.addEventListener("click", () => {
+
+                editarEmpresa(btn.dataset.id);
+
+            });
+
         });
 
 
-    document
-    .querySelectorAll(".btn-toggle-estado")
-    .forEach(btn => {
+    table
+        .querySelectorAll(".btn-toggle-estado")
+        .forEach(btn => {
 
-        btn.addEventListener(
-            "click",
-            () => {
-                
-                if (tipoEntidadActivo === "obra") {
+            btn.addEventListener("click", () => {
+
+                cambiarEstadoEmpresa(
+                    btn.dataset.id
+                );
+
+            });
+
+        });
+}
+
+
+
+function cargarTablaObras(obras) {
+
+    const table =
+        document.getElementById("empresasTable");
+
+
+    let html = `
+        <table class="cubika-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Obra</th>
+
+                    <th>Constructora</th>
+
+                    <th>Región</th>
+
+                    <th>Comuna</th>
+
+                    <th>Estado</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    if (!obras.length) {
+
+        html += `
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="text-align:center;padding:30px;"
+                >
+                    No existen obras registradas.
+                </td>
+
+            </tr>
+        `;
+    }
+
+
+    obras.forEach(obra => {
+
+        html += `
+            <tr>
+
+                <td>
+                    ${obra.nombre ?? ""}
+                </td>
+
+                <td>
+                    ${obra.constructora?.nombre ?? ""}
+                </td>
+
+                <td>
+                    ${obra.region?.nombre ?? ""}
+                </td>
+
+                <td>
+                    ${obra.comuna?.nombre ?? ""}
+                </td>
+
+                <td>
+
+                    <span class="
+                        estado-badge
+                        ${obra.estado === "Activa"
+                            ? "activo"
+                            : "inactivo"}"
+                    >
+
+                        ${obra.estado ?? ""}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn-edit"
+                        data-id="${obra.id}"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="
+                            ${obra.estado === "Activa"
+                                ? "btn-danger"
+                                : "btn-restore"}
+                            btn-toggle-estado
+                        "
+                        data-id="${obra.id}"
+                    >
+
+                        ${obra.estado === "Activa"
+                            ? "Desactivar"
+                            : "Activar"}
+
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+
+    html += `
+            </tbody>
+
+        </table>
+    `;
+
+
+    table.innerHTML = html;
+
+
+    /*
+     * =====================================================
+     * EDITAR OBRA
+     * =====================================================
+     */
+
+    table
+        .querySelectorAll(".btn-edit")
+        .forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                editarObra(
+                    btn.dataset.id
+                );
+
+            });
+
+        });
+
+
+    /*
+     * =====================================================
+     * CAMBIAR ESTADO OBRA
+     * =====================================================
+     */
+
+    table
+        .querySelectorAll(".btn-toggle-estado")
+        .forEach(btn => {
+
+            btn.addEventListener("click", () => {
 
                 cambiarEstadoObra(
                     btn.dataset.id,
                     cargarEntidades
                 );
-            
-                return;
-            }
-            
-            cambiarEstadoEmpresa(btn.dataset.id);
 
-            }
-        );
+            });
 
-    });
-
+        });
 }
+
+
 
 
 async function mostrarFormularioNuevaEmpresa() {
