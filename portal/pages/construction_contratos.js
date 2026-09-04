@@ -45,7 +45,7 @@ export function renderConstructionContratos() {
                 id="btnGenerarContrato"
                 class="btn-cubika-green">
 
-                Generar Contrato
+                + Nuevo Contrato
 
             </button>
 
