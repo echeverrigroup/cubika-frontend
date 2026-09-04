@@ -328,22 +328,19 @@ async function obtenerFormularioObra(obra = null) {
             )
 
             .map(e => `
-
+            
                 <option
                     value="${e.id}"
-
-                    obra?.constructora_id === e.id
-                        ? "selected"
-                        : ""}>
-
+                    ${obra?.constructora_id === e.id ? "selected" : ""}>
+            
                     ${e.nombre}
-
+            
                     ${e.estado === "Inactivo"
                         ? " (Inactiva)"
                         : ""}
-
+            
                 </option>
-
+            
             `)
 
             .join("");
