@@ -625,6 +625,7 @@ function renderPaso2() {
                 
                 <div
                     class="form-group"
+                    style="display:none;"
                     style="
                         grid-column:span 2;
                     ">
