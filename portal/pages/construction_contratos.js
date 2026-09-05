@@ -23,6 +23,7 @@ from "../services/contratosGeneradosService.js";
 import { supabase }
 from "../../js/supabaseClient.js";
 
+let filtrosContratosCargados = false;
 
 
 
@@ -61,7 +62,13 @@ export function renderConstructionContratos() {
             </h2>
         
         
-            <div class="cubika-filters">
+            <div class="cubika-filters"
+                style="
+                    display:grid;
+                    grid-template-columns:repeat(3, minmax(0, 1fr));
+                    gap:16px;
+                "
+            >
         
                 <div class="form-group">
         
@@ -250,7 +257,8 @@ export function renderConstructionContratos() {
 
 });
 
-    cargarContratosGenerados();
+    const contratos =
+    await cargarContratosGenerados();
 
 }
 
@@ -270,8 +278,13 @@ async function cargarContratosGenerados() {
         await contratosGeneradosService
             .getAll();
 
+    if (!filtrosContratosCargados) {
 
     cargarOpcionesFiltros(contratos);
+
+    filtrosContratosCargados = true;
+
+}
 
 
     const contratosFiltrados =
