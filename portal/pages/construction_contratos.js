@@ -235,27 +235,25 @@ export function renderConstructionContratos() {
         
         
         filtros.forEach(id => {
-        
+
             const elemento =
                 document.getElementById(id);
         
             if (!elemento)
                 return;
         
-        
             elemento.addEventListener(
                 id === "buscarContrato"
                     ? "input"
                     : "change",
                 () => {
-
-            cargarContratosGenerados();
-
-        }
-    );
-
-});
-
+        
+                    cargarContratosGenerados(true);
+        
+                }
+            );
+        
+        });
     
     cargarContratosGenerados(true);
 
