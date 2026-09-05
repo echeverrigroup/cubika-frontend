@@ -3283,3 +3283,66 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+.cubika-filters-panel {
+    margin-top: 20px;
+}
+
+
+.cubika-filters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    list-style: none;
+
+    user-select: none;
+}
+
+
+.cubika-filters-header::-webkit-details-marker {
+    display: none;
+}
+
+
+.cubika-filters-chevron {
+    font-size: 11px;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.cubika-filters-panel[open]
+.cubika-filters-chevron {
+    transform: rotate(180deg);
+}
+
+
+.cubika-filters-panel[open]
+.cubika-filters-header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+.cubika-filters {
+    padding: 0 16px 16px;
+
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-top: none;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
