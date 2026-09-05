@@ -532,18 +532,18 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
 function cargarOpcionesFiltros(contratos) {
 
-   const filtros = {
-    mandante: "filtroMandante",
-    constructora: "filtroConstructora",
-    obra: "filtroObra",
-    cargo: "filtroCargo",
-    tipoContrato: "filtroTipoContrato",
-    estado: "filtroEstado"
-};
+    const filtros = {
+        mandante: "filtroMandante",
+        constructora: "filtroConstructora",
+        obra: "filtroObra",
+        cargo: "filtroCargo",
+        tipoContrato: "filtroTipoContrato",
+        estado: "filtroEstado"
+    };
+
 
     /*
-     * Primero determinamos qué valores seleccionados
-     * siguen siendo válidos considerando los demás filtros.
+     * Primero eliminamos selecciones que ya no son válidas.
      */
 
     Object.entries(filtros).forEach(
@@ -592,8 +592,8 @@ function cargarOpcionesFiltros(contratos) {
 
 
     /*
-     * Ahora reconstruimos las opciones de cada filtro
-     * considerando todos los demás filtros activos.
+     * Reconstruimos las opciones de cada filtro
+     * según los demás filtros activos.
      */
 
     Object.entries(filtros).forEach(
@@ -624,60 +624,67 @@ function cargarOpcionesFiltros(contratos) {
                 );
 
 
+            /* =========================
+               MANDANTE
+               ========================= */
+
             if (nombreFiltro === "mandante") {
 
-    const mandantes =
-        [...new Map(
-            contratosCompatibles
-                .filter(
-                    c =>
-                        c.empresa
-                )
-                .map(
-                    c => [
-                        c.empresa.id,
-                        c.empresa
-                    ]
-                )
-        ).values()]
-        .sort(
-            (a, b) =>
-                a.nombre.localeCompare(
-                    b.nombre
-                )
-        );
+                const mandantes =
+                    [...new Map(
+                        contratosCompatibles
+                            .filter(
+                                c =>
+                                    c.empresa
+                            )
+                            .map(
+                                c => [
+                                    c.empresa.id,
+                                    c.empresa
+                                ]
+                            )
+                    ).values()]
+                    .sort(
+                        (a, b) =>
+                            a.nombre.localeCompare(
+                                b.nombre
+                            )
+                    );
 
 
-    select.innerHTML = `
+                select.innerHTML = `
 
-        <option value="">
-            Todas las empresas mandantes
-        </option>
+                    <option value="">
+                        Todas las empresas mandantes
+                    </option>
 
-        ${mandantes.map(
-            mandante => `
+                    ${mandantes.map(
+                        mandante => `
 
-                <option
-                    value="${mandante.id}"
-                    ${String(mandante.id) === String(valorActual)
-                        ? "selected"
-                        : ""}
-                >
-                    ${mandante.nombre}
-                </option>
+                            <option
+                                value="${mandante.id}"
+                                ${String(mandante.id) === String(valorActual)
+                                    ? "selected"
+                                    : ""}
+                            >
+                                ${mandante.nombre}
+                            </option>
 
-            `
-        ).join("")}
+                        `
+                    ).join("")}
 
-    `;
+                `;
 
-}
-
-
-else if (nombreFiltro === "constructora") {
+            }
 
 
-            if (nombreFiltro === "constructora") {
+            /* =========================
+               CONSTRUCTORA
+               ========================= */
+
+            else if (
+                nombreFiltro === "constructora"
+            ) {
 
                 const constructoras =
                     [...new Map(
@@ -727,7 +734,13 @@ else if (nombreFiltro === "constructora") {
             }
 
 
-            else if (nombreFiltro === "obra") {
+            /* =========================
+               OBRA
+               ========================= */
+
+            else if (
+                nombreFiltro === "obra"
+            ) {
 
                 const obras =
                     [...new Map(
@@ -777,7 +790,13 @@ else if (nombreFiltro === "constructora") {
             }
 
 
-            else if (nombreFiltro === "cargo") {
+            /* =========================
+               CARGO
+               ========================= */
+
+            else if (
+                nombreFiltro === "cargo"
+            ) {
 
                 const cargos =
                     [...new Map(
@@ -827,7 +846,13 @@ else if (nombreFiltro === "constructora") {
             }
 
 
-            else if (nombreFiltro === "tipoContrato") {
+            /* =========================
+               TIPO CONTRATO
+               ========================= */
+
+            else if (
+                nombreFiltro === "tipoContrato"
+            ) {
 
                 const tiposContrato =
                     [...new Map(
@@ -877,29 +902,41 @@ else if (nombreFiltro === "constructora") {
             }
 
 
-            else if (nombreFiltro === "estado") {
+            /* =========================
+               ESTADO
+               ========================= */
+
+            else if (
+                nombreFiltro === "estado"
+            ) {
 
                 const estados = [
+
                     {
                         codigo: "GENERADO",
                         nombre: "Generado"
                     },
+
                     {
                         codigo: "ACTIVO",
                         nombre: "Activo"
                     },
+
                     {
                         codigo: "PROXIMO_VENCER",
                         nombre: "Próximo a vencer"
                     },
+
                     {
                         codigo: "VENCIDO",
                         nombre: "Vencido"
                     },
+
                     {
                         codigo: "FINIQUITADO",
                         nombre: "Finiquitado"
                     }
+
                 ];
 
 
