@@ -249,7 +249,7 @@ export function renderConstructionContratos() {
                     : "change",
                 () => {
 
-            cargarContratosGenerados(true);
+            cargarContratosGenerados();
 
         }
     );
@@ -257,7 +257,7 @@ export function renderConstructionContratos() {
 });
 
     
-    cargarContratosGenerados();
+    cargarContratosGenerados(true);
 
 }
 
