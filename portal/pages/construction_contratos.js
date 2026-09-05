@@ -391,6 +391,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Tipo documento</th>
 
+                            <th>Cargo</th>
+
                             <th>Tipo contrato</th>
 
                             <th>Fecha inicio</th>
@@ -404,8 +406,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                             <th>Constructora</th>
 
                             <th>Obra</th>
-
-                            <th>Cargo</th>
 
                             <th>Acciones</th>
 
@@ -477,6 +477,11 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             Contrato
                                         </td>
 
+                                         <td>
+                                            ${contrato.cargo?.nombre ?? "-"}
+                                        </td>
+                                        
+
                                         <td>
                                             ${contrato.tipo_contrato?.nombre ?? "-"}
                                         </td>
@@ -511,10 +516,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             ${contrato.obra?.nombre ?? "-"}
                                         </td>
 
-                                        <td>
-                                            ${contrato.cargo?.nombre ?? "-"}
-                                        </td>
-                                        
                                         
                                         <td>
 
