@@ -3377,3 +3377,26 @@ EDITOR DOCUMENTAL
 .btn-limpiar-filtros:hover {
     opacity: 1;
 }
+
+
+
+.contratos-table-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 14px 0;
+}
+
+.btn-exportar-excel {
+    border: none;
+    background: transparent;
+    color: #5f6b76;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 8px;
+    transition: opacity 0.2s ease;
+}
+
+.btn-exportar-excel:hover {
+    opacity: 0.7;
+}
