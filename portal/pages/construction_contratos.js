@@ -64,15 +64,15 @@ export function renderConstructionContratos() {
             <details class="cubika-filters-panel">
 
     <summary class="cubika-filters-header">
-
-        <span>
+    
+        <span id="filtrosContratosTitulo">
             Filtros de búsqueda
         </span>
-
+    
         <span class="cubika-filters-chevron">
             ▼
         </span>
-
+    
     </summary>
 
 
@@ -310,6 +310,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     if (cargarFiltros) {
 
         cargarOpcionesFiltros(contratos);
+
+        actualizarContadorFiltros();
 
     }
 
@@ -1278,6 +1280,68 @@ function filtrarContratos(
 
         }
     );
+
+}
+
+
+function actualizarContadorFiltros() {
+
+    const titulo =
+        document.getElementById(
+            "filtrosContratosTitulo"
+        );
+
+    if (!titulo)
+        return;
+
+
+    const filtros = [
+
+        document.getElementById(
+            "buscarContrato"
+        ),
+
+        document.getElementById(
+            "filtroMandante"
+        ),
+
+        document.getElementById(
+            "filtroConstructora"
+        ),
+
+        document.getElementById(
+            "filtroObra"
+        ),
+
+        document.getElementById(
+            "filtroCargo"
+        ),
+
+        document.getElementById(
+            "filtroTipoContrato"
+        ),
+
+        document.getElementById(
+            "filtroEstado"
+        )
+
+    ];
+
+
+    const cantidad =
+        filtros.filter(
+            filtro =>
+                filtro &&
+                filtro.value.trim() !== ""
+        ).length;
+
+
+    titulo.textContent =
+        cantidad > 0
+
+            ? `Filtros de búsqueda · ${cantidad} aplicados`
+
+            : "Filtros de búsqueda";
 
 }
 
