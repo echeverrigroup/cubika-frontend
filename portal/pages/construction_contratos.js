@@ -23,7 +23,6 @@ from "../services/contratosGeneradosService.js";
 import { supabase }
 from "../../js/supabaseClient.js";
 
-let filtrosContratosCargados = false;
 
 
 
