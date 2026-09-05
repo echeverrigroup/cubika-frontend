@@ -86,14 +86,14 @@ export function renderConstructionContratos() {
     
         <div class="form-group">
     
-            <label>Empresa mandante</label>
+            <label>Mandante</label>
     
             <select
                 id="filtroMandante"
                 class="cubika-select">
     
                 <option value="">
-                    Todas las empresas mandantes
+                    Todas las mandantes
                 </option>
     
             </select>
