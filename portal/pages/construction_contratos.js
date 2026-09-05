@@ -250,7 +250,7 @@ export function renderConstructionContratos() {
                     : "change",
                 () => {
 
-            cargarContratosGenerados();
+            cargarContratosGenerados(true);
 
         }
     );
@@ -263,7 +263,7 @@ export function renderConstructionContratos() {
 }
 
 
-async function cargarContratosGenerados() {
+async function cargarContratosGenerados(cargarFiltros = false) {
 
     const tabla =
         document.getElementById(
@@ -278,15 +278,13 @@ async function cargarContratosGenerados() {
         await contratosGeneradosService
             .getAll();
 
-    if (!filtrosContratosCargados) {
+    if (cargarFiltros) {
 
-    cargarOpcionesFiltros(contratos);
+        cargarOpcionesFiltros(contratos);
 
-    filtrosContratosCargados = true;
+    }
 
-}
-
-
+   
     const contratosFiltrados =
         filtrarContratos(contratos);
 
