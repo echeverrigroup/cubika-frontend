@@ -23,7 +23,11 @@ from "../services/contratosGeneradosService.js";
 import { supabase }
 from "../../js/supabaseClient.js";
 
+import * as XLSX from "xlsx";
 
+
+
+let contratosVisibles = [];
 
 
 export function renderConstructionContratos() {
@@ -230,6 +234,19 @@ export function renderConstructionContratos() {
 
 </details>
 
+
+<div class="contratos-table-actions">
+
+    <button
+        type="button"
+        id="btnExportarContratos"
+        class="btn-exportar-excel"
+    >
+        Exportar Excel
+    </button>
+
+</div>
+
  
         <div id="contratosTable">
 
@@ -310,6 +327,27 @@ export function renderConstructionContratos() {
         
         }
 
+    
+
+    const btnExportarContratos =
+            document.getElementById(
+                "btnExportarContratos"
+            );
+        
+        if (btnExportarContratos) {
+        
+            btnExportarContratos.addEventListener(
+                "click",
+                () => {
+                    exportarContratosExcel(
+                        contratosVisibles
+                    );
+                }
+            );
+        
+        }
+    
+
     const filtros = [
         "buscarContrato",
         "filtroMandante",
@@ -384,7 +422,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
             );
         
         }
-    
+
+    contratosVisibles = contratosFiltrados;
 
     contratos.forEach(
             contrato => {
@@ -1628,6 +1667,113 @@ async function sincronizarEstadoContrato(contrato) {
 
 
     return contrato;
+
+}
+
+
+
+function exportarContratosExcel(contratos) {
+
+    if (!contratos || !contratos.length) {
+
+        alert(
+            "No hay contratos disponibles para exportar."
+        );
+
+        return;
+    }
+
+    const filas = contratos.map(
+        contrato => {
+
+            const trabajador =
+                contrato.worker
+                    ? `${contrato.worker.nombres ?? ""}
+                        ${contrato.worker.apellido_paterno ?? ""}
+                        ${contrato.worker.apellido_materno ?? ""}`
+                        .trim()
+                    : "-";
+
+            return {
+
+                "Fecha generación":
+                    formatearFechaHora(
+                        contrato.fecha_generacion
+                    ),
+
+                "Estado":
+                    determinarEstadoContrato(
+                        contrato
+                    ),
+
+                "Mandante":
+                    contrato.empresa?.nombre ?? "-",
+
+                "RUT trabajador":
+                    contrato.worker?.rut ?? "-",
+
+                "Trabajador":
+                    trabajador,
+
+                "Tipo documento":
+                    "Contrato",
+
+                "Cargo":
+                    contrato.cargo?.nombre ?? "-",
+
+                "Tipo contrato":
+                    contrato.tipo_contrato?.nombre ?? "-",
+
+                "Fecha inicio":
+                    formatearFecha(
+                        contrato.fecha_inicio
+                    ),
+
+                "Fecha fin":
+                    formatearFecha(
+                        contrato.fecha_termino
+                    ),
+
+                "Causal fin":
+                    contrato.causal_termino ?? "-",
+
+                "Sueldo base":
+                    contrato.sueldo ?? "",
+
+                "Constructora":
+                    contrato.obra?.constructora?.nombre ?? "-",
+
+                "Obra":
+                    contrato.obra?.nombre ?? "-"
+
+            };
+
+        }
+    );
+
+    const worksheet =
+        XLSX.utils.json_to_sheet(
+            filas
+        );
+
+    const workbook =
+        XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Contratos"
+    );
+
+    const fecha =
+        new Date()
+            .toISOString()
+            .slice(0, 10);
+
+    XLSX.writeFile(
+        workbook,
+        `contratos_${fecha}.xlsx`
+    );
 
 }
 
