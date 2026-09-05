@@ -256,7 +256,7 @@ export function renderConstructionContratos() {
 
 });
 
-    const contratos =
+    
     cargarContratosGenerados();
 
 }
