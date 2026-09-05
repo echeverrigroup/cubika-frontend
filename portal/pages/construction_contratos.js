@@ -102,7 +102,7 @@ export function renderConstructionContratos() {
 
         <div class="form-group">
 
-            <label>Empresa mandante</label>
+            <label>Mandante</label>
 
             <select
                 id="filtroMandante"
@@ -381,7 +381,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Fecha generación</th>
 
-                            <th>Empresa mandante</th>
+                            <th>Mandante</th>
 
                             <th>RUT trabajador</th>
 
@@ -674,7 +674,7 @@ function cargarOpcionesFiltros(contratos) {
                 select.innerHTML = `
 
                     <option value="">
-                        Todas las empresas mandantes
+                        Todas las mandantes
                     </option>
 
                     ${mandantes.map(
