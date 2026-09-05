@@ -52,14 +52,7 @@ export function renderConstructionContratos() {
              </div>
 
 
-       <div class="card">
-
-            <h2>
-        
-                Historial de documentos generados. <br>
-        
-            </h2>
-        
+       <div class="card">        
         
             <details class="cubika-filters-panel">
 
