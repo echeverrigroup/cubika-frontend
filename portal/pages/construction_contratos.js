@@ -510,175 +510,461 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 }
 
 
+
 function cargarOpcionesFiltros(contratos) {
 
-    const constructoras =
-        [...new Map(
-            contratos
-                .filter(c => c.obra?.constructora)
-                .map(c => [
-                    c.obra.constructora.id,
-                    c.obra.constructora
-                ])
-        ).values()]
-            .sort((a, b) =>
-                a.nombre.localeCompare(b.nombre)
-            );
+    const filtros = {
+        constructora: "filtroConstructora",
+        obra: "filtroObra",
+        cargo: "filtroCargo",
+        tipoContrato: "filtroTipoContrato",
+        estado: "filtroEstado"
+    };
 
 
-    const obras =
-        [...new Map(
-            contratos
-                .filter(c => c.obra)
-                .map(c => [
-                    c.obra.id,
-                    c.obra
-                ])
-        ).values()]
-            .sort((a, b) =>
-                a.nombre.localeCompare(b.nombre)
-            );
+    /*
+     * Primero determinamos qué valores seleccionados
+     * siguen siendo válidos considerando los demás filtros.
+     */
+
+    Object.entries(filtros).forEach(
+        ([nombreFiltro, idSelect]) => {
+
+            const select =
+                document.getElementById(idSelect);
+
+            if (!select)
+                return;
 
 
-    const cargos =
-        [...new Map(
-            contratos
-                .filter(c => c.cargo)
-                .map(c => [
-                    c.cargo.id,
-                    c.cargo
-                ])
-        ).values()]
-            .sort((a, b) =>
-                a.nombre.localeCompare(b.nombre)
-            );
+            const valorActual =
+                select.value;
+
+            if (!valorActual)
+                return;
 
 
-    const tiposContrato =
-        [...new Map(
-            contratos
-                .filter(c => c.tipo_contrato)
-                .map(c => [
-                    c.tipo_contrato.id,
-                    c.tipo_contrato
-                ])
-        ).values()]
-            .sort((a, b) =>
-                a.nombre.localeCompare(b.nombre)
-            );
+            const contratosCompatibles =
+                filtrarContratos(
+                    contratos,
+                    nombreFiltro
+                );
 
 
-    const selectConstructora =
-        document.getElementById(
-            "filtroConstructora"
-        );
-
-    const selectObra =
-        document.getElementById(
-            "filtroObra"
-        );
-
-    const selectCargo =
-        document.getElementById(
-            "filtroCargo"
-        );
-
-    const selectTipoContrato =
-        document.getElementById(
-            "filtroTipoContrato"
-        );
+            const valoresDisponibles =
+                obtenerValoresDisponibles(
+                    contratosCompatibles,
+                    nombreFiltro
+                );
 
 
-    if (selectConstructora) {
+            if (
+                !valoresDisponibles.has(
+                    String(valorActual)
+                )
+            ) {
 
-        selectConstructora.innerHTML = `
+                select.value = "";
 
-            <option value="">
-                Todas las constructoras
-            </option>
+            }
 
-            ${constructoras.map(
-                constructora => `
+        }
+    );
 
-                    <option value="${constructora.id}">
-                        ${constructora.nombre}
+
+    /*
+     * Ahora reconstruimos las opciones de cada filtro
+     * considerando todos los demás filtros activos.
+     */
+
+    Object.entries(filtros).forEach(
+        ([nombreFiltro, idSelect]) => {
+
+            const select =
+                document.getElementById(idSelect);
+
+            if (!select)
+                return;
+
+
+            const valorActual =
+                select.value;
+
+
+            const contratosCompatibles =
+                filtrarContratos(
+                    contratos,
+                    nombreFiltro
+                );
+
+
+            const valoresDisponibles =
+                obtenerValoresDisponibles(
+                    contratosCompatibles,
+                    nombreFiltro
+                );
+
+
+            if (nombreFiltro === "constructora") {
+
+                const constructoras =
+                    [...new Map(
+                        contratosCompatibles
+                            .filter(
+                                c =>
+                                    c.obra?.constructora
+                            )
+                            .map(
+                                c => [
+                                    c.obra.constructora.id,
+                                    c.obra.constructora
+                                ]
+                            )
+                    ).values()]
+                    .sort(
+                        (a, b) =>
+                            a.nombre.localeCompare(
+                                b.nombre
+                            )
+                    );
+
+
+                select.innerHTML = `
+
+                    <option value="">
+                        Todas las constructoras
                     </option>
 
-                `
-            ).join("")}
+                    ${constructoras.map(
+                        constructora => `
 
-        `;
-    }
+                            <option
+                                value="${constructora.id}"
+                                ${String(constructora.id) === String(valorActual)
+                                    ? "selected"
+                                    : ""}
+                            >
+                                ${constructora.nombre}
+                            </option>
+
+                        `
+                    ).join("")}
+
+                `;
+
+            }
 
 
-    if (selectObra) {
+            else if (nombreFiltro === "obra") {
 
-        selectObra.innerHTML = `
+                const obras =
+                    [...new Map(
+                        contratosCompatibles
+                            .filter(
+                                c =>
+                                    c.obra
+                            )
+                            .map(
+                                c => [
+                                    c.obra.id,
+                                    c.obra
+                                ]
+                            )
+                    ).values()]
+                    .sort(
+                        (a, b) =>
+                            a.nombre.localeCompare(
+                                b.nombre
+                            )
+                    );
 
-            <option value="">
-                Todas las obras
-            </option>
 
-            ${obras.map(
-                obra => `
+                select.innerHTML = `
 
-                    <option value="${obra.id}">
-                        ${obra.nombre}
+                    <option value="">
+                        Todas las obras
                     </option>
 
-                `
-            ).join("")}
+                    ${obras.map(
+                        obra => `
 
-        `;
-    }
+                            <option
+                                value="${obra.id}"
+                                ${String(obra.id) === String(valorActual)
+                                    ? "selected"
+                                    : ""}
+                            >
+                                ${obra.nombre}
+                            </option>
+
+                        `
+                    ).join("")}
+
+                `;
+
+            }
 
 
-    if (selectCargo) {
+            else if (nombreFiltro === "cargo") {
 
-        selectCargo.innerHTML = `
+                const cargos =
+                    [...new Map(
+                        contratosCompatibles
+                            .filter(
+                                c =>
+                                    c.cargo
+                            )
+                            .map(
+                                c => [
+                                    c.cargo.id,
+                                    c.cargo
+                                ]
+                            )
+                    ).values()]
+                    .sort(
+                        (a, b) =>
+                            a.nombre.localeCompare(
+                                b.nombre
+                            )
+                    );
 
-            <option value="">
-                Todos los cargos
-            </option>
 
-            ${cargos.map(
-                cargo => `
+                select.innerHTML = `
 
-                    <option value="${cargo.id}">
-                        ${cargo.nombre}
+                    <option value="">
+                        Todos los cargos
                     </option>
 
-                `
-            ).join("")}
+                    ${cargos.map(
+                        cargo => `
 
-        `;
-    }
+                            <option
+                                value="${cargo.id}"
+                                ${String(cargo.id) === String(valorActual)
+                                    ? "selected"
+                                    : ""}
+                            >
+                                ${cargo.nombre}
+                            </option>
+
+                        `
+                    ).join("")}
+
+                `;
+
+            }
 
 
-    if (selectTipoContrato) {
+            else if (nombreFiltro === "tipoContrato") {
 
-        selectTipoContrato.innerHTML = `
+                const tiposContrato =
+                    [...new Map(
+                        contratosCompatibles
+                            .filter(
+                                c =>
+                                    c.tipo_contrato
+                            )
+                            .map(
+                                c => [
+                                    c.tipo_contrato.id,
+                                    c.tipo_contrato
+                                ]
+                            )
+                    ).values()]
+                    .sort(
+                        (a, b) =>
+                            a.nombre.localeCompare(
+                                b.nombre
+                            )
+                    );
 
-            <option value="">
-                Todos los tipos
-            </option>
 
-            ${tiposContrato.map(
-                tipo => `
+                select.innerHTML = `
 
-                    <option value="${tipo.id}">
-                        ${tipo.nombre}
+                    <option value="">
+                        Todos los tipos
                     </option>
 
-                `
-            ).join("")}
+                    ${tiposContrato.map(
+                        tipo => `
 
-        `;
-    }
+                            <option
+                                value="${tipo.id}"
+                                ${String(tipo.id) === String(valorActual)
+                                    ? "selected"
+                                    : ""}
+                            >
+                                ${tipo.nombre}
+                            </option>
+
+                        `
+                    ).join("")}
+
+                `;
+
+            }
+
+
+            else if (nombreFiltro === "estado") {
+
+                const estados = [
+                    {
+                        codigo: "GENERADO",
+                        nombre: "Generado"
+                    },
+                    {
+                        codigo: "ACTIVO",
+                        nombre: "Activo"
+                    },
+                    {
+                        codigo: "PROXIMO_VENCER",
+                        nombre: "Próximo a vencer"
+                    },
+                    {
+                        codigo: "VENCIDO",
+                        nombre: "Vencido"
+                    },
+                    {
+                        codigo: "FINIQUITADO",
+                        nombre: "Finiquitado"
+                    }
+                ];
+
+
+                select.innerHTML = `
+
+                    <option value="">
+                        Todos los estados
+                    </option>
+
+                    ${estados
+                        .filter(
+                            estado =>
+                                valoresDisponibles.has(
+                                    estado.codigo
+                                )
+                        )
+                        .map(
+                            estado => `
+
+                                <option
+                                    value="${estado.codigo}"
+                                    ${estado.codigo === valorActual
+                                        ? "selected"
+                                        : ""}
+                                >
+                                    ${estado.nombre}
+                                </option>
+
+                            `
+                        )
+                        .join("")}
+
+                `;
+
+            }
+
+        }
+    );
+
 }
 
 
-function filtrarContratos(contratos) {
+
+function obtenerValoresDisponibles(
+    contratos,
+    nombreFiltro
+) {
+
+    const valores =
+        new Set();
+
+
+    contratos.forEach(contrato => {
+
+        if (nombreFiltro === "constructora") {
+
+            if (contrato.obra?.constructora?.id) {
+
+                valores.add(
+                    String(
+                        contrato.obra.constructora.id
+                    )
+                );
+
+            }
+
+        }
+
+
+        else if (nombreFiltro === "obra") {
+
+            if (contrato.obra?.id) {
+
+                valores.add(
+                    String(
+                        contrato.obra.id
+                    )
+                );
+
+            }
+
+        }
+
+
+        else if (nombreFiltro === "cargo") {
+
+            if (contrato.cargo?.id) {
+
+                valores.add(
+                    String(
+                        contrato.cargo.id
+                    )
+                );
+
+            }
+
+        }
+
+
+        else if (nombreFiltro === "tipoContrato") {
+
+            if (contrato.tipo_contrato?.id) {
+
+                valores.add(
+                    String(
+                        contrato.tipo_contrato.id
+                    )
+                );
+
+            }
+
+        }
+
+
+        else if (nombreFiltro === "estado") {
+
+            valores.add(
+                determinarEstadoContrato(
+                    contrato
+                )
+            );
+
+        }
+
+    });
+
+
+    return valores;
+
+}
+
+
+
+function filtrarContratos(
+    contratos,
+    filtroExcluido = null
+) {
 
     const texto =
         document
@@ -718,108 +1004,121 @@ function filtrarContratos(contratos) {
             ?.value ?? "";
 
 
-    return contratos.filter(contrato => {
-
-        const trabajador =
-
-            contrato.worker
-
-                ? `${contrato.worker.nombres ?? ""}
-                    ${contrato.worker.apellido_paterno ?? ""}
-                    ${contrato.worker.apellido_materno ?? ""}`
-
-                : "";
+    return contratos.filter(
+        contrato => {
 
 
-        const rut =
-            contrato.worker?.rut ?? "";
+            const trabajador =
+
+                contrato.worker
+
+                    ? `${contrato.worker.nombres ?? ""}
+                        ${contrato.worker.apellido_paterno ?? ""}
+                        ${contrato.worker.apellido_materno ?? ""}`
+
+                    : "";
 
 
-        const nombreObra =
-            contrato.obra?.nombre ?? "";
+            const rut =
+                contrato.worker?.rut ?? "";
 
 
-        const coincideTexto =
-
-            !texto ||
-
-            `
-                ${trabajador}
-                ${rut}
-                ${nombreObra}
-            `
-                .toUpperCase()
-                .includes(texto);
+            const nombreObra =
+                contrato.obra?.nombre ?? "";
 
 
-        const coincideConstructora =
+            const coincideTexto =
 
-            !constructora ||
+                !texto ||
 
-            String(
-                contrato.obra?.constructora?.id ?? ""
-            ) === constructora;
-
-
-        const coincideObra =
-
-            !obra ||
-
-            String(
-                contrato.obra?.id ?? ""
-            ) === obra;
+                `
+                    ${trabajador}
+                    ${rut}
+                    ${nombreObra}
+                `
+                    .toUpperCase()
+                    .includes(texto);
 
 
-        const coincideCargo =
+            const coincideConstructora =
 
-            !cargo ||
+                filtroExcluido === "constructora" ||
 
-            String(
-                contrato.cargo?.id ?? ""
-            ) === cargo;
+                !constructora ||
 
-
-        const coincideTipoContrato =
-
-            !tipoContrato ||
-
-            String(
-                contrato.tipo_contrato?.id ?? ""
-            ) === tipoContrato;
+                String(
+                    contrato.obra?.constructora?.id ?? ""
+                ) === String(constructora);
 
 
-        const codigoEstado =
-            determinarEstadoContrato(
-                contrato
+            const coincideObra =
+
+                filtroExcluido === "obra" ||
+
+                !obra ||
+
+                String(
+                    contrato.obra?.id ?? ""
+                ) === String(obra);
+
+
+            const coincideCargo =
+
+                filtroExcluido === "cargo" ||
+
+                !cargo ||
+
+                String(
+                    contrato.cargo?.id ?? ""
+                ) === String(cargo);
+
+
+            const coincideTipoContrato =
+
+                filtroExcluido === "tipoContrato" ||
+
+                !tipoContrato ||
+
+                String(
+                    contrato.tipo_contrato?.id ?? ""
+                ) === String(tipoContrato);
+
+
+            const codigoEstado =
+                determinarEstadoContrato(
+                    contrato
+                );
+
+
+            const coincideEstado =
+
+                filtroExcluido === "estado" ||
+
+                !estado ||
+
+                codigoEstado === estado;
+
+
+            return (
+
+                coincideTexto &&
+
+                coincideConstructora &&
+
+                coincideObra &&
+
+                coincideCargo &&
+
+                coincideTipoContrato &&
+
+                coincideEstado
+
             );
 
+        }
+    );
 
-        const coincideEstado =
-
-            !estado ||
-
-            codigoEstado === estado;
-
-
-        return (
-
-            coincideTexto &&
-
-            coincideConstructora &&
-
-            coincideObra &&
-
-            coincideCargo &&
-
-            coincideTipoContrato &&
-
-            coincideEstado
-
-        );
-
-    });
 }
-
 
 
 
