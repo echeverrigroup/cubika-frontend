@@ -61,152 +61,169 @@ export function renderConstructionContratos() {
             </h2>
         
         
-            <div
+            <details class="cubika-filters-panel">
+
+    <summary class="cubika-filters-header">
+
+        <span>
+            Filtros de búsqueda
+        </span>
+
+        <span class="cubika-filters-chevron">
+            ▼
+        </span>
+
+    </summary>
+
+
+    <div
         class="cubika-filters"
         style="
             display:grid;
             grid-template-columns:repeat(4, minmax(0, 1fr));
             gap:16px;
+            margin-top:20px;
         "
     >
-    
+
         <div class="form-group">
-    
+
             <label>Buscar</label>
-    
+
             <input
                 id="buscarContrato"
                 type="text"
                 class="cubika-input"
                 placeholder="Trabajador, RUT u obra..."
             >
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
-            <label>Mandante</label>
-    
+
+            <label>Empresa mandante</label>
+
             <select
                 id="filtroMandante"
                 class="cubika-select">
-    
+
                 <option value="">
-                    Todas las mandantes
+                    Todas las empresas mandantes
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
+
             <label>Constructora</label>
-    
+
             <select
                 id="filtroConstructora"
                 class="cubika-select">
-    
+
                 <option value="">
                     Todas las constructoras
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
+
             <label>Obra</label>
-    
+
             <select
                 id="filtroObra"
                 class="cubika-select">
-    
+
                 <option value="">
                     Todas las obras
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
+
             <label>Cargo</label>
-    
+
             <select
                 id="filtroCargo"
                 class="cubika-select">
-    
+
                 <option value="">
                     Todos los cargos
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
+
             <label>Tipo contrato</label>
-    
+
             <select
                 id="filtroTipoContrato"
                 class="cubika-select">
-    
+
                 <option value="">
                     Todos los tipos
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
-    
+
+
         <div class="form-group">
-    
+
             <label>Estado</label>
-    
+
             <select
                 id="filtroEstado"
                 class="cubika-select">
-    
+
                 <option value="">
                     Todos los estados
                 </option>
-    
+
                 <option value="GENERADO">
                     Generado
                 </option>
-    
+
                 <option value="ACTIVO">
                     Activo
                 </option>
-    
+
                 <option value="PROXIMO_VENCER">
                     Próximo a vencer
                 </option>
-    
+
                 <option value="VENCIDO">
                     Vencido
                 </option>
-    
+
                 <option value="FINIQUITADO">
                     Finiquitado
                 </option>
-    
+
             </select>
-    
+
         </div>
-    
+
     </div>
-        
+
+</details>
 
  
         <div id="contratosTable">
