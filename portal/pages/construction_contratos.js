@@ -56,15 +56,27 @@ export function renderConstructionContratos() {
         
             <details class="cubika-filters-panel">
 
-    <summary class="cubika-filters-header">
-    
+   <summary class="cubika-filters-header">
+
         <span id="filtrosContratosTitulo">
             Filtros de búsqueda
         </span>
     
-        <span class="cubika-filters-chevron">
-            ▼
-        </span>
+        <div class="cubika-filters-actions">
+    
+            <button
+                type="button"
+                id="btnLimpiarFiltros"
+                class="btn-limpiar-filtros"
+            >
+                Limpiar filtros
+            </button>
+    
+            <span class="cubika-filters-chevron">
+                ▼
+            </span>
+    
+        </div>
     
     </summary>
 
@@ -247,6 +259,56 @@ export function renderConstructionContratos() {
             }
 
         );
+
+    const btnLimpiarFiltros =
+            document.getElementById(
+                "btnLimpiarFiltros"
+            );
+        
+        if (btnLimpiarFiltros) {
+        
+            btnLimpiarFiltros.addEventListener(
+                "click",
+                event => {
+        
+                    event.preventDefault();
+                    event.stopPropagation();
+        
+                    document.getElementById(
+                        "buscarContrato"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroMandante"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroConstructora"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroObra"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroCargo"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroTipoContrato"
+                    ).value = "";
+        
+                    document.getElementById(
+                        "filtroEstado"
+                    ).value = "";
+        
+        
+                    cargarContratosGenerados(true);
+        
+                }
+            );
+        
+        }
 
     const filtros = [
         "buscarContrato",
@@ -1336,6 +1398,20 @@ function actualizarContadorFiltros() {
             ? `Filtros de búsqueda · ${cantidad} aplicados`
 
             : "Filtros de búsqueda";
+
+    const btnLimpiarFiltros =
+        document.getElementById(
+            "btnLimpiarFiltros"
+        );
+    
+    if (btnLimpiarFiltros) {
+    
+        btnLimpiarFiltros.style.display =
+            cantidad > 0
+                ? "inline-block"
+                : "none";
+    
+    }
 
 }
 
