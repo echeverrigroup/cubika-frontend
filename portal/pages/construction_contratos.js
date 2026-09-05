@@ -61,135 +61,151 @@ export function renderConstructionContratos() {
             </h2>
         
         
-            <div class="cubika-filters"
-                style="
-                    display:grid;
-                    grid-template-columns:repeat(3, minmax(0, 1fr));
-                    gap:16px;
-                "
+            <div
+        class="cubika-filters"
+        style="
+            display:grid;
+            grid-template-columns:repeat(4, minmax(0, 1fr));
+            gap:16px;
+        "
+    >
+    
+        <div class="form-group">
+    
+            <label>Buscar</label>
+    
+            <input
+                id="buscarContrato"
+                type="text"
+                class="cubika-input"
+                placeholder="Trabajador, RUT u obra..."
             >
-        
-                <div class="form-group">
-        
-                    <label>Buscar</label>
-        
-                    <input
-                        id="buscarContrato"
-                        type="text"
-                        class="cubika-input"
-                        placeholder="Trabajador, RUT u obra..."
-                    >
-        
-                </div>
-        
-        
-                <div class="form-group">
-        
-                    <label>Constructora</label>
-        
-                    <select
-                        id="filtroConstructora"
-                        class="cubika-select">
-        
-                        <option value="">
-                            Todas las constructoras
-                        </option>
-        
-                    </select>
-        
-                </div>
-        
-        
-                <div class="form-group">
-        
-                    <label>Obra</label>
-        
-                    <select
-                        id="filtroObra"
-                        class="cubika-select">
-        
-                        <option value="">
-                            Todas las obras
-                        </option>
-        
-                    </select>
-        
-                </div>
-        
-        
-                <div class="form-group">
-        
-                    <label>Cargo</label>
-        
-                    <select
-                        id="filtroCargo"
-                        class="cubika-select">
-        
-                        <option value="">
-                            Todos los cargos
-                        </option>
-        
-                    </select>
-        
-                </div>
-        
-        
-                <div class="form-group">
-        
-                    <label>Tipo contrato</label>
-        
-                    <select
-                        id="filtroTipoContrato"
-                        class="cubika-select">
-        
-                        <option value="">
-                            Todos los tipos
-                        </option>
-        
-                    </select>
-        
-                </div>
-        
-        
-                <div class="form-group">
-        
-                    <label>Estado</label>
-        
-                    <select
-                        id="filtroEstado"
-                        class="cubika-select">
-        
-                        <option value="">
-                            Todos los estados
-                        </option>
-        
-                        <option value="GENERADO">
-                            Generado
-                        </option>
-        
-                        <option value="ACTIVO">
-                            Activo
-                        </option>
-        
-                        <option value="PROXIMO_VENCER">
-                            Próximo a vencer
-                        </option>
-        
-                        <option value="VENCIDO">
-                            Vencido
-                        </option>
-        
-                        <option value="FINIQUITADO">
-                            Finiquitado
-                        </option>
-        
-                    </select>
-        
-                </div>
-        
-            </div>
-        
+    
         </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Empresa mandante</label>
+    
+            <select
+                id="filtroMandante"
+                class="cubika-select">
+    
+                <option value="">
+                    Todas las empresas mandantes
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Constructora</label>
+    
+            <select
+                id="filtroConstructora"
+                class="cubika-select">
+    
+                <option value="">
+                    Todas las constructoras
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Obra</label>
+    
+            <select
+                id="filtroObra"
+                class="cubika-select">
+    
+                <option value="">
+                    Todas las obras
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Cargo</label>
+    
+            <select
+                id="filtroCargo"
+                class="cubika-select">
+    
+                <option value="">
+                    Todos los cargos
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Tipo contrato</label>
+    
+            <select
+                id="filtroTipoContrato"
+                class="cubika-select">
+    
+                <option value="">
+                    Todos los tipos
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    
+        <div class="form-group">
+    
+            <label>Estado</label>
+    
+            <select
+                id="filtroEstado"
+                class="cubika-select">
+    
+                <option value="">
+                    Todos los estados
+                </option>
+    
+                <option value="GENERADO">
+                    Generado
+                </option>
+    
+                <option value="ACTIVO">
+                    Activo
+                </option>
+    
+                <option value="PROXIMO_VENCER">
+                    Próximo a vencer
+                </option>
+    
+                <option value="VENCIDO">
+                    Vencido
+                </option>
+    
+                <option value="FINIQUITADO">
+                    Finiquitado
+                </option>
+    
+            </select>
+    
+        </div>
+    
+    </div>
         
 
  
@@ -223,15 +239,14 @@ export function renderConstructionContratos() {
         );
 
     const filtros = [
-
-            "buscarContrato",
-            "filtroConstructora",
-            "filtroObra",
-            "filtroCargo",
-            "filtroTipoContrato",
-            "filtroEstado"
-        
-        ];
+        "buscarContrato",
+        "filtroMandante",
+        "filtroConstructora",
+        "filtroObra",
+        "filtroCargo",
+        "filtroTipoContrato",
+        "filtroEstado"
+    ];
         
         
         filtros.forEach(id => {
@@ -347,6 +362,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Fecha generación</th>
 
+                            <th>Empresa mandante</th>
+
                             <th>RUT trabajador</th>
 
                             <th>Trabajador</th>
@@ -406,6 +423,10 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             ${formatearFechaHora(
                                                 contrato.fecha_generacion
                                             )}
+                                        </td>
+
+                                        <td>
+                                            ${contrato.empresa?.nombre ?? "-"}
                                         </td>
 
                                         <td>
@@ -511,14 +532,14 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
 function cargarOpcionesFiltros(contratos) {
 
-    const filtros = {
-        constructora: "filtroConstructora",
-        obra: "filtroObra",
-        cargo: "filtroCargo",
-        tipoContrato: "filtroTipoContrato",
-        estado: "filtroEstado"
-    };
-
+   const filtros = {
+    mandante: "filtroMandante",
+    constructora: "filtroConstructora",
+    obra: "filtroObra",
+    cargo: "filtroCargo",
+    tipoContrato: "filtroTipoContrato",
+    estado: "filtroEstado"
+};
 
     /*
      * Primero determinamos qué valores seleccionados
@@ -601,6 +622,59 @@ function cargarOpcionesFiltros(contratos) {
                     contratosCompatibles,
                     nombreFiltro
                 );
+
+
+            if (nombreFiltro === "mandante") {
+
+    const mandantes =
+        [...new Map(
+            contratosCompatibles
+                .filter(
+                    c =>
+                        c.empresa
+                )
+                .map(
+                    c => [
+                        c.empresa.id,
+                        c.empresa
+                    ]
+                )
+        ).values()]
+        .sort(
+            (a, b) =>
+                a.nombre.localeCompare(
+                    b.nombre
+                )
+        );
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Todas las empresas mandantes
+        </option>
+
+        ${mandantes.map(
+            mandante => `
+
+                <option
+                    value="${mandante.id}"
+                    ${String(mandante.id) === String(valorActual)
+                        ? "selected"
+                        : ""}
+                >
+                    ${mandante.nombre}
+                </option>
+
+            `
+        ).join("")}
+
+    `;
+
+}
+
+
+else if (nombreFiltro === "constructora") {
 
 
             if (nombreFiltro === "constructora") {
@@ -877,6 +951,24 @@ function obtenerValoresDisponibles(
     const valores =
         new Set();
 
+    if (nombreFiltro === "mandante") {
+
+        contratos.forEach(contrato => {
+    
+            if (contrato.empresa?.id) {
+    
+                valores.add(
+                    String(
+                        contrato.empresa.id
+                    )
+                );
+    
+            }
+    
+        });
+    
+    }
+
 
     contratos.forEach(contrato => {
 
@@ -971,6 +1063,11 @@ function filtrarContratos(
             .trim()
             .toUpperCase() ?? "";
 
+    const mandante =
+        document
+            .getElementById("filtroMandante")
+            ?.value ?? "";
+
 
     const constructora =
         document
@@ -1023,6 +1120,16 @@ function filtrarContratos(
 
             const nombreObra =
                 contrato.obra?.nombre ?? "";
+
+            const coincideMandante =
+            
+                filtroExcluido === "mandante" ||
+            
+                !mandante ||
+            
+                String(
+                    contrato.empresa?.id ?? ""
+                ) === String(mandante);
 
 
             const coincideTexto =
@@ -1100,6 +1207,8 @@ function filtrarContratos(
             return (
 
                 coincideTexto &&
+
+                coincideMandante &&
 
                 coincideConstructora &&
 
