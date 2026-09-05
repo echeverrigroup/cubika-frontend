@@ -381,6 +381,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Fecha generación</th>
 
+                            <th>Estado</th>
+
                             <th>Mandante</th>
 
                             <th>RUT trabajador</th>
@@ -404,8 +406,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                             <th>Obra</th>
 
                             <th>Cargo</th>
-
-                            <th>Estado</th>
 
                             <th>Acciones</th>
 
@@ -442,6 +442,23 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             ${formatearFechaHora(
                                                 contrato.fecha_generacion
                                             )}
+                                        </td>
+
+                                        <td class="estado-cell">                                        
+                        
+                                            <span
+                                                class="estado-indicador ${
+                                                    codigoEstado
+                                                        .toLowerCase()
+                                                        .replace("_", "-")
+                                                }"
+                                                title="${contrato.estado?.nombre ?? ""}"
+                                            >
+                        
+                                                ${contrato.estado?.simbolo ?? "●"}
+                        
+                                            </span>
+                        
                                         </td>
 
                                         <td>
@@ -498,23 +515,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             ${contrato.cargo?.nombre ?? "-"}
                                         </td>
                                         
-
-                                        <td class="estado-cell">                                        
-                        
-                                            <span
-                                                class="estado-indicador ${
-                                                    codigoEstado
-                                                        .toLowerCase()
-                                                        .replace("_", "-")
-                                                }"
-                                                title="${contrato.estado?.nombre ?? ""}"
-                                            >
-                        
-                                                ${contrato.estado?.simbolo ?? "●"}
-                        
-                                            </span>
-                        
-                                        </td>
                                         
                                         <td>
 
