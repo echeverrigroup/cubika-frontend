@@ -10,17 +10,21 @@ import {
 from "../components/modal.js";
 
 
+// ============================================================
+// RENDER DE LA PESTAÑA CARGOS
+// ============================================================
 
-export async function renderConstructionCargos() {
+export async function renderCargosTab(container) {
 
-    const content =
-        document.querySelector(".content");
+    if (!container)
+        return;
 
-    content.innerHTML = `
+
+    container.innerHTML = `
 
         <div class="page-header">
 
-            <h1>Cargos</h1>
+            <h2>Cargos</h2>
 
             <button id="btnNuevoCargo">
 
@@ -51,37 +55,56 @@ export async function renderConstructionCargos() {
     `;
 
 
-    await cargarCargos();
+    await cargarCargos(container);
 
 
-    document
-        .getElementById("btnNuevoCargo")
-        .addEventListener(
+    const btnNuevo =
+        container.querySelector("#btnNuevoCargo");
+
+
+    if (btnNuevo) {
+
+       btnNuevo.addEventListener(
             "click",
-            mostrarFormularioNuevoCargo
+            () => mostrarFormularioNuevoCargo(container)
         );
 
+    }
 
-    document
-        .getElementById("buscarCargo")
-        .addEventListener(
+
+    const buscar =
+        container.querySelector("#buscarCargo");
+
+
+    if (buscar) {
+
+        buscar.addEventListener(
             "keyup",
-            cargarCargos
+            () => cargarCargos(container)
         );
+
+    }
 
 }
 
 
+// ============================================================
+// CARGAR CARGOS
+// ============================================================
 
-async function cargarCargos() {
+async function cargarCargos(container) {
 
     const table =
-        document.getElementById("cargosTable");
+        container.querySelector("#cargosTable");
+
+
+    if (!table)
+        return;
 
 
     const filtro =
-        document
-            .getElementById("buscarCargo")
+        container
+            .querySelector("#buscarCargo")
             ?.value
             .trim()
             .toUpperCase();
@@ -230,25 +253,31 @@ async function cargarCargos() {
         html;
 
 
-    document
+    container
         .querySelectorAll(".btn-edit")
         .forEach(btn => {
 
             btn.addEventListener(
                 "click",
-                () => editarCargo(btn.dataset.id)
+                () => editarCargo(
+                    btn.dataset.id,
+                    container
+                )
             );
 
         });
 
 
-    document
+    container
         .querySelectorAll(".btn-toggle-estado")
         .forEach(btn => {
 
             btn.addEventListener(
                 "click",
-                () => cambiarEstadoCargo(btn.dataset.id)
+                () => cambiarEstadoCargo(
+                    btn.dataset.id,
+                    container
+                )
             );
 
         });
@@ -256,7 +285,11 @@ async function cargarCargos() {
 }
 
 
-async function mostrarFormularioNuevoCargo() {
+// ============================================================
+// NUEVO CARGO
+// ============================================================
+
+async function mostrarFormularioNuevoCargo(container) {
 
     showFormModal({
 
@@ -267,18 +300,23 @@ async function mostrarFormularioNuevoCargo() {
 
         submitText: "Guardar",
 
-        onSubmit: crearCargo
+        onSubmit: () =>
+            crearCargo(container)
 
     });
 
 }
 
 
+// ============================================================
+// EDITAR CARGO
+// ============================================================
 
-async function editarCargo(id) {
+async function editarCargo(id, container) {
 
     const cargo =
         await cargosService.getById(id);
+
 
     if (!cargo)
         return;
@@ -294,13 +332,16 @@ async function editarCargo(id) {
         submitText: "Actualizar",
 
         onSubmit: () =>
-            actualizarCargo(id)
+            actualizarCargo(id, container)
 
     });
 
 }
 
 
+// ============================================================
+// FORMULARIO
+// ============================================================
 
 async function obtenerFormularioCargo(cargo = null) {
 
@@ -351,15 +392,21 @@ async function obtenerFormularioCargo(cargo = null) {
 }
 
 
-async function crearCargo() {
+// ============================================================
+// CREAR CARGO
+// ============================================================
+
+async function crearCargo(container) {
 
     setModalError("");
+
 
     const nombre =
         document
             .getElementById("nombre")
             .value
             .trim();
+
 
     const descripcion =
         document
@@ -382,6 +429,7 @@ async function crearCargo() {
     try {
 
         setModalLoading(true);
+
 
         await cargosService.create({
 
@@ -393,7 +441,10 @@ async function crearCargo() {
 
         });
 
-        await cargarCargos();
+
+        if (container)
+            await cargarCargos(container);
+
 
         setModalLoading(false);
 
@@ -405,11 +456,14 @@ async function crearCargo() {
 
         console.error(error);
 
+
         setModalLoading(false);
+
 
         setModalError(
             "No fue posible guardar el cargo."
         );
+
 
         return false;
 
@@ -418,17 +472,21 @@ async function crearCargo() {
 }
 
 
+// ============================================================
+// ACTUALIZAR CARGO
+// ============================================================
 
-
-async function actualizarCargo(id) {
+async function actualizarCargo(id, container) {
 
     setModalError("");
+
 
     const nombre =
         document
             .getElementById("nombre")
             .value
             .trim();
+
 
     const descripcion =
         document
@@ -451,6 +509,7 @@ async function actualizarCargo(id) {
     try {
 
         setModalLoading(true);
+
 
         await cargosService.update(id, {
 
@@ -463,7 +522,10 @@ async function actualizarCargo(id) {
 
         });
 
-        await cargarCargos();
+
+        if (container)
+            await cargarCargos(container);
+
 
         setModalLoading(false);
 
@@ -475,11 +537,14 @@ async function actualizarCargo(id) {
 
         console.error(error);
 
+
         setModalLoading(false);
+
 
         setModalError(
             "No fue posible actualizar el cargo."
         );
+
 
         return false;
 
@@ -488,10 +553,15 @@ async function actualizarCargo(id) {
 }
 
 
-async function cambiarEstadoCargo(id) {
+// ============================================================
+// CAMBIAR ESTADO
+// ============================================================
+
+async function cambiarEstadoCargo(id, container) {
 
     const cargo =
         await cargosService.getById(id);
+
 
     if (!cargo)
         return;
@@ -522,7 +592,9 @@ async function cambiarEstadoCargo(id) {
 
                 });
 
-                await cargarCargos();
+
+                if (container)
+                    await cargarCargos(container);
 
             }
 
@@ -537,5 +609,3 @@ async function cambiarEstadoCargo(id) {
     );
 
 }
-
-
