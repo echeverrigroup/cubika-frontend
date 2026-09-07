@@ -11,7 +11,7 @@ from "./pages/construccionWelcome.js";
 
 import { renderConstructionEmpresas } from "./pages/construction_empresas.js";
 import { renderConstructionTrabajadores } from "./pages/construction_trabajadores.js";
-import { renderConstructionObras } from "./pages/construction_obras.js";
+
 import { renderConstructionCargos } from "./pages/construction_cargos.js";
 import { renderConstructionContratos } from "./pages/construction_contratos.js";
 import { renderConstructionPlantillas } from "./pages/construction_plantillas.js";
@@ -60,11 +60,8 @@ export function navigate(page, params = null) {
         case "construction_trabajadores":
         renderConstructionTrabajadores();
         break;
-    
-        case "construction_obras":
-        renderConstructionObras();
-        break;
-    
+
+            
         case "construction_cargos":
         renderConstructionCargos();
         break;
