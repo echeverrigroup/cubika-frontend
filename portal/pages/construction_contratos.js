@@ -1685,10 +1685,13 @@ function exportarContratosExcel(contratos) {
 
             const trabajador =
                 contrato.worker
-                    ? `${contrato.worker.nombres ?? ""}
-                        ${contrato.worker.apellido_paterno ?? ""}
-                        ${contrato.worker.apellido_materno ?? ""}`
-                        .trim()
+                    ? [
+                        contrato.worker.nombres,
+                        contrato.worker.apellido_paterno,
+                        contrato.worker.apellido_materno
+                    ]
+                        .filter(Boolean)
+                        .join(" ")
                     : "-";
 
             return {
