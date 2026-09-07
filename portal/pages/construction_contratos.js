@@ -23,9 +23,6 @@ from "../services/contratosGeneradosService.js";
 import { supabase }
 from "../../js/supabaseClient.js";
 
-import * as XLSX from "xlsx";
-
-
 
 let contratosVisibles = [];
 
