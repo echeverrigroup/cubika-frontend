@@ -10,6 +10,10 @@ import {
 
 from "../utils/tableSort.js";
 
+import {
+    renderCargosTab
+}
+from "./construction_cargos.js";
 
 import { geograficaService }
 from "../services/geograficaService.js";
@@ -39,57 +43,209 @@ export async function renderConstructionTrabajadores() {
     const content =
         document.querySelector(".content");
 
+
     content.innerHTML = `
 
         <div class="page-header">
 
             <h1>Trabajadores</h1>
 
-            <button id="btnNuevoTrabajador">
+        </div>
 
-                + Nuevo Trabajador
+
+        <div class="cubika-tabs">
+
+            <button
+                type="button"
+                class="cubika-tab active"
+                data-tab="trabajadores">
+
+                Trabajadores
+
+            </button>
+
+
+            <button
+                type="button"
+                class="cubika-tab"
+                data-tab="cargos">
+
+                Cargos
 
             </button>
 
         </div>
 
 
-        <div class="table-filters">
+        <div
+            id="trabajadoresTab"
+            class="cubika-tab-content">
 
-            <input
-                id="buscarTrabajador"
-                class="cubika-input"
-                type="text"
-                placeholder="Buscar trabajador...">
+            <div class="page-header">
+
+                <div></div>
+
+                <button id="btnNuevoTrabajador">
+
+                    + Nuevo Trabajador
+
+                </button>
+
+            </div>
+
+
+            <div class="table-filters">
+
+                <input
+                    id="buscarTrabajador"
+                    class="cubika-input"
+                    type="text"
+                    placeholder="Buscar trabajador...">
+
+            </div>
+
+
+            <div id="trabajadoresTable">
+
+                Cargando...
+
+            </div>
 
         </div>
 
 
-        <div id="trabajadoresTable">
-
-            Cargando...
+        <div
+            id="cargosTab"
+            class="cubika-tab-content"
+            style="display:none;">
 
         </div>
 
     `;
 
+
+    // ========================================================
+    // ELEMENTOS
+    // ========================================================
+
+    const tabs =
+        content.querySelectorAll(".cubika-tab");
+
+
+    const trabajadoresTab =
+        content.querySelector("#trabajadoresTab");
+
+
+    const cargosTab =
+        content.querySelector("#cargosTab");
+
+
+    // ========================================================
+    // CARGAR TRABAJADORES
+    // ========================================================
+
     await cargarTrabajadores();
 
-    const btnNuevo = document.getElementById("btnNuevoTrabajador");
 
-        if (btnNuevo) {
-            btnNuevo.addEventListener("click", mostrarFormularioNuevoTrabajador);
-        }
+    const btnNuevo =
+        content.querySelector("#btnNuevoTrabajador");
 
-    document
-        .getElementById("buscarTrabajador")
-        .addEventListener(
+
+    if (btnNuevo) {
+
+        btnNuevo.addEventListener(
+            "click",
+            mostrarFormularioNuevoTrabajador
+        );
+
+    }
+
+
+    const buscar =
+        content.querySelector("#buscarTrabajador");
+
+
+    if (buscar) {
+
+        buscar.addEventListener(
             "keyup",
             cargarTrabajadores
         );
 
-}
+    }
 
+
+    // ========================================================
+    // CAMBIO DE PESTAÑAS
+    // ========================================================
+
+    tabs.forEach(tab => {
+
+        tab.addEventListener(
+            "click",
+            async () => {
+
+                const tabSeleccionada =
+                    tab.dataset.tab;
+
+
+                tabs.forEach(t =>
+                    t.classList.remove("active")
+                );
+
+
+                tab.classList.add("active");
+
+
+                if (
+                    tabSeleccionada ===
+                    "trabajadores"
+                ) {
+
+                    trabajadoresTab.style.display =
+                        "block";
+
+                    cargosTab.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                if (
+                    tabSeleccionada ===
+                    "cargos"
+                ) {
+
+                    trabajadoresTab.style.display =
+                        "none";
+
+                    cargosTab.style.display =
+                        "block";
+
+
+                    if (
+                        !cargosTab.dataset.loaded
+                    ) {
+
+                        await renderCargosTab(
+                            cargosTab
+                        );
+
+                        cargosTab.dataset.loaded =
+                            "true";
+
+                    }
+
+                }
+
+            }
+        );
+
+    });
+
+}
 
 
 async function cargarTrabajadores() {
