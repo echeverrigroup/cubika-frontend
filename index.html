@@ -1,1595 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0LFZ56HRYN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0LFZ56HRYN');
-</script>
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cubika | La operación de tu empresa, conectada</title>
+  <meta name="description" content="Cubika centraliza datos, procesos y herramientas en una plataforma que se adapta a la operación de cada empresa.">
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <meta name="theme-color" content="#0C355C">
 
   <link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-  rel="stylesheet">
-
-  <!-- favicon principal (.ico) -->
-<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
-
-<!-- favicons adicionales (opcional, mejora compatibilidad) -->
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link rel="icon" href="/favicon-32x32.png" sizes="32x32">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16">
-
-<!-- icono para iOS (cuando alguien añade al home screen) -->
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-<!-- color de la barra en navegadores móviles -->
-<meta name="theme-color" content="#0C355C">
-
-  
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cubika | Soluciones Logísticas Inteligentes </title>
-
-  
-  <style>
-
-
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: white;
-      color: black;
-
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-}
-
-.site-footer {
-  margin-top: auto;
-    }
-
-
-    
-    h1 {
-      color: #236D0C;
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      color: #0F0F0F;
-      font-size: 1.2rem;
-      max-width: 500px;
-      line-height: 1.2;
-    }
-
-    
-    .cta-upload {
-  margin-top: 30px;
-  padding: 14px 28px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, #236D0C, #2FA01B);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: all 0.25s ease;
-}
-
-.cta-upload2 {
-  margin-top: -15px;
-  padding: 14px 14px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: white;
-  background: linear-gradient(135deg, #67E13D, #236D0C);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  
-  transition: all 0.25s ease;
-}
-
-    
-.cta-upload:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-}
-
-.cta-upload2:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-}
-
-.site-footer {
-  width: 100%;
-  background-color: #0b0f1a;
-  color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 40px;
-}
-
-.footer-center {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.footer-center a {
-  font-size: 14px;
-  color: #bfc5d2;
-  text-decoration: none;
-}
-
-    
-    
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.footer-logo {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.footer-tagline {
-    font-size: 14px;
-    line-height: 1.5;
-    color: #BFC5D2;
-}
-
-    
-.footer-right a {
-  margin-left: 24px;
-  font-size: 14px;
-  color: #bfc5d2;
-  text-decoration: none;
-}
-
-.footer-right a:hover {
-  color: #ffffff;
-}
-
-.footer-bottom {
-  text-align: center;
-  font-size: 12px;
-  color: #8b90a0;
-  padding: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-
-@media (max-width: 768px) {
-  .footer-inner {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
-
-  .footer-right a {
-    margin: 0 10px;
-  }
-}
-
-
-.hero {
-  position: relative;
-  padding: 140px 40px;
-  overflow: hidden;
-  background: radial-gradient(circle at 20% 30%, #eaf2ff 0%, #ffffff 60%);
- /* background: #0b2b4b;*/
-} 
-
-    
-.hero-mobile-image{
-  display:none;
-}
-    
-
-    
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: url('./img/imagen-hero12.png') no-repeat;
-  background-size: auto 100%;
-
-  /* 👇 CLAVE */
-  background-position: calc(50% + 50px) center;
-
-  z-index: 0;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(11, 43, 75, 0.95) 0%,
-    rgba(11, 43, 75, 0.85) 35%,
-    rgba(11, 43, 75, 0.4) 60%,
-    rgba(11, 43, 75, 0) 100%
-  );
-  z-index: 1;
-}
-
-
-.hero::before {
-  content: "";
-  position: absolute;
-  top: -200px;
-  right: -200px;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(87,194,33,0.15), transparent 70%);
-  filter: blur(60px);
-  z-index: 0;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  bottom: -120px;
-  left: -120px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(20,65,144,0.12), transparent 70%);
-  filter: blur(70px);
-  z-index: 0;
-}
-
-.hero-container {
-  position: relative;
-  z-index: 2;
-}
-    
-.hero-container {
-  max-width: 1250px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  align-items: center;
-  gap: 30px;
-}
-
-.hero-text h1 {
-  font-size: 3rem;
-  letter-spacing: -0.5px;
-  line-height: 1.15;
-  color: #0b2b4b;
-  margin-bottom: 22px;
-  font-weight: 700;
-}
-
-.hero-text p {
-  font-size: 1.1rem;
-  color: #4a5d73;
-  max-width: 540px;
-  margin-bottom: 18px;
-}
-
-.hero-text {
-  max-width: 600px;
-}
-
-.hero-text .hero-note {
-  font-size: 0.95rem;
-  color: #6b7c93;
-  margin-bottom: 36px;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 18px;
-}
-
-
-.btn-primary {
-  background-color: #3dbb2f;
-  color: #ffffff;
-  padding: 14px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #2fa125;
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: #0b2b4b;
-  padding: 14px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  border: 2px solid #0b2b4b;
-  transition: all 0.3s ease;
-}
-
-.btn-secondary {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-secondary::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #0b2b4b;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.btn-secondary:hover::after {
-  opacity: 1;
-}
-
-.btn-secondary:hover {
-  color: #ffffff;
-}
-
-
-.hero-visual {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-visual img {
-  width: 115%;
-  max-width: 780px;
-  transform: translateX(40px);
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15));
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-
-  /* ===== HERO GENERAL ===== */
-  .hero {
-    padding: 80px 20px;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 100%;
-  }
-
-  /* ===== TEXTO ===== */
-  .hero-text h1 {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ===== BOTONES ===== */
-  .hero-actions {
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    max-width: 320px;
-    text-align: center;
-  }
-
-  /* ===== IMAGEN HERO (IMPORTANTE) ===== */
-  .hero-bg {
-    display: none;
-  }
-
-  /* Imagen abajo del texto */
-  .hero::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 220px;
-    margin-top: 40px;
-
-    background: url('./img/imagen-hero10.png') no-repeat center;
-    background-size: contain;
-  }
-
-}
-/* ================= HEADER ================= */
-
-.main-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-
-    backdrop-filter:blur(12px);
-
-    background:
-    rgba(255,255,255,.92);
-}
-
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 7px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-logo img {
-  height: 70px;
-}
-
-.header-nav {
-  display: flex;
-  gap: 42px;
-}
-
-.header-nav a {
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  color: #0a2540;
-}
-
-.header-actions .btn-login {
-  background: #0b2b4b;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.menu-toggle {
-  display: none;
-  font-size: 36px;
-  cursor: pointer;
-}
-
-
-/* =============== MOBILE MENU =============== */
-
-.mobile-menu {
-  display: none;
-  background: #fff;
-  padding: 24px;
-  border-bottom: 1px solid #eee;
-}
-
-.mobile-menu a {
-  display: block;
-  padding: 14px 0;
-  font-size: 18px;
-  text-decoration: none;
-  color: #0a2540;
-}
-
-.mobile-login {
-  margin-top: 12px;
-  background: #57c221;
-  color: #fff;
-  text-align: center;
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-/* ============== RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-
-  .header-nav,
-  .header-actions {
-    display: none;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-}
-
-
-/* Header appear animation */
-.main-header {
-  animation: headerAppear 0.45s ease-out both;
-}
-
-@keyframes headerAppear {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-.header-nav a {
-  position: relative;
-}
-
-.header-nav a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background-color: #57c221;
-  transition: all 0.25s ease;
-  transform: translateX(-50%);
-}
-
-.header-nav a:hover::after {
-  width: 100%;
-}
-
-
-.header-actions .btn-login {
-  transition: all 0.2s ease;
-}
-
-.header-actions .btn-login:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.header-actions .btn-login:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-}
-
-
-/* ========== HOW IT WORKS SECTION ========== */
-
-.how-it-works {
-  padding: 40px 40px;
-  background-color: #f7f9fc;
-}
-
-.how-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.how-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.how-header h2 {
-  font-size: 2.4rem;
-  color: #0b2b4b;
-  margin-bottom: 16px;
-}
-
-.how-header p {
-  font-size: 1.1rem;
-  color: #4a5d73;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.how-steps {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 50px;
-  align-items: stretch;
-}
-
-.how-step {
-  background: #ffffff;
-  padding: 40px 32px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
-}
-
-.how-step-center {
-  border: 2px solid #144190;
-}
-
-.step-icon {
-  font-size: 40px;
-  margin-bottom: 20px;
-  width: 170px;
-  height: 170px;
-  margin: 0 auto 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.step-icon img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-    
-.how-step h3 {
-  font-size: 1.4rem;
-  color: #0b2b4b;
-  margin-bottom: 14px;
-}
-
-.how-step p {
-  font-size: 1rem;
-  color: #4a5d73;
-  line-height: 1.5;
-}
-
-/* ========== RESPONSIVE ========== */
-
-@media (max-width: 900px) {
-
-  .how-it-works {
-    padding: 80px 24px;
-  }
-
-  .how-steps {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .how-step-center {
-    order: -1;
-  }
-
-}
-
-/* ========== USE CASES SECTION ========== */
-
-.use-cases {
-  padding: 40px 40px 80px 40px;
-
-  position: relative;
-  overflow: hidden;
-  background: radial-gradient(circle at 20% 30%, #eaf2ff 0%, #ffffff 70%);
-  );
-}
-
-.use-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.use-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.use-header h2 {
-  font-size: 2.3rem;
-  color: #0b2b4b;
-  margin-bottom: 16px;
-}
-
-.use-header p {
-  font-size: 1.1rem;
-  color: #4a5d73;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.use-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-}
-
-.use-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-}
-
-.use-card h3 {
-  font-size: 1.25rem;
-  color: #0b2b4b;
-  margin-bottom: 12px;
-}
-
-.use-card p {
-  font-size: 0.95rem;
-  color: #4a5d73;
-  line-height: 1.45;
-}
-
-.use-card {
-  background: #f7f9fc;
-  padding: 36px 28px;
-  border-radius: 16px;
-  text-align: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-    
-
-.use-icon {
-  font-size: 36px;
-  margin-bottom: 18px;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.use-icon img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-
-/* ========== RESPONSIVE ========== */
-
-@media (max-width: 900px) {
-
-  .use-cases {
-    padding: 80px 24px;
-  }
-
-  .use-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-}
-
-
-/* ==========================
-   CUBIKA FLOW
-========================== */
-
-.cubika-flow {
-
-    position: relative;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 30px;
-
-    margin-top: 60px;
-}
-
-.flow-line {
-
-    position: absolute;
-
-    top: 55px;
-    left: 10%;
-
-    width: 80%;
-    height: 3px;
-
-    background: linear-gradient(
-        90deg,
-        #42C12E,
-        #0B2F5B
-    );
-
-    z-index: 0;
-}
-
-.flow-step {
-
-    position: relative;
-
-    flex: 1;
-
-    text-align: center;
-
-    z-index: 1;
-}
-
-.flow-circle {
-
-    width: 140px;
-    height: 140px;
-
-    margin: 0 auto 24px;
-
-    border-radius: 50%;
-
-    background: white;
-
-    border: 3px solid #D7F3EA;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.06);
-}
-
-.flow-circle img {
-
-    width: 80%;
-    height: 80%;
-
-    object-fit: contain;
-}
-
-.flow-step h3 {
-
-    color: #0B2F5B;
-
-    margin-bottom: 12px;
-
-    font-size: 1.3rem;
-}
-
-.flow-step p {
-
-    max-width: 230px;
-
-    margin: 0 auto;
-
-    font-size: .95rem;
-
-    line-height: 1.5;
-
-    color: #4A5D73;
-}
-    
-
-
-/* =====================================
-   WHY CUBIKA
-===================================== */
-
-.why-cubika {
-
-   padding: 20px 40px 80px 40px;
-
-  background: #F7F9FC;
-}
-
-.why-container {
-
-  max-width: 1200px;
-
-  margin: 0 auto;
-}
-
-.why-header {
-
-  text-align: center;
-
-  margin-bottom: 70px;
-}
-
-.why-header h2 {
-
-  font-size: 2.3rem;
-
-  color: #0B2F5B;
-
-  margin-bottom: 16px;
-}
-
-.why-header p {
-
-  font-size: 1.1rem;
-
-  color: #4A5D73;
-
-  max-width: 700px;
-
-  margin: 0 auto;
-}
-
-.why-grid {
-
-  display: grid;
-
-  grid-template-columns: repeat(4, 1fr);
-
-  gap: 28px;
-}
-
-.why-card {
-
-  background: white;
-
-  padding: 5px 5px;
-
-  border-radius: 16px;
-
-  text-align: center;
-
-  transition: all .25s ease;
-
-  box-shadow: 0 8px 24px rgba(0,0,0,.04);
-}
-
-.why-card:hover {
-
-  transform: translateY(-4px);
-
-  box-shadow: 0 16px 32px rgba(0,0,0,.08);
-}
-
-.why-icon {
-
-    width: 220px;
-    height: 220px;
-
-     margin: 0 auto 24px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-    
-.why-icon img {
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-}
-    
-   
-.why-card h3 {
-
-  color: #0B2F5B;
-
-  margin-bottom: 12px;
-
-  font-size: 1.25rem;
-}
-
-.why-card p {
-
-  color: #4A5D73;
-
-  font-size: .95rem;
-
-  line-height: 1.5;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 900px) {
-
-  .cubika-flow {
-
-        flex-direction: column;
-
-        align-items: center;
-
-        gap: 50px;
-    }
-
-    .flow-line {
-
-        display: none;
-    }
-
-    .flow-step {
-
-        max-width: 320px;
-    }
-
-  .why-grid {
-
-    grid-template-columns: 1fr;
-  }
-}
-
-.why-icon {
-
-    width: 240px;
-    height: 240px;
-
-    margin: 0 auto 4px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.why-icon img {
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-}
-
-
-.footer-brand {
-
-    height: 56px;
-    width: auto;
-
-    object-fit: contain;
-
-    flex-shrink: 0;
-}
-
-
-/* ==================================
-   MOBILE FIRST AJUSTES GENERALES
-================================== */
-
-
-@media (max-width: 768px){
-
-
-   .hero-bg{
-    display:none;
-  }
-
-  .hero-mobile-image{
-    display:block;
-    margin-top:40px;
-    text-align:center;
-  }
-
-  .hero-mobile-image img{
-    width:100%;
-    max-width:420px;
-    height:auto;
-  }
-  
-  .header-logo img{
-    height: 48px;
-  }
-
-  .header-container{
-    padding: 10px 18px;
-  }
-
-  .menu-toggle{
-    font-size: 30px;
-  }
-
-  .hero{
-    padding: 60px 20px;
-  }
-
-  .hero-text h1{
-    font-size: 2rem;
-  }
-
-  .hero-text p{
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .hero-actions{
-  margin-top: 30px;
-}
-
-  .btn-primary,
-  .btn-secondary{
-
-    padding:16px 20px;
-    font-size:1rem;
-  }
-
-  .step-icon{
-    width:120px;
-    height:120px;
-  }
-
-  .use-icon{
-    width:110px;
-    height:110px;
-  }
-
-  .why-icon{
-    width:140px;
-    height:140px;
-  }
-
-  .why-card{
-  padding:20px;
-}
-
-  .how-header h2,
-  .use-header h2,
-  .why-header h2{
-
-    font-size:1.8rem;
-    line-height:1.2;
-  }
-
-  .how-header p,
-  .use-header p,
-  .why-header p,
-  .how-step p,
-  .use-card p,
-  .why-card p{
-
-    font-size:.95rem;
-    line-height:1.6;
-  }
-
-
-  .footer-left{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .footer-brand{
-    height:42px;
-  }
-
-  .footer-center{
-    flex-direction:column;
-    gap:8px;
-  }
-
-  .footer-right{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:14px;
-  }
-
-  .footer-right a{
-    margin:0;
-  }
-  
-
-}
-
-
-
-@media (min-width:769px) and (max-width:1024px){
-
-  .network-container {
-
-        height: auto;
-
-        display: flex;
-        flex-direction: column;
-
-        gap: 40px;
-    }
-
-    .network-container::before,
-    .network-container::after {
-
-        display: none;
-    }
-
-    .network-center,
-    .network-node {
-
-        position: static;
-
-        transform: none;
-
-        width: 100%;
-        max-width: 320px;
-
-        margin: 0 auto;
-    }
-
-  .hero-container{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-
-  .use-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .why-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-
-/* ==========================
-   NETWORK SECTION
-========================== */
-
-.network-container {
-
-    position: relative;
-
-    width: 100%;
-    max-width: 1000px;
-
-    height: 700px;
-
-    margin: 60px auto 0;
-}
-
-/* CENTRO */
-
-.network-center {
-
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 320px;
-
-    padding: 40px;
-
-    background: white;
-
-    border-radius: 24px;
-
-    text-align: center;
-
-    box-shadow:
-        0 20px 40px rgba(0,0,0,.08);
-
-    border: 2px solid #D7F3EA;
-
-    z-index: 5;
-}
-
-.network-center img {
-
-    width: 120px;
-
-    margin-bottom: 20px;
-}
-
-.network-center h3 {
-
-    color: #0B2F5B;
-
-    margin-bottom: 12px;
-}
-
-.network-center p {
-
-    font-size: .95rem;
-
-    line-height: 1.5;
-
-    color: #4A5D73;
-}
-
-/* NODOS */
-
-.network-node {
-
-    position: absolute;
-
-    width: 220px;
-
-    text-align: center;
-}
-
-.network-icon {
-
-    width: 90px;
-    height: 90px;
-
-    margin: 0 auto 16px;
-
-    background: white;
-
-    border-radius: 50%;
-
-    border: 2px solid #D7F3EA;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.05);
-}
-
-.network-icon img {
-
-    width: 65%;
-    height: 65%;
-
-    object-fit: contain;
-}
-
-.network-node h3 {
-
-    color: #0B2F5B;
-
-    margin-bottom: 10px;
-}
-
-.network-node p {
-
-    font-size: .92rem;
-
-    color: #4A5D73;
-
-    line-height: 1.5;
-}
-
-/* POSICIONES */
-
-.node-top {
-
-    top: 0;
-    left: 50%;
-
-    transform: translateX(-50%);
-}
-
-.node-left {
-
-    top: 50%;
-    left: 0;
-
-    transform: translateY(-50%);
-}
-
-.node-right {
-
-    top: 50%;
-    right: 0;
-
-    transform: translateY(-50%);
-}
-
-.node-bottom {
-
-    bottom: 0;
-    left: 50%;
-
-    transform: translateX(-50%);
-}
-
-
-.network-container::before,
-.network-container::after {
-
-    content: "";
-
-    position: absolute;
-
-    background: #D7F3EA;
-}
-
-/* Línea vertical */
-
-.network-container::before {
-
-    width: 3px;
-
-    height: 100%;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-}
-
-/* Línea horizontal */
-
-.network-container::after {
-
-    height: 3px;
-
-    width: 100%;
-
-    top: 50%;
-
-    transform: translateY(-50%);
-}
-
-
-.use-grid{
-  display:flex;
-  flex-direction:column;
-  gap:32px;
-  margin-top:60px;
-}
-
-.use-row{
-  display:flex;
-  align-items:center;
-  gap:60px;
-
-  background:#fff;
-  border:1px solid rgba(11,47,91,.08);
-  border-radius:24px;
-  padding:40px;
-
-  transition:.3s ease;
-}
-
-.use-row:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 40px rgba(0,0,0,.08);
-}
-
-.use-row.reverse{
-  flex-direction:row-reverse;
-}
-
-.use-visual{
-  flex:1;
-  display:flex;
-  justify-content:center;
-}
-
-.use-visual img{
-  width:300px;
-  max-width:100%;
-}
-
-.use-content{
-  flex:1;
-}
-
-.use-content h3{
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 18px;
-}
-
-.use-content p{
-    font-size: 1rem;
-    line-height: 1.8;
-    max-width: 480px;
-}
-
-
-.use-row{
-    background:
-      linear-gradient(
-        135deg,
-        #ffffff 0%,
-        #f8fbff 100%
-      );
-}
-
-
-.use-row{
-    position: relative;
-}
-
-.use-row::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:25%;
-    height:50%;
-    width:1px;
-    background:rgba(11,47,91,.08);
-}
-
-
-@media (max-width: 768px){
-
-  .use-row,
-  .use-row.reverse{
-    flex-direction:column;
-    text-align:center;
-    gap:24px;
-  }
-
-  .use-visual img{
-    width:160px;
-  }
-
-}
-
-
-.use-tag{
-    display:inline-block;
-    margin-bottom:12px;
-
-    font-size:.75rem;
-    font-weight:700;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-
-    color:#42C12E;
-}
-
-    
-.use-content h3{
-    font-size:2rem;
-    font-weight:700;
-    color:#0B2F5B;
-
-    margin-bottom:8px;
-}
-
-.use-content h4{
-    font-size:1rem;
-    font-weight:600;
-
-    color:#2D4366;
-
-    margin-bottom:18px;
-}
-
-.use-content p{
-    font-size:1rem;
-    line-height:1.8;
-
-    color:#5B6475;
-
-    max-width:480px;
-}
-
-.use-content{
-    position:relative;
-    padding-left:24px;
-}
-
-.use-content::before{
-    content:"";
-    position:absolute;
-
-    left:0;
-    top:6px;
-
-    width:4px;
-    height:60px;
-
-    border-radius:10px;
-    background:#42C12E;
-}    
-
-  </style>
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LFZ56HRYN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0LFZ56HRYN');
+  </script>
 </head>
 
-  
 <body>
 
 <header class="main-header">
   <div class="header-container">
 
-    <div class="header-logo">
+    <a href="#" class="header-logo" aria-label="Cubika - inicio">
       <img src="./img/isologo-2.png" alt="Cubika">
-    </div>
+    </a>
 
-    <nav class="header-nav">
-      <a href="#producto">Producto</a>
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="#plataforma">Plataforma</a>
       <a href="#soluciones">Soluciones</a>
-      <a href="#planes">Planes</a>
+      <a href="#como-funciona">Cómo funciona</a>
       <a href="#contacto">Contacto</a>
     </nav>
 
@@ -1597,372 +51,658 @@
       <a href="/login.html" class="btn-login">Iniciar sesión</a>
     </div>
 
-    <div class="menu-toggle">☰</div>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#plataforma">Plataforma</a>
+    <a href="#soluciones">Soluciones</a>
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#contacto">Contacto</a>
+    <a href="/login.html" class="mobile-login">Iniciar sesión</a>
   </div>
 </header>
 
-<!-- MENÚ MOBILE -->
-<div class="mobile-menu">
-  <a href="#producto">Producto</a>
-  <a href="#soluciones">Soluciones</a>
-  <a href="#planes">Planes</a>
-  <a href="#contacto">Contacto</a>
-  <a href="/login.html" class="mobile-login">Iniciar sesión</a>
-</div>
 
-  
+<main>
 
-<section class="hero">
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+  <section class="hero">
 
-  <!-- IMAGEN DE FONDO -->
-  
-  <div class="hero-bg"></div>
-  
-  <!-- CONTENIDO -->
-  <div class="hero-container">
-    <div class="hero-text">
-      <h1>
-        Transforma datos en operaciones logísticas inteligentes
-      </h1>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
 
-      <p>
-       Centraliza inventarios, movimientos y procesos logísticos entre tiendas, bodegas y centros de distribución desde una sola plataforma.
-      </p>
+    <div class="hero-container">
 
-      <div class="hero-actions">
-        <a href="#contacto" class="btn-primary">Solicitar demo</a>
-        <a href="#como-funciona" class="btn-secondary">Explora la plataforma</a>
-      </div>
-    </div>
-    
-  </div>
+      <div class="hero-text">
 
-</section>
+        <span class="eyebrow">PLATAFORMA OPERACIONAL</span>
 
+        <h1>
+          La operación de tu empresa,
+          <span>conectada.</span>
+        </h1>
 
-<section class="how-it-works" id="como-funciona">
-  
-  <div class="how-container"> 
-    <div class="how-header"> 
-      
-      <h2>¿ Qué es cubika ?</h2> 
-      <p> Cubika es una plataforma de inteligencia logística que conecta datos, procesos y operaciones para mejorar la gestión de inventarios, movimientos, almacenamiento y distribución, permitiendo a las empresas operar con mayor eficiencia, visibilidad y control. </p> 
-    </div>
+        <p class="hero-lead">
+          Cubika centraliza datos, procesos y herramientas en una plataforma
+          que se adapta a la forma en que trabaja tu empresa.
+        </p>
 
+        <p class="hero-note">
+          Empieza resolviendo lo que hoy genera más fricción y evoluciona
+          incorporando nuevas capacidades cuando las necesites.
+        </p>
 
-<div class="cubika-flow">
-
-    <div class="flow-line"></div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
-            <img src="./img/input-image.png" alt="">
+        <div class="hero-actions">
+          <a href="#contacto" class="btn-primary">Solicitar demo</a>
+          <a href="#plataforma" class="btn-secondary">Conoce la plataforma</a>
         </div>
-
-        <h3>Conecta</h3>
-
-        <p>
-            Importa información desde planillas,
-            archivos o sistemas existentes.
-        </p>
-
-    </div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
-            <img src="./img/cubo-flow.png" alt="">
-        </div>
-
-        <h3>Organiza</h3>
-
-        <p>
-            Cubika valida, normaliza y estructura
-            la información para operar con confianza.
-        </p>
-
-    </div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
-            <img src="./img/output-image.png" alt="">
-        </div>
-
-        <h3>Opera</h3>
-
-        <p>
-            Ejecuta inventario, movimientos,
-            etiquetado y procesos logísticos.
-        </p>
-
-    </div>
-
-    <div class="flow-step">
-
-        <div class="flow-circle">
-            <img src="./img/control3.png" alt="">
-        </div>
-
-        <h3>Controla</h3>
-
-        <p>
-            Obtén trazabilidad,
-            indicadores y visibilidad operacional.
-        </p>
-
-    </div>
-
-    </div>
-
-    <div class="how-header"> 
-      <br><br><br><br>
-    <p>Opera y decide sobre información confiable, con la flexibilidad de integrarla a los procesos y herramientas que ya utiliza tu empresa. </p>
-  </div>
-  
-    </div>
-
-</section>
-
-
-  
-<section class="use-cases">
-  <div class="use-container">
-
-    <div class="use-header">
-  <h2>¿ Qué puedes hacer con cubika ?</h2>
-  <p>
-    Gestiona tus inventarios, mejora la trazabilidad de tus operaciones, optimiza movimientos y uso del espacio disponible con información útil para planificar y decidir con mayor precisión.
-  </p>
-</div>
-
-<div class="use-grid">
-
-  <!-- Inventario -->
-  <div class="use-row">
-    <div class="use-visual">
-      <img src="./img/inventario-image.png" alt="Inventario">
-    </div>
-
-    <div class="use-content">
-
-      <span class="use-tag">OPERACIÓN</span>
-      
-      <h3>Inventario</h3>
-      
-      <h4>Control y visibilidad de existencias</h4>
-      
-      <p>
-        Registra ingresos, salidas y ajustes, manteniendo un historial claro que facilita el control y la conciliación del inventario.
-      </p>
-    </div>
-  </div>
-
-  <!-- Etiquetado -->
-  <div class="use-row reverse">
-    <div class="use-visual">
-      <img src="./img/etiquetado2-image.png" alt="Etiquetado">
-    </div>
-
-    <div class="use-content">
-
-      <span class="use-tag">TRAZABILIDAD
-
-      </span>
-      
-      <h3>Etiquetado</h3>
-  
-       <h4>Estandarización y control operacional</h4>   
-      
-      <p>
-        Genera etiquetas operativas basadas en datos y requerimientos,
-        listas para impresión, lectura e integración.
-      </p>
-    </div>
-  </div>
-
- 
-  <!-- Traspasos -->
-  <div class="use-row">
-    <div class="use-visual">
-      <img src="./img/traspasos-image.png" alt="Traspasos">
-    </div>
-
-    <div class="use-content">
-
-      <span class="use-tag">INTELIGENCIA OPERACIONAL</span>
-      
-      <h3>Traspasos inteligentes</h3>
-  
-       <h4>Redistribución estratégica de stock</h4>  
-     
-      <p>
-        Detecta excedentes y faltantes entre sucursales para proponer
-        movimientos de stock que mejoran la disponibilidad y reducen
-        inventario inmovilizado.
-      </p>
-    </div>
-  </div>
-
-
-   <!-- Cubicación -->
-  <div class="use-row reverse">
-    <div class="use-visual">
-      <img src="./img/cubicacion2-image.png" alt="Cubicación">
-    </div>
-
-    <div class="use-content">
-
-      <span class="use-tag">OPTIMIZACIÓN</span>
-      
-       <h3>Cubicación</h3>
-  
-       <h4>Mejor uso del espacio disponible</h4>  
-     
-      <p>
-        Calcula volúmenes reales a partir de información validada,
-        reduciendo errores y sobrecostos operativos.
-      </p>
-    </div>
-  </div>
-
-
-</div>
-
-  </div>
-</section>
-
-
-
-<section class="why-cubika">
-
-  <div class="why-container">
-
-    <div class="why-header">
-
-      <h2>¿Por qué cubika?</h2>
-
-      <p>
-        Porque las operaciones necesitan resultados rápidos, información confiable y herramientas que se adapten a la realidad del negocio.
-      </p>
-
-    </div>
-
-    <div class="why-grid">
-
-      <div class="why-card">
-
-        <div class="why-icon">
-       <img src="./img/adaptable.png" alt="">
-              </div>
-
-        <h3>Se adapta a tu operación</h3>
-
-        <p>
-         Cubika se ajusta a tus procesos y fuentes de información actuales.
-        </p>
 
       </div>
 
-      <div class="why-card">
+    </div>
+  </section>
 
-         <div class="why-icon">
-          <img src="./img/integracion.png" alt="">
+
+  <!-- =====================================================
+       PROBLEMA / PROMESA
+  ====================================================== -->
+  <section class="problem-section">
+    <div class="section-container problem-grid">
+
+      <div class="problem-copy">
+        <span class="eyebrow">EL DESAFÍO</span>
+
+        <h2>
+          Tu operación ya tiene demasiadas piezas.
+        </h2>
+
+        <p>
+          Información dispersa, procesos manuales, herramientas que no
+          conversan entre sí y tareas que terminan convirtiéndose en
+          cuellos de botella.
+        </p>
+
+        <p>
+          Cubika conecta esas piezas para que la información pueda moverse
+          entre procesos y las herramientas respondan a las necesidades
+          reales de tu operación.
+        </p>
+      </div>
+
+      <div class="problem-visual">
+        <div class="floating-data data-one">
+          <strong>Datos</strong>
+          <span>Conectados</span>
+        </div>
+
+        <div class="floating-data data-two">
+          <strong>Procesos</strong>
+          <span>Relacionados</span>
+        </div>
+
+        <div class="floating-data data-three">
+          <strong>Operación</strong>
+          <span>Visible</span>
+        </div>
+
+        <div class="problem-core">
+          <img src="./img/cubo-flow.png" alt="Cubika">
+          <strong>Cubika</strong>
+          <span>Una plataforma para conectar tu operación</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       PLATAFORMA
+  ====================================================== -->
+  <section class="platform-section" id="plataforma">
+    <div class="section-container">
+
+      <div class="section-header">
+        <span class="eyebrow">LA PLATAFORMA</span>
+
+        <h2>
+          Una plataforma.
+          <span>Diferentes operaciones.</span>
+        </h2>
+
+        <p>
+          No todas las empresas operan igual. Cubika tampoco debería
+          obligarlas a hacerlo.
+        </p>
+      </div>
+
+
+      <div class="platform-model">
+
+        <div class="platform-center">
+          <div class="platform-logo-wrap">
+            <img src="./img/cubo-flow.png" alt="Cubika">
           </div>
-        <h3>Conecta y ordena datos</h3>
 
-        <p>
-          Integra archivos, sistemas y múltiples fuentes en una estructura consistente.
-        </p>
+          <h3>Cubika</h3>
 
+          <p>
+            La base común donde se conectan datos, procesos, usuarios
+            y herramientas.
+          </p>
+        </div>
+
+
+        <div class="platform-branches">
+
+          <article class="platform-node">
+            <div class="node-icon node-construction" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M12 54V26L32 12L52 26V54" stroke="currentColor" stroke-width="3"/>
+                <path d="M22 54V35H42V54" stroke="currentColor" stroke-width="3"/>
+                <path d="M8 54H56" stroke="currentColor" stroke-width="3"/>
+              </svg>
+            </div>
+            <span class="node-label">CONSTRUCCIÓN</span>
+            <h4>Gestión documental</h4>
+            <p>Contratos, trabajadores, obras y control de vigencias.</p>
+          </article>
+
+
+          <article class="platform-node">
+            <div class="node-icon node-retail" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none">
+                <path d="M11 25H53L49 54H15L11 25Z" stroke="currentColor" stroke-width="3"/>
+                <path d="M20 25L25 12H39L44 25" stroke="currentColor" stroke-width="3"/>
+                <path d="M24 34H40M24 42H36" stroke="currentColor" stroke-width="3"/>
+              </svg>
+            </div>
+            <span class="node-label">RETAIL</span>
+            <h4>Inventario y trazabilidad</h4>
+            <p>Stock, movimientos, traspasos, etiquetado y control operacional.</p>
+          </article>
+
+
+          <article class="platform-node">
+            <div class="node-icon node-custom" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none">
+                <rect x="12" y="14" width="40" height="36" rx="4" stroke="currentColor" stroke-width="3"/>
+                <path d="M21 25H43M21 33H43M21 41H35" stroke="currentColor" stroke-width="3"/>
+                <path d="M46 10V18" stroke="currentColor" stroke-width="3"/>
+              </svg>
+            </div>
+            <span class="node-label">OTRAS OPERACIONES</span>
+            <h4>Soluciones adaptadas</h4>
+            <p>Herramientas y flujos específicos para necesidades particulares.</p>
+          </article>
+
+        </div>
       </div>
 
-      <div class="why-card">
 
-         <div class="why-icon">
-        <img src="./img/escalable.png" alt="Cubika">
-           </div>
-
-        <h3>Escala contigo</h3>
-
-        <p>
-          Activa nuevos módulos y capacidades según crecen tus necesidades.
-        </p>
-
+      <div class="platform-statement">
+        <div class="statement-mark">+</div>
+        <div>
+          <strong>La plataforma es una. La solución puede ser diferente.</strong>
+          <p>
+            Cada empresa puede incorporar los módulos que necesita y ampliar
+            sus capacidades a medida que su operación evoluciona.
+          </p>
+        </div>
       </div>
 
-      <div class="why-card">
+    </div>
+  </section>
 
-        <div class="why-icon">
-        <img src="./img/inteligencia3.png" alt="Cubika">
-           </div>
 
-        <h3>Visibilidad para decidir</h3>
+  <!-- =====================================================
+       COMO FUNCIONA
+  ====================================================== -->
+  <section class="how-it-works" id="como-funciona">
+    <div class="section-container">
+
+      <div class="section-header compact">
+        <span class="eyebrow">CÓMO FUNCIONA</span>
+
+        <h2>
+          Conecta. Organiza. Opera. Controla.
+        </h2>
 
         <p>
-        Transforma información operativa en control, trazabilidad y mejores decisiones.
+          Cubika transforma información dispersa en una estructura sobre
+          la que tu empresa puede operar con mayor claridad y control.
         </p>
+      </div>
+
+
+      <div class="cubika-flow">
+
+        <div class="flow-line" aria-hidden="true"></div>
+
+        <article class="flow-step">
+          <div class="flow-circle">
+            <img src="./img/input-image.png" alt="">
+          </div>
+          <span class="flow-number">01</span>
+          <h3>Conecta</h3>
+          <p>
+            Integra información desde planillas, archivos, sistemas y
+            fuentes que tu empresa ya utiliza.
+          </p>
+        </article>
+
+
+        <article class="flow-step">
+          <div class="flow-circle">
+            <img src="./img/cubo-flow.png" alt="">
+          </div>
+          <span class="flow-number">02</span>
+          <h3>Organiza</h3>
+          <p>
+            Estructura y relaciona la información para que pueda utilizarse
+            de forma consistente entre procesos.
+          </p>
+        </article>
+
+
+        <article class="flow-step">
+          <div class="flow-circle">
+            <img src="./img/output-image.png" alt="">
+          </div>
+          <span class="flow-number">03</span>
+          <h3>Opera</h3>
+          <p>
+            Ejecuta los procesos que tu empresa necesita mediante módulos
+            especializados y herramientas operacionales.
+          </p>
+        </article>
+
+
+        <article class="flow-step">
+          <div class="flow-circle">
+            <img src="./img/control3.png" alt="">
+          </div>
+          <span class="flow-number">04</span>
+          <h3>Controla</h3>
+          <p>
+            Obtén trazabilidad, visibilidad e información útil para tomar
+            mejores decisiones.
+          </p>
+        </article>
 
       </div>
 
     </div>
-
-  </div>
-
-</section>
+  </section>
 
 
+  <!-- =====================================================
+       SOLUCIONES
+  ====================================================== -->
+  <section class="solutions-section" id="soluciones">
+    <div class="section-container">
+
+      <div class="section-header">
+        <span class="eyebrow">SOLUCIONES</span>
+
+        <h2>
+          Empieza por lo que
+          <span>necesitas resolver.</span>
+        </h2>
+
+        <p>
+          Cubika incorpora módulos especializados para resolver procesos
+          concretos, sin perder la conexión con el resto de la operación.
+        </p>
+      </div>
+
+
+      <div class="solution-list">
+
+        <article class="solution-row">
+          <div class="solution-visual">
+            <img src="./img/inventario-image.png" alt="Inventario">
+          </div>
+
+          <div class="solution-content">
+            <span class="solution-tag">OPERACIÓN</span>
+            <h3>Inventario</h3>
+            <h4>Control y visibilidad de existencias</h4>
+            <p>
+              Registra ingresos, salidas y ajustes manteniendo un historial
+              claro para controlar y conciliar el inventario.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="solution-row reverse">
+          <div class="solution-visual">
+            <img src="./img/etiquetado2-image.png" alt="Etiquetado">
+          </div>
+
+          <div class="solution-content">
+            <span class="solution-tag">TRAZABILIDAD</span>
+            <h3>Etiquetado</h3>
+            <h4>Estandarización y control operacional</h4>
+            <p>
+              Genera etiquetas operativas basadas en datos y requerimientos,
+              listas para impresión, lectura e integración.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="solution-row">
+          <div class="solution-visual">
+            <img src="./img/traspasos-image.png" alt="Traspasos inteligentes">
+          </div>
+
+          <div class="solution-content">
+            <span class="solution-tag">INTELIGENCIA OPERACIONAL</span>
+            <h3>Traspasos inteligentes</h3>
+            <h4>Redistribución estratégica de stock</h4>
+            <p>
+              Detecta excedentes y faltantes entre sucursales para apoyar
+              movimientos de stock que mejoren la disponibilidad.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="solution-row reverse">
+          <div class="solution-visual">
+            <img src="./img/cubicacion2-image.png" alt="Cubicación">
+          </div>
+
+          <div class="solution-content">
+            <span class="solution-tag">OPTIMIZACIÓN</span>
+            <h3>Cubicación</h3>
+            <h4>Mejor uso del espacio disponible</h4>
+            <p>
+              Calcula volúmenes reales a partir de información validada para
+              reducir errores y mejorar la planificación operacional.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       MODULARIDAD / CRECIMIENTO
+  ====================================================== -->
+  <section class="growth-section">
+    <div class="section-container growth-grid">
+
+      <div class="growth-visual">
+        <div class="growth-orbit orbit-one"></div>
+        <div class="growth-orbit orbit-two"></div>
+        <div class="growth-cube">
+          <img src="./img/cubo-flow.png" alt="Cubika">
+        </div>
+
+        <span class="growth-chip chip-one">Módulo</span>
+        <span class="growth-chip chip-two">Datos</span>
+        <span class="growth-chip chip-three">Proceso</span>
+        <span class="growth-chip chip-four">Operación</span>
+      </div>
+
+
+      <div class="growth-copy">
+        <span class="eyebrow">EVOLUCIÓN</span>
+
+        <h2>
+          Cúbika crece
+          <span>contigo.</span>
+        </h2>
+
+        <p class="growth-lead">
+          No necesitas transformar toda tu operación de una vez.
+        </p>
+
+        <p>
+          Puedes comenzar resolviendo un proceso específico, incorporar
+          nuevos módulos cuando aparezca una nueva necesidad y aprovechar
+          la información que ya existe dentro de la plataforma.
+        </p>
+
+        <div class="growth-points">
+          <div>
+            <strong>01</strong>
+            <span>Empieza donde existe el mayor cuello de botella.</span>
+          </div>
+          <div>
+            <strong>02</strong>
+            <span>Incorpora nuevas capacidades cuando las necesites.</span>
+          </div>
+          <div>
+            <strong>03</strong>
+            <span>Conecta los procesos sin duplicar información.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       A MEDIDA
+  ====================================================== -->
+  <section class="custom-section">
+    <div class="section-container">
+
+      <div class="custom-card">
+
+        <div class="custom-copy">
+          <span class="eyebrow">CUANDO LO ESTÁNDAR NO ES SUFICIENTE</span>
+
+          <h2>
+            Tu operación no tiene por qué
+            <span>encajar en una plantilla.</span>
+          </h2>
+
+          <p>
+            Algunas necesidades son comunes. Otras son propias de cada
+            empresa. Cubika puede adaptar procesos, flujos y herramientas
+            sobre la misma plataforma.
+          </p>
+
+          <p class="custom-emphasis">
+            Una base común. Soluciones específicas.
+          </p>
+        </div>
+
+        <div class="custom-visual">
+          <div class="custom-grid" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <span></span><span class="active"></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+
+          <div class="custom-center">
+            <img src="./img/cubo-flow.png" alt="Cubika">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       POR QUE CUBIKA
+  ====================================================== -->
+  <section class="why-section">
+    <div class="section-container">
+
+      <div class="section-header compact">
+        <span class="eyebrow">POR QUÉ CUBIKA</span>
+
+        <h2>
+          Diseñada para la realidad
+          <span>de tu negocio.</span>
+        </h2>
+
+        <p>
+          La tecnología debe adaptarse a la operación, no al revés.
+        </p>
+      </div>
+
+
+      <div class="why-grid">
+
+        <article class="why-card">
+          <div class="why-icon">
+            <img src="./img/adaptable.png" alt="">
+          </div>
+          <h3>Se adapta a tu operación</h3>
+          <p>
+            Se integra a tus procesos y fuentes de información actuales.
+          </p>
+        </article>
+
+
+        <article class="why-card">
+          <div class="why-icon">
+            <img src="./img/integracion.png" alt="">
+          </div>
+          <h3>Conecta y ordena datos</h3>
+          <p>
+            Relaciona información para que pueda utilizarse entre distintos
+            procesos.
+          </p>
+        </article>
+
+
+        <article class="why-card">
+          <div class="why-icon">
+            <img src="./img/escalable.png" alt="">
+          </div>
+          <h3>Escala contigo</h3>
+          <p>
+            Activa nuevos módulos y capacidades según evolucionan tus necesidades.
+          </p>
+        </article>
+
+
+        <article class="why-card">
+          <div class="why-icon">
+            <img src="./img/inteligencia3.png" alt="">
+          </div>
+          <h3>Visibilidad para decidir</h3>
+          <p>
+            Convierte información operacional en control, trazabilidad y decisiones.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================
+       CTA
+  ====================================================== -->
+  <section class="cta-section" id="contacto">
+    <div class="cta-glow" aria-hidden="true"></div>
+
+    <div class="section-container cta-container">
+
+      <span class="eyebrow">EMPECEMOS POR TU OPERACIÓN</span>
+
+      <h2>
+        ¿Dónde está hoy
+        <span>el cuello de botella?</span>
+      </h2>
+
+      <p>
+        Cuéntanos qué proceso necesitas mejorar y exploremos cómo
+        Cúbika puede convertirse en parte de tu operación.
+      </p>
+
+      <div class="cta-actions">
+        <a href="mailto:contacto@cubika.cl" class="btn-primary">Solicitar demo</a>
+        <a href="/login.html" class="btn-secondary light">Portal clientes</a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
 
 
 <footer class="site-footer">
   <div class="footer-inner">
-    
+
     <div class="footer-left">
+      <img
+        src="./img/logo-blanco.png"
+        alt="Cubika"
+        class="footer-brand">
 
-  <img
-    src="./img/logo-blanco.png"
-    alt="Cubika"
-    class="footer-brand">
+      <span class="footer-tagline">
+        <b>La operación de tu empresa, conectada.</b><br>
+        Steven Rodriguez Echeverri<br>
+        <em>Fundador · CEO</em>
+      </span>
+    </div>
 
-  <span class="footer-tagline">
-    <b style="color:white;">
-    Inteligencia logística basada en datos.
-    </b><br>
-    Steven Rodriguez Echeverri<br>
-    <em>Fundador · CEO</em>
-    </span>
-
-</div>
-
- <div class="footer-center">
+    <div class="footer-center">
       <a href="/login.html">Portal Clientes</a>
-  </div>
+    </div>
 
     <div class="footer-right">
-      <a href="#">Producto</a>
-      <a href="#">Soluciones</a>
-      <a href="#">Contacto</a>
-      <a href="#">Privacidad</a>      
+      <a href="#plataforma">Plataforma</a>
+      <a href="#soluciones">Soluciones</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#">Privacidad</a>
     </div>
 
   </div>
 
   <div class="footer-bottom">
-  © <span id="currentYear"></span> Cubika. Todos los derechos reservados.
-</div>
-
+    © <span id="currentYear"></span> Cubika. Todos los derechos reservados.
+  </div>
 </footer>
 
 
-  <script>
-  document.getElementById("currentYear").textContent = new Date().getFullYear();
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('is-open');
+    menuToggle.classList.toggle('is-open', isOpen);
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('is-open');
+      menuToggle.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
 </script>
 
-  
 </body>
-
-
-  
 </html>
