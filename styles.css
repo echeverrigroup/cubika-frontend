@@ -372,7 +372,7 @@ button {
   max-width: 640px;
   margin: 0 0 24px;
   color: var(--blue-900);
-  font-size: clamp(2.0rem, 5vw, 4.2rem);
+  font-size: clamp(2.8rem, 5vw, 3.2rem);
   line-height: 1.05;
   letter-spacing: -2px;
   font-weight: 750;
