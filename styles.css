@@ -529,7 +529,7 @@ button {
 
 .platform-model {
   position: relative;
-  min-height: 560px;
+  min-height: 640px;
   margin-top: 20px;
   display: grid;
   place-items: center;
