@@ -529,7 +529,7 @@ button {
 
 .platform-model {
   position: relative;
-  min-height: clamp(620px, 42vw, 680px);
+  min-height: 640px;
   margin-top: 20px;
   display: grid;
   place-items: center;
@@ -539,6 +539,7 @@ button {
   position: relative;
   z-index: 3;
   width: min(340px, 90%);
+  transform: translateY(-70px);
   padding: 38px;
   text-align: center;
   background: #fff;
@@ -625,7 +626,7 @@ button {
 }
 
 .platform-node:nth-child(3) {
-  bottom: 18px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -1573,6 +1574,7 @@ button {
 
   .platform-center {
     width: min(100%, 340px);
+    transform: none;
   }
 
   .platform-branches {
