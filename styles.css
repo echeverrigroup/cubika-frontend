@@ -540,7 +540,7 @@ margin-top: 2px;
   z-index: 3;
   width: min(320px, 90%);
   transform: translateY(-70px);
-  padding: 1px;
+  padding: 10px;
   text-align: center;
   background: #fff;
   border: 2px solid var(--green-100);
