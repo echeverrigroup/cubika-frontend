@@ -540,7 +540,7 @@ button {
   z-index: 3;
   width: min(340px, 90%);
   transform: translateY(-70px);
-  padding: 38px;
+  padding: 8px;
   text-align: center;
   background: #fff;
   border: 2px solid var(--green-100);
