@@ -301,9 +301,7 @@ button {
   min-height: 570px;
   overflow: hidden;
   isolation: isolate;
-  background:
-    radial-gradient(circle at 15% 30%, #EAF2FF 0%, #fff 55%),
-    #fff;
+  
 }
 
 .hero-bg {
