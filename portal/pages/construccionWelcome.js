@@ -299,8 +299,8 @@ export function renderConstructionWelcome() {
                     </h1>
 
                     <p>
-                        En esta breve guiá de inicio queremos mostrarte algunos
-                        aspectos importantes sobre tu espacio de trabajo,
+                        En esta breve guía de inicio queremos mostrarte algunos
+                        aspectos sobre tu espacio de trabajo,
                         tu servicio y el uso de Cubika.
                     </p>
 
@@ -416,7 +416,7 @@ function getStepContent(step) {
 
             return `
 
-                <div class="construction-welcome-intro">
+                 <div class="construction-welcome-section">
 
                     <div class="construction-welcome-intro-visual">
                     
