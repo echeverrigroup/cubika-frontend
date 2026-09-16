@@ -1837,9 +1837,9 @@ margin-top: 2px;
 
 
 .construction-welcome-intro-visual {
-    width: 100%;
+    width: min(310px, 100%);
     max-width: 480px;
-    height: 420px;
+    height: 220px;
 
     display: flex;
     align-items: center;
@@ -1855,3 +1855,5 @@ margin-top: 2px;
     height: auto;
     object-fit: contain;
 }
+
+
