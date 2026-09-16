@@ -529,7 +529,7 @@ button {
    ========================================================= */
 
 .platform-section {
-  padding: 110px 0 100px;
+  padding: 110px 0 85px;
   background: #fff;
 }
 
@@ -723,7 +723,7 @@ margin-top: 2px;
    ========================================================= */
 
 .how-it-works {
-  padding: 105px 0 115px;
+  padding: 105px 0 85px;
   background: var(--surface-soft);
 }
 
@@ -800,7 +800,7 @@ margin-top: 2px;
    ========================================================= */
 
 .solutions-section {
-  padding: 110px 0 80px;
+  padding: 110px 0 85px;
   background:
     radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
     #fff;
@@ -1136,7 +1136,7 @@ margin-top: 2px;
    ========================================================= */
 
 .why-section {
-  padding: 100px 0 115px;
+  padding: 100px 0 85px;
   background: var(--surface-soft);
 }
 
