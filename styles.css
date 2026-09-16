@@ -301,19 +301,27 @@ button {
   min-height: 570px;
   overflow: hidden;
   isolation: isolate;
+
   background:
-    radial-gradient(circle at 15% 30%, #EAF2FF 0%, #fff 55%),
+    radial-gradient(
+      circle at 15% 30%,
+      #EAF2FF 0%,
+      #fff 55%
+    ),
     #fff;
 }
+
 
 .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+
   background: url('./img/imagen-hero12.png') no-repeat;
   background-position: calc(50% + 115px) center;
   background-size: auto 100%;
 }
+
 
 .hero::after {
   content: "";
@@ -332,9 +340,14 @@ button {
       rgba(234, 242, 255, 0.95) 0%,
       rgba(255,255,255,0) 42%
     ),
-   transparent;
+    transparent;
 }
 
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 
 .hero-glow {
   position: absolute;
