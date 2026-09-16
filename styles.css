@@ -344,11 +344,6 @@ button {
 }
 
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-
 .hero-glow {
   position: absolute;
   z-index: -1;
@@ -356,6 +351,7 @@ button {
   filter: blur(60px);
   pointer-events: none;
 }
+
 
 .hero-glow-one {
   width: 520px;
@@ -375,6 +371,8 @@ button {
 
 .hero-container {
   position: relative;
+  z-index: 2;
+
   width: min(calc(100% - 48px), var(--max-width));
   min-height: 570px;
   margin: 0 auto;
