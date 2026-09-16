@@ -1836,11 +1836,22 @@ margin-top: 2px;
 }
 
 
+.construction-welcome-intro-visual {
+    width: 100%;
+    max-width: 480px;
+    height: 420px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 .construction-welcome-image {
     display: block;
-    width: 100%;
-    max-width: auto;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
-    margin: 0 auto;
     object-fit: contain;
 }
