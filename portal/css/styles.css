@@ -2189,6 +2189,18 @@ EDITOR DOCUMENTAL
 }
 
 
+.construction-welcome-header span {
+    max-width: 700px;
+
+    margin-top: 9px;
+
+    color: #64748B;
+
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
 /* =========================================================
    WIZARD STEPS
    ========================================================= */
@@ -3436,6 +3448,6 @@ EDITOR DOCUMENTAL
     display: block;
     margin-bottom: 14px;
     color: var(--text-muted);
-    font-size: .78rem;
+    font-size: .55rem;
     line-height: 1.5;
 }
