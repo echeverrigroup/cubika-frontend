@@ -320,17 +320,21 @@ button {
   position: absolute;
   inset: 0;
   z-index: -1;
+
   background:
-     radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
-    #fff,
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,1) 0%,
-      rgba(255,255,255,.96) 32%,
-      rgba(255,255,255,.55) 53%,
-      rgba(255,255,255,0) 76%
-    );
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(225, 248, 235, 0.9) 0%,
+      rgba(255,255,255,0) 42%
+    ),
+    radial-gradient(
+      circle at 12% 88%,
+      rgba(234, 242, 255, 0.95) 0%,
+      rgba(255,255,255,0) 42%
+    ),
+    #fff;
 }
+
 
 .hero-glow {
   position: absolute;
@@ -796,7 +800,7 @@ margin-top: 2px;
    ========================================================= */
 
 .solutions-section {
-  padding: 110px 0 120px;
+  padding: 110px 0 80px;
   background:
     radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
     #fff;
