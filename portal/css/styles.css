@@ -3412,3 +3412,22 @@ EDITOR DOCUMENTAL
 
     color: #16a34a;
 }
+
+
+
+.construction-welcome-intro-visual {
+    width: 100%;
+    height: 420px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.construction-welcome-image {
+    display: block;
+    width: 380px;
+    height: 380px;
+    object-fit: contain;
+}
+
