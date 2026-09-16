@@ -857,12 +857,15 @@ margin-top: 2px;
 }
 
 .solution-visual,
+.solution-visual2,
 .solution-content {
   flex: 1;
   min-width: 0;
 }
 
-.solution-visual {
+
+.solution-visual, 
+.solution-visual2 {
   display: flex;
   justify-content: center;
 }
