@@ -301,6 +301,9 @@ button {
   min-height: 570px;
   overflow: hidden;
   isolation: isolate;
+    background:
+    radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
+    #fff;
   background:
     radial-gradient(circle at 15% 30%, #EAF2FF 0%, #fff 55%),
     #fff;
@@ -313,9 +316,6 @@ button {
   background: url('./img/imagen-hero12.png') no-repeat;
   background-position: calc(50% + 115px) center;
   background-size: auto 100%;
-   background:
-    radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
-    #fff;
 }
 
 .hero::after {
