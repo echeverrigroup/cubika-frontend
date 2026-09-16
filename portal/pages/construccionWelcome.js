@@ -420,19 +420,13 @@ function getStepContent(step) {
                 <div class="construction-welcome-intro">
 
                     <div class="construction-welcome-intro-visual">
-
-                        <div class="construction-welcome-cube">
-
-                            <div class="construction-welcome-cube-inner">
-                                G
-                            </div>
-
-                        </div>
-
-                        <div class="construction-welcome-flow flow-one"></div>
-                        <div class="construction-welcome-flow flow-two"></div>
-                        <div class="construction-welcome-flow flow-three"></div>
-
+                    
+                        <img
+                            src="./img/gestor-documental.png"
+                            alt="Gestor Documental Cubika"
+                            class="construction-welcome-image"
+                        >
+                    
                     </div>
 
 
@@ -479,7 +473,7 @@ function getStepContent(step) {
             `;
 
 
-        /*
+
         ==============================================================
         PASO 02
         ==============================================================
