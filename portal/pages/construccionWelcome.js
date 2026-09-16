@@ -416,7 +416,7 @@ function getStepContent(step) {
 
             return `
 
-                 <div class="construction-welcome-section">
+                 <div class="construction-welcome-intro">
 
                     <div class="construction-welcome-intro-visual">
                     
