@@ -320,10 +320,9 @@ button {
   position: absolute;
   inset: 0;
   z-index: -1;
-    background:
-    radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
-    #fff;
   background:
+     radial-gradient(circle at 15% 20%, #EAF2FF 0%, #fff 45%),
+    #fff;
     linear-gradient(
       90deg,
       rgba(255,255,255,1) 0%,
