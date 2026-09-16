@@ -315,7 +315,7 @@ button {
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
 
   background: url('./img/imagen-hero12.png') no-repeat;
   background-position: calc(50% + 115px) center;
