@@ -422,7 +422,7 @@ function getStepContent(step) {
                     <div class="construction-welcome-intro-visual">
                     
                         <img
-                            src="./img/gestor-documental.png"
+                            src="../img/gestor-documental.png"
                             alt="Gestor Documental Cubika"
                             class="construction-welcome-image"
                         >
