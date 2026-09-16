@@ -294,14 +294,8 @@ export function renderConstructionWelcome() {
 
             <div class="construction-welcome-header">
 
-                <div>
-
-                    <div class="construction-welcome-eyebrow">
-                        GUÍA DE INICIO · ÁREA CONSTRUCCIÓN
-                    </div>
-
                     <h1>
-                        ¡Bienvenido(a) ${userName}!
+                        ¡Bienvenido ${userName}!
                     </h1>
 
                     <p>
@@ -312,7 +306,7 @@ export function renderConstructionWelcome() {
 
                 </div>
 
-            </div>
+           
 
 
             <nav
