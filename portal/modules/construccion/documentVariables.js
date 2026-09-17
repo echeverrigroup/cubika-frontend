@@ -10,8 +10,6 @@ export const DOCUMENT_VARIABLES = {
 
         "USUARIO_GENERADOR",
 
-        "NUMERO_DOCUMENTO"
-
     ],
 
     EMPRESA: [
@@ -116,6 +114,13 @@ export const DOCUMENT_VARIABLES = {
     ]
 
 };
+
+
+export const INTERNAL_DOCUMENT_VARIABLES = [
+
+    "NUMERO_DOCUMENTO"
+
+];
 
 
 export const DOCUMENT_VARIABLE_DESCRIPTIONS = {
