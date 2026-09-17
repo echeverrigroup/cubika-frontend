@@ -702,6 +702,47 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
     `;
 
+    configurarAccionesContratos();
+
+}
+
+
+function configurarAccionesContratos() {
+
+    const botones =
+        document.querySelectorAll(
+            "#contratosTable .cubika-action"
+        );
+
+    botones.forEach(
+        boton => {
+
+            boton.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const accion =
+                        boton.dataset.action;
+
+                    const contratoId =
+                        boton.dataset.contratoId;
+
+                    console.log(
+                        "Acción Gestor Documental:",
+                        accion,
+                        "Contrato:",
+                        contratoId
+                    );
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
