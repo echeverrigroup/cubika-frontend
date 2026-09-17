@@ -132,6 +132,82 @@ async getById(id) {
     return data;
 
 },
+
+
+async getAnexosByContrato(contratoMadreId) {
+
+    const { data, error } =
+        await supabase
+            .from(TABLE)
+            .select(`
+                *,
+
+                worker:workers(
+                    id,
+                    rut,
+                    nombres,
+                    apellido_paterno,
+                    apellido_materno
+                ),
+
+                empresa:empresas_construccion(
+                    id,
+                    nombre
+                ),
+
+                obra:obras(
+                    id,
+                    nombre,
+
+                    constructora:constructoras(
+                        id,
+                        nombre
+                    )
+                ),
+
+                cargo:cargos(
+                    id,
+                    nombre
+                ),
+
+                plantilla:plantillas_documento(
+                    id,
+                    nombre
+                ),
+
+                tipo_contrato:tipos_contrato(
+                    id,
+                    nombre
+                ),
+
+                estado:estados_contrato(
+                    id,
+                    codigo,
+                    nombre
+                )
+            `)
+            .eq(
+                "contrato_madre_id",
+                contratoMadreId
+            )
+            .eq(
+                "tipo_documento",
+                "ANEXO"
+            )
+            .order(
+                "fecha_generacion",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error)
+        throw error;
+
+    return data;
+
+},
+   
    
 
     async create(contrato) {
