@@ -707,6 +707,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 }
 
 
+
 function configurarAccionesContratos() {
 
     const botones =
@@ -730,6 +731,7 @@ function configurarAccionesContratos() {
                     const contratoId =
                         boton.dataset.contratoId;
 
+
                     console.log(
                         "Acción Gestor Documental:",
                         accion,
@@ -737,8 +739,412 @@ function configurarAccionesContratos() {
                         contratoId
                     );
 
+
+                    if (
+                        accion === "ver"
+                    ) {
+
+                        abrirDetalleContrato(
+                            contratoId
+                        );
+
+                    }
+
                 }
             );
+
+        }
+    );
+
+}
+
+
+
+function abrirDetalleContrato(contratoId) {
+
+    const contrato =
+        contratosVisibles.find(
+            contrato =>
+                String(contrato.id) ===
+                String(contratoId)
+        );
+
+
+    if (!contrato) {
+
+        console.error(
+            "No se encontró el contrato:",
+            contratoId
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "Contrato seleccionado:",
+        contrato
+    );
+
+
+    const trabajador =
+        contrato.worker
+            ? [
+                contrato.worker.nombres,
+                contrato.worker.apellido_paterno,
+                contrato.worker.apellido_materno
+            ]
+                .filter(Boolean)
+                .join(" ")
+            : "-";
+
+
+    const estado =
+        determinarEstadoContrato(
+            contrato
+        );
+
+
+    const estadoNombre =
+        contrato.estado?.nombre ??
+        estado;
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.className =
+        "cubika-modal-overlay";
+
+
+    modal.innerHTML = `
+
+        <div class="cubika-modal contrato-detalle-modal">
+
+            <div class="cubika-modal-header">
+
+                <div>
+
+                    <h2>
+                        Detalle del contrato
+                    </h2>
+
+                    <span class="contrato-detalle-numero">
+                        ${contrato.numero_contrato ?? "Sin número"}
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="cubika-modal-close"
+                    aria-label="Cerrar"
+                    title="Cerrar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="contrato-detalle-body">
+
+
+                <!-- ESTADO -->
+
+                <div class="contrato-detalle-estado">
+
+                    <span class="contrato-detalle-label">
+                        Estado
+                    </span>
+
+                    <span class="contrato-detalle-estado-valor">
+                        ${contrato.estado?.simbolo ?? "●"}
+                        ${estadoNombre}
+                    </span>
+
+                </div>
+
+
+                <!-- TRABAJADOR -->
+
+                <section class="contrato-detalle-seccion">
+
+                    <h3>
+                        Trabajador
+                    </h3>
+
+
+                    <div class="contrato-detalle-grid">
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Nombre
+                            </span>
+
+                            <strong>
+                                ${trabajador}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                RUT
+                            </span>
+
+                            <strong>
+                                ${contrato.worker?.rut ?? "-"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- RELACIÓN LABORAL -->
+
+                <section class="contrato-detalle-seccion">
+
+                    <h3>
+                        Relación laboral
+                    </h3>
+
+
+                    <div class="contrato-detalle-grid">
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Mandante
+                            </span>
+
+                            <strong>
+                                ${contrato.empresa?.nombre ?? "-"}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Constructora
+                            </span>
+
+                            <strong>
+                                ${contrato.obra?.constructora?.nombre ?? "-"}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Obra
+                            </span>
+
+                            <strong>
+                                ${contrato.obra?.nombre ?? "-"}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Cargo
+                            </span>
+
+                            <strong>
+                                ${contrato.cargo?.nombre ?? "-"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- CONTRATO -->
+
+                <section class="contrato-detalle-seccion">
+
+                    <h3>
+                        Contrato
+                    </h3>
+
+
+                    <div class="contrato-detalle-grid">
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Tipo de contrato
+                            </span>
+
+                            <strong>
+                                ${contrato.tipo_contrato?.nombre ?? "-"}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Fecha generación
+                            </span>
+
+                            <strong>
+                                ${formatearFechaHora(
+                                    contrato.fecha_generacion
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Fecha inicio
+                            </span>
+
+                            <strong>
+                                ${formatearFecha(
+                                    contrato.fecha_inicio
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Fecha término
+                            </span>
+
+                            <strong>
+                                ${formatearFecha(
+                                    contrato.fecha_termino
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Sueldo base
+                            </span>
+
+                            <strong>
+                                ${formatearSueldo(
+                                    contrato.sueldo
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="contrato-detalle-item">
+
+                            <span>
+                                Causal de término
+                            </span>
+
+                            <strong>
+                                ${contrato.causal_termino ?? "-"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+
+            <div class="cubika-modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-cubika-secondary"
+                    data-cerrar-detalle
+                >
+                    Cerrar
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    const cerrar =
+        () => {
+
+            modal.remove();
+
+        };
+
+
+    modal
+        .querySelector(
+            ".cubika-modal-close"
+        )
+        .addEventListener(
+            "click",
+            cerrar
+        );
+
+
+    modal
+        .querySelector(
+            "[data-cerrar-detalle]"
+        )
+        .addEventListener(
+            "click",
+            cerrar
+        );
+
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                modal
+            ) {
+
+                cerrar();
+
+            }
 
         }
     );
