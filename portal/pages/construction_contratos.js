@@ -608,17 +608,82 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                         </td>
 
                                         
-                                        <td>
+                                      <td class="acciones-cell">
 
+                                        <div class="cubika-actions">
+                                    
+                                            <!-- VER -->
                                             <button
-                                                class="btn-cubika-secondary"
-                                                data-contrato-id="${contrato.id}">
-
-                                                Ver
-
+                                                type="button"
+                                                class="cubika-action"
+                                                data-action="ver"
+                                                data-contrato-id="${contrato.id}"
+                                                title="Ver contrato"
+                                                aria-label="Ver contrato"
+                                            >
+                                                <img
+                                                    src="/img/icons/ver.svg"
+                                                    alt=""
+                                                >
                                             </button>
-
-                                        </td>
+                                    
+                                    
+                                            <!-- DESCARGAR -->
+                                            <button
+                                                type="button"
+                                                class="cubika-action"
+                                                data-action="descargar"
+                                                data-contrato-id="${contrato.id}"
+                                                title="Descargar contrato"
+                                                aria-label="Descargar contrato"
+                                            >
+                                                <img
+                                                    src="/img/icons/descargar.svg"
+                                                    alt=""
+                                                >
+                                            </button>
+                                    
+                                    
+                                            <!-- AÑADIR ANEXO -->
+                                            ${
+                                                determinarEstadoContrato(contrato) !== "FINIQUITADO"
+                                                    ? `
+                                                        <button
+                                                            type="button"
+                                                            class="cubika-action"
+                                                            data-action="anexo"
+                                                            data-contrato-id="${contrato.id}"
+                                                            title="Añadir anexo"
+                                                            aria-label="Añadir anexo"
+                                                        >
+                                                            <img
+                                                                src="/img/icons/anexo.svg"
+                                                                alt=""
+                                                            >
+                                                        </button>
+                                                    `
+                                                    : ""
+                                            }
+                                    
+                                    
+                                            <!-- MÁS ACCIONES -->
+                                            <button
+                                                type="button"
+                                                class="cubika-action"
+                                                data-action="mas"
+                                                data-contrato-id="${contrato.id}"
+                                                title="Más acciones"
+                                                aria-label="Más acciones"
+                                            >
+                                                <img
+                                                    src="/img/icons/mas.svg"
+                                                    alt=""
+                                                >
+                                            </button>
+                                    
+                                        </div>
+                                    
+                                    </td>
 
                                     </tr>
 
