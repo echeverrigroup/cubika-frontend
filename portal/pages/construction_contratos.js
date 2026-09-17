@@ -3,6 +3,11 @@ import {
 }
 from "../router.js";
 
+
+import { plantillasDocumentoService }
+    from "../services/plantillasDocumentoService.js";
+
+
 import {
     nuevoContrato
 }
@@ -740,16 +745,17 @@ function configurarAccionesContratos() {
                     );
 
 
-                    if (
-                        accion === "ver"
-                    ) {
+                    if (accion === "ver") {
 
-                        abrirDetalleContrato(
-                            contratoId
-                        );
-
+                        abrirDetalleContrato(contratoId);
+                    
                     }
-
+                    
+                    if (accion === "anexo") {
+                    
+                        abrirSelectorPlantillaAnexo(contratoId);
+                    
+                    }
                 }
             );
 
@@ -1148,6 +1154,249 @@ function abrirDetalleContrato(contratoId) {
 
         }
     );
+
+}
+
+
+
+async function abrirSelectorPlantillaAnexo(contratoId) {
+
+    const contrato =
+        contratosVisibles.find(
+            contrato =>
+                String(contrato.id) ===
+                String(contratoId)
+        );
+
+    if (!contrato) {
+
+        console.error(
+            "No se encontró el contrato para crear el anexo:",
+            contratoId
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const plantillas =
+            await plantillasDocumentoService.getAll();
+
+
+        const plantillasAnexo =
+            plantillas.filter(
+                plantilla =>
+                    plantilla.tipo_documento
+                        ?.toLowerCase() === "anexo"
+                    &&
+                    plantilla.estado
+                        ?.toLowerCase() === "activo"
+            );
+
+
+        if (!plantillasAnexo.length) {
+
+            alert(
+                "No existen plantillas de Anexo activas."
+            );
+
+            return;
+        }
+
+
+        const modal =
+            document.createElement(
+                "div"
+            );
+
+        modal.className =
+            "cubika-modal-overlay";
+
+
+        modal.innerHTML = `
+
+            <div class="cubika-modal contrato-detalle-modal">
+
+                <div class="cubika-modal-header">
+
+                    <div>
+
+                        <h2>
+                            Añadir anexo
+                        </h2>
+
+                        <span class="contrato-detalle-numero">
+
+                            ${contrato.numero_contrato ?? "Sin número"}
+
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="cubika-modal-close"
+                        aria-label="Cerrar"
+                        title="Cerrar"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="contrato-detalle-body">
+
+                    <section class="contrato-detalle-seccion">
+
+                        <h3>
+                            Selecciona una plantilla
+                        </h3>
+
+
+                        <div
+                            class="anexo-plantillas-lista"
+                        >
+
+                            ${plantillasAnexo.map(
+                                plantilla => `
+
+                                    <button
+                                        type="button"
+                                        class="anexo-plantilla-option"
+                                        data-plantilla-id="${plantilla.id}"
+                                    >
+
+                                        <span>
+                                            ${plantilla.nombre}
+                                        </span>
+
+                                        <span>
+                                            →
+                                        </span>
+
+                                    </button>
+
+                                `
+                            ).join("")}
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <div class="cubika-modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn-cubika-secondary"
+                        data-cerrar-anexo
+                    >
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(
+            modal
+        );
+
+
+        const cerrar = () => {
+
+            modal.remove();
+
+        };
+
+
+        modal
+            .querySelector(
+                ".cubika-modal-close"
+            )
+            .addEventListener(
+                "click",
+                cerrar
+            );
+
+
+        modal
+            .querySelector(
+                "[data-cerrar-anexo]"
+            )
+            .addEventListener(
+                "click",
+                cerrar
+            );
+
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    cerrar();
+
+                }
+
+            }
+        );
+
+
+        modal
+            .querySelectorAll(
+                ".anexo-plantilla-option"
+            )
+            .forEach(
+                boton => {
+
+                    boton.addEventListener(
+                        "click",
+                        () => {
+
+                            const plantillaId =
+                                boton.dataset.plantillaId;
+
+
+                            console.log(
+                                "Plantilla de Anexo seleccionada:",
+                                plantillaId
+                            );
+
+
+                            cerrar();
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error al cargar plantillas de Anexo:",
+            error
+        );
+
+        alert(
+            "No fue posible cargar las plantillas de Anexo."
+        );
+
+    }
 
 }
 
