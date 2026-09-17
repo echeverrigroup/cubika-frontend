@@ -3540,3 +3540,213 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+
+/* =========================================================
+   GESTOR DOCUMENTAL
+   DETALLE DE CONTRATO
+   ========================================================= */
+
+.contrato-detalle-modal {
+    width: min(900px, 92vw);
+    max-height: 90vh;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cubika-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding: 22px 24px;
+
+    border-bottom: 1px solid #e6edf3;
+}
+
+
+.cubika-modal-header h2 {
+    margin: 0 0 5px 0;
+
+    color: #0B2F5B;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.contrato-detalle-numero {
+    color: #6b7b8c;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+.cubika-modal-close {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #6b7b8c;
+
+    font-size: 24px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.cubika-modal-close:hover {
+    background: #EEF5FB;
+    color: #0B2F5B;
+}
+
+
+.contrato-detalle-body {
+    padding: 24px;
+
+    overflow-y: auto;
+}
+
+
+.contrato-detalle-estado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 16px;
+
+    margin-bottom: 24px;
+
+    border-radius: 10px;
+
+    background: #F5F8FB;
+}
+
+
+.contrato-detalle-label {
+    color: #6b7b8c;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.contrato-detalle-estado-valor {
+    color: #0B2F5B;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+.contrato-detalle-seccion {
+    margin-bottom: 26px;
+}
+
+
+.contrato-detalle-seccion:last-child {
+    margin-bottom: 0;
+}
+
+
+.contrato-detalle-seccion h3 {
+    margin: 0 0 14px 0;
+
+    color: #0B2F5B;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+.contrato-detalle-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.contrato-detalle-item {
+    padding: 14px 16px;
+
+    border: 1px solid #e6edf3;
+    border-radius: 9px;
+
+    background: #ffffff;
+}
+
+
+.contrato-detalle-item span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #718096;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+.contrato-detalle-item strong {
+    display: block;
+
+    color: #0B2F5B;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+.cubika-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 16px 24px;
+
+    border-top: 1px solid #e6edf3;
+}
+
+
+@media (max-width: 768px) {
+
+    .contrato-detalle-modal {
+        width: 94vw;
+        max-height: 92vh;
+    }
+
+
+    .contrato-detalle-body {
+        padding: 18px;
+    }
+
+
+    .contrato-detalle-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .contrato-detalle-estado {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+}
