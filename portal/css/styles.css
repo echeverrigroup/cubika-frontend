@@ -3544,6 +3544,50 @@ EDITOR DOCUMENTAL
 
 
 /* =========================================================
+   CUBIKA MODAL
+   BASE PARA MODALES DINÁMICOS
+   ========================================================= */
+
+.cubika-modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background: rgba(11, 47, 91, .28);
+
+    z-index: 99999;
+}
+
+
+.cubika-modal {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    max-height: 90vh;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, .18);
+
+    overflow: hidden;
+}
+
+
+
+/* =========================================================
    GESTOR DOCUMENTAL
    DETALLE DE CONTRATO
    ========================================================= */
