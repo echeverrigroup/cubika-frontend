@@ -3451,3 +3451,92 @@ EDITOR DOCUMENTAL
     font-size: .55rem;
     line-height: 1.5;
 }
+
+
+
+/* =========================================================
+   GESTOR DOCUMENTAL
+   ACCIONES DE TABLA
+   ========================================================= */
+
+.acciones-cell {
+    white-space: nowrap;
+    min-width: 150px;
+}
+
+.cubika-actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.cubika-action {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #0B2F5B;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.cubika-action img {
+    width: 17px;
+    height: 17px;
+    display: block;
+}
+
+.cubika-action:hover {
+    background: #EEF5FB;
+    color: #236D0C;
+}
+
+.cubika-action:active {
+    transform: scale(0.95);
+}
+
+.cubika-action:focus-visible {
+    outline: 2px solid #57C221;
+    outline-offset: 2px;
+}
+
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 768px) {
+
+    .acciones-cell {
+        min-width: 128px;
+    }
+
+    .cubika-actions {
+        gap: 2px;
+    }
+
+    .cubika-action {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cubika-action img {
+        width: 16px;
+        height: 16px;
+    }
+
+}
