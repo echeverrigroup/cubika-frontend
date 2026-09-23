@@ -3793,3 +3793,41 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+
+
+/* Cubika — Action Icons
+   Uso recomendado: botones compactos de tablas.
+   currentColor permite heredar el color desde el botón.
+*/
+.cubika-action {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #0B2F5B;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.cubika-action img {
+  width: 18px;
+  height: 18px;
+}
+.cubika-action:hover {
+  background: #EEF5FB;
+  color: #236D0C;
+}
+.cubika-action:active {
+  transform: scale(.96);
+}
+
+/* Ejemplo:
+<button class="cubika-action" title="Editar">
+  <img src="/img/icons/editar.svg" alt="">
+</button>
+*/
