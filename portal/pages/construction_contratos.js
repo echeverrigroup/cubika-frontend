@@ -1367,16 +1367,28 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                         () => {
 
                             const plantillaId =
-                                boton.dataset.plantillaId;
-
-
-                            console.log(
-                                "Plantilla de Anexo seleccionada:",
-                                plantillaId
+                                botonPlantilla.dataset.plantillaId;
+                        
+                            const plantillaSeleccionada =
+                                plantillas.find(
+                                    plantilla =>
+                                        String(plantilla.id) ===
+                                        String(plantillaId)
+                                );
+                        
+                            if (!plantillaSeleccionada) {
+                                alert(
+                                    "No fue posible identificar la plantilla seleccionada."
+                                );
+                                return;
+                            }
+                        
+                            modal.remove();
+                        
+                            abrirFormularioAnexo(
+                                contrato,
+                                plantillaSeleccionada
                             );
-
-
-                            cerrar();
 
                         }
                     );
@@ -1397,6 +1409,261 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
         );
 
     }
+
+}
+
+
+function abrirFormularioAnexo(
+    contrato,
+    plantilla
+) {
+
+    const trabajador =
+        contrato.worker
+            ? [
+                contrato.worker.nombres,
+                contrato.worker.apellido_paterno,
+                contrato.worker.apellido_materno
+            ]
+                .filter(Boolean)
+                .join(" ")
+            : "-";
+
+    const overlay =
+        document.createElement("div");
+
+    overlay.className =
+        "cubika-modal-overlay";
+
+    overlay.innerHTML = `
+
+        <div
+            class="cubika-modal contrato-anexo-modal"
+        >
+
+            <div class="cubika-modal-header">
+
+                <div>
+
+                    <h2>
+                        Añadir anexo
+                    </h2>
+
+                    <p>
+                        Completa los antecedentes
+                        necesarios para generar el documento.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="cubika-modal-close"
+                    id="cerrarFormularioAnexo"
+                    aria-label="Cerrar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="cubika-modal-body">
+
+                <div class="anexo-contexto">
+
+                    <div>
+                        <span>
+                            Contrato
+                        </span>
+
+                        <strong>
+                            ${contrato.numero_contrato ?? "-"}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Trabajador
+                        </span>
+
+                        <strong>
+                            ${trabajador}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            Plantilla
+                        </span>
+
+                        <strong>
+                            ${plantilla.nombre}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="anexo-seccion">
+
+                    <div class="anexo-seccion-header">
+
+                        <h3>
+                            Datos del anexo
+                        </h3>
+
+                        <p>
+                            Estos antecedentes serán utilizados
+                            al momento de generar el documento.
+                        </p>
+
+                    </div>
+
+
+                    <div class="anexo-form-grid">
+
+                        <div class="form-group">
+
+                            <label for="anexoFechaVigencia">
+                                Fecha de vigencia
+                            </label>
+
+                            <input
+                                type="date"
+                                id="anexoFechaVigencia"
+                                class="cubika-input"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="anexoObservaciones">
+                                Observaciones
+                            </label>
+
+                            <input
+                                type="text"
+                                id="anexoObservaciones"
+                                class="cubika-input"
+                                placeholder="Observaciones del anexo"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cubika-modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-cubika-secondary"
+                    id="cancelarFormularioAnexo"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-cubika-green"
+                    id="continuarFormularioAnexo"
+                >
+                    Continuar
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const cerrar =
+        () => overlay.remove();
+
+
+    document
+        .getElementById(
+            "cerrarFormularioAnexo"
+        )
+        ?.addEventListener(
+            "click",
+            cerrar
+        );
+
+
+    document
+        .getElementById(
+            "cancelarFormularioAnexo"
+        )
+        ?.addEventListener(
+            "click",
+            cerrar
+        );
+
+
+    document
+        .getElementById(
+            "continuarFormularioAnexo"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+
+                const fechaVigencia =
+                    document
+                        .getElementById(
+                            "anexoFechaVigencia"
+                        )
+                        ?.value;
+
+                const observaciones =
+                    document
+                        .getElementById(
+                            "anexoObservaciones"
+                        )
+                        ?.value
+                        .trim();
+
+
+                if (!fechaVigencia) {
+
+                    alert(
+                        "Debes indicar la fecha de vigencia del anexo."
+                    );
+
+                    return;
+                }
+
+
+                console.log(
+                    "Datos del anexo:",
+                    {
+                        contratoId:
+                            contrato.id,
+
+                        plantillaId:
+                            plantilla.id,
+
+                        fechaVigencia,
+
+                        observaciones
+                    }
+                );
+
+            }
+        );
 
 }
 
