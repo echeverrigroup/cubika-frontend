@@ -3831,3 +3831,125 @@ EDITOR DOCUMENTAL
   <img src="/img/icons/editar.svg" alt="">
 </button>
 */
+
+
+/* =========================================================
+   FORMULARIO DE ANEXO
+   ========================================================= */
+
+.contrato-anexo-modal {
+    max-width: 760px;
+}
+
+
+.anexo-contexto {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-bottom: 28px;
+
+    padding: 16px;
+
+    border:
+        1px solid #E2E8F0;
+
+    border-radius: 12px;
+
+    background: #F8FAFC;
+}
+
+
+.anexo-contexto div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 0;
+}
+
+
+.anexo-contexto span {
+    font-size: 11px;
+
+    color: #64748B;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: .04em;
+}
+
+
+.anexo-contexto strong {
+    font-size: 13px;
+
+    color: #0B2F5B;
+
+    font-weight: 700;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.anexo-seccion {
+    padding-top: 4px;
+}
+
+
+.anexo-seccion-header {
+    margin-bottom: 18px;
+}
+
+
+.anexo-seccion-header h3 {
+    margin: 0 0 5px;
+
+    font-size: 15px;
+
+    color: #0B2F5B;
+}
+
+
+.anexo-seccion-header p {
+    margin: 0;
+
+    font-size: 12px;
+
+    color: #64748B;
+
+    line-height: 1.5;
+}
+
+
+.anexo-form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+@media (max-width: 700px) {
+
+    .anexo-contexto {
+        grid-template-columns: 1fr;
+    }
+
+    .anexo-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
