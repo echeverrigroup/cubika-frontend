@@ -1367,7 +1367,7 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                         () => {
 
                             const plantillaId =
-                                botonPlantilla.dataset.plantillaId;
+                                boton.dataset.plantillaId;
                         
                             const plantillaSeleccionada =
                                 plantillas.find(
