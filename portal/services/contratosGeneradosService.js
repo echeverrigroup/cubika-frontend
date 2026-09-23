@@ -53,7 +53,8 @@ export const contratosGeneradosService = {
                 estado:estados_contrato(
                     id,
                     codigo,
-                    nombre
+                    nombre,
+                    simbolo
                 )
             `)
             .order(
@@ -120,7 +121,8 @@ async getById(id) {
                 estado:estados_contrato(
                     id,
                     codigo,
-                    nombre
+                    nombre,
+                    simbolo
                 )
             `)
             .eq("id", id)
@@ -183,7 +185,8 @@ async getAnexosByContrato(contratoMadreId) {
                 estado:estados_contrato(
                     id,
                     codigo,
-                    nombre
+                    nombre,
+                    simbolo
                 )
             `)
             .eq(
