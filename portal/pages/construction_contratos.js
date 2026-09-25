@@ -246,8 +246,14 @@ export function renderConstructionContratos() {
         type="button"
         id="btnExportarContratos"
         class="btn-exportar-excel"
+        title="Exportar Excel"
+        aria-label="Exportar Excel"
     >
-        Exportar Excel
+        <img
+            src="/img/icons/excel-exportar.png"
+            alt=""
+            aria-hidden="true"
+        >
     </button>
 
 </div>
