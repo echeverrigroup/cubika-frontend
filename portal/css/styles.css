@@ -4021,12 +4021,12 @@ EDITOR DOCUMENTAL
     position: relative;
 }
 
-.contratos-table-scroll .cubika-table thead {
+.contratos-table-scroll .cubika-table td {
     position: sticky;
     top: 0;
     z-index: 10;
 }
 
-.contratos-table-scroll .cubika-table thead th {
+.contratos-table-scroll .cubika-table td th {
     background: #FFFFFF;
 }
