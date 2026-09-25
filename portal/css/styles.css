@@ -4012,7 +4012,6 @@ EDITOR DOCUMENTAL
 
 .contratos-table-scroll {
     width: 100%;
-    max-height: calc(100vh - 430px);
 
     overflow-x: auto;
     overflow-y: auto;
