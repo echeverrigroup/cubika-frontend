@@ -4008,3 +4008,25 @@ EDITOR DOCUMENTAL
 .btn-exportar-excel:active {
     transform: translateY(1px);
 }
+
+
+.contratos-table-scroll {
+    width: 100%;
+    max-height: calc(100vh - 390px);
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+    position: relative;
+}
+
+.contratos-table-scroll .cubika-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.contratos-table-scroll .cubika-table thead th {
+    background: #FFFFFF;
+}
