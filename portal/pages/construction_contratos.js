@@ -78,8 +78,11 @@ export function renderConstructionContratos() {
                 Limpiar filtros
             </button>
     
-            <span class="cubika-filters-chevron">
-                ▼
+           <span class="cubika-filters-chevron">
+                <img
+                    src="/img/icons/filtros-desplegar.svg"
+                    alt="Desplegar filtros"
+                >
             </span>
     
         </div>
