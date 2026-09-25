@@ -476,7 +476,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
         <div class="card">
 
-            <div class="table-container">
+            <div class="table-container contratos-table-scroll">
 
                 <table class="cubika-table">
 
