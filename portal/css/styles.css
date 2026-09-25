@@ -3953,3 +3953,16 @@ EDITOR DOCUMENTAL
     }
 
 }
+
+
+.cubika-filters-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cubika-filters-chevron img {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
