@@ -741,6 +741,9 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     const tiposCuenta =
         await workersService.getTiposCuenta();
 
+    const nacionalidades =
+        await workersService.getNacionalidades();
+
     return `
 
 <form id="formTrabajador">
@@ -860,15 +863,17 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     <div class="form-grid-4">
 
         <div class="form-group">
-
             <label>Nacionalidad</label>
-
-            <input
-                id="nacionalidad"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.nacionalidad ?? "Chilena"}">
-
+            <select id="nacionalidad_id" class="cubika-select" required>
+                <option value="">Seleccione</option>
+        
+                ${nacionalidades.map(nacionalidad => `
+                    <option value="${nacionalidad.id}"
+                        ${trabajador?.nacionalidad_id === nacionalidad.id ? "selected" : ""}>
+                        ${nacionalidad.nombre}
+                    </option>
+                `).join("")}
+            </select>
         </div>
 
 
@@ -1145,11 +1150,9 @@ async function crearTrabajador() {
             .getElementById("fecha_nacimiento")
             .value || null;
     
-    const nacionalidad =
+    const nacionalidad_id =
         document
-            .getElementById("nacionalidad")
-            .value
-            .trim();
+            .getElementById("nacionalidad_id").value || null;
     
     const afp =
         document
@@ -1242,6 +1245,11 @@ async function crearTrabajador() {
         setModalError("Debe seleccionar el tipo de cuenta.");
         return false;
     }
+
+    if (!nacionalidad_id) {
+        setModalError("Debe seleccionar la nacionalidad.");
+        return false;
+    }
     
 
     try {
@@ -1259,6 +1267,7 @@ async function crearTrabajador() {
             direccion,
             sexo,
             email,
+            nacionalidad_id,
             estado_civil_id,
             region_id,
             comuna_id,
@@ -1437,11 +1446,9 @@ async function actualizarTrabajador(id) {
             .value || null;
     
     
-    const nacionalidad =
+    const nacionalidad_id =
         document
-            .getElementById("nacionalidad")
-            .value
-            .trim();
+            .getElementById("nacionalidad_id").value || null;
     
     
     const afp =
@@ -1538,6 +1545,7 @@ async function actualizarTrabajador(id) {
                 sexo,
                 email,
 
+                nacionalidad,
                 estado_civil_id,
             
                 region_id,
