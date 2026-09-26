@@ -580,7 +580,7 @@ function renderPaso2() {
                             style="
                                 display:flex;
                                 align-items:center;
-                                
+                                gap:5px;
                                 margin:0;
                                 cursor:pointer;
                                 white-space:nowrap;
