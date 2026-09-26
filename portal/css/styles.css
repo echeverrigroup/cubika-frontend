@@ -1497,6 +1497,13 @@ EDITOR DOCUMENTAL
 }
 
 
+.sueldo-checkbox {
+
+    margin: 0;
+
+}
+
+
 .distribucion-eliminar {
 
     flex-shrink: 0;
