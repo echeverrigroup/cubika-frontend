@@ -736,7 +736,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 <form id="formTrabajador">
 
-    <div class="form-grid-3">
+    <div class="form-grid-4">
 
         <div class="form-group">
 
