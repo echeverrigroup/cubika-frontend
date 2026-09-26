@@ -372,7 +372,7 @@ function renderPaso1() {
 
         <div class="editor-section">
 
-            <div class="form-grid contrato-grid">
+            <div class="form-grid-3">
 
                 <div class="form-group">
 
