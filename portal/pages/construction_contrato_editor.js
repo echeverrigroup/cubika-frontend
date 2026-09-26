@@ -564,31 +564,27 @@ function renderPaso2() {
 
                <div class="form-group">
 
-                    <label>
-                        Sueldo
-                    </label>
-                
                     <div
                         style="
                             display:flex;
                             align-items:center;
-                            gap:12px;
+                            gap:10px;
+                            margin-bottom:6px;
                         ">
                 
-                        <input
-                            id="sueldo"
-                            type="number"
-                            class="cubika-input"
-                            style="flex:1;">
+                        <label style="margin:0;">
+                            Sueldo
+                        </label>
                 
                         <label
                             style="
                                 display:flex;
                                 align-items:center;
-                                gap:6px;
-                                white-space:nowrap;
-                                cursor:pointer;
+                                gap:5px;
                                 margin:0;
+                                cursor:pointer;
+                                white-space:nowrap;
+                                font-weight:normal;
                             ">
                 
                             <input
@@ -600,6 +596,11 @@ function renderPaso2() {
                         </label>
                 
                     </div>
+                
+                    <input
+                        id="sueldo"
+                        type="number"
+                        class="cubika-input">
                 
                 </div>
                 
