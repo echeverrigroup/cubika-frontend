@@ -587,7 +587,7 @@ function renderPaso2() {
                                 font-weight:normal;
                             ">
                 
-                            <input-check
+                            <input
                                 id="sueldoMinimoLegal"
                                 type="checkbox">
                 
