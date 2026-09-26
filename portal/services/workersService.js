@@ -14,40 +14,14 @@ export const workersService = {
             .select(`
                 *,
                 region:regiones(id,nombre),
-                comuna:comunas(id,nombre),
-                tipo_documento:tipo_documento_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                nacionalidad:nacionalidad_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                estado_civil:estado_civil_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                banco:banco_id(
-                    id,
-                    codigo,
-                    nombre,
-                    nombre_corto
-                ),
-                tipo_cuenta:tipo_cuenta_id(
-                    id,
-                    codigo,
-                    nombre
-                )
+                comuna:comunas(id,nombre)
             `)
             .order("apellido_paterno");
-
-        if (error) throw error;
-
-        return data;
-    },
+        
+                if (error) throw error;
+        
+                return data;
+            },
 
 
     async getById(id) {
@@ -56,33 +30,7 @@ export const workersService = {
             .select(`
                 *,
                 region:regiones(id,nombre),
-                comuna:comunas(id,nombre),
-                tipo_documento:tipo_documento_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                nacionalidad:nacionalidad_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                estado_civil:estado_civil_id(
-                    id,
-                    codigo,
-                    nombre
-                ),
-                banco:banco_id(
-                    id,
-                    codigo,
-                    nombre,
-                    nombre_corto
-                ),
-                tipo_cuenta:tipo_cuenta_id(
-                    id,
-                    codigo,
-                    nombre
-                )
+                comuna:comunas(id,nombre)
             `)
             .eq("id", id)
             .single();
