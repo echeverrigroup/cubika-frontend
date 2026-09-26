@@ -564,7 +564,11 @@ function renderPaso2() {
 
                <div class="form-group">
 
-                
+                 <div
+                        style="
+                            display:flex;
+                            align-items:center;                            
+                        ">
                         <label>
                             Sueldo
                         </label>
