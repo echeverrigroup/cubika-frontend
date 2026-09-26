@@ -465,6 +465,9 @@ body {
     border-radius:12px;
 
     overflow:hidden;
+
+    min-width:1000px;
+
 }
 
 .cubika-table th {
