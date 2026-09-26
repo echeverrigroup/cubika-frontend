@@ -723,6 +723,19 @@ body {
 
 }
 
+.form-group input-check{
+
+
+    border:1px solid #dce3ea;
+
+    border-radius:10px;
+
+    padding:0px 14px;
+
+    font-size:.95rem;
+
+}
+
 .form-group input:focus{
 
     outline:none;
