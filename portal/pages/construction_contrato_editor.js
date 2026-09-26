@@ -586,7 +586,7 @@ function renderPaso2() {
                 
                             <input
                                 id="sueldoMinimoLegal"
-                                type="checkbox">
+                                type="sueldo-checkbox">
                 
                             Mínimo legal vigente
                 
