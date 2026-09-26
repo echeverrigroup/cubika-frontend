@@ -1214,6 +1214,15 @@ async function cargarPaso2() {
             ?? "";
     
     }
+
+    document
+    .getElementById(
+        "sueldo"
+    )
+    .value =
+
+    contratoActual.sueldo
+    ?? "";
     
     const checkboxSueldoMinimo =
         document.getElementById(
