@@ -573,7 +573,15 @@ function renderPaso2() {
                             Sueldo
                         </label>
                 
-                        <label class="distribucion-colacion">
+                        <label  style="
+                                display:flex;
+                                
+                                gap:3px;
+                                margin:0;
+                                cursor:pointer;
+                                white-space:nowrap;
+                                font-weight:normal;
+                            ">
                            
                 
                             <input
