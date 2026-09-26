@@ -580,7 +580,7 @@ function renderPaso2() {
                                 margin:0;
                                 cursor:pointer;
                                 white-space:nowrap;
-                                font-weight:normal;
+                                
                             ">
                            
                 
