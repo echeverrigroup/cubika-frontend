@@ -299,9 +299,7 @@ export function renderConstructionWelcome() {
                     </h1>
 
                     <p>
-                        En esta breve guía de inicio queremos mostrarte algunos
-                        aspectos sobre tu espacio de trabajo,
-                        tu servicio y el uso de Cubika.
+                        En esta breve guía de inicio queremos mostrarte algunos aspectos sobre tu espacio de trabajo, tu servicio y el uso de Cubika.
                     </p>
 
                     <span class="construction-welcome-guide-note">
