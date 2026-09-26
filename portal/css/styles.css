@@ -2178,7 +2178,7 @@ EDITOR DOCUMENTAL
 }
 
 .construction-welcome-header p {
-    max-width: 700px;
+    max-width: auto;
 
     margin-top: 9px;
 
