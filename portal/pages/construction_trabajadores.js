@@ -1550,7 +1550,7 @@ async function actualizarTrabajador(id) {
                 sexo,
                 email,
 
-                nacionalidad,
+                nacionalidad_id,
                 estado_civil_id,
             
                 region_id,
