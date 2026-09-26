@@ -577,7 +577,7 @@ function renderPaso2() {
                             style="
                                 display:flex;
                                 
-                                gap:5px;
+                                gap:3px;
                                 margin:0;
                                 cursor:pointer;
                                 white-space:nowrap;
