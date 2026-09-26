@@ -1527,6 +1527,11 @@ async function actualizarTrabajador(id) {
     
     }
 
+    if (!nacionalidad_id) {
+            setModalError("Debe seleccionar la nacionalidad.");
+            return false;
+        }
+
 
     try {
 
