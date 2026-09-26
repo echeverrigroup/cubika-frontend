@@ -735,6 +735,9 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     const estadosCiviles =
         await workersService.getEstadosCiviles();
 
+    const bancos =
+        await workersService.getBancos();
+
     return `
 
 <form id="formTrabajador">
@@ -1007,15 +1010,17 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 
         <div class="form-group">
-
             <label>Banco</label>
-
-            <input
-                id="banco"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.banco ?? ""}">
-
+            <select id="banco_id" class="cubika-select" required>
+                <option value="">Seleccione</option>
+        
+                ${bancos.map(banco => `
+                    <option value="${banco.id}"
+                        ${trabajador?.banco_id === banco.id ? "selected" : ""}>
+                        ${banco.nombre}
+                    </option>
+                `).join("")}
+            </select>
         </div>
 
 
@@ -1153,11 +1158,9 @@ async function crearTrabajador() {
             .value
             .trim();
     
-    const banco =
+    const banco_id =
         document
-            .getElementById("banco")
-            .value
-            .trim();
+            .getElementById("banco_id").value || null;
     
     const tipo_cuenta =
         document
@@ -1227,7 +1230,11 @@ async function crearTrabajador() {
     
     }
 
-
+    if (!banco_id) {
+        setModalError("Debe seleccionar el banco.");
+        return false;
+    }
+    
 
     try {
 
@@ -1251,7 +1258,8 @@ async function crearTrabajador() {
         
             afp,
             salud,
-        
+
+            banco_id,
             numero_cuenta,
         
             estado: "Activo"
@@ -1441,11 +1449,9 @@ async function actualizarTrabajador(id) {
             .trim();
     
     
-    const banco =
+    const banco_id =
         document
-            .getElementById("banco")
-            .value
-            .trim();
+            .getElementById("banco_id").value || null;
     
     
     const tipo_cuenta =
@@ -1533,7 +1539,8 @@ async function actualizarTrabajador(id) {
             
                 afp,
                 salud,
-            
+
+                banco_id,
                 numero_cuenta,
             
                 updated_at:
