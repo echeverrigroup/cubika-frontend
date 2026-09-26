@@ -567,9 +567,7 @@ function renderPaso2() {
                     <div
                         style="
                             display:flex;
-                            align-items:center;
-                            gap:10px;
-                            
+                            align-items:center;                            
                         ">
                 
                         <label style="margin:0;">
