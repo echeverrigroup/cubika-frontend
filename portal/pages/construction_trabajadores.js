@@ -35,11 +35,13 @@ import {
 from "../components/modal.js";
 
 
+
+export async function renderConstructionTrabajadores() {
+
+    
 const testGlobal = await workersService.getTiposDocumento();
 console.log("TIPOS DOCUMENTO:", testGlobal);
 
-
-export async function renderConstructionTrabajadores() {
 
     const content =
         document.querySelector(".content");
