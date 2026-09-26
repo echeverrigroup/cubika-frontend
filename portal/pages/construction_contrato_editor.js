@@ -61,6 +61,11 @@ import {
 }
 from "../services/tiposContratoService.js";
 
+import {
+    globalService
+}
+from "../services/globalService.js";
+
 
 import {
     showFormModal,
@@ -557,16 +562,44 @@ function renderPaso2() {
                 </div>
 
 
-                <div class="form-group">
+               <div class="form-group">
 
                     <label>
                         Sueldo
                     </label>
                 
-                    <input
-                        id="sueldo"
-                        type="number"
-                        class="cubika-input">
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                        ">
+                
+                        <input
+                            id="sueldo"
+                            type="number"
+                            class="cubika-input"
+                            style="flex:1;">
+                
+                        <label
+                            style="
+                                display:flex;
+                                align-items:center;
+                                gap:6px;
+                                white-space:nowrap;
+                                cursor:pointer;
+                                margin:0;
+                            ">
+                
+                            <input
+                                id="sueldoMinimoLegal"
+                                type="checkbox">
+                
+                            Mínimo legal vigente
+                
+                        </label>
+                
+                    </div>
                 
                 </div>
                 
@@ -1182,15 +1215,73 @@ async function cargarPaso2() {
     
     }
     
-
-    document
-        .getElementById(
+    const checkboxSueldoMinimo =
+        document.getElementById(
+            "sueldoMinimoLegal"
+        );
+    
+    const inputSueldo =
+        document.getElementById(
             "sueldo"
-        )
-        .value =
+        );
+    
+    
+    checkboxSueldoMinimo
+        ?.addEventListener(
+            "change",
+            async () => {
+    
+                if (
+                    !checkboxSueldoMinimo.checked
+                ) {
+                    return;
+                }
+    
+    
+                try {
+    
+                    const parametro =
+                        await globalService
+                            .getParametroVigente(
+                                "INGRESO_MINIMO_MENSUAL"
+                            );
+    
+    
+                    inputSueldo.value =
+                        parametro.valor;
+    
+    
+                    contratoActual.sueldo =
+                        parametro.valor;
+    
+    
+                }
+                catch (error) {
+    
+                    console.error(
+                        "Error obteniendo ingreso mínimo vigente:",
+                        error
+                    );
+    
+    
+                    checkboxSueldoMinimo.checked =
+                        false;
+    
+                }
+    
+            }
+        );
 
-        contratoActual.sueldo
-        ?? "";
+    inputSueldo
+    ?.addEventListener(
+        "input",
+        () => {
+
+            checkboxSueldoMinimo.checked =
+                false;
+
+        }
+    );
 
 
     document
@@ -1249,6 +1340,7 @@ async function cargarPaso2() {
         }
     
     }
+
 
     document
     .getElementById(
