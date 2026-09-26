@@ -576,7 +576,7 @@ function renderPaso2() {
                         <label
                             style="
                                 display:flex;
-                                align-items:center;
+                                
                                 gap:5px;
                                 margin:0;
                                 cursor:pointer;
