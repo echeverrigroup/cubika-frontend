@@ -732,6 +732,9 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     const tiposDocumento =
         await workersService.getTiposDocumento();
 
+    const estadosCiviles =
+        await workersService.getEstadosCiviles();
+
     return `
 
 <form id="formTrabajador">
@@ -902,14 +905,30 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         <div class="form-group">
 
-            <label>Estado Civil</label>
-        
-            <input
-                id="estadoCivil"
-                value="${trabajador?.estado_civil ?? ""}">
-        
-        </div>
-
+                <label>Estado Civil</label>
+            
+                <select
+                    id="estado_civil_id"
+                    class="cubika-select"
+                    required>
+            
+                    <option value="">
+                        Seleccione
+                    </option>
+            
+                    ${estadosCiviles.map(estado => `
+                        <option
+                            value="${estado.id}"
+                            ${trabajador?.estado_civil_id === estado.id
+                                ? "selected"
+                                : ""}>
+                            ${estado.nombre}
+                        </option>
+                    `).join("")}
+            
+                </select>
+            
+            </div>
 
 
         <div
@@ -1087,13 +1106,12 @@ async function crearTrabajador() {
             .getElementById("sexo")
             .value;
     
-    const estado_civil =
-        document
-            .getElementById(
-                "estadoCivil"
-            )
-            .value
-            .trim();
+    
+    const estado_civil_id =
+    document
+        .getElementById("estado_civil_id")
+        .value || null;
+    
     
     const email =
         document
@@ -1199,6 +1217,17 @@ async function crearTrabajador() {
     }
 
 
+    if (!estado_civil_id) {
+
+        setModalError(
+            "Debe seleccionar el estado civil."
+        );
+    
+        return false;
+    
+    }
+
+
 
     try {
 
@@ -1215,6 +1244,7 @@ async function crearTrabajador() {
             direccion,
             sexo,
             email,
+            estado_civil_id,
             region_id,
             comuna_id,
             fecha_nacimiento,
@@ -1360,13 +1390,10 @@ async function actualizarTrabajador(id) {
             .getElementById("sexo")
             .value;
     
-    const estado_civil =
+    const estado_civil_id =
         document
-            .getElementById(
-                "estadoCivil"
-            )
-            .value
-            .trim();
+            .getElementById("estado_civil_id")
+            .value || null;
     
     const email =
         document
@@ -1497,6 +1524,8 @@ async function actualizarTrabajador(id) {
             
                 sexo,
                 email,
+
+                estado_civil_id,
             
                 region_id,
                 comuna_id,
