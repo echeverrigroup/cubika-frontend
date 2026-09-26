@@ -567,7 +567,7 @@ function renderPaso2() {
                  <div
                         style="
                             display:flex;
-                            align-items:center;                            
+                                                        
                         ">
                         <label>
                             Sueldo
