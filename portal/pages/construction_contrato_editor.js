@@ -569,7 +569,7 @@ function renderPaso2() {
                             display:flex;
                             align-items:center;
                             gap:10px;
-                            margin-bottom:6px;
+                            
                         ">
                 
                         <label style="margin:0;">
