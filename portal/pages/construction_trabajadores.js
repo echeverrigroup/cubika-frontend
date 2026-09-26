@@ -729,6 +729,9 @@ async function mostrarFormularioNuevoTrabajador() {
 
 async function obtenerFormularioTrabajador(trabajador = null) {
 
+    const tiposDocumento =
+        await workersService.getTiposDocumento();
+
     return `
 
 <form id="formTrabajador">
@@ -737,15 +740,43 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         <div class="form-group">
 
-            <label>RUT</label>
-
+            <label>Tipo de documento</label>
+        
+            <select
+                id="tipo_documento_id"
+                class="cubika-select"
+                required>
+        
+                <option value="">
+                    Seleccione
+                </option>
+        
+                ${tiposDocumento.map(tipo => `
+                    <option
+                        value="${tipo.id}"
+                        ${trabajador?.tipo_documento_id === tipo.id
+                            ? "selected"
+                            : ""}>
+                        ${tipo.nombre}
+                    </option>
+                `).join("")}
+        
+            </select>
+        
+        </div>
+        
+        
+        <div class="form-group">
+        
+            <label>Número de documento</label>
+        
             <input
                 id="rut"
                 class="cubika-input"
                 type="text"
                 value="${trabajador?.rut ?? ""}"
                 required>
-
+        
         </div>
 
 
@@ -1019,6 +1050,13 @@ async function crearTrabajador() {
         .getElementById("rut")
         .value
         .trim();
+    
+
+    const tipo_documento_id =
+    document
+        .getElementById("tipo_documento_id")
+        .value || null;
+    
 
     const nombres =
         document
@@ -1150,6 +1188,16 @@ async function crearTrabajador() {
 
     }
 
+    if (!tipo_documento_id) {
+
+        setModalError(
+            "Debe seleccionar el tipo de documento."
+        );
+    
+        return false;
+    
+    }
+
 
 
     try {
@@ -1159,36 +1207,20 @@ async function crearTrabajador() {
        await workersService.create({
 
             rut,
+            tipo_documento_id,
         
             nombres,
-        
             apellido_paterno,
-        
             apellido_materno,
-        
             direccion,
-            
             sexo,
-           
-            estado_civil,
-           
             email,
-        
             region_id,
-        
             comuna_id,
-        
             fecha_nacimiento,
         
-            nacionalidad,
-        
             afp,
-        
             salud,
-        
-            banco,
-        
-            tipo_cuenta,
         
             numero_cuenta,
         
@@ -1311,6 +1343,12 @@ async function actualizarTrabajador(id) {
             .value
             .trim();
 
+    const tipo_documento_id =
+    document
+        .getElementById("tipo_documento_id")
+        .value || null;
+    
+
     const direccion =
     document
         .getElementById("direccion")
@@ -1432,6 +1470,16 @@ async function actualizarTrabajador(id) {
     }
 
 
+    if (!tipo_documento_id) {
+
+        setModalError(
+            "Debe seleccionar el tipo de documento."
+        );
+    
+        return false;
+    
+    }
+
 
     try {
 
@@ -1439,46 +1487,33 @@ async function actualizarTrabajador(id) {
 
         await workersService.update(id, {
 
-            rut,
-        
-            nombres,
-        
-            apellido_paterno,
-        
-            apellido_materno,
-        
-            direccion,
-
-            sexo,
+                rut,
+                tipo_documento_id,
             
-            estado_civil,
+                nombres,
+                apellido_paterno,
+                apellido_materno,
+                direccion,
             
-            email,
-        
-            region_id,
-        
-            comuna_id,
-        
-            fecha_nacimiento,
-        
-            nacionalidad,
-        
-            afp,
-        
-            salud,
-        
-            banco,
-        
-            tipo_cuenta,
-        
-            numero_cuenta,
-        
-            updated_at:
-                new Date()
-                    .toISOString()
-        
-        });
+                sexo,
+                email,
+            
+                region_id,
+                comuna_id,
+                fecha_nacimiento,
+            
+                afp,
+                salud,
+            
+                numero_cuenta,
+            
+                updated_at:
+                    new Date()
+                        .toISOString()
+            
+            });
 
+        
         await cargarTrabajadores();
 
         setModalLoading(false);
