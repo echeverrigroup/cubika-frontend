@@ -4188,3 +4188,25 @@ EDITOR DOCUMENTAL
     opacity: 0.45;
 
 }
+
+
+
+.sidebar-help-icon {
+
+    width: 18px;
+    height: 18px;
+
+    border: 1.5px solid currentColor;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1;
+
+}
