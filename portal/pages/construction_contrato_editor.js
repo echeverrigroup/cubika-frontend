@@ -214,18 +214,11 @@ export async function renderConstructionContratoEditor() {
 
             <div class="editor-header">
 
-                <h2>
-
-                    Asistente de Generación
-                    de Contratos
-
-                </h2>
-
                 <p>
 
                     Complete la información
                     requerida para generar
-                    un nuevo contrato.
+                    un <strong>Nuevo Contrato</strong>.
 
                 </p>
 
