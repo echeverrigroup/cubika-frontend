@@ -328,7 +328,8 @@ export async function renderConstructionContratoEditor() {
     
                 window.open(
                     "./index.html?page=construction_plantillas",
-                    "_blank"
+                    "cubikaPlantillas",
+                    "width=1200,height=800,resizable=yes,scrollbars=yes"
                 );
     
             }
