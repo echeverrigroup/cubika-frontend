@@ -210,7 +210,7 @@ export async function renderConstructionContratoEditor() {
             <div>
 
                 <button
-                    id="btnGuardarBorrador"
+                    id="verPlantilla"
                     class="btn-secondary">
 
                     Ver Plantillas
