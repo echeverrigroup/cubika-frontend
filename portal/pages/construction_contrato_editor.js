@@ -566,7 +566,7 @@ function renderPaso2() {
 
                     <div
                         style="
-                            height: 22px;
+                            height: 20px;
                             display: flex;
                             align-items: center;
                             gap: 5px;
