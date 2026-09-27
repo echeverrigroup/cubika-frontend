@@ -41,6 +41,80 @@ export const workersService = {
     },
 
 
+    async getByIdForDocument(id) {
+
+    const trabajador =
+        await this.getById(id);
+
+
+    const [
+        tiposDocumento,
+        nacionalidades,
+        estadosCiviles,
+        bancos,
+        tiposCuenta
+    ] = await Promise.all([
+
+        this.getTiposDocumento(),
+
+        this.getNacionalidades(),
+
+        this.getEstadosCiviles(),
+
+        this.getBancos(),
+
+        this.getTiposCuenta()
+
+    ]);
+
+
+    return {
+
+        ...trabajador,
+
+        tipo_documento:
+            tiposDocumento.find(
+                item =>
+                    item.id ===
+                    trabajador.tipo_documento_id
+            )?.nombre ?? "",
+
+
+        nacionalidad:
+            nacionalidades.find(
+                item =>
+                    item.id ===
+                    trabajador.nacionalidad_id
+            )?.nombre ?? "",
+
+
+        estado_civil:
+            estadosCiviles.find(
+                item =>
+                    item.id ===
+                    trabajador.estado_civil_id
+            )?.nombre ?? "",
+
+
+        banco:
+            bancos.find(
+                item =>
+                    item.id ===
+                    trabajador.banco_id
+            )?.nombre ?? "",
+
+
+        tipo_cuenta:
+            tiposCuenta.find(
+                item =>
+                    item.id ===
+                    trabajador.tipo_cuenta_id
+            )?.nombre ?? ""
+
+    };
+},
+
+
     async create(worker) {
         const { data, error } = await supabase
             .from(TABLE)
