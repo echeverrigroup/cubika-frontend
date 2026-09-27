@@ -317,6 +317,23 @@ export async function renderConstructionContratoEditor() {
 
         );
 
+    document
+    
+        .getElementById(
+            "verPlantillas"
+        )
+        ?.addEventListener(
+            "click",
+            () => {
+    
+                window.open(
+                    "portal.html?page=construction_plantillas",
+                    "_blank"
+                );
+    
+            }
+        );
+
 }
 
 
