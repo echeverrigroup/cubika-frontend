@@ -11,9 +11,9 @@ import {
 from "../utils/tableSort.js";
 
 import {
-    renderCargosTab
-}
-from "./construction_cargos.js";
+    renderCargosTab,
+    mostrarFormularioNuevoCargo
+} from "./construction_cargos.js";
 
 import { geograficaService }
 from "../services/geograficaService.js";
@@ -50,19 +50,12 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
     content.innerHTML = `
 
         <div class="page-header">
-
-            <h1>Trabajadores</h1>
-
-      
-
-
-                <button id="btnNuevoTrabajador">
-
-                    + Nuevo Trabajador
-
-                </button>
-
-              </div>
+            <h1 id="trabajadoresPageTitle">Trabajadores</h1>
+        
+            <button id="btnNuevoTrabajador">
+                + Nuevo Trabajador
+            </button>
+        </div>
 
 
         <div class="cubika-tabs">
@@ -140,6 +133,22 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
         content.querySelector("#cargosTab");
 
 
+    function actualizarEncabezado(tab) {
+            const titulo = content.querySelector("#trabajadoresPageTitle");
+            const boton = content.querySelector("#btnNuevoTrabajador");
+        
+            if (!titulo || !boton) return;
+        
+            if (tab === "cargos") {
+                titulo.textContent = "Cargos";
+                boton.textContent = "+ Nuevo Cargo";
+            } else {
+                titulo.textContent = "Trabajadores";
+                boton.textContent = "+ Nuevo Trabajador";
+            }
+        }
+
+
     // ========================================================
     // CARGAR TRABAJADORES
     // ========================================================
@@ -153,10 +162,19 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
 
     if (btnNuevo) {
 
-        btnNuevo.addEventListener(
-            "click",
-            mostrarFormularioNuevoTrabajador
-        );
+        btnNuevo.addEventListener("click", async () => {
+        
+            const tabActiva = content.querySelector(
+                ".cubika-tab.active"
+            )?.dataset.tab;
+        
+            if (tabActiva === "cargos") {
+                await mostrarFormularioNuevoCargo(cargosTab);
+                return;
+            }
+        
+            await mostrarFormularioNuevoTrabajador();
+        });
 
     }
 
@@ -179,71 +197,41 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
     // CAMBIO DE PESTAÑAS
     // ========================================================
 
-    tabs.forEach(tab => {
+   tabs.forEach(tab => {
 
-        tab.addEventListener(
-            "click",
-            async () => {
+    tab.addEventListener("click", async () => {
 
-                const tabSeleccionada =
-                    tab.dataset.tab;
+        const tipo = tab.dataset.tab;
 
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
 
-                tabs.forEach(t =>
-                    t.classList.remove("active")
-                );
+        actualizarEncabezado(tipo);
 
+        if (tipo === "trabajadores") {
 
-                tab.classList.add("active");
+            trabajadoresTab.style.display = "";
+            cargosTab.style.display = "none";
 
+            return;
+        }
 
-                if (
-                    tabSeleccionada ===
-                    "trabajadores"
-                ) {
+        if (tipo === "cargos") {
 
-                    trabajadoresTab.style.display =
-                        "block";
+            trabajadoresTab.style.display = "none";
+            cargosTab.style.display = "";
 
-                    cargosTab.style.display =
-                        "none";
+            if (cargosTab.dataset.loaded !== "true") {
 
-                    return;
+                await renderCargosTab(cargosTab);
 
-                }
-
-
-                if (
-                    tabSeleccionada ===
-                    "cargos"
-                ) {
-
-                    trabajadoresTab.style.display =
-                        "none";
-
-                    cargosTab.style.display =
-                        "block";
-
-
-                    if (
-                        !cargosTab.dataset.loaded
-                    ) {
-
-                        await renderCargosTab(
-                            cargosTab
-                        );
-
-                        cargosTab.dataset.loaded =
-                            "true";
-
-                    }
-
-                }
-
+                cargosTab.dataset.loaded = "true";
             }
-        );
 
+            return;
+        }
     });
+});
 
 }
 
