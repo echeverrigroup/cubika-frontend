@@ -148,6 +148,19 @@ async function init() {
                 .forEach(i =>
                     i.classList.remove("active")
                 );
+            const pagina =
+            item.dataset.page;
+        
+        
+        if (
+            pagina === "construction_empresas" ||
+            pagina === "construction_trabajadores" ||
+            pagina === "construction_plantillas"
+        ) {
+        
+            abrirConfiguracion();
+        
+        }
 
             item.classList.add("active");
 
@@ -157,6 +170,100 @@ async function init() {
         });
 
     });
+
+    // =========================================================
+    // CONFIGURACIÓN - DESPLEGABLE
+    // =========================================================
+    
+    const configuracionToggle =
+        document.getElementById(
+            "configuracionToggle"
+        );
+    
+    const configuracionSubmenu =
+        document.getElementById(
+            "configuracionSubmenu"
+        );
+    
+    const configuracionChevron =
+        document.getElementById(
+            "configuracionChevron"
+        );
+    
+    
+    function abrirConfiguracion() {
+    
+        configuracionToggle
+            ?.classList.add("open");
+    
+        configuracionSubmenu
+            ?.classList.add("open");
+    
+    }
+    
+    
+    function cerrarConfiguracion() {
+    
+        configuracionToggle
+            ?.classList.remove("open");
+    
+        configuracionSubmenu
+            ?.classList.remove("open");
+    
+    }
+    
+    
+    configuracionToggle
+        ?.addEventListener(
+            "click",
+            () => {
+    
+                const abierto =
+                    configuracionSubmenu
+                        ?.classList.contains("open");
+    
+    
+                if (abierto) {
+    
+                    cerrarConfiguracion();
+    
+                } else {
+    
+                    abrirConfiguracion();
+    
+                }
+    
+            }
+        );
+
+
+    const paginasConfiguracion = [
+
+            "construction_empresas",
+        
+            "construction_trabajadores",
+        
+            "construction_plantillas"
+        
+        ];
+        
+        
+        const paginaActual =
+            new URLSearchParams(
+                window.location.search
+            ).get("page");
+        
+        
+        if (
+            paginasConfiguracion.includes(
+                paginaActual
+            )
+        ) {
+        
+            abrirConfiguracion();
+        
+        }
+    
     
      const params =
         new URLSearchParams(
