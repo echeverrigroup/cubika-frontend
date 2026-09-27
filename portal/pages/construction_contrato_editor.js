@@ -629,7 +629,25 @@ function renderPaso2() {
                 </div>
                 
                 
+                
+
                 <div class="form-group">
+
+                    <label>
+                        Plantilla
+                    </label>
+                
+                    <select
+                        id="plantilla_id"
+                        class="cubika-select">
+                
+                    </select>
+                
+                </div>
+
+
+                <div class="form-group"
+                    style="grid-column: span 2;">
 
                 <label>
                     Distribución Horaria
@@ -651,21 +669,6 @@ function renderPaso2() {
                 </button>
             
             </div>
-                
-
-                <div class="form-group">
-
-                    <label>
-                        Plantilla
-                    </label>
-                
-                    <select
-                        id="plantilla_id"
-                        class="cubika-select">
-                
-                    </select>
-                
-                </div>
                 
                 
                 <div
@@ -1477,7 +1480,7 @@ function actualizarCampoContrato() {
 
         box.innerHTML = `
             <label class="cubika-label"
-                     "font-weight: normal">
+                     style="font-weight: normal";>
 
                 Sin fecha de Término
 
