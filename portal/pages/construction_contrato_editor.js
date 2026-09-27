@@ -569,7 +569,7 @@ function renderPaso2() {
                             height: 22px;
                             display: flex;
                             align-items: center;
-                            gap: 8px;
+                            gap: 5px;
                         "
                     >
                 
