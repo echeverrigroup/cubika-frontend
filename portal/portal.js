@@ -162,6 +162,14 @@ async function init() {
         
         }
 
+        if (
+            pagina === "construction_welcome"
+        ) {
+        
+            abrirAyuda();
+        
+        }
+
             item.classList.add("active");
 
             navigate(item.dataset.page);
@@ -263,6 +271,70 @@ async function init() {
             abrirConfiguracion();
         
         }
+
+
+
+    // =========================================================
+    // AYUDA - DESPLEGABLE
+    // =========================================================
+    
+    const ayudaToggle =
+        document.getElementById(
+            "ayudaToggle"
+        );
+    
+    const ayudaSubmenu =
+        document.getElementById(
+            "ayudaSubmenu"
+        );
+    
+    
+    function abrirAyuda() {
+    
+        ayudaToggle
+            ?.classList.add("open");
+    
+        ayudaSubmenu
+            ?.classList.add("open");
+    
+    }
+    
+    
+    function cerrarAyuda() {
+    
+        ayudaToggle
+            ?.classList.remove("open");
+    
+        ayudaSubmenu
+            ?.classList.remove("open");
+    
+    }
+    
+    
+    ayudaToggle
+        ?.addEventListener(
+            "click",
+            () => {
+    
+                const abierto =
+                    ayudaSubmenu
+                        ?.classList.contains("open");
+    
+    
+                if (abierto) {
+    
+                    cerrarAyuda();
+    
+                } else {
+    
+                    abrirAyuda();
+    
+                }
+    
+            }
+        );
+
+    
     
     
      const params =
