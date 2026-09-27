@@ -158,7 +158,23 @@ async function init() {
 
     });
     
-     navigate("construction_welcome");
+     const params =
+        new URLSearchParams(
+            window.location.search
+        );
+    
+    const pagina =
+        params.get("page");
+    
+    if (pagina) {
+    
+        navigate(pagina);
+    
+    } else {
+    
+        navigate("construction_welcome");
+    
+    }
 
     const dashboardItem =
     document.querySelector(
