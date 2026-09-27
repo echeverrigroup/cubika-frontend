@@ -1559,7 +1559,7 @@ async function construirContrato() {
         );
 
     const trabajador =
-        await workersService.getById(
+        await workersService.getByIdForDocument(
             contratoActual.worker_id
         );
 
