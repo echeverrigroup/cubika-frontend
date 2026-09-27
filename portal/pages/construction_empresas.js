@@ -1122,41 +1122,42 @@ if (!rut) {
 
         setModalLoading(true);
     
-        await servicioActivo.create({
-    
-            nombre,
-    
-            rut,
-    
-            direccion,
-
-            email,
-    
-            region_id: region_id || null,
-    
-            comuna_id: comuna_id || null,
-    
-            representante_legal,
-    
-            rut_representante,
-    
-            direccion_representante,
-    
-            region_representante_id:
-                region_representante_id || null,
-    
-            comuna_representante_id:
-                comuna_representante_id || null,
-    
-            estado:"Activo"
-    
-        });
+        const nuevaEmpresa =
+            await servicioActivo.create({
+        
+                nombre,
+        
+                rut,
+        
+                direccion,
+        
+                email,
+        
+                region_id: region_id || null,
+        
+                comuna_id: comuna_id || null,
+        
+                representante_legal,
+        
+                rut_representante,
+        
+                direccion_representante,
+        
+                region_representante_id:
+                    region_representante_id || null,
+        
+                comuna_representante_id:
+                    comuna_representante_id || null,
+        
+                estado: "Activo"
+        
+            });
     
         await cargarEntidades();
     
         setModalLoading(false);
-    
-        return true;
+
+        return nuevaEmpresa;
     
     }
     catch(error){
