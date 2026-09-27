@@ -1911,7 +1911,7 @@ function agregarDistribucionHoraria(
                 class="distribucion-checkbox"
                 ${colacion ? "checked" : ""}>
 
-            Colación
+            + Hora de Colación
 
         </label>
 
