@@ -327,7 +327,7 @@ export async function renderConstructionContratoEditor() {
             () => {
     
                 window.open(
-                    "../index.html?page=construction_plantillas",
+                    "..portal/index.html?page=construction_plantillas",
                     "_blank"
                 );
     
