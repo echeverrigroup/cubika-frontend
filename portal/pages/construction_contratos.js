@@ -484,8 +484,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                         <tr>
 
-                            <th>Fecha generación</th>
-
                             <th>Estado</th>
 
                             <th>Mandante</th>
@@ -513,6 +511,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                             <th>Obra</th>
 
                             <th>Acciones</th>
+
+                            <th>Fecha generación</th>
 
                         </tr>
 
