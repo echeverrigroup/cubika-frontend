@@ -20,56 +20,23 @@ export async function renderCargosTab(container) {
         return;
 
 
-    container.innerHTML = `
-
-        <div class="page-header">
-
-            <h2>Cargos</h2>
-
-            <button id="btnNuevoCargo">
-
-                + Nuevo Cargo
-
-            </button>
-
-        </div>
-
-
+   container.innerHTML = `
         <div class="table-filters">
-
             <input
                 id="buscarCargo"
                 class="cubika-input"
                 type="text"
-                placeholder="Buscar cargo...">
-
+                placeholder="Buscar cargo..."
+            >
         </div>
-
-
+    
         <div id="cargosTable">
-
             Cargando...
-
         </div>
-
     `;
-
+    
 
     await cargarCargos(container);
-
-
-    const btnNuevo =
-        container.querySelector("#btnNuevoCargo");
-
-
-    if (btnNuevo) {
-
-       btnNuevo.addEventListener(
-            "click",
-            () => mostrarFormularioNuevoCargo(container)
-        );
-
-    }
 
 
     const buscar =
@@ -289,7 +256,7 @@ async function cargarCargos(container) {
 // NUEVO CARGO
 // ============================================================
 
-async function mostrarFormularioNuevoCargo(container) {
+export async function mostrarFormularioNuevoCargo(container) {
 
     showFormModal({
 
