@@ -625,6 +625,7 @@ function renderPaso2() {
                 
                     <input
                         id="jornada"
+                        type="number"
                         class="cubika-input">
                 
                 </div>
