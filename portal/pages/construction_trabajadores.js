@@ -1097,21 +1097,21 @@ async function crearTrabajador() {
         document
             .getElementById("nombres")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
     
     const apellido_paterno =
         document
             .getElementById("apellido_paterno")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
     
     const apellido_materno =
         document
             .getElementById("apellido_materno")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
     
     const direccion =
@@ -1383,21 +1383,21 @@ async function actualizarTrabajador(id) {
         document
             .getElementById("nombres")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
 
     const apellido_paterno =
         document
             .getElementById("apellido_paterno")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
 
     const apellido_materno =
         document
             .getElementById("apellido_materno")
             .value
-            .trim();
+            .trim()
             .toUpperCase();
 
     const rut =
