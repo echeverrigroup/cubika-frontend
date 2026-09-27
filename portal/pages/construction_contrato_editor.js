@@ -194,6 +194,19 @@ export async function renderConstructionContratoEditor() {
             </div>
 
 
+            <div class="editor-header">
+
+                <p>
+
+                    Complete la información
+                    requerida para generar
+                    un <strong>Nuevo Contrato</strong>.
+
+                </p>
+
+            </div>
+
+
             <div>
 
                 <button
@@ -211,19 +224,6 @@ export async function renderConstructionContratoEditor() {
 
 
         <div class="editor-documento">
-
-            <div class="editor-header">
-
-                <p>
-
-                    Complete la información
-                    requerida para generar
-                    un <strong>Nuevo Contrato</strong>.
-
-                </p>
-
-            </div>
-
 
 
             <div class="wizard-steps">
