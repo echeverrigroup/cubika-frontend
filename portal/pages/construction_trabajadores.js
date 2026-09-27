@@ -797,12 +797,12 @@ async function obtenerFormularioTrabajador(trabajador = null) {
             <label>Nombres</label>
 
             <input
-                id="nombres"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.nombres ?? ""}"
-                required>
-
+            id="nombres"
+            class="cubika-input trabajador-nombre-input"
+            type="text"
+            value="${trabajador?.nombres ?? ""}"
+            style="text-transform: uppercase;"
+            required>
         </div>
 
 
@@ -812,9 +812,10 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
             <input
                 id="apellido_paterno"
-                class="cubika-input"
+                class="cubika-input trabajador-nombre-input"
                 type="text"
                 value="${trabajador?.apellido_paterno ?? ""}"
+                style="text-transform: uppercase;"
                 required>
 
         </div>
@@ -825,11 +826,11 @@ async function obtenerFormularioTrabajador(trabajador = null) {
             <label>Apellido Materno</label>
 
             <input
-                id="apellido_materno"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.apellido_materno ?? ""}">
-
+            id="apellido_materno"
+            class="cubika-input trabajador-nombre-input"
+            type="text"
+            value="${trabajador?.apellido_materno ?? ""}"
+            style="text-transform: uppercase;">
         </div>
 
 
@@ -1097,18 +1098,21 @@ async function crearTrabajador() {
             .getElementById("nombres")
             .value
             .trim();
+            .toUpperCase();
     
     const apellido_paterno =
         document
             .getElementById("apellido_paterno")
             .value
             .trim();
+            .toUpperCase();
     
     const apellido_materno =
         document
             .getElementById("apellido_materno")
             .value
             .trim();
+            .toUpperCase();
     
     const direccion =
         document
@@ -1380,18 +1384,21 @@ async function actualizarTrabajador(id) {
             .getElementById("nombres")
             .value
             .trim();
+            .toUpperCase();
 
     const apellido_paterno =
         document
             .getElementById("apellido_paterno")
             .value
             .trim();
+            .toUpperCase();
 
     const apellido_materno =
         document
             .getElementById("apellido_materno")
             .value
             .trim();
+            .toUpperCase();
 
     const rut =
         document
