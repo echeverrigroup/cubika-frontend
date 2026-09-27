@@ -610,7 +610,6 @@ function renderPaso2() {
                 
                     <input
                         id="sueldo"
-                        type="number"
                         class="cubika-input"
                     >
                 
@@ -625,7 +624,6 @@ function renderPaso2() {
                 
                     <input
                         id="jornada"
-                        type="number"
                         class="cubika-input">
                 
                 </div>
@@ -1479,7 +1477,7 @@ function actualizarCampoContrato() {
 
         box.innerHTML = `
             <label class="cubika-label"
-                     "font-weight: normal;">
+                     "font-weight: normal">
 
                 Sin fecha de Término
 
