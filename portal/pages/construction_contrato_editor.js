@@ -44,7 +44,7 @@ from "../services/empresasService.js";
 import {
     mostrarFormularioNuevaEmpresa
 }
-from "./construction_empresa.js";
+from "./construction_empresas.js";
 
 import {
     obrasService
