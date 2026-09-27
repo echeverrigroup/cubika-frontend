@@ -543,13 +543,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                                     <tr>
 
-                                        <td>
-                                            ${formatearFechaHora(
-                                                contrato.fecha_generacion
-                                            )}
-                                        </td>
-
-                                        <td class="estado-cell">                                        
+                                            <td class="estado-cell">                                        
                         
                                             <span
                                                 class="estado-indicador ${
@@ -698,6 +692,15 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                         </div>
                                     
                                     </td>
+                                    
+
+                                     <td>
+                                            ${formatearFechaHora(
+                                                contrato.fecha_generacion
+                                            )}
+                                    </td>
+
+
 
                                     </tr>
 
