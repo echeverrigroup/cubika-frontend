@@ -564,28 +564,43 @@ function renderPaso2() {
 
                <div class="form-group">
 
-                 <div
+                    <div
                         style="
-                            display:flex;
-                                                        
-                        ">
-                        <label>
+                            height: 22px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        "
+                    >
+                
+                        <label
+                            style="
+                                margin: 0;
+                                line-height: 1;
+                            "
+                        >
                             Sueldo
                         </label>
                 
-                        <label  style="
-                                display:flex;
-                                
-                                cursor:pointer;
-                                white-space:nowrap;
-                                font-weight:normal;
-                            ">
-                           
+                        <label
+                            style="
+                                display: flex;
+                                align-items: center;
+                                gap: 4px;
+                                margin: 0;
+                                font-weight: normal;
+                                cursor: pointer;
+                                line-height: 1;
+                            "
+                        >
                 
                             <input
                                 id="sueldoMinimoLegal"
-                                class="distribucion-checkbox"
-                                type="checkbox">
+                                type="checkbox"
+                                style="
+                                    margin: 0;
+                                "
+                            >
                 
                             Mínimo legal vigente
                 
@@ -596,7 +611,8 @@ function renderPaso2() {
                     <input
                         id="sueldo"
                         type="number"
-                        class="cubika-input">
+                        class="cubika-input"
+                    >
                 
                 </div>
                 
