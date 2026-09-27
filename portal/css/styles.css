@@ -4057,3 +4057,134 @@ EDITOR DOCUMENTAL
 
     background: #FFFFFF;
 }
+
+
+
+/* =========================================================
+   SIDEBAR - CONFIGURACIÓN
+   ========================================================= */
+
+.sidebar-dropdown-toggle {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    user-select: none;
+
+}
+
+
+.sidebar-dropdown-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.sidebar-config-icon {
+
+    font-size: 17px;
+
+    line-height: 1;
+
+    width: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.sidebar-dropdown-chevron {
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.2s ease;
+
+}
+
+
+.sidebar-dropdown-toggle.open
+.sidebar-dropdown-chevron {
+
+    transform: rotate(90deg);
+
+}
+
+
+/* Submenú */
+
+.sidebar-submenu {
+
+    display: none;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.sidebar-submenu.open {
+
+    display: block;
+
+}
+
+
+.sidebar-submenu ul {
+
+    margin: 0;
+
+    padding: 0 0 0 18px;
+
+    list-style: none;
+
+}
+
+
+/* Elementos internos */
+
+.sidebar-submenu li {
+
+    cursor: pointer;
+
+}
+
+
+/* Un poco más de jerarquía visual */
+
+.sidebar-submenu li::before {
+
+    content: "";
+
+    display: inline-block;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    margin-right: 9px;
+
+    vertical-align: middle;
+
+    opacity: 0.45;
+
+}
