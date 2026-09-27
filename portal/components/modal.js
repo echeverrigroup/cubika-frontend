@@ -221,6 +221,7 @@ export function showFormModal({
     title,
     content,
     onSubmit,
+    onSuccess = null,
     submitText = "Guardar",
     size = "normal"
 
@@ -273,16 +274,22 @@ export function showFormModal({
     confirm.onclick =
         async () => {
 
-            let ok = true;
+            let result = true;
 
             if (onSubmit) {
 
-                ok =
+                result =
                     await onSubmit();
 
             }
 
-            if (ok !== false) {
+            if (result !== false) {
+
+                if (onSuccess) {
+
+                    await onSuccess(result);
+
+                }
 
                 closeModal();
 
@@ -291,7 +298,6 @@ export function showFormModal({
         };
 
 }
-
 
 
 export function setModalLoading(
