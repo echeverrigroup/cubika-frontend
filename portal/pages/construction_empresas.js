@@ -588,7 +588,9 @@ function cargarTablaObras(obras) {
 
 
 
-async function mostrarFormularioNuevaEmpresa() {
+export async function mostrarFormularioNuevaEmpresa(
+        onSuccess = null
+    ) {
 
     showFormModal({
 
@@ -624,6 +626,9 @@ async function mostrarFormularioNuevaEmpresa() {
                 ? crearConstructora
 
                 : crearEmpresa
+
+        onSuccess:
+            onSuccess
 
     });
 
