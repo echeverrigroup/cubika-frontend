@@ -1074,7 +1074,8 @@ async function cargarPaso1() {
             `${t.nombres}
              ${t.apellido_paterno}
              ${t.apellido_materno ?? ""}`,
-        contratoActual.worker_id
+        contratoActual.worker_id,
+        "Crear nuevo trabajador"
     );
 
 
@@ -1082,7 +1083,8 @@ async function cargarPaso1() {
         "empresa_id",
         empresas,
         e => e.nombre,
-        contratoActual.empresa_id
+        contratoActual.empresa_id,
+        "Crear nuevo mandante"
     );
 
 
@@ -1090,7 +1092,8 @@ async function cargarPaso1() {
         "constructora_id",
         constructoras,
         c => c.nombre,
-        contratoActual.constructora_id
+        contratoActual.constructora_id,
+        "Crear nueva constructora"
     );
 
 
@@ -1098,9 +1101,9 @@ async function cargarPaso1() {
         "cargo_id",
         cargos,
         c => c.nombre,
-        contratoActual.cargo_id
+        contratoActual.cargo_id,
+        "Crear nuevo cargo"
     );
-
 
     await cargarObrasPorConstructora(
         contratoActual.constructora_id,
@@ -1409,15 +1412,11 @@ async function cargarPaso2() {
 
 
 function cargarSelect(
-
     id,
-
     items,
-
     getLabel,
-
-    selected = null
-
+    selected = null,
+    crearNuevoLabel = null
 ) {
 
     const select =
@@ -1426,31 +1425,20 @@ function cargarSelect(
     if (!select)
         return;
 
-
     select.innerHTML = `
-
         <option value="">
-
             Seleccione
-
         </option>
-
     `;
-
 
     items.forEach(item => {
 
         select.innerHTML += `
 
             <option
-
                 value="${item.id}"
-
-                ${item.id ==
-                    selected
-
+                ${item.id == selected
                     ? "selected"
-
                     : ""}>
 
                 ${getLabel(item)}
@@ -1460,6 +1448,18 @@ function cargarSelect(
         `;
 
     });
+
+    if (crearNuevoLabel) {
+
+        select.innerHTML += `
+
+            <option value="__crear_nuevo__">
+                ＋ ${crearNuevoLabel}
+            </option>
+
+        `;
+
+    }
 
 }
 
