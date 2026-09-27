@@ -590,7 +590,7 @@ function renderPaso2() {
                                 margin: 0;
                                 font-weight: normal;
                                 cursor: pointer;
-                                line-height: 1;
+                                
                             "
                         >
                 
