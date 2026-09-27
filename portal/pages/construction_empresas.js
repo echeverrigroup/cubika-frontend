@@ -589,7 +589,8 @@ function cargarTablaObras(obras) {
 
 
 export async function mostrarFormularioNuevaEmpresa(
-        onSuccess = null
+        onSuccess = null,
+        desdeWizard = false
     ) {
 
     showFormModal({
@@ -620,13 +621,15 @@ export async function mostrarFormularioNuevaEmpresa(
             : "large",
 
         onSubmit:
-
+        
             tipoEntidadActivo === "constructora"
-
+        
                 ? crearConstructora
-
-                : crearEmpresa,
-
+        
+                : () => crearEmpresa(
+                    !desdeWizard
+                ),
+        
         onSuccess:
             onSuccess
 
@@ -1021,7 +1024,9 @@ function obtenerFormularioConstructora(
 
 
 
-async function crearEmpresa() {
+async function crearEmpresa(
+        actualizarListado = true
+    ) {
 
     const nombre =
         document
@@ -1158,7 +1163,11 @@ if (!rut) {
         
             });
     
-        await cargarEntidades();
+        if (actualizarListado) {
+        
+            await cargarEntidades();
+        
+        }
     
         setModalLoading(false);
 
