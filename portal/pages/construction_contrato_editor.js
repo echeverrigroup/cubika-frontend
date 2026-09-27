@@ -42,6 +42,11 @@ import {
 from "../services/empresasService.js";
 
 import {
+    mostrarFormularioNuevaEmpresa
+}
+from "./construction_empresa.js";
+
+import {
     obrasService
 }
 from "../services/obrasService.js";
@@ -1088,6 +1093,62 @@ async function cargarPaso1() {
     );
 
 
+    const selectEmpresa =
+        document.getElementById(
+            "empresa_id"
+        );
+    
+    if (selectEmpresa) {
+    
+        selectEmpresa.onchange =
+            async e => {
+    
+                if (
+                    e.target.value !==
+                    "__crear_nuevo__"
+                ) {
+    
+                    contratoActual.empresa_id =
+                        e.target.value;
+    
+                    return;
+    
+                }
+    
+    
+                await mostrarFormularioNuevaEmpresa(
+    
+                    async nuevaEmpresa => {
+    
+                        if (!nuevaEmpresa)
+                            return;
+    
+    
+                        contratoActual.empresa_id =
+                            nuevaEmpresa.id;
+    
+    
+                        const empresasActualizadas =
+                            await empresasService.getAll();
+    
+    
+                        cargarSelect(
+                            "empresa_id",
+                            empresasActualizadas,
+                            empresa =>
+                                empresa.nombre,
+                            nuevaEmpresa.id
+                        );
+    
+                    }
+    
+                );
+    
+            };
+    
+    }
+
+
     cargarSelect(
         "constructora_id",
         constructoras,
@@ -1412,11 +1473,15 @@ async function cargarPaso2() {
 
 
 function cargarSelect(
+
     id,
+
     items,
+
     getLabel,
-    selected = null,
-    crearNuevoLabel = null
+
+    selected = null
+
 ) {
 
     const select =
@@ -1425,18 +1490,26 @@ function cargarSelect(
     if (!select)
         return;
 
+
     select.innerHTML = `
+
         <option value="">
+
             Seleccione
+
         </option>
+
     `;
+
 
     items.forEach(item => {
 
         select.innerHTML += `
 
             <option
+
                 value="${item.id}"
+
                 ${item.id == selected
                     ? "selected"
                     : ""}>
@@ -1449,12 +1522,20 @@ function cargarSelect(
 
     });
 
-    if (crearNuevoLabel) {
+
+    /*
+     * Opción especial:
+     * Crear nuevo registro
+     */
+
+    if (id === "empresa_id") {
 
         select.innerHTML += `
 
             <option value="__crear_nuevo__">
-                ＋ ${crearNuevoLabel}
+
+                ＋ Crear nuevo mandante
+
             </option>
 
         `;
@@ -1462,6 +1543,7 @@ function cargarSelect(
     }
 
 }
+
 
 
 function actualizarCampoContrato() {
