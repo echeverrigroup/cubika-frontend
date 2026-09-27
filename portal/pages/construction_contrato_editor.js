@@ -1480,8 +1480,7 @@ function actualizarCampoContrato() {
 
         box.innerHTML = `
             <label class="cubika-label"
-                     style="font-weight: normal;
-                     align-items: center;">
+                     style="font-weight: normal";>
 
                 Sin fecha de Término
 
