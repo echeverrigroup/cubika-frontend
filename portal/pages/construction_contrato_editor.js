@@ -1088,8 +1088,7 @@ async function cargarPaso1() {
         "empresa_id",
         empresas,
         e => e.nombre,
-        contratoActual.empresa_id,
-        "Crear nuevo mandante"
+        contratoActual.empresa_id
     );
 
 
