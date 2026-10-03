@@ -1174,6 +1174,7 @@ if (!rut) {
         return nuevaEmpresa;
     
     }
+        
     catch(error){
     
         console.error(error);
