@@ -1182,8 +1182,8 @@ async function cargarPaso1() {
         "constructora_id",
         constructoras,
         c => c.nombre,
-        contratoActual.constructora_id,
-        "Crear nueva constructora"
+        contratoActual.constructora_id
+
     );
 
 
@@ -1191,8 +1191,8 @@ async function cargarPaso1() {
         "cargo_id",
         cargos,
         c => c.nombre,
-        contratoActual.cargo_id,
-        "Crear nuevo cargo"
+        contratoActual.cargo_id
+       
     );
 
     await cargarObrasPorConstructora(
