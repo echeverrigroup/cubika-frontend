@@ -444,6 +444,30 @@ function renderPaso1() {
                 <div class="form-group">
 
                     <label>
+                        Obra
+                    </label>
+
+                    <select
+                        id="obra_id"
+                        class="cubika-select">
+
+                        <option value="">
+                            Seleccione
+                        </option>
+
+                        <option value="__crear_nuevo__">
+                            ＋ Crear nueva obra
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
                         Trabajador
                     </label>
 
@@ -463,28 +487,6 @@ function renderPaso1() {
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <label>
-                        Obra
-                    </label>
-
-                    <select
-                        id="obra_id"
-                        class="cubika-select">
-
-                        <option value="">
-                            Seleccione
-                        </option>
-
-                        <option value="__crear_nuevo__">
-                            ＋ Crear nueva obra
-                        </option>
-
-                    </select>
-
-                </div>
 
 
                 <div class="form-group">
