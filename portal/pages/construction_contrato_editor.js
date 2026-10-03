@@ -1119,7 +1119,7 @@ async function cargarPaso1() {
     
                 await mostrarFormularioNuevaEmpresa(
     
-                    async nuevaEmpresa => {
+                    onSuccess: async nuevaEmpresa => {
     
                         if (!nuevaEmpresa)
                             return;
