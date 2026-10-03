@@ -1119,7 +1119,7 @@ async function cargarPaso1() {
     
                 await mostrarFormularioNuevaEmpresa(
     
-                    onSuccess: async nuevaEmpresa => {
+                     async nuevaEmpresa => {
 
                         if (!nuevaEmpresa)
                             return;
@@ -1167,7 +1167,9 @@ async function cargarPaso1() {
                                 ?.value
                         );
                     
-                    }
+                    }, 
+
+                    true
     
                 );
     
