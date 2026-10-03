@@ -1120,19 +1120,37 @@ async function cargarPaso1() {
                 await mostrarFormularioNuevaEmpresa(
     
                     onSuccess: async nuevaEmpresa => {
-    
+
                         if (!nuevaEmpresa)
                             return;
-    
-    
+                    
+                    
+                        console.log(
+                            "NUEVO MANDANTE CREADO:",
+                            nuevaEmpresa
+                        );
+                    
+                    
                         contratoActual.empresa_id =
                             nuevaEmpresa.id;
-    
-    
+                    
+                    
+                        console.log(
+                            "ID GUARDADO EN CONTRATO:",
+                            contratoActual.empresa_id
+                        );
+                    
+                    
                         const empresasActualizadas =
                             await empresasService.getAll();
-    
-    
+                    
+                    
+                        console.log(
+                            "EMPRESAS ACTUALIZADAS:",
+                            empresasActualizadas
+                        );
+                    
+                    
                         cargarSelect(
                             "empresa_id",
                             empresasActualizadas,
@@ -1140,7 +1158,15 @@ async function cargarPaso1() {
                                 empresa.nombre,
                             nuevaEmpresa.id
                         );
-    
+                    
+                    
+                        console.log(
+                            "VALOR ACTUAL DEL SELECT:",
+                            document
+                                .getElementById("empresa_id")
+                                ?.value
+                        );
+                    
                     }
     
                 );
