@@ -47,6 +47,10 @@ import {
 from "./construction_empresas.js";
 
 import {
+    mostrarFormularioNuevaObra
+} from "./construction_obras.js";
+
+import {
     obrasService
 }
 from "../services/obrasService.js";
@@ -1273,19 +1277,65 @@ async function cargarPaso1() {
         document.getElementById(
             "obra_id"
         );
-
+    
     if (selectObra) {
-
+    
         selectObra.onchange =
-            e => {
-
+            async e => {
+    
+                if (
+                    e.target.value ===
+                    "__crear_obra__"
+                ) {
+    
+                    const constructoraId =
+                        contratoActual.constructora_id;
+    
+                    if (!constructoraId) {
+    
+                        e.target.value = "";
+    
+                        return;
+    
+                    }
+    
+    
+                    await mostrarFormularioNuevaObra(
+    
+                        async nuevaObra => {
+    
+                            if (!nuevaObra)
+                                return;
+    
+    
+                            contratoActual.obra_id =
+                                nuevaObra.id;
+    
+    
+                            await cargarObrasPorConstructora(
+    
+                                constructoraId,
+    
+                                nuevaObra.id
+    
+                            );
+    
+                        }
+    
+                    );
+    
+                    return;
+    
+                }
+    
+    
                 contratoActual.obra_id =
                     e.target.value;
-
+    
             };
-
+    
     }
-
+    
 }
 
 
