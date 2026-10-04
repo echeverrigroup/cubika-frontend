@@ -108,14 +108,18 @@ export const empresasService = {
 
     async create(empresa) {
 
-        const { error } =
+        const { data, error } =
             await supabase
                 .from("empresas_construccion")
-                .insert(empresa);
-
+                .insert(empresa)
+                .select()
+                .single();
+    
         if (error)
             throw error;
-
+    
+        return data;
+    
     },
 
 
