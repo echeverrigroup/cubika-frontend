@@ -12,7 +12,8 @@ export const workersService = {
     const [
         trabajadoresResult,
         afps,
-        salud
+        salud,
+        nacionalidades
     ] = await Promise.all([
         supabase
             .from(TABLE)
@@ -25,7 +26,9 @@ export const workersService = {
 
         this.getAFP(),
 
-        this.getSalud()
+        this.getSalud(),
+
+        this.getNacionalidades()
     ]);
 
     if (trabajadoresResult.error) {
@@ -43,7 +46,13 @@ export const workersService = {
 
         salud_catalogo: salud.find(
             institucion => institucion.id === trabajador.salud_id
+        ) ?? null,
+
+         nacionalidad_catalogo: nacionalidades.find(
+            nacionalidad =>
+                nacionalidad.id === trabajador.nacionalidad_id
         ) ?? null
+        
     }));
 },
 
