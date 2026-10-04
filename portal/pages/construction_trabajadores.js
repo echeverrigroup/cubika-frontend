@@ -1004,7 +1004,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                     value="${afp.id}"
                     ${trabajador?.afp_id === afp.id ? "selected" : ""}
                 >
-                    ${afp.nombre}
+                    ${afp.nombre_corto}
                 </option>
             `).join("")}
         </select>
