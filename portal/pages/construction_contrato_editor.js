@@ -651,14 +651,20 @@ function renderPaso2() {
                 
                 
                 <div class="form-group">
-                
+
                     <label>
                         Jornada
                     </label>
                 
-                    <input
-                        id="jornada"
-                        class="cubika-input">
+                    <select
+                        id="jornada_id"
+                        class="cubika-select">
+                
+                        <option value="">
+                            Seleccione
+                        </option>
+                
+                    </select>
                 
                 </div>
                 
