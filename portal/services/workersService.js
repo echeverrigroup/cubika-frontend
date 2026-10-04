@@ -177,6 +177,21 @@ export const workersService = {
     },
 
 
+    async getAFP() {
+        const { data, error } = await supabase
+            .schema("global")
+            .from("afp")
+            .select("id, codigo, nombre, nombre_corto")
+            .eq("activo", true)
+            .order("orden")
+            .order("nombre");
+    
+        if (error) throw error;
+    
+        return data;
+    },
+
+
     async getNacionalidades() {
         const { data, error } = await supabase
             .schema("global")
