@@ -472,9 +472,7 @@ async function cargarTrabajadores() {
                 </td>
             
                 <td>
-            
-                    ${trabajador.afp ?? ""}
-            
+                    ${trabajador.afp_catalogo?.nombre ?? ""}
                 </td>
             
                 <td>
