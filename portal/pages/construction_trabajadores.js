@@ -672,10 +672,12 @@ async function cargarComunas(
 
 
 
-async function mostrarFormularioNuevoTrabajador() {
+export async function mostrarFormularioNuevoTrabajador(
+    onSuccess = null,
+    desdeWizard = false
+) {
 
     showFormModal({
-
         title: "Nuevo Trabajador",
 
         content:
@@ -685,23 +687,30 @@ async function mostrarFormularioNuevoTrabajador() {
 
         size: "large",
 
-        onSubmit:
-            crearTrabajador
+        onSubmit: async () => {
+
+            const nuevoTrabajador =
+                await crearTrabajador(desdeWizard);
+
+            if (
+                nuevoTrabajador &&
+                onSuccess
+            ) {
+                await onSuccess(nuevoTrabajador);
+            }
+
+            return nuevoTrabajador;
+
+        }
 
     });
 
-
     await cargarRegiones();
 
-
     document
-
         .getElementById("region_id")
-
         .addEventListener(
-
             "change",
-
             async e => {
 
                 await cargarComunas(
@@ -709,11 +718,9 @@ async function mostrarFormularioNuevoTrabajador() {
                 );
 
             }
-
         );
 
 }
-
 
 async function obtenerFormularioTrabajador(trabajador = null) {
 
@@ -1066,7 +1073,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
 
 
-async function crearTrabajador() {
+async function crearTrabajador(desdeWizard = false) {
 
     const rut =
     document
@@ -1248,39 +1255,42 @@ async function crearTrabajador() {
 
         setModalLoading(true);
 
-       await workersService.create({
-
-            rut,
-            tipo_documento_id,
+        const nuevoTrabajador =
+            await workersService.create({
         
-            nombres,
-            apellido_paterno,
-            apellido_materno,
-            direccion,
-            sexo,
-            email,
-            nacionalidad_id,
-            estado_civil_id,
-            region_id,
-            comuna_id,
-            fecha_nacimiento,
+                rut,
+                tipo_documento_id,
         
-            afp,
-            salud,
-
-            banco_id,
-            tipo_cuenta_id,
-            numero_cuenta,
+                nombres,
+                apellido_paterno,
+                apellido_materno,
+                direccion,
+                sexo,
+                email,
+                nacionalidad_id,
+                estado_civil_id,
+                region_id,
+                comuna_id,
+                fecha_nacimiento,
         
-            estado: "Activo"
+                afp,
+                salud,
         
-        });
-
-        await cargarTrabajadores();
-
+                banco_id,
+                tipo_cuenta_id,
+                numero_cuenta,
+        
+                estado: "Activo"
+        
+            });
+        
+        if (!desdeWizard) {
+            await cargarTrabajadores();
+        }
+        
         setModalLoading(false);
-
-        return true;
+        
+        return nuevoTrabajador;
 
     }
 
