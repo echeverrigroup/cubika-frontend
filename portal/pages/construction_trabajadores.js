@@ -739,6 +739,9 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     const nacionalidades =
         await workersService.getNacionalidades();
 
+    const afps =
+        await workersService.getAFP();
+
     return `
 
 <form id="formTrabajador">
@@ -991,11 +994,19 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
             <label>AFP</label>
 
-            <input
-                id="afp"
-                class="cubika-input"
-                type="text"
-                value="${trabajador?.afp ?? ""}">
+            <select
+                id="afp_id"
+                name="afp_id"
+                class="cubika-select"
+            >
+                <option value="">Seleccione AFP</option>
+            
+                ${afps.map(afp => `
+                    <option value="${afp.id}">
+                        ${afp.nombre}
+                    </option>
+                `).join("")}
+            </select>
 
         </div>
 
