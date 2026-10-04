@@ -1157,23 +1157,6 @@ async function cargarPaso1() {
         c => c.nombre,
         contratoActual.constructora_id
     );
-    
-    const selectConstructora =
-        document.getElementById("constructora_id");
-    
-    if (selectConstructora) {
-    
-        selectConstructora.innerHTML += `
-    
-            <option value="__crear_constructora__">
-    
-                ＋ Crear nueva constructora
-    
-            </option>
-    
-        `;
-    
-    }
 
 
     cargarSelect(
