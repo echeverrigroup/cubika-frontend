@@ -621,17 +621,14 @@ export async function mostrarFormularioNuevaEmpresa(
             : "large",
 
         onSubmit:
-        
+
             tipoEntidadActivo === "constructora"
         
                 ? crearConstructora
         
-                : async () => {
-        
-                    const resultado =
-                        await crearEmpresa(
-                            !desdeWizard
-                        ),
+                : () => crearEmpresa(
+                    !desdeWizard
+                ),
         
         onSuccess:
             onSuccess
