@@ -1804,20 +1804,22 @@ async function crearConstructora() {
 
 
     try {
-
+    
         setModalLoading(true);
-
-        await constructorasService.create(
-            constructora
-        );
-
+    
+        const nuevaConstructora =
+            await constructorasService.create(
+                constructora
+            );
+    
         await cargarEntidades();
-
+    
         setModalLoading(false);
-
-        return true;
-
+    
+        return nuevaConstructora;
+    
     }
+        
 
     catch (error) {
 
