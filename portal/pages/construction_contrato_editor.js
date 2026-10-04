@@ -2028,6 +2028,12 @@ async function cargarObrasPorConstructora(
         }
     );
 
+    select.innerHTML += `
+        <option value="__crear_obra__">
+            ＋ Crear nueva obra
+        </option>
+    `;
+
 }
 
 
