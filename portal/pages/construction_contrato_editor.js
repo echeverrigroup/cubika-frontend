@@ -51,6 +51,10 @@ import {
 } from "./construction_obras.js";
 
 import {
+    mostrarFormularioNuevoTrabajador
+} from "./construction_trabajadores.js";
+
+import {
     obrasService
 }
 from "../services/obrasService.js";
