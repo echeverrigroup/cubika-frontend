@@ -630,7 +630,9 @@ async function crearObra() {
     
         });
     
-        await cargarObras();
+        if (document.getElementById("obrasTable")) {
+            await cargarObras();
+        }
     
         setModalLoading(false);
     
