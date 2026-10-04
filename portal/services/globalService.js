@@ -4,6 +4,22 @@ import { supabase } from "../../js/supabaseClient.js";
 export const globalService = {
 
 
+    async getTiposJornada() {
+
+        const { data, error } = await supabase
+            .schema("global")
+            .from("tipos_jornada")
+            .select("id, codigo, nombre, descripcion")
+            .eq("activo", true)
+            .order("orden")
+            .order("nombre");
+    
+        if (error) throw error;
+    
+        return data;
+    },
+
+
     async getParametroVigente(codigo) {
 
         const hoy =
