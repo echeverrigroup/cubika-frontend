@@ -436,19 +436,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
     contratosVisibles = contratosFiltrados;
 
-    contratos.forEach(
-            contrato => {
-        
-                console.log(
-                    contrato.numero_contrato,
-                    determinarEstadoContrato(
-                        contrato
-                    )
-                );
-        
-            }
-        );
-
 
     if (!contratos.length) {
 
