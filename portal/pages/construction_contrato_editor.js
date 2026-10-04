@@ -1301,27 +1301,24 @@ async function cargarPaso1() {
     
     
                     await mostrarFormularioNuevaObra(
-    
+
                         async nuevaObra => {
-    
+                    
                             if (!nuevaObra)
                                 return;
-    
-    
+                    
                             contratoActual.obra_id =
                                 nuevaObra.id;
-    
-    
+                    
                             await cargarObrasPorConstructora(
-    
                                 constructoraId,
-    
                                 nuevaObra.id
-    
                             );
-    
-                        }
-    
+                    
+                        },
+                    
+                        constructoraId
+                    
                     );
     
                     return;
