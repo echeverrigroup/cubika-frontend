@@ -9,10 +9,10 @@ export const workersService = {
     // =========================================================
 
   async getAll() {
-
     const [
         trabajadoresResult,
-        afps
+        afps,
+        salud
     ] = await Promise.all([
         supabase
             .from(TABLE)
@@ -23,7 +23,9 @@ export const workersService = {
             `)
             .order("apellido_paterno"),
 
-        this.getAFP()
+        this.getAFP(),
+
+        this.getSalud()
     ]);
 
     if (trabajadoresResult.error) {
@@ -34,18 +36,23 @@ export const workersService = {
 
     return trabajadores.map(trabajador => ({
         ...trabajador,
+
         afp_catalogo: afps.find(
             afp => afp.id === trabajador.afp_id
+        ) ?? null,
+
+        salud_catalogo: salud.find(
+            institucion => institucion.id === trabajador.salud_id
         ) ?? null
     }));
 },
 
 
 async getById(id) {
-
     const [
         trabajadorResult,
-        afps
+        afps,
+        salud
     ] = await Promise.all([
         supabase
             .from(TABLE)
@@ -57,7 +64,9 @@ async getById(id) {
             .eq("id", id)
             .single(),
 
-        this.getAFP()
+        this.getAFP(),
+
+        this.getSalud()
     ]);
 
     if (trabajadorResult.error) {
@@ -68,8 +77,13 @@ async getById(id) {
 
     return {
         ...trabajador,
+
         afp_catalogo: afps.find(
             afp => afp.id === trabajador.afp_id
+        ) ?? null,
+
+        salud_catalogo: salud.find(
+            institucion => institucion.id === trabajador.salud_id
         ) ?? null
     };
 },
@@ -275,6 +289,21 @@ async getById(id) {
             .schema("global")
             .from("afp")
             .select("id, codigo, nombre, nombre_corto")
+            .eq("activo", true)
+            .order("orden")
+            .order("nombre");
+    
+        if (error) throw error;
+    
+        return data;
+    },
+    
+
+    async getSalud() {
+        const { data, error } = await supabase
+            .schema("global")
+            .from("salud")
+            .select("id, codigo, nombre, nombre_corto, tipo")
             .eq("activo", true)
             .order("orden")
             .order("nombre");
