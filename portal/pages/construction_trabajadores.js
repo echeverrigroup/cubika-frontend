@@ -272,7 +272,7 @@ async function cargarTrabajadores() {
                 
                  ${t.afp_catalogo?.nombre_corto ?? "—"}
                 
-                 ${t.salud ?? ""}
+                 ${trabajador.salud_catalogo?.nombre ?? ""}
                 
                  ${t.banco ?? ""}`
                 
@@ -477,7 +477,7 @@ async function cargarTrabajadores() {
             
                 <td>
             
-                    ${trabajador.salud ?? ""}
+                    ${trabajador.salud_catalogo?.nombre ?? ""}
             
                 </td>
             
