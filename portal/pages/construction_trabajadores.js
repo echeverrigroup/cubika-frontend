@@ -1023,7 +1023,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 name="salud_id"
                 class="cubika-select"
             >
-                <option value="">Seleccione sistema de salud</option>
+                <option value="">Seleccione sistema salud</option>
             
                 ${salud.map(institucion => `
                     <option
