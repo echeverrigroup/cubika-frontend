@@ -897,10 +897,10 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     <div class="form-grid-4">
 
         <div class="form-group">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center;">
                 <label>Nacionalidad</label>
         
-                <label style="display: flex; align-items: center; margin: 0; font-weight: normal; cursor: pointer;">
+                <label style="display: flex; align-items: gap: 6px; center; margin: 0; font-weight: normal; cursor: pointer;">
                     <input
                         type="checkbox"
                         id="nacionalidad_chilena"
