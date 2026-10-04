@@ -274,7 +274,7 @@ async function cargarObras() {
 }
 
 
-export async function mostrarFormularioNuevaObra() {
+export async function mostrarFormularioNuevaObra(onSuccess = null) {
 
     showFormModal({
 
@@ -286,7 +286,17 @@ export async function mostrarFormularioNuevaObra() {
 
         size: "large",
 
-        onSubmit: crearObra
+        onSubmit: async () => {
+
+            const nuevaObra = await crearObra();
+
+            if (nuevaObra && onSuccess) {
+                await onSuccess(nuevaObra);
+            }
+
+            return nuevaObra;
+
+        }
 
     });
 
@@ -595,38 +605,39 @@ async function crearObra() {
 
 
     try {
-
+    
         setModalLoading(true);
-
-           await obrasService.create({
-
-                constructora_id,
-            
-                nombre,
-            
-                direccion,
-
-               descripcion,
-                
-               fecha_inicio,
-                
-               fecha_termino,
-            
-                region_id,
-            
-                comuna_id,
-            
-                estado: "Activa"
-            
-            });
-
+    
+        const nuevaObra = await obrasService.create({
+    
+            constructora_id,
+    
+            nombre,
+    
+            direccion,
+    
+            descripcion,
+    
+            fecha_inicio,
+    
+            fecha_termino,
+    
+            region_id,
+    
+            comuna_id,
+    
+            estado: "Activa"
+    
+        });
+    
         await cargarObras();
-
+    
         setModalLoading(false);
-
-        return true;
-
+    
+        return nuevaObra;
+    
     }
+        
 
     catch (error) {
 
