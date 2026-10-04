@@ -1193,17 +1193,77 @@ async function cargarPaso1() {
     
         selectConstructora.onchange =
             async e => {
-    
+        
+                if (
+                    e.target.value ===
+                    "__crear_constructora__"
+                ) {
+        
+                    await mostrarFormularioNuevaEmpresa(
+                        async nuevaConstructora => {
+        
+                            if (!nuevaConstructora)
+                                return;
+        
+                            contratoActual.constructora_id =
+                                nuevaConstructora.id;
+        
+                            const constructorasActualizadas =
+                                await constructorasService.getAll();
+        
+                            cargarSelect(
+                                "constructora_id",
+                                constructorasActualizadas,
+                                constructora =>
+                                    constructora.nombre,
+                                nuevaConstructora.id
+                            );
+        
+                            const select =
+                                document.getElementById(
+                                    "constructora_id"
+                                );
+        
+                            if (select) {
+        
+                                select.innerHTML += `
+        
+                                    <option value="__crear_constructora__">
+        
+                                        ＋ Crear nueva constructora
+        
+                                    </option>
+        
+                                `;
+        
+                            }
+        
+                            contratoActual.obra_id =
+                                null;
+        
+                            await cargarObrasPorConstructora(
+                                nuevaConstructora.id
+                            );
+        
+                        },
+                        true,
+                        "constructora"
+                    );
+        
+                    return;
+                }
+        
+        
                 contratoActual.constructora_id =
                     e.target.value;
-    
+        
                 contratoActual.obra_id =
                     null;
-    
+        
                 await cargarObrasPorConstructora(
                     e.target.value
                 );
-    
+        
             };
     
     }
