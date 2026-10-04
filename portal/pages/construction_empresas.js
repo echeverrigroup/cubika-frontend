@@ -631,13 +631,8 @@ export async function mostrarFormularioNuevaEmpresa(
                     const resultado =
                         await crearEmpresa(
                             !desdeWizard
-                        );
-        
-                    console.log(
-                        "RESULTADO DIRECTO DE crearEmpresa:",
-                        resultado
-                    );
-        
+                        ),
+     
                     return resultado;
         
                 },
