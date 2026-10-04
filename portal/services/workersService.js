@@ -8,37 +8,37 @@ export const workersService = {
     // WORKERS
     // =========================================================
 
-    async getAll() {
+   async getAll() {
         const { data, error } = await supabase
             .from(TABLE)
             .select(`
                 *,
                 region:regiones(id,nombre),
-                comuna:comunas(id,nombre)
+                comuna:comunas(id,nombre),
+                afp_catalogo:afp(id,codigo,nombre,nombre_corto)
             `)
             .order("apellido_paterno");
-        
-                if (error) throw error;
-        
-                return data;
-            },
-
-
-    async getById(id) {
-        const { data, error } = await supabase
-            .from(TABLE)
-            .select(`
-                *,
-                region:regiones(id,nombre),
-                comuna:comunas(id,nombre)
-            `)
-            .eq("id", id)
-            .single();
-
+    
         if (error) throw error;
-
         return data;
     },
+
+
+async getById(id) {
+    const { data, error } = await supabase
+        .from(TABLE)
+        .select(`
+            *,
+            region:regiones(id,nombre),
+            comuna:comunas(id,nombre),
+            afp_catalogo:afp(id,codigo,nombre,nombre_corto)
+        `)
+        .eq("id", id)
+        .single();
+
+    if (error) throw error;
+    return data;
+},
 
 
     async getByIdForDocument(id) {
