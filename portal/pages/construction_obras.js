@@ -274,31 +274,37 @@ async function cargarObras() {
 }
 
 
-export async function mostrarFormularioNuevaObra(onSuccess = null) {
-
-    showFormModal({
-
-        title: "Nueva Obra",
-
-        content: await obtenerFormularioObra(),
-
-        submitText: "Guardar",
-
-        size: "large",
-
-        onSubmit: async () => {
-
-            const nuevaObra = await crearObra();
-
-            if (nuevaObra && onSuccess) {
-                await onSuccess(nuevaObra);
+export async function mostrarFormularioNuevaObra(
+        onSuccess = null,
+        constructoraId = null
+    ) {
+    
+        showFormModal({
+    
+            title: "Nueva Obra",
+    
+            content: await obtenerFormularioObra(
+                null,
+                constructoraId
+            ),
+    
+            submitText: "Guardar",
+    
+            size: "large",
+    
+            onSubmit: async () => {
+    
+                const nuevaObra = await crearObra();
+    
+                if (nuevaObra && onSuccess) {
+                    await onSuccess(nuevaObra);
+                }
+    
+                return nuevaObra;
+    
             }
-
-            return nuevaObra;
-
-        }
-
-    });
+    
+        });
 
 
     await cargarRegiones();
@@ -319,11 +325,13 @@ export async function mostrarFormularioNuevaObra(onSuccess = null) {
 
 }
 
-async function obtenerFormularioObra(obra = null) {
+async function obtenerFormularioObra(
+        obra = null,
+        constructoraId = null
+    ) {
 
     const constructoras =
         await constructorasService.getAll();
-
 
    const opcionesConstructoras =
         constructoras
@@ -341,7 +349,10 @@ async function obtenerFormularioObra(obra = null) {
             
                 <option
                     value="${e.id}"
-                    ${obra?.constructora_id === e.id ? "selected" : ""}>
+                    ${(
+                        obra?.constructora_id === e.id ||
+                        (!obra && constructoraId === e.id)
+                    ) ? "selected" : ""}
             
                     ${e.nombre}
             
