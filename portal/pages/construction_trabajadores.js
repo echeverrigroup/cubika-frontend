@@ -35,6 +35,36 @@ import {
 from "../components/modal.js";
 
 
+function configurarNacionalidadChilena() {
+        const checkboxChilena = document.getElementById("nacionalidad_chilena");
+        const nacionalidadSelect = document.getElementById("nacionalidad_id");
+    
+        if (!checkboxChilena || !nacionalidadSelect) return;
+    
+        const opcionChilena = nacionalidadSelect.querySelector(
+            'option[data-codigo="CL"]'
+        );
+    
+        if (!opcionChilena) return;
+    
+        // Estado inicial
+        checkboxChilena.checked =
+            nacionalidadSelect.value === opcionChilena.value;
+    
+        // Checkbox → Select
+        checkboxChilena.addEventListener("change", () => {
+            nacionalidadSelect.value = checkboxChilena.checked
+                ? opcionChilena.value
+                : "";
+        });
+    
+        // Select → Checkbox
+        nacionalidadSelect.addEventListener("change", () => {
+            checkboxChilena.checked =
+                nacionalidadSelect.value === opcionChilena.value;
+        });
+    }
+
 
 export async function renderConstructionTrabajadores() {
 
@@ -147,36 +177,6 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
                 boton.textContent = "+ Nuevo Trabajador";
             }
         }
-
-    function configurarNacionalidadChilena() {
-        const checkboxChilena = document.getElementById("nacionalidad_chilena");
-        const nacionalidadSelect = document.getElementById("nacionalidad_id");
-    
-        if (!checkboxChilena || !nacionalidadSelect) return;
-    
-        const opcionChilena = nacionalidadSelect.querySelector(
-            'option[data-codigo="CL"]'
-        );
-    
-        if (!opcionChilena) return;
-    
-        // Estado inicial
-        checkboxChilena.checked =
-            nacionalidadSelect.value === opcionChilena.value;
-    
-        // Checkbox → Select
-        checkboxChilena.addEventListener("change", () => {
-            nacionalidadSelect.value = checkboxChilena.checked
-                ? opcionChilena.value
-                : "";
-        });
-    
-        // Select → Checkbox
-        nacionalidadSelect.addEventListener("change", () => {
-            checkboxChilena.checked =
-                nacionalidadSelect.value === opcionChilena.value;
-        });
-    }
 
 
     // ========================================================
