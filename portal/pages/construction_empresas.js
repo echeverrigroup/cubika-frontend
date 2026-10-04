@@ -589,15 +589,16 @@ function cargarTablaObras(obras) {
 
 
 export async function mostrarFormularioNuevaEmpresa(
-        onSuccess = null,
-        desdeWizard = false
-    ) {
+    onSuccess = null,
+    desdeWizard = false,
+    tipoEntidad = tipoEntidadActivo
+) {
 
     showFormModal({
 
         title:
 
-            tipoEntidadActivo === "constructora"
+           tipoEntidad === "constructora"
 
                 ? "Nueva Constructora"
 
@@ -606,7 +607,7 @@ export async function mostrarFormularioNuevaEmpresa(
 
         content:
 
-            tipoEntidadActivo === "constructora"
+            tipoEntidad === "constructora"
 
                 ? obtenerFormularioConstructora()
 
@@ -616,13 +617,13 @@ export async function mostrarFormularioNuevaEmpresa(
         submitText: "Guardar",
 
         size:
-        tipoEntidadActivo === "constructora"
+        tipoEntidad === "constructora"
             ? "medium"
             : "large",
 
         onSubmit:
 
-            tipoEntidadActivo === "constructora"
+            tipoEntidad === "constructora"
         
                 ? crearConstructora
         
