@@ -1090,9 +1090,84 @@ async function cargarPaso1() {
              ${t.apellido_paterno}
              ${t.apellido_materno ?? ""}`,
         contratoActual.worker_id,
-        "Crear nuevo trabajador"
     );
 
+    const selectTrabajador =
+            document.getElementById(
+                "worker_id"
+            );
+        
+        if (selectTrabajador) {
+        
+            selectTrabajador.innerHTML += `
+                <option value="__crear_trabajador__">
+                    ＋ Crear nuevo trabajador
+                </option>
+            `;
+        
+            selectTrabajador.onchange =
+                async e => {
+        
+                    if (
+                        e.target.value ===
+                        "__crear_trabajador__"
+                    ) {
+        
+                        await mostrarFormularioNuevoTrabajador(
+        
+                            async nuevoTrabajador => {
+        
+                                if (!nuevoTrabajador)
+                                    return;
+        
+                                contratoActual.worker_id =
+                                    nuevoTrabajador.id;
+        
+                                const trabajadoresActualizados =
+                                    await workersService.getAll();
+        
+                                cargarSelect(
+                                    "worker_id",
+                                    trabajadoresActualizados,
+        
+                                    trabajador =>
+                                        `${trabajador.nombres}
+                                         ${trabajador.apellido_paterno}
+                                         ${trabajador.apellido_materno ?? ""}`,
+        
+                                    nuevoTrabajador.id
+                                );
+        
+                                const select =
+                                    document.getElementById(
+                                        "worker_id"
+                                    );
+        
+                                if (select) {
+        
+                                    select.innerHTML += `
+                                        <option value="__crear_trabajador__">
+                                            ＋ Crear nuevo trabajador
+                                        </option>
+                                    `;
+        
+                                }
+        
+                            },
+        
+                            true
+        
+                        );
+        
+                        return;
+                    }
+        
+                    contratoActual.worker_id =
+                        e.target.value;
+        
+                };
+        
+        }
 
     cargarSelect(
         "empresa_id",
