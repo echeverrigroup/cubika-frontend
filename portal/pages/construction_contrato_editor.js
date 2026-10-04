@@ -1015,13 +1015,10 @@ function guardarPasoActual() {
                 ?.value;
 
 
-        contratoActual.jornada =
-
-            document
-                .getElementById(
-                    "jornada"
-                )
-                ?.value;
+        contratoActual.jornada_id =
+        document
+            .getElementById("jornada_id")
+            .value || null;
 
 
         contratoActual.plantilla_id =
