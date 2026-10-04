@@ -270,7 +270,7 @@ async function cargarTrabajadores() {
                 
                  ${t.comuna?.nombre ?? ""}
                 
-                 ${t.afp_catalogo?.nombre ?? "—"}
+                 ${t.afp_catalogo?.nombre_corto ?? "—"}
                 
                  ${t.salud ?? ""}
                 
@@ -472,7 +472,7 @@ async function cargarTrabajadores() {
                 </td>
             
                 <td>
-                    ${trabajador.afp_catalogo?.nombre ?? ""}
+                    ${trabajador.afp_catalogo?.nombre_corto ?? ""}
                 </td>
             
                 <td>
