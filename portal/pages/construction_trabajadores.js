@@ -992,24 +992,26 @@ async function obtenerFormularioTrabajador(trabajador = null) {
 
         <div class="form-group">
 
-            <label>AFP</label>
-
-            <select
-                id="afp_id"
-                name="afp_id"
-                class="cubika-select"
-            >
-                <option value="">Seleccione AFP</option>
-            
-                ${afps.map(afp => `
-                    <option value="${afp.id}">
-                        ${afp.nombre}
-                    </option>
-                `).join("")}
-            </select>
-
-        </div>
-
+        <label>AFP</label>
+    
+        <select
+            id="afp_id"
+            name="afp_id"
+            class="cubika-select"
+        >
+            <option value="">Seleccione AFP</option>
+    
+            ${afps.map(afp => `
+                <option
+                    value="${afp.id}"
+                    ${trabajador?.afp_id === afp.id ? "selected" : ""}
+                >
+                    ${afp.nombre}
+                </option>
+            `).join("")}
+        </select>
+    
+    </div>
 
         <div class="form-group">
 
@@ -1164,11 +1166,10 @@ async function crearTrabajador(desdeWizard = false) {
         document
             .getElementById("nacionalidad_id").value || null;
     
-    const afp =
+    const afp_id =
         document
-            .getElementById("afp")
-            .value
-            .trim();
+            .getElementById("afp_id")
+            .value || null;
     
     const salud =
         document
@@ -1284,7 +1285,7 @@ async function crearTrabajador(desdeWizard = false) {
                 comuna_id,
                 fecha_nacimiento,
         
-                afp,
+                afp_id,
                 salud,
         
                 banco_id,
@@ -1467,11 +1468,10 @@ async function actualizarTrabajador(id) {
             .getElementById("nacionalidad_id").value || null;
     
     
-    const afp =
+    const afp_id =
         document
-            .getElementById("afp")
-            .value
-            .trim();
+            .getElementById("afp_id")
+            .value || null;
     
     
     const salud =
@@ -1573,7 +1573,7 @@ async function actualizarTrabajador(id) {
                 comuna_id,
                 fecha_nacimiento,
             
-                afp,
+                afp_id,
                 salud,
 
                 banco_id,
