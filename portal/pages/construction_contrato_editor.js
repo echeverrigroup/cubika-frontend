@@ -1177,24 +1177,35 @@ async function cargarPaso1() {
         document.getElementById(
             "constructora_id"
         );
-
+    
     if (selectConstructora) {
-
+    
+        selectConstructora.innerHTML += `
+    
+            <option value="__crear_constructora__">
+    
+                ＋ Crear nueva constructora
+    
+            </option>
+    
+        `;
+    
+    
         selectConstructora.onchange =
             async e => {
-
+    
                 contratoActual.constructora_id =
                     e.target.value;
-
+    
                 contratoActual.obra_id =
                     null;
-
+    
                 await cargarObrasPorConstructora(
                     e.target.value
                 );
-
+    
             };
-
+    
     }
 
 
