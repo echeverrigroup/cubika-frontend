@@ -1182,11 +1182,10 @@ async function crearTrabajador(desdeWizard = false) {
             .getElementById("afp_id")
             .value || null;
     
-    const salud =
+    const salud_id =
         document
-            .getElementById("salud")
-            .value
-            .trim();
+            .getElementById("salud_id")
+            .value || null;
     
     const banco_id =
         document
@@ -1297,7 +1296,7 @@ async function crearTrabajador(desdeWizard = false) {
                 fecha_nacimiento,
         
                 afp_id,
-                salud,
+                salud_id,
         
                 banco_id,
                 tipo_cuenta_id,
@@ -1485,12 +1484,11 @@ async function actualizarTrabajador(id) {
             .value || null;
     
     
-    const salud =
+    const salud_id =
         document
-            .getElementById("salud")
-            .value
-            .trim();
-    
+            .getElementById("salud_id")
+            .value || null;
+        
     
     const banco_id =
         document
@@ -1585,7 +1583,7 @@ async function actualizarTrabajador(id) {
                 fecha_nacimiento,
             
                 afp_id,
-                salud,
+                salud_id,
 
                 banco_id,
                 tipo_cuenta_id,
