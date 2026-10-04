@@ -637,9 +637,9 @@ export async function mostrarFormularioNuevaEmpresa(
     });
 
 
-    if (
-        tipoEntidadActivo === "mandante"
-    ) {
+       if (
+        tipoEntidad !== "constructora"
+        ) {
 
         await cargarRegionesEmpresa();
 
@@ -1812,8 +1812,6 @@ async function crearConstructora() {
             await constructorasService.create(
                 constructora
             );
-    
-        await cargarEntidades();
     
         setModalLoading(false);
     
