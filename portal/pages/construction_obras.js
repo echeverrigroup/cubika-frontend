@@ -345,14 +345,14 @@ async function obtenerFormularioObra(
 
             )
 
-            .map(e => `
-            
+             .map(e => `
+                
                 <option
                     value="${e.id}"
                     ${(
                         obra?.constructora_id === e.id ||
                         (!obra && constructoraId === e.id)
-                    ) ? "selected" : ""}
+                    ) ? "selected" : ""}>
             
                     ${e.nombre}
             
@@ -361,9 +361,9 @@ async function obtenerFormularioObra(
                         : ""}
             
                 </option>
-            
+                
             `)
-
+       
             .join("");
 
 
