@@ -632,10 +632,6 @@ export async function mostrarFormularioNuevaEmpresa(
                         await crearEmpresa(
                             !desdeWizard
                         ),
-     
-                    return resultado;
-        
-                },
         
         onSuccess:
             onSuccess
