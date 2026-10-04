@@ -270,7 +270,7 @@ async function cargarTrabajadores() {
                 
                  ${t.comuna?.nombre ?? ""}
                 
-                 ${t.afp ?? ""}
+                 ${t.afp_catalogo?.nombre ?? "—"}
                 
                  ${t.salud ?? ""}
                 
