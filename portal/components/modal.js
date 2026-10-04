@@ -280,13 +280,7 @@ export function showFormModal({
 
                 result =
                     await onSubmit();
-
-                 console.log(
-                    "RESULTADO DE onSubmit:",
-                    result
-                );
-
-
+                
             }
 
             if (result !== false) {
