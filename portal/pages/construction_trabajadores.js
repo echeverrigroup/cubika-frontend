@@ -491,7 +491,7 @@ async function cargarTrabajadores() {
             
                 <td>
             
-                    ${trabajador.nacionalidad ?? ""}
+                    ${trabajador.nacionalidad_catalogo?.nombre ?? ""}
             
                 </td>
             
@@ -897,7 +897,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     <div class="form-grid-4">
 
         <div class="form-group">
-            <div style="display: flex; align-items: center;">
+            
                 <label>Nacionalidad</label>
         
                 <label style="display: flex; align-items: gap: 6px; center; margin: 0; font-weight: normal; cursor: pointer;">
