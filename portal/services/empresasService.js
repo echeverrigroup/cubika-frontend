@@ -107,21 +107,21 @@ export const empresasService = {
 
 
     async create(empresa) {
-
-        const { data, error } =
-            await supabase
-                .from("empresas_construccion")
-                .insert(empresa)
-                .select()
-                .single();
+        
+            const { data, error } =
+                await supabase
+                    .from("empresas_construccion")
+                    .insert(empresa)
+                    .select()
+                    .single();
+        
+            if (error)
+                throw error;
+        
+            return data;
+        
+        },
     
-        if (error)
-            throw error;
-    
-        return data;
-    
-    },
-
 
     async update(id, empresa) {
 
