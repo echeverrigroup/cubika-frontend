@@ -626,9 +626,21 @@ export async function mostrarFormularioNuevaEmpresa(
         
                 ? crearConstructora
         
-                : () => crearEmpresa(
-                    !desdeWizard
-                ),
+                : async () => {
+        
+                    const resultado =
+                        await crearEmpresa(
+                            !desdeWizard
+                        );
+        
+                    console.log(
+                        "RESULTADO DIRECTO DE crearEmpresa:",
+                        resultado
+                    );
+        
+                    return resultado;
+        
+                },
         
         onSuccess:
             onSuccess
