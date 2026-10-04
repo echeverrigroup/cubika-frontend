@@ -897,8 +897,8 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     <div class="form-grid-4">
 
         <div class="form-group">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Nacionalidad</label>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <label>Nacionalidad</label>
         
                 <label style="display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; cursor: pointer;">
                     <input
