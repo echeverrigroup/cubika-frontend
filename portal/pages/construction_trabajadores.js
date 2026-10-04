@@ -916,7 +916,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                     >
                     Chilena
                 </label>
-            </div>
+                
         
             <select id="nacionalidad_id" class="cubika-select" required>
                 <option value="">Seleccione</option>
