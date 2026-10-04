@@ -1668,14 +1668,6 @@ async function cargarPaso2() {
     );
 
 
-    document
-        .getElementById(
-            "jornada"
-        )
-        .value =
-
-        contratoActual.jornada
-        ?? "";
 
    const contenedorDistribuciones =
         document.getElementById(
