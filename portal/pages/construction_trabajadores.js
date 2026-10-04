@@ -750,82 +750,9 @@ export async function mostrarFormularioNuevoTrabajador(
             }
         );
 
-
-    const checkboxChilena =
-        document.getElementById("nacionalidad_chilena");
-    
-    const nacionalidadSelect =
-        document.getElementById("nacionalidad_id");
-    
-    if (checkboxChilena && nacionalidadSelect) {
-    
-        const nacionalidades =
-            await workersService.getNacionalidades();
-    
-        const nacionalidadChilena =
-            nacionalidades.find(
-                nacionalidad =>
-                    nacionalidad.codigo === "CL"
-            );
-    
-        if (nacionalidadChilena) {
-    
-            checkboxChilena.addEventListener(
-                "change",
-                () => {
-    
-                    if (checkboxChilena.checked) {
-    
-                        nacionalidadSelect.value =
-                            nacionalidadChilena.id;
-    
-                    } else {
-    
-                        nacionalidadSelect.value = "";
-    
-                    }
-    
-                }
-            );
-    
-            nacionalidadSelect.addEventListener(
-                "change",
-                () => {
-    
-                    if (
-                        nacionalidadSelect.value !==
-                        nacionalidadChilena.id
-                    ) {
-    
-                        checkboxChilena.checked = false;
-    
-                    } else {
-    
-                        checkboxChilena.checked = true;
-    
-                    }
-    
-                }
-            );
-    
-        }
-    
-    }
-    
-    document
-        .getElementById("region_id")
-        .addEventListener(
-            "change",
-            async e => {
-    
-                await cargarComunas(
-                    e.target.value
-                );
-    
-            }
-        );
-
 }
+
+
 
 async function obtenerFormularioTrabajador(trabajador = null) {
 
