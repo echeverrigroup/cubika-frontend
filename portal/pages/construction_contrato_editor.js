@@ -1156,8 +1156,24 @@ async function cargarPaso1() {
         constructoras,
         c => c.nombre,
         contratoActual.constructora_id
-
     );
+    
+    const selectConstructora =
+        document.getElementById("constructora_id");
+    
+    if (selectConstructora) {
+    
+        selectConstructora.innerHTML += `
+    
+            <option value="__crear_constructora__">
+    
+                ＋ Crear nueva constructora
+    
+            </option>
+    
+        `;
+    
+    }
 
 
     cargarSelect(
@@ -1482,9 +1498,7 @@ function cargarSelect(
 
     getLabel,
 
-    selected = null,
-
-    textoCrear = null
+    selected = null
 
 ) {
 
@@ -1532,13 +1546,13 @@ function cargarSelect(
      * Crear nuevo registro
      */
 
-    if (textoCrear) {
+    if (id === "empresa_id") {
 
         select.innerHTML += `
 
             <option value="__crear_nuevo__">
 
-                ＋ ${textoCrear}
+                ＋ Crear nuevo mandante
 
             </option>
 
