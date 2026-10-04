@@ -8,38 +8,72 @@ export const workersService = {
     // WORKERS
     // =========================================================
 
-   async getAll() {
-        const { data, error } = await supabase
+  async getAll() {
+
+    const [
+        trabajadoresResult,
+        afps
+    ] = await Promise.all([
+        supabase
             .from(TABLE)
             .select(`
                 *,
                 region:regiones(id,nombre),
-                comuna:comunas(id,nombre),
-                afp_catalogo:afp(id,codigo,nombre,nombre_corto)
+                comuna:comunas(id,nombre)
             `)
-            .order("apellido_paterno");
-    
-        if (error) throw error;
-        return data;
-    },
+            .order("apellido_paterno"),
+
+        this.getAFP()
+    ]);
+
+    if (trabajadoresResult.error) {
+        throw trabajadoresResult.error;
+    }
+
+    const trabajadores = trabajadoresResult.data;
+
+    return trabajadores.map(trabajador => ({
+        ...trabajador,
+        afp_catalogo: afps.find(
+            afp => afp.id === trabajador.afp_id
+        ) ?? null
+    }));
+},
 
 
 async getById(id) {
-    const { data, error } = await supabase
-        .from(TABLE)
-        .select(`
-            *,
-            region:regiones(id,nombre),
-            comuna:comunas(id,nombre),
-            afp_catalogo:afp(id,codigo,nombre,nombre_corto)
-        `)
-        .eq("id", id)
-        .single();
 
-    if (error) throw error;
-    return data;
+    const [
+        trabajadorResult,
+        afps
+    ] = await Promise.all([
+        supabase
+            .from(TABLE)
+            .select(`
+                *,
+                region:regiones(id,nombre),
+                comuna:comunas(id,nombre)
+            `)
+            .eq("id", id)
+            .single(),
+
+        this.getAFP()
+    ]);
+
+    if (trabajadorResult.error) {
+        throw trabajadorResult.error;
+    }
+
+    const trabajador = trabajadorResult.data;
+
+    return {
+        ...trabajador,
+        afp_catalogo: afps.find(
+            afp => afp.id === trabajador.afp_id
+        ) ?? null
+    };
 },
-
+    
 
     async getByIdForDocument(id) {
 
