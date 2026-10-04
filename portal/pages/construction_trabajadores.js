@@ -705,7 +705,7 @@ export async function mostrarFormularioNuevoTrabajador(
 
     await cargarRegiones();
 
-    document
+        document
         .getElementById("region_id")
         .addEventListener(
             "change",
@@ -715,6 +715,81 @@ export async function mostrarFormularioNuevoTrabajador(
                     e.target.value
                 );
 
+            }
+        );
+
+
+    const checkboxChilena =
+        document.getElementById("nacionalidad_chilena");
+    
+    const nacionalidadSelect =
+        document.getElementById("nacionalidad_id");
+    
+    if (checkboxChilena && nacionalidadSelect) {
+    
+        const nacionalidades =
+            await workersService.getNacionalidades();
+    
+        const nacionalidadChilena =
+            nacionalidades.find(
+                nacionalidad =>
+                    nacionalidad.codigo === "CL"
+            );
+    
+        if (nacionalidadChilena) {
+    
+            checkboxChilena.addEventListener(
+                "change",
+                () => {
+    
+                    if (checkboxChilena.checked) {
+    
+                        nacionalidadSelect.value =
+                            nacionalidadChilena.id;
+    
+                    } else {
+    
+                        nacionalidadSelect.value = "";
+    
+                    }
+    
+                }
+            );
+    
+            nacionalidadSelect.addEventListener(
+                "change",
+                () => {
+    
+                    if (
+                        nacionalidadSelect.value !==
+                        nacionalidadChilena.id
+                    ) {
+    
+                        checkboxChilena.checked = false;
+    
+                    } else {
+    
+                        checkboxChilena.checked = true;
+    
+                    }
+    
+                }
+            );
+    
+        }
+    
+    }
+    
+    document
+        .getElementById("region_id")
+        .addEventListener(
+            "change",
+            async e => {
+    
+                await cargarComunas(
+                    e.target.value
+                );
+    
             }
         );
 
@@ -863,17 +938,66 @@ async function obtenerFormularioTrabajador(trabajador = null) {
     <div class="form-grid-4">
 
         <div class="form-group">
-            <label>Nacionalidad</label>
-            <select id="nacionalidad_id" class="cubika-select" required>
-                <option value="">Seleccione</option>
+
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 6px;
+            ">
+        
+                <label style="margin: 0;">
+                    Nacionalidad
+                </label>
+        
+                <label style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    margin: 0;
+                    font-weight: normal;
+                    font-size: 13px;
+                    cursor: pointer;
+                ">
+                    <input
+                        type="checkbox"
+                        id="nacionalidad_chilena"
+                        ${nacionalidades.some(
+                            nacionalidad =>
+                                nacionalidad.codigo === "CL" &&
+                                trabajador?.nacionalidad_id === nacionalidad.id
+                        )
+                            ? "checked"
+                            : ""}
+                    >
+                    Chilena
+                </label>
+        
+            </div>
+        
+            <select
+                id="nacionalidad_id"
+                class="cubika-select"
+                required
+            >
+        
+                <option value="">
+                    Seleccione
+                </option>
         
                 ${nacionalidades.map(nacionalidad => `
-                    <option value="${nacionalidad.id}"
-                        ${trabajador?.nacionalidad_id === nacionalidad.id ? "selected" : ""}>
+                    <option
+                        value="${nacionalidad.id}"
+                        ${trabajador?.nacionalidad_id === nacionalidad.id
+                            ? "selected"
+                            : ""}
+                    >
                         ${nacionalidad.nombre}
                     </option>
                 `).join("")}
+        
             </select>
+        
         </div>
 
 
