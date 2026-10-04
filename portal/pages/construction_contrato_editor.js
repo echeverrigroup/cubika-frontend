@@ -1482,7 +1482,9 @@ function cargarSelect(
 
     getLabel,
 
-    selected = null
+    selected = null,
+
+    textoCrear = null
 
 ) {
 
@@ -1530,13 +1532,13 @@ function cargarSelect(
      * Crear nuevo registro
      */
 
-    if (id === "empresa_id") {
+    if (textoCrear) {
 
         select.innerHTML += `
 
             <option value="__crear_nuevo__">
 
-                ＋ Crear nuevo mandante
+                ＋ ${textoCrear}
 
             </option>
 
@@ -1545,7 +1547,6 @@ function cargarSelect(
     }
 
 }
-
 
 
 function actualizarCampoContrato() {
