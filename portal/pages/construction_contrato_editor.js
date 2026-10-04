@@ -55,6 +55,10 @@ import {
 } from "./construction_trabajadores.js";
 
 import {
+    mostrarFormularioNuevoCargo
+} from "./construction_cargos.js";
+
+import {
     obrasService
 }
 from "../services/obrasService.js";
@@ -1249,6 +1253,79 @@ async function cargarPaso1() {
         contratoActual.cargo_id
        
     );
+
+    const selectCargo =
+        document.getElementById(
+            "cargo_id"
+        );
+    
+    if (selectCargo) {
+    
+        selectCargo.innerHTML += `
+            <option value="__crear_cargo__">
+                ＋ Crear nuevo cargo
+            </option>
+        `;
+    
+        selectCargo.onchange =
+            async e => {
+    
+                if (
+                    e.target.value ===
+                    "__crear_cargo__"
+                ) {
+    
+                    await mostrarFormularioNuevoCargo(
+                        null,
+    
+                        async nuevoCargo => {
+    
+                            if (!nuevoCargo)
+                                return;
+    
+                            contratoActual.cargo_id =
+                                nuevoCargo.id;
+    
+                            const cargosActualizados =
+                                await cargosService.getAll();
+    
+                            cargarSelect(
+                                "cargo_id",
+                                cargosActualizados,
+                                cargo =>
+                                    cargo.nombre,
+                                nuevoCargo.id
+                            );
+    
+                            const select =
+                                document.getElementById(
+                                    "cargo_id"
+                                );
+    
+                            if (select) {
+    
+                                select.innerHTML += `
+                                    <option value="__crear_cargo__">
+                                        ＋ Crear nuevo cargo
+                                    </option>
+                                `;
+    
+                            }
+    
+                        },
+    
+                        true
+                    );
+    
+                    return;
+                }
+    
+                contratoActual.cargo_id =
+                    e.target.value;
+    
+            };
+    
+    }
 
     await cargarObrasPorConstructora(
         contratoActual.constructora_id,
