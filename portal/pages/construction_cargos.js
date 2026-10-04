@@ -256,7 +256,11 @@ async function cargarCargos(container) {
 // NUEVO CARGO
 // ============================================================
 
-export async function mostrarFormularioNuevoCargo(container) {
+export async function mostrarFormularioNuevoCargo(
+    container = null,
+    onSuccess = null,
+    desdeWizard = false
+) {
 
     showFormModal({
 
@@ -267,8 +271,24 @@ export async function mostrarFormularioNuevoCargo(container) {
 
         submitText: "Guardar",
 
-        onSubmit: () =>
-            crearCargo(container)
+        onSubmit: async () => {
+
+            const nuevoCargo =
+                await crearCargo(
+                    container,
+                    desdeWizard
+                );
+
+            if (
+                nuevoCargo &&
+                onSuccess
+            ) {
+                await onSuccess(nuevoCargo);
+            }
+
+            return nuevoCargo;
+
+        }
 
     });
 
@@ -365,7 +385,10 @@ async function obtenerFormularioCargo(cargo = null) {
 // CREAR CARGO
 // ============================================================
 
-async function crearCargo(container) {
+async function crearCargo(
+        container,
+        desdeWizard = false
+    ) {
 
     setModalError("");
 
@@ -400,24 +423,28 @@ async function crearCargo(container) {
         setModalLoading(true);
 
 
-        await cargosService.create({
-
-            nombre,
-
-            descripcion,
-
-            estado: "Activo"
-
-        });
-
-
-        if (container)
-            await cargarCargos(container);
+        const nuevoCargo =
+            await cargosService.create({
+        
+                nombre,
+        
+                descripcion,
+        
+                estado: "Activo"
+        
+            });
 
 
-        setModalLoading(false);
-
-        return true;
+    if (
+        container &&
+        !desdeWizard
+    ) {
+        await cargarCargos(container);
+    }
+    
+    setModalLoading(false);
+    
+    return nuevoCargo;
 
     }
 
