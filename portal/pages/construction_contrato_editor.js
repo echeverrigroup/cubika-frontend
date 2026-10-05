@@ -2256,38 +2256,27 @@ async function aprobarYGenerarContrato() {
                 
                     try {
                 
-                        const response = await fetch(
-                            "https://api.cubika.cl/api/pdf",
-                            {
-                                method: "POST",
+                        const documentoHtml =
+                            await construirDocumentoHtml(
+                                contrato.contenido_html
+                            );
                 
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
+                        const response =
+                            await fetch(
+                                "https://api.cubika.cl/api/pdf",
+                                {
+                                    method: "POST",
                 
-                                const documentoHtml =
-                                    await construirDocumentoHtml(
-                                        contrato.contenido_html
-                                    );
-                                
-                                const response =
-                                    await fetch(
-                                        "https://api.cubika.cl/api/pdf",
-                                        {
-                                            method: "POST",
-                                
-                                            headers: {
-                                                "Content-Type":
-                                                    "application/json"
-                                            },
-                                
-                                            body: JSON.stringify({
-                                                html: documentoHtml
-                                            })
-                                        }
-                                    );
-                            }
-                        );
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+                
+                                    body: JSON.stringify({
+                                        html: documentoHtml
+                                    })
+                                }
+                            );
                 
                         if (!response.ok) {
                 
@@ -2297,18 +2286,22 @@ async function aprobarYGenerarContrato() {
                             throw new Error(
                                 `Error generando PDF (${response.status}): ${errorText}`
                             );
+                
                         }
                 
                         const pdfBlob =
                             await response.blob();
                 
                         const pdfUrl =
-                            URL.createObjectURL(pdfBlob);
+                            URL.createObjectURL(
+                                pdfBlob
+                            );
                 
                         const link =
                             document.createElement("a");
                 
-                        link.href = pdfUrl;
+                        link.href =
+                            pdfUrl;
                 
                         link.download =
                             `contrato-${contrato.numero_contrato}.pdf`;
@@ -2319,9 +2312,12 @@ async function aprobarYGenerarContrato() {
                 
                         link.remove();
                 
-                        URL.revokeObjectURL(pdfUrl);
+                        URL.revokeObjectURL(
+                            pdfUrl
+                        );
                 
-                    } catch (error) {
+                    }
+                    catch (error) {
                 
                         console.error(
                             "Error al obtener PDF:",
@@ -2331,10 +2327,10 @@ async function aprobarYGenerarContrato() {
                         alert(
                             "No fue posible generar el PDF."
                         );
+                
                     }
                 
-                }
-        
+                }        
             });
         
         }
