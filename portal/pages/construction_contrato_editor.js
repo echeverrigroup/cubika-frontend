@@ -1999,6 +1999,75 @@ async function construirContrato() {
 }
 
 
+let documentPrintCss = null;
+
+
+async function obtenerDocumentPrintCss() {
+
+    if (documentPrintCss) {
+        return documentPrintCss;
+    }
+
+    const response =
+        await fetch(
+            "/portal/css/document-print.css"
+        );
+
+    if (!response.ok) {
+        throw new Error(
+            "No fue posible cargar document-print.css"
+        );
+    }
+
+    documentPrintCss =
+        await response.text();
+
+    return documentPrintCss;
+}
+
+
+async function construirDocumentoHtml(
+    contenido
+) {
+
+    const css =
+        await obtenerDocumentPrintCss();
+
+    return `
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Documento Cubika</title>
+
+    <style>
+
+        ${css}
+
+    </style>
+
+</head>
+
+<body>
+
+    <main class="document-print">
+
+        ${contenido}
+
+    </main>
+
+</body>
+
+</html>
+    `.trim();
+
+}
+
+
 async function generarVistaPrevia() {
 
     const contrato =
@@ -2012,18 +2081,49 @@ async function generarVistaPrevia() {
             "previewContrato"
         );
 
-    if (preview) {
+    if (!preview) {
+        return;
+    }
 
-        preview.innerHTML = `
-            <div
-                style="
-                    white-space:pre-wrap;
-                    line-height:1.7;
-                ">
-                ${contrato.contenidoHtml}
-            </div>
-        `;
+    const documentHtml =
+        await construirDocumentoHtml(
+            contrato.contenidoHtml
+        );
 
+    const parser =
+        new DOMParser();
+
+    const documento =
+        parser.parseFromString(
+            documentHtml,
+            "text/html"
+        );
+
+    const estilos =
+        documento.querySelector("style");
+
+    const contenido =
+        documento.querySelector(
+            ".document-print"
+        );
+
+    preview.innerHTML = "";
+
+    if (estilos) {
+
+        const style =
+            document.createElement("style");
+
+        style.textContent =
+            estilos.textContent;
+
+        preview.appendChild(style);
+    }
+
+    if (contenido) {
+        preview.appendChild(
+            contenido.cloneNode(true)
+        );
     }
 
 }
@@ -2165,9 +2265,27 @@ async function aprobarYGenerarContrato() {
                                     "Content-Type": "application/json"
                                 },
                 
-                                body: JSON.stringify({
-                                    html: contrato.contenido_html
-                                })
+                                const documentoHtml =
+                                    await construirDocumentoHtml(
+                                        contrato.contenido_html
+                                    );
+                                
+                                const response =
+                                    await fetch(
+                                        "https://api.cubika.cl/api/pdf",
+                                        {
+                                            method: "POST",
+                                
+                                            headers: {
+                                                "Content-Type":
+                                                    "application/json"
+                                            },
+                                
+                                            body: JSON.stringify({
+                                                html: documentoHtml
+                                            })
+                                        }
+                                    );
                             }
                         );
                 
