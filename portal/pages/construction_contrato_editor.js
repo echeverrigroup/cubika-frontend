@@ -1936,6 +1936,11 @@ async function construirContrato() {
             contratoActual.plantilla_id
         );
 
+    const tipoJornada =
+        await globalService.getTipoJornadaById(
+            contratoActual.jornada_id
+        );
+
     const variables =
     construirVariables({
 
@@ -1945,7 +1950,10 @@ async function construirContrato() {
         obra,
         cargo,
 
-        contrato: contratoActual
+        contrato: {
+            ...contratoActual,
+            jornada: tipoJornada?.nombre ?? ""
+        }
 
     });
 
