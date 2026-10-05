@@ -1820,11 +1820,17 @@ function cargarSelect(
 
 function actualizarCampoContrato() {
 
+    const selectTipoContrato =
+        document.getElementById(
+            "tipo_contrato_id"
+        );
+
+    if (!selectTipoContrato) {
+        return;
+    }
+
     const tipo =
-        document
-            .getElementById(
-                "tipo_contrato_id"
-            )
+        selectTipoContrato
             .selectedOptions[0]
             ?.textContent
             ?.trim();
