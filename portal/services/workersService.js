@@ -166,7 +166,16 @@ async getById(id) {
                 item =>
                     item.id ===
                     trabajador.tipo_cuenta_id
-            )?.nombre ?? ""
+            )?.nombre ?? "",
+
+
+        afp:
+            trabajador.afp_catalogo?.nombre ?? "",
+        
+        
+        salud:
+            trabajador.salud_catalogo?.nombre ?? ""
+        
 
     };
 },
