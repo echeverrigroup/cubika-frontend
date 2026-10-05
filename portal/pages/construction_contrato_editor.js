@@ -2073,8 +2073,8 @@ async function aprobarYGenerarContrato() {
         sueldo:
             contratoActual.sueldo,
     
-        jornada:
-            contratoActual.jornada,
+        jornada_id:
+            contratoActual.jornada_id,
     
         distribucion_horaria:
             contratoActual.distribucion_horaria,
