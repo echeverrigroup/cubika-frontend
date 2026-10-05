@@ -69,6 +69,9 @@ export const DOCUMENT_VARIABLE_MAP = {
     EMAIL_TRABAJADOR:
         "trabajador.email",
 
+    TELEFONO_TRABAJADOR:
+        "trabajador.telefono",
+
     DIRECCION_TRABAJADOR:
         "trabajador.direccion",
 
