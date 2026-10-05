@@ -4,6 +4,7 @@ import { supabase } from "../../js/supabaseClient.js";
 export const globalService = {
 
 
+    
     async getTiposJornada() {
 
         const { data, error } = await supabase
@@ -13,6 +14,22 @@ export const globalService = {
             .eq("activo", true)
             .order("orden")
             .order("nombre");
+    
+        if (error) throw error;
+    
+        return data;
+    },
+    
+
+    async getTipoJornadaById(id) {
+        if (!id) return null;
+    
+        const { data, error } = await supabase
+            .schema("global")
+            .from("tipos_jornada")
+            .select("id, codigo, nombre, descripcion")
+            .eq("id", id)
+            .maybeSingle();
     
         if (error) throw error;
     
