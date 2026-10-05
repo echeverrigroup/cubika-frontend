@@ -1835,8 +1835,6 @@ function actualizarCampoContrato() {
             .getElementById(
                 "campoDinamicoContrato"
             );
-
-    console.log(box);
     
 
     if (!box)
@@ -2112,11 +2110,6 @@ async function aprobarYGenerarContrato() {
                     .create(
                         contratoGuardar
                     );
-        
-            console.log(
-                "Contrato generado:",
-                contrato
-            );
         
         
             showResultModal({
