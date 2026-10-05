@@ -1030,20 +1030,6 @@ function guardarPasoActual() {
                 ?.value;
 
     }
-
-    console.log(
-    "Campo causal:",
-    document.getElementById(
-        "causal_termino"
-    )
-);
-
-console.log(
-    "Valor causal:",
-    document.getElementById(
-        "causal_termino"
-    )?.value
-);
     
 
 }
