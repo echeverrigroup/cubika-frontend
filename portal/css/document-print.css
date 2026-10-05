@@ -1,0 +1,53 @@
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+.document-print {
+    width: 100%;
+    box-sizing: border-box;
+
+    font-family: Inter, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+
+    color: #111827;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.document-print strong {
+    font-weight: 700;
+}
+
+.document-print p {
+    margin: 0;
+    padding: 0;
+}
+
+.document-print .page-break {
+    page-break-before: always;
+}
+
+@media print {
+
+    html,
+    body {
+        background: white;
+    }
+
+    .document-print {
+        font-family: Inter, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
