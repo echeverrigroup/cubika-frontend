@@ -890,6 +890,19 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                 value="${trabajador?.email ?? ""}">
         
         </div>
+        
+
+        <div class="form-group">
+
+        <label>Teléfono</label>
+        
+            <input
+                id="telefono"
+                class="cubika-input"
+                type="tel"
+                value="${trabajador?.telefono ?? ""}">
+        
+        </div>
 
     </div>
 
@@ -1236,14 +1249,21 @@ async function crearTrabajador(desdeWizard = false) {
     
     
     const estado_civil_id =
-    document
-        .getElementById("estado_civil_id")
-        .value || null;
-    
+        document
+            .getElementById("estado_civil_id")
+            .value || null;
+        
     
     const email =
         document
             .getElementById("email")
+            .value
+            .trim();
+
+    
+    const telefono =
+        document
+            .getElementById("telefono")
             .value
             .trim();
         
@@ -1379,6 +1399,7 @@ async function crearTrabajador(desdeWizard = false) {
                 direccion,
                 sexo,
                 email,
+                telefono,
                 nacionalidad_id,
                 estado_civil_id,
                 region_id,
@@ -1546,6 +1567,12 @@ async function actualizarTrabajador(id) {
             .value
             .trim();
 
+    const telefono =
+        document
+            .getElementById("telefono")
+            .value
+            .trim();
+
 
     const region_id =
         document
@@ -1666,6 +1693,7 @@ async function actualizarTrabajador(id) {
             
                 sexo,
                 email,
+                telefono,
 
                 nacionalidad_id,
                 estado_civil_id,
