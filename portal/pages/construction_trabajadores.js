@@ -910,7 +910,7 @@ async function obtenerFormularioTrabajador(trabajador = null) {
                                 cursor: pointer;
                             ">
                     <input
-                        type="jornada-checkbox"
+                        type="checkbox"
                         id="nacionalidad_chilena"
                         ${
                             nacionalidades.some(
