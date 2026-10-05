@@ -2148,15 +2148,73 @@ async function aprobarYGenerarContrato() {
                     "Obtener PDF",
         
                 onPrimary: async () => {
-        
+
                     console.log(
                         "Obtener PDF:",
                         contrato.id
                     );
-        
-                    // Próximamente:
-                    // generarPDF(contrato.id)
-        
+                
+                    try {
+                
+                        const response = await fetch(
+                            "https://api.cubika.cl/api/pdf",
+                            {
+                                method: "POST",
+                
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                
+                                body: JSON.stringify({
+                                    html: contrato.contenido_html
+                                })
+                            }
+                        );
+                
+                        if (!response.ok) {
+                
+                            const errorText =
+                                await response.text();
+                
+                            throw new Error(
+                                `Error generando PDF (${response.status}): ${errorText}`
+                            );
+                        }
+                
+                        const pdfBlob =
+                            await response.blob();
+                
+                        const pdfUrl =
+                            URL.createObjectURL(pdfBlob);
+                
+                        const link =
+                            document.createElement("a");
+                
+                        link.href = pdfUrl;
+                
+                        link.download =
+                            `contrato-${contrato.numero_contrato}.pdf`;
+                
+                        document.body.appendChild(link);
+                
+                        link.click();
+                
+                        link.remove();
+                
+                        URL.revokeObjectURL(pdfUrl);
+                
+                    } catch (error) {
+                
+                        console.error(
+                            "Error al obtener PDF:",
+                            error
+                        );
+                
+                        alert(
+                            "No fue posible generar el PDF."
+                        );
+                    }
+                
                 }
         
             });
