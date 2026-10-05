@@ -643,20 +643,6 @@ export function construirVariables(
     
         );
 
-    console.log(
-    "DEBUG distribucion original:",
-    datos.contrato?.distribucion_horaria
-);
-
-console.log(
-    "DEBUG DISTRIBUCION_HORARIA construida:",
-    variables.DISTRIBUCION_HORARIA
-);
-
-console.log(
-    "DEBUG tipo:",
-    typeof variables.DISTRIBUCION_HORARIA
-);
     
     
     variables.SUELDO_TEXTO =
