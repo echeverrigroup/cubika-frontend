@@ -169,7 +169,7 @@ export function nuevoContrato() {
 
         sueldo: null,
 
-        jornada: null,
+        jornada_id: null,
 
         tipo_contrato_id:null,
         
