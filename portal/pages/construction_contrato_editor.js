@@ -1494,6 +1494,10 @@ async function cargarPaso2() {
         await plantillasDocumentoService
             .getAll();
 
+    const tiposJornada =
+        await globalService
+            .getTiposJornada();
+
     cargarSelect(
 
         "tipo_contrato_id",
@@ -1506,6 +1510,19 @@ async function cargarPaso2() {
             .tipo_contrato_id
     
     );
+
+    cargarSelect(
+
+        "jornada_id",
+    
+        tiposJornada,
+    
+        j => j.nombre,
+    
+        contratoActual.jornada_id
+    
+    );
+    
 
      document
         .getElementById(
