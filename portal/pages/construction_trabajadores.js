@@ -892,27 +892,52 @@ async function obtenerFormularioTrabajador(trabajador = null) {
         </div>
 
     </div>
-    
+
+
+                        
 
 
     <div class="form-grid-4">    
 
         <div class="form-group">
-            <div style="display: flex; ">
-                <label>Nacionalidad</label>
-        
-                <label style="
+
+            <div
+                        style="
+                            height: 17px;
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                        "
+                    >
+                
+                        <label
+                            style="
+                                margin: 0;
+                                line-height: 1;
+                            "
+                        >
+                            Nacionalidad
+                        </label>
+                
+                        <label
+                            style="
                                 display: flex;
                                 align-items: center;
                                 gap: 3px;
                                 margin: 0;
                                 font-weight: normal;
                                 cursor: pointer;
-                            ">
-                    <input
-                        type="checkbox"
-                        id="nacionalidad_chilena"
-                        ${
+                                
+                            "
+                        >
+                
+                            <input
+                                id="nacionalidad_chilena"
+                                type="checkbox"
+                                style="
+                                    margin: 0;
+                                "
+                                ${
                             nacionalidades.some(
                                 nacionalidad =>
                                     nacionalidad.codigo === "CL" &&
