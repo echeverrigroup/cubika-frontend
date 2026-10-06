@@ -2738,6 +2738,8 @@ async function mostrarModalSeleccionDocumentos(
                     "Complementos pendientes de generación:",
                     seleccionados
                 );
+
+                navigate("construction_contratos");
         
             }
             catch (error) {
