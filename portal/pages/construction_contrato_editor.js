@@ -2244,166 +2244,16 @@ async function aprobarYGenerarContrato() {
                 "Obtener PDF",
 
             onPrimary: async () => {
-
+            
                 console.log(
                     "Obtener PDF:",
                     contratoGenerado.id
                 );
-
-                try {
-
-                    /*
-                     * 1. Construir documento HTML
-                     */
-
-                    const documentoHtml =
-                        await construirDocumentoHtml(
-                            contratoGenerado.contenido_html
-                        );
-
-
-                    /*
-                     * 2. Generar PDF
-                     */
-
-                    const response =
-                        await fetch(
-                            "https://api.cubika.cl/api/pdf",
-                            {
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body: JSON.stringify({
-                                    html:
-                                        documentoHtml
-                                })
-                            }
-                        );
-
-
-                    if (!response.ok) {
-
-                        const errorText =
-                            await response.text();
-
-                        throw new Error(
-                            `Error generando PDF (${response.status}): ${errorText}`
-                        );
-
-                    }
-
-
-                    const pdfBlob =
-                        await response.blob();
-
-
-                    /*
-                     * 3. Subir PDF a Storage
-                     */
-
-                    const upload =
-                        await storageService
-                            .uploadContrato({
-
-                                empresaId:
-                                    contratoGenerado.empresa_id,
-
-                                workerId:
-                                    contratoGenerado.worker_id,
-
-                                contratoId:
-                                    contratoGenerado.id,
-
-                                pdfBlob
-
-                            });
-
-
-                    console.log(
-                        "PDF subido a Storage:",
-                        upload.path
-                    );
-
-
-                    /*
-                     * 4. Crear Signed URL
-                     */
-
-                    const pdfUrl =
-                        await storageService
-                            .createSignedUrl(
-                                upload.path
-                            );
-
-
-                    /*
-                     * 5. Guardar URL en contrato
-                     */
-
-                    await contratosGeneradosService
-                        .update(
-                            contratoGenerado.id,
-                            {
-                                pdf_url:
-                                    pdfUrl
-                            }
-                        );
-
-
-                    console.log(
-                        "pdf_url actualizado correctamente."
-                    );
-
-
-                    /*
-                     * 6. Descargar PDF
-                     */
-
-                    const downloadUrl =
-                        URL.createObjectURL(
-                            pdfBlob
-                        );
-
-                    const link =
-                        document.createElement("a");
-
-                    link.href =
-                        downloadUrl;
-
-                    link.download =
-                        `contrato-${contratoGenerado.numero_contrato}.pdf`;
-
-                    document.body.appendChild(
-                        link
-                    );
-
-                    link.click();
-
-                    link.remove();
-
-                    URL.revokeObjectURL(
-                        downloadUrl
-                    );
-
-
-                }
-                catch (error) {
-
-                    console.error(
-                        "Error al obtener/guardar PDF:",
-                        error
-                    );
-
-                    alert(
-                        "El contrato fue creado, pero no fue posible generar o guardar el PDF."
-                    );
-
-                }
-
+            
+                await mostrarModalSeleccionDocumentos(
+                    contratoGenerado
+                );
+            
             }
 
         });
@@ -2421,6 +2271,248 @@ async function aprobarYGenerarContrato() {
         );
 
     }
+
+}
+
+
+
+async function mostrarModalSeleccionDocumentos(
+    contratoGenerado
+) {
+
+    let complementos;
+
+    try {
+
+        complementos =
+            await plantillasDocumentoService
+                .getComplementos();
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error cargando complementos:",
+            error
+        );
+
+        alert(
+            "No fue posible cargar los documentos complementarios."
+        );
+
+        return;
+
+    }
+
+
+    const complementosHtml =
+        complementos.length > 0
+
+            ? complementos.map(
+                complemento => `
+
+                    <label
+                        style="
+                            display:flex;
+                            align-items:flex-start;
+                            gap:10px;
+                            padding:12px;
+                            border:1px solid #e5e7eb;
+                            border-radius:8px;
+                            cursor:pointer;
+                            margin-bottom:8px;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            class="complemento-documento"
+                            value="${complemento.id}"
+                            style="margin-top:3px;"
+                        >
+
+                        <div>
+
+                            <div
+                                style="
+                                    font-weight:600;
+                                "
+                            >
+                                ${complemento.nombre}
+                            </div>
+
+                            ${
+                                complemento.descripcion
+                                    ? `
+                                        <div
+                                            style="
+                                                font-size:13px;
+                                                color:#6b7280;
+                                                margin-top:3px;
+                                            "
+                                        >
+                                            ${complemento.descripcion}
+                                        </div>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </label>
+
+                `
+            ).join("")
+
+            : `
+                <div
+                    style="
+                        padding:16px;
+                        text-align:center;
+                        color:#6b7280;
+                        font-size:14px;
+                        border:1px dashed #d1d5db;
+                        border-radius:8px;
+                    "
+                >
+                    No hay documentos complementarios
+                    disponibles.
+                </div>
+            `;
+
+
+    showFormModal({
+
+        title:
+            "Documentos para descargar",
+
+        content: `
+
+            <div
+                style="
+                    font-size:14px;
+                    line-height:1.5;
+                "
+            >
+
+                <p
+                    style="
+                        margin-top:0;
+                        margin-bottom:18px;
+                    "
+                >
+                    Seleccione los documentos que desea
+                    descargar junto con el contrato.
+                </p>
+
+
+                <div
+                    style="
+                        margin-bottom:18px;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-weight:600;
+                            margin-bottom:8px;
+                        "
+                    >
+                        Documento principal
+                    </div>
+
+
+                    <label
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:10px;
+                            padding:12px;
+                            background:#f3f4f6;
+                            border-radius:8px;
+                            cursor:not-allowed;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            checked
+                            disabled
+                        >
+
+                        <div>
+
+                            <div
+                                style="
+                                    font-weight:600;
+                                "
+                            >
+                                Contrato
+                            </div>
+
+                            <div
+                                style="
+                                    font-size:13px;
+                                    color:#6b7280;
+                                "
+                            >
+                                ${contratoGenerado.numero_contrato}
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        style="
+                            font-weight:600;
+                            margin-bottom:8px;
+                        "
+                    >
+                        Documentos complementarios
+                    </div>
+
+                    ${complementosHtml}
+
+                </div>
+
+            </div>
+
+        `,
+
+        primaryText:
+            "Continuar",
+
+        secondaryText:
+            "Cancelar",
+
+        onPrimary: () => {
+
+            const seleccionados =
+                Array.from(
+                    document.querySelectorAll(
+                        ".complemento-documento:checked"
+                    )
+                ).map(
+                    checkbox =>
+                        checkbox.value
+                );
+
+            console.log(
+                "Complementos seleccionados:",
+                seleccionados
+            );
+
+            return seleccionados;
+
+        }
+
+    });
 
 }
 
