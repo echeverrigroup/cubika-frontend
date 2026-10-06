@@ -2553,13 +2553,10 @@ async function mostrarModalSeleccionDocumentos(
 
         `,
 
-        primaryText:
+       submitText:
             "Continuar",
-
-        secondaryText:
-            "Cancelar",
-
-        onPrimary: async () => {
+        
+        onSubmit: async () => {
 
             const seleccionados =
                 Array.from(
