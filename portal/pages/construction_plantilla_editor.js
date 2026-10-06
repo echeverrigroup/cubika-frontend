@@ -164,55 +164,54 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                     class="cubika-select">
 
                                     <option
-                                        value="Contrato"
-                                        ${plantilla?.tipo_documento === "Contrato"
+                                        value="CONTRATO"
+                                        ${plantilla?.tipo_documento === "CONTRATO"
                                             ? "selected"
                                             : ""}>
-
+                                    
                                         Contrato
-
+                                    
                                     </option>
-
+                                    
                                     <option
-                                        value="Anexo"
-                                        ${plantilla?.tipo_documento === "Anexo"
+                                        value="ANEXO"
+                                        ${plantilla?.tipo_documento === "ANEXO"
                                             ? "selected"
                                             : ""}>
-
+                                    
                                         Anexo
-
+                                    
                                     </option>
-
+                                    
                                     <option
-                                        value="Finiquito"
-                                        ${plantilla?.tipo_documento === "Finiquito"
+                                        value="COMPLEMENTO"
+                                        ${plantilla?.tipo_documento === "COMPLEMENTO"
                                             ? "selected"
                                             : ""}>
-
+                                    
+                                        Complemento
+                                    
+                                    </option>
+                                    
+                                    <option
+                                        value="FINIQUITO"
+                                        ${plantilla?.tipo_documento === "FINIQUITO"
+                                            ? "selected"
+                                            : ""}>
+                                    
                                         Finiquito
-
+                                    
                                     </option>
-
+                                    
                                     <option
-                                        value="Carta"
-                                        ${plantilla?.tipo_documento === "Carta"
+                                        value="CERTIFICADO"
+                                        ${plantilla?.tipo_documento === "CERTIFICADO"
                                             ? "selected"
                                             : ""}>
-
-                                        Carta
-
-                                    </option>
-
-                                    <option
-                                        value="Certificado"
-                                        ${plantilla?.tipo_documento === "Certificado"
-                                            ? "selected"
-                                            : ""}>
-
+                                    
                                         Certificado
-
+                                    
                                     </option>
-
                                 </select>
 
                             </div>
