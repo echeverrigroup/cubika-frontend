@@ -1,4 +1,4 @@
-import { supabase } from "../js/supabaseClient.js";
+import { supabase } from "../../../js/supabaseClient.js";
 
 
 const BUCKET = "contratos";
