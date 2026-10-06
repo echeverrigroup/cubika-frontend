@@ -25,11 +25,11 @@ import {
 
     construirVariables,
     reemplazarVariables,
-    validarPlantilla
+    validarPlantilla,
+    obtenerVariablesPlantilla
 
 }
-from
-"../modules/construccion/documentEngine.js";
+from "../modules/construccion/documentEngine.js";
 
 import {
     workersService
@@ -2271,6 +2271,74 @@ async function aprobarYGenerarContrato() {
         );
 
     }
+
+}
+
+
+async function construirDocumentoComplementario(
+    complemento,
+    contratoGenerado
+) {
+
+    if (!complemento)
+        throw new Error(
+            "No se recibió la plantilla del complemento."
+        );
+
+
+    if (!contratoGenerado)
+        throw new Error(
+            "No se recibió el contrato generado."
+        );
+
+
+    const variablesSolicitadas =
+        obtenerVariablesPlantilla(
+            complemento.contenido
+        );
+
+
+    const variablesDisponibles =
+        contratoGenerado.variables || {};
+
+
+    const variablesFaltantes =
+        variablesSolicitadas.filter(
+            variable =>
+                !Object.prototype.hasOwnProperty.call(
+                    variablesDisponibles,
+                    variable
+                )
+        );
+
+
+    if (variablesFaltantes.length > 0) {
+
+        throw new Error(
+            `El complemento "${complemento.nombre}" utiliza variables que no están disponibles: ${variablesFaltantes.join(", ")}`
+        );
+
+    }
+
+
+    const contenidoHtml =
+        reemplazarVariables(
+            complemento.contenido,
+            variablesDisponibles
+        );
+
+
+    return {
+
+        plantilla:
+            complemento,
+
+        variables:
+            variablesDisponibles,
+
+        contenidoHtml
+
+    };
 
 }
 
