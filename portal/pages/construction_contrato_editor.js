@@ -2491,7 +2491,7 @@ async function mostrarModalSeleccionDocumentos(
         secondaryText:
             "Cancelar",
 
-        onPrimary: () => {
+        onPrimary: async () => {
 
             const seleccionados =
                 Array.from(
@@ -2502,16 +2502,193 @@ async function mostrarModalSeleccionDocumentos(
                     checkbox =>
                         checkbox.value
                 );
-
+        
+        
             console.log(
                 "Complementos seleccionados:",
                 seleccionados
             );
-
-            return seleccionados;
-
+        
+        
+            try {
+        
+                /*
+                 * 1. Construir documento HTML
+                 */
+        
+                const documentoHtml =
+                    await construirDocumentoHtml(
+                        contratoGenerado.contenido_html
+                    );
+        
+        
+                /*
+                 * 2. Generar PDF
+                 */
+        
+                const response =
+                    await fetch(
+                        "https://api.cubika.cl/api/pdf",
+                        {
+                            method: "POST",
+        
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+        
+                            body: JSON.stringify({
+                                html:
+                                    documentoHtml
+                            })
+                        }
+                    );
+        
+        
+                if (!response.ok) {
+        
+                    const errorText =
+                        await response.text();
+        
+                    throw new Error(
+                        `Error generando PDF (${response.status}): ${errorText}`
+                    );
+        
+                }
+        
+        
+                const pdfBlob =
+                    await response.blob();
+        
+        
+                /*
+                 * 3. Guardar contrato en Storage
+                 */
+        
+                const upload =
+                    await storageService
+                        .uploadContrato({
+        
+                            empresaId:
+                                contratoGenerado.empresa_id,
+        
+                            workerId:
+                                contratoGenerado.worker_id,
+        
+                            contratoId:
+                                contratoGenerado.id,
+        
+                            pdfBlob
+        
+                        });
+        
+        
+                console.log(
+                    "PDF subido a Storage:",
+                    upload.path
+                );
+        
+        
+                /*
+                 * 4. Crear Signed URL
+                 */
+        
+                const pdfUrl =
+                    await storageService
+                        .createSignedUrl(
+                            upload.path
+                        );
+        
+        
+                /*
+                 * 5. Guardar URL en contrato
+                 */
+        
+                await contratosGeneradosService
+                    .update(
+                        contratoGenerado.id,
+                        {
+                            pdf_url:
+                                pdfUrl
+                        }
+                    );
+        
+        
+                console.log(
+                    "pdf_url actualizado correctamente."
+                );
+        
+        
+                /*
+                 * 6. Descargar contrato
+                 */
+        
+                const downloadUrl =
+                    URL.createObjectURL(
+                        pdfBlob
+                    );
+        
+        
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+        
+        
+                link.href =
+                    downloadUrl;
+        
+        
+                link.download =
+                    `contrato-${contratoGenerado.numero_contrato}.pdf`;
+        
+        
+                document.body.appendChild(
+                    link
+                );
+        
+        
+                link.click();
+        
+        
+                link.remove();
+        
+        
+                URL.revokeObjectURL(
+                    downloadUrl
+                );
+        
+        
+                console.log(
+                    "Contrato descargado correctamente."
+                );
+        
+        
+                /*
+                 * 7. Por ahora solamente dejamos
+                 * registrada la selección.
+                 */
+        
+                console.log(
+                    "Complementos pendientes de generación:",
+                    seleccionados
+                );
+        
+            }
+            catch (error) {
+        
+                console.error(
+                    "Error al obtener/guardar PDF:",
+                    error
+                );
+        
+                alert(
+                    "El contrato fue creado, pero no fue posible generar o guardar el PDF."
+                );
+        
+            }
+        
         }
-
     });
 
 }
