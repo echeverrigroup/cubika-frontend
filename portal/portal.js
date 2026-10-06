@@ -401,3 +401,19 @@ if (userMenu) {
     window.addEventListener("resize", syncUserMenu);
 
 }
+
+
+// PRUEBA: mostrar solamente Construcción
+document.querySelectorAll(".sidebar > h3").forEach(seccion => {
+
+    if (seccion.textContent.trim() !== "Construcción") {
+        seccion.style.display = "none";
+
+        const menu = seccion.nextElementSibling;
+
+        if (menu && menu.classList.contains("sidebar-menu")) {
+            menu.style.display = "none";
+        }
+    }
+
+});
