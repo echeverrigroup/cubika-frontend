@@ -23,6 +23,35 @@ export const plantillasDocumentoService = {
     },
 
 
+    async getComplementos() {
+
+    const { data, error } =
+        await supabase
+            .from(TABLE)
+            .select(`
+                id,
+                nombre,
+                descripcion,
+                contenido
+            `)
+            .eq(
+                "tipo_documento",
+                "COMPLEMENTO"
+            )
+            .eq(
+                "estado",
+                "Activo"
+            )
+            .order("nombre");
+
+    if (error)
+        throw error;
+
+    return data;
+
+},
+
+
     async getById(id) {
 
         const { data, error } =
