@@ -4269,6 +4269,6 @@ EDITOR DOCUMENTAL
     flex: 0 0 auto;
     white-space: nowrap;
     padding: 8px 12px;
-    
+    min-width:180px;
 }
 
