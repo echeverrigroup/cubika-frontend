@@ -4290,3 +4290,12 @@ EDITOR DOCUMENTAL
     box-shadow: none;
 }
 
+
+.construction-welcome-steps .construction-welcome-step {
+    height: 2px !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-sizing: border-box;
+}
+
