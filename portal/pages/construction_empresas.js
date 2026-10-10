@@ -616,10 +616,7 @@ export async function mostrarFormularioNuevaEmpresa(
 
         submitText: "Guardar",
 
-        size:
-        tipoEntidad === "constructora"
-            ? "medium"
-            : "large",
+        size: "large",
 
         onSubmit:
 
@@ -909,28 +906,21 @@ function obtenerFormularioMandante(
 }
 
 
-function obtenerFormularioConstructora(
-    constructora = null
-){
+
+function obtenerFormularioConstructora(constructora = null) {
 
     return `
-
         <form id="formConstructora">
 
+            <div class="empresa-layout">
 
+                <!-- COLUMNA 1: CONSTRUCTORA -->
                 <div class="empresa-section">
 
-                    <h3>
-
-                        Datos de la Constructora
-
-                    </h3>
-
+                    <h3>Datos de la Constructora</h3>
 
                     <div class="form-group">
-
                         <label>Razón Social</label>
-
                         <input
                             id="nombre"
                             type="text"
@@ -938,53 +928,44 @@ function obtenerFormularioConstructora(
                             value="${constructora?.nombre ?? ""}"
                             placeholder="Nombre de la constructora..."
                             required>
-
                     </div>
 
-
                     <div class="form-group">
-
                         <label>RUT</label>
-
                         <input
                             id="rut"
-                            class="cubika-input"
                             type="text"
+                            class="cubika-input"
                             value="${constructora?.rut ?? ""}">
-
                     </div>
 
-
                     <div class="form-group">
-
                         <label>Email</label>
-
                         <input
                             id="email"
                             type="email"
                             class="cubika-input"
                             value="${constructora?.email ?? ""}">
-
                     </div>
-
 
                     <div class="form-group">
-
                         <label>Dirección</label>
-
                         <input
                             id="direccion"
-                            class="cubika-input"
                             type="text"
+                            class="cubika-input"
                             value="${constructora?.direccion ?? ""}">
-
                     </div>
-                    
-                    
-                         <div class="form-group">
-                    
-                        <label>Representante Legal</label>
-                    
+
+                </div>
+
+                <!-- COLUMNA 2: REPRESENTANTE -->
+                <div class="empresa-section">
+
+                    <h3>Datos del Representante Legal</h3>
+
+                    <div class="form-group">
+                        <label>Nombre del Representante</label>
                         <input
                             id="representante"
                             type="text"
@@ -992,24 +973,20 @@ function obtenerFormularioConstructora(
                             value="${constructora?.representante_legal ?? ""}"
                             placeholder="Nombre del representante legal..."
                             required>
-                    
                     </div>
-                    
-                    
+
                     <div class="form-group">
-                    
                         <label>RUT del Representante</label>
-                    
                         <input
                             id="rutRepresentante"
                             type="text"
                             class="cubika-input"
                             value="${constructora?.rut_representante ?? ""}">
-                    
                     </div>
 
                 </div>
 
+            </div>
 
             <div
                 id="modalFormError"
@@ -1018,9 +995,7 @@ function obtenerFormularioConstructora(
             </div>
 
         </form>
-
     `;
-
 }
 
 
