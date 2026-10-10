@@ -43,7 +43,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
     content.innerHTML = `
 
-        <div class="page-header">
+        <div class="page-header plantilla-editor-toolbar">
 
             <div>
 
