@@ -1244,6 +1244,10 @@ function renderStep() {
     container.innerHTML =
         getStepContent(currentStep);
 
+        container.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+});
 
     /*
     ------------------------------------------------------
