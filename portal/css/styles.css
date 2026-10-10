@@ -4257,7 +4257,7 @@ EDITOR DOCUMENTAL
 #plantillasTabs {
     width: fit-content;
     max-width: 100%;
-   
+    margin: 0 auto 24px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -4268,7 +4268,7 @@ EDITOR DOCUMENTAL
 #plantillasTabs .cubika-tab {
     flex: 0 0 auto;
     white-space: nowrap;
-    padding: 10px 18px;
-    min-width:180px;
+    padding: 8px 12px;
+    
 }
 
