@@ -2245,7 +2245,7 @@ EDITOR DOCUMENTAL
   display: flex;
   width: 100%;
   gap: 6px;
-  margin: 28px 0;
+  margin: 18px 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -2277,7 +2277,7 @@ EDITOR DOCUMENTAL
 
     gap: 8px;
 
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 
     overflow-x: auto;
 
