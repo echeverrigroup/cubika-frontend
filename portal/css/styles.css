@@ -4276,12 +4276,18 @@ EDITOR DOCUMENTAL
 
 
 /* Header fijo del editor de plantillas */
+
+/* Header integrado al inicio del editor de plantillas */
 .plantilla-editor-toolbar {
     position: sticky;
     top: 0;
     z-index: 1000;
+
     background: var(--background-color, #ffffff);
+
+    margin: 0;
     padding: 12px 0;
-    margin-top: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
