@@ -819,6 +819,30 @@ body {
 }
 
 
+#formCargo .form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
+    gap:14px;
+
+}
+
+
+#formCargo .form-group{
+
+margin-top:14px;
+    margin-bottom:14px;
+
+}
+
+
 
 #formTrabajador .form-grid{
 
