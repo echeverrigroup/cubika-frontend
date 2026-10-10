@@ -343,7 +343,7 @@ async function init() {
             );
         
         const pagina =
-            params.get("page") || "construction_welcome";
+            params.get("page") || "construction_contratos";
         
         // Limpiar cualquier selección anterior
         document
