@@ -4283,10 +4283,9 @@ EDITOR DOCUMENTAL
     top: 0;
     z-index: 1000;
 
-    background: var(--background-color, #ffffff);
+    
 
     margin: 0;
-    padding: 12px 0;
     border-radius: 0;
     box-shadow: none;
 }
