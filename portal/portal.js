@@ -337,33 +337,52 @@ async function init() {
     
     
     
-     const params =
-        new URLSearchParams(
-            window.location.search
-        );
-    
-    const pagina =
-        params.get("page");
-    
-    if (pagina) {
-    
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+        
+        const pagina =
+            params.get("page") || "construction_welcome";
+        
+        // Limpiar cualquier selección anterior
+        document
+            .querySelectorAll("[data-page]")
+            .forEach(item => {
+                item.classList.remove("active");
+            });
+        
+        // Activar el CRUD correspondiente en el sidebar
+        const sidebarItem =
+            document.querySelector(
+                `[data-page="${pagina}"]`
+            );
+        
+        if (sidebarItem) {
+        
+            sidebarItem.classList.add("active");
+        
+        }
+        
+        // Abrir el grupo correspondiente si es necesario
+        if (
+            pagina === "construction_empresas" ||
+            pagina === "construction_trabajadores" ||
+            pagina === "construction_plantillas"
+        ) {
+        
+            abrirConfiguracion();
+        
+        }
+        
+        if (pagina === "construction_welcome") {
+        
+            abrirAyuda();
+        
+        }
+        
+        // Cargar la página
         navigate(pagina);
-    
-    } else {
-    
-        navigate("construction_welcome");
-    
-    }
-
-    const dashboardItem =
-    document.querySelector(
-        '[data-page="dashboard"]'
-    );
-
-if (dashboardItem) {
-
-    dashboardItem.classList.add("active");
-}
 }
    
 
