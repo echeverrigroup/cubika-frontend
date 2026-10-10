@@ -34,6 +34,12 @@ export function navigate(page, params = null) {
 
     switch(page){
 
+        
+        case "dashboard":
+        content.innerHTML = renderDashboard();
+        break;
+
+
         case "rubros":
         renderRubros();
         break;
