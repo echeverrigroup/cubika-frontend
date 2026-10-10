@@ -52,8 +52,8 @@ export async function renderConstructionPlantillas() {
         </div>
 
 
-        ```html
-            <div class="cubika-tabs" id="plantillasTabs">
+        
+        <div class="cubika-tabs" id="plantillasTabs">
                 <button
                     type="button"
                     class="cubika-tab active"
