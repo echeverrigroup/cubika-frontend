@@ -290,7 +290,7 @@ export async function mostrarFormularioNuevaObra(
     
             submitText: "Guardar",
     
-            size: "large",
+            size: "medium",
     
             onSubmit: async () => {
     
@@ -686,7 +686,7 @@ export async function editarObra(id) {
 
         submitText: "Actualizar",
 
-        size: "large",
+        size: "medium",
 
         onSubmit: () =>
             actualizarObra(id)
