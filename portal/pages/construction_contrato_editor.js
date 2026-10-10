@@ -1489,9 +1489,17 @@ async function cargarPaso2() {
             .getAll();
     
 
+    
     const plantillas =
-        await plantillasDocumentoService
-            .getAll();
+        await plantillasDocumentoService.getAll();
+    
+    const plantillasContrato =
+        plantillas.filter(plantilla =>
+            String(plantilla.tipo_documento ?? "")
+                .trim()
+                .toUpperCase() === "CONTRATO"
+        );
+
 
     const tiposJornada =
         await globalService
@@ -1535,17 +1543,11 @@ async function cargarPaso2() {
 
 
     cargarSelect(
-
         "plantilla_id",
-
-        plantillas,
-
+        plantillasContrato,
         p => p.nombre,
-
         contratoActual.plantilla_id
-
     );
-
 
     document
         .getElementById(
