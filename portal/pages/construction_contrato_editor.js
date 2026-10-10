@@ -1498,8 +1498,12 @@ async function cargarPaso2() {
             String(plantilla.tipo_documento ?? "")
                 .trim()
                 .toUpperCase() === "CONTRATO"
+            &&
+            String(plantilla.estado ?? "")
+                .trim()
+                .toUpperCase() === "ACTIVO"
         );
-
+    
 
     const tiposJornada =
         await globalService
