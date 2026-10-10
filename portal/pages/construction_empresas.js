@@ -1197,10 +1197,7 @@ async function editarEmpresa(id) {
 
         submitText: "Actualizar",
 
-        size:
-        tipoEntidadActivo === "constructora"
-            ? "medium"
-            : "large",
+        size: "large",
 
         onSubmit: () =>
 
