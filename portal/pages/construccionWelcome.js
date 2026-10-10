@@ -309,36 +309,22 @@ export function renderConstructionWelcome() {
 
                 </div>
 
-           
 
-
-            <nav
-                class="construction-welcome-steps"
-                aria-label="Guía de inicio">
-
-                ${steps.map((step, index) => `
-
-                    <button
-                        type="button"
-                        class="construction-welcome-step ${
-                            index === 0 ? "active" : ""
-                        }"
-                        data-welcome-step="${index}"
-                        aria-label="Paso ${step.number}: ${step.label}">
-
-                        <span class="construction-welcome-step-number">
-                            ${step.number}
-                        </span>
-
-                        <span class="construction-welcome-step-label">
-                            ${step.label}
-                        </span>
-
-                    </button>
-
-                `).join("")}
-
-            </nav>
+            
+                <nav class="construction-welcome-steps"
+                     aria-label="Progreso de la guía de inicio">
+                
+                  ${steps.map((step, index) => `
+                    <span
+                      class="construction-welcome-step ${
+                        index === 0 ? "active" : ""
+                      }"
+                      data-welcome-step="${index}"
+                      aria-hidden="true">
+                    </span>
+                  `).join("")}
+                
+                </nav>
 
 
             <div
@@ -1266,21 +1252,18 @@ function renderStep() {
     */
 
     document
-        .querySelectorAll("[data-welcome-step]")
-        .forEach((button, index) => {
-
-            button.classList.toggle(
-                "active",
-                index === currentStep
-            );
-
-
-            button.classList.toggle(
-                "completed",
-                index < currentStep
-            );
-
-        });
+      .querySelectorAll("[data-welcome-step]")
+      .forEach((indicator, index) => {
+        indicator.classList.toggle(
+          "active",
+          index === currentStep
+        );
+    
+        indicator.classList.toggle(
+          "completed",
+          index < currentStep
+        );
+      });
 
 
     /*
