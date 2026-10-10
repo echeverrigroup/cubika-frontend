@@ -2237,6 +2237,39 @@ EDITOR DOCUMENTAL
    WIZARD STEPS
    ========================================================= */
 
+
+/* Indicador horizontal del wizard */
+.construction-welcome-steps {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  margin: 28px 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+/* Segmento individual */
+.construction-welcome-step {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #DCE3EB;
+  transition: background-color 220ms ease;
+}
+
+/* Paso actual y pasos completados */
+.construction-welcome-step.active,
+.construction-welcome-step.completed {
+  background: #42C12E;
+}
+
+
+
 .construction-welcome-steps {
     display: flex;
 
