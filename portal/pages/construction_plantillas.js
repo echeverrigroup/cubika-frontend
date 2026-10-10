@@ -23,6 +23,9 @@ from "../components/modal.js";
 
 
 
+let tipoPlantillaActivo = "CONTRATO";
+
+
 export async function renderConstructionPlantillas() {
 
     const content =
@@ -49,19 +52,55 @@ export async function renderConstructionPlantillas() {
         </div>
 
 
-        <div class="table-filters">
-
-            <input
-
-                id="buscarPlantilla"
-
-                class="cubika-input"
-
-                type="text"
-
-                placeholder="Buscar plantilla...">
-
-        </div>
+        ```html
+            <div class="cubika-tabs" id="plantillasTabs">
+                <button
+                    type="button"
+                    class="cubika-tab active"
+                    data-tipo="CONTRATO">
+                    Contratos
+                </button>
+            
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="ANEXO">
+                    Anexos
+                </button>
+            
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="COMPLEMENTO">
+                    Complementos
+                </button>
+            
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="FINIQUITO">
+                    Finiquitos
+                </button>
+            
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="CERTIFICADO">
+                    Certificados
+                </button>
+            </div>
+            
+            <div class="table-filters">
+                <input
+                    id="buscarPlantilla"
+                    class="cubika-input"
+                    type="text"
+                    placeholder="Buscar plantilla...">
+            </div>
+            
+            <div id="plantillasTable">
+                Cargando...
+            </div>```
 
 
         <div id="plantillasTable">
@@ -104,6 +143,26 @@ export async function renderConstructionPlantillas() {
 
         );
 
+
+    document
+    .querySelectorAll("#plantillasTabs .cubika-tab")
+    .forEach(tab => {
+        tab.addEventListener("click", () => {
+            tipoPlantillaActivo = tab.dataset.tipo;
+
+            document
+                .querySelectorAll("#plantillasTabs .cubika-tab")
+                .forEach(item => {
+                    item.classList.toggle(
+                        "active",
+                        item === tab
+                    );
+                });
+
+            cargarPlantillas();
+        });
+    });
+
 }
 
 
@@ -124,6 +183,13 @@ async function cargarPlantillas() {
 
     let plantillas =
         await plantillasDocumentoService.getAll();
+
+
+    plantillas = plantillas.filter(p =>
+        String(p.tipo_documento ?? "")
+            .trim()
+            .toUpperCase() === tipoPlantillaActivo
+    );
 
 
     if (filtro) {
