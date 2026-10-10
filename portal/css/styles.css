@@ -4274,3 +4274,14 @@ EDITOR DOCUMENTAL
     min-width:180px;
 }
 
+
+/* Header fijo del editor de plantillas */
+.plantilla-editor-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--background-color, #ffffff);
+    padding: 12px 0;
+    margin-top: 0;
+}
+
