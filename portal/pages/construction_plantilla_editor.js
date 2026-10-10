@@ -169,7 +169,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                             ? "selected"
                                             : ""}>
                                     
-                                        Contrato
+                                        CONTRATO
                                     
                                     </option>
                                     
@@ -179,7 +179,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                             ? "selected"
                                             : ""}>
                                     
-                                        Anexo
+                                        ANEXO
                                     
                                     </option>
                                     
@@ -189,7 +189,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                             ? "selected"
                                             : ""}>
                                     
-                                        Complemento
+                                        COMPLEMENTO
                                     
                                     </option>
                                     
@@ -199,7 +199,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                             ? "selected"
                                             : ""}>
                                     
-                                        Finiquito
+                                        FINIQUITO
                                     
                                     </option>
                                     
@@ -209,7 +209,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                             ? "selected"
                                             : ""}>
                                     
-                                        Certificado
+                                        CERTIFICADO
                                     
                                     </option>
                                 </select>
