@@ -1241,13 +1241,22 @@ function renderStep() {
     if (!container) return;
 
 
+    
     container.innerHTML =
         getStepContent(currentStep);
+    
+    // Posicionamiento según el paso
+    if (currentStep > 0) {
+        const progressBar = document.querySelector(
+            ".construction-welcome-steps"
+        );
+    
+        progressBar?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 
-        container.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-});
 
     /*
     ------------------------------------------------------
