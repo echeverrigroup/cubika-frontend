@@ -4260,7 +4260,8 @@ EDITOR DOCUMENTAL
 
 
 /* Pestañas del CRUD de Plantillas Documentales */
-#plantillasTabs {
+
+#plantillasTabs .cubika-tabs {
     width: fit-content;
     max-width: 100%;
     margin: 0 auto 12px;
