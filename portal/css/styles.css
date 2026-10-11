@@ -819,30 +819,6 @@ body {
 }
 
 
-#formCargo .form-grid{
-
-    display:grid;
-
-    grid-template-columns:
-
-        repeat(
-            3,
-            minmax(0,1fr)
-        );
-
-    gap:14px;
-
-}
-
-
-#formCargo .form-group{
-
-margin-top:14px;
-    margin-bottom:14px;
-
-}
-
-
 
 #formTrabajador .form-grid{
 
@@ -2269,7 +2245,7 @@ EDITOR DOCUMENTAL
   display: flex;
   width: 100%;
   gap: 6px;
-  margin: 18px 0;
+  margin: 28px 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -2280,7 +2256,7 @@ EDITOR DOCUMENTAL
   display: block;
   flex: 1;
   min-width: 0;
-  height: 1px;
+  height: 2px;
   padding: 0;
   border: 0;
   border-radius: 999px;
@@ -2301,7 +2277,7 @@ EDITOR DOCUMENTAL
 
     gap: 8px;
 
-    margin-bottom: 8px;
+    margin-bottom: 18px;
 
     overflow-x: auto;
 
@@ -4312,13 +4288,4 @@ EDITOR DOCUMENTAL
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-}
-
-
-.construction-welcome-steps .construction-welcome-step {
-    height: 8px !important;
-    min-height: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    box-sizing: border-box;
 }
