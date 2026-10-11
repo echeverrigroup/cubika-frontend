@@ -87,8 +87,8 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
             </button>
         </div>
 
-
-        <div class="cubika-tabs">
+        
+        <div class="cubika-tabs" id="plantillasTabs">
 
             <button
                 type="button"
