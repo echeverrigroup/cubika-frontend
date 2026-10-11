@@ -1,5 +1,4 @@
 
-
 * {
     margin: 0;
     padding: 0;
@@ -31,10 +30,10 @@ body {
 
 /* Pestañas del CRUD de Plantillas Documentales */
 
-#plantillasTabs cubika-tabs{
+#plantillasTabs .cubika-tabs {
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto 24px;
+    margin: 0 auto 12px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -43,7 +42,7 @@ body {
 }
 
 
-#plantillasTabs cubika-tab{
+#plantillasTabs {
     flex: 0 0 auto;
     white-space: nowrap;
     padding: 8px 12px;
@@ -55,7 +54,7 @@ body {
 
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto 24px;
+    margin: 0 auto 12px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
