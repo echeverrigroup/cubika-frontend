@@ -35,7 +35,7 @@ body {
 }
 
 .cubika-tab {
-    width: 160px;
+    width: 180px;
     min-width: 160px;
     flex: 0 0 160px;
 
@@ -43,7 +43,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    padding: 24px 24px;
+    padding: 34px 24px;
     box-sizing: border-box;
 
     border: none;
