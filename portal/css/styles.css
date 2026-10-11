@@ -28,6 +28,29 @@ body {
 
 
 
+
+/* Pestañas del CRUD de Plantillas Documentales */
+
+#plantillasTabs .cubika-tabs {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    box-sizing: border-box;
+}
+
+
+#plantillasTabs .cubika-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+}
+
+
+
 .cubika-tabs{
 
     width: fit-content;
@@ -44,35 +67,9 @@ body {
 
 .cubika-tab{
 
-    flex: 0 0 auto;
+   flex: 0 0 auto;
     white-space: nowrap;
     padding: 8px 12px;
-    
-    min-width:140px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    padding:14px 22px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:#F1F5F9;
-
-    color:#64748B;
-
-    font-size:15px;
-
-    font-weight:500;
-
-    cursor:pointer;
-
-    transition:all .25s;
 
 }
 
@@ -4259,22 +4256,3 @@ EDITOR DOCUMENTAL
 
 
 
-/* Pestañas del CRUD de Plantillas Documentales */
-
-#plantillasTabs .cubika-tabs {
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto 12px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    box-sizing: border-box;
-}
-
-
-#plantillasTabs .cubika-tab {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding: 8px 12px;
-}
