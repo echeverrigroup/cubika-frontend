@@ -31,7 +31,7 @@ body {
 
 /* Pestañas del CRUD de Plantillas Documentales */
 
-#plantillasTabs .cubika-tabs {
+#plantillasTabs {
     width: fit-content;
     max-width: 100%;
     margin: 0 auto 12px;
