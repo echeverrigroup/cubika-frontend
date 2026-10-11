@@ -43,7 +43,7 @@ body {
 
 .cubika-tab{
 
-    min-width:120px;
+    min-width:130px;
 
     display:flex;
 
@@ -4262,7 +4262,7 @@ EDITOR DOCUMENTAL
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 6px;
     box-sizing: border-box;
 }
 
