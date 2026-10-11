@@ -34,7 +34,7 @@ body {
 #plantillasTabs {
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto 24px;
+    margin: 0 auto 14px;
     padding: 0;
 
     display: flex;
