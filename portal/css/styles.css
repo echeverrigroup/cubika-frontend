@@ -4245,12 +4245,15 @@ EDITOR DOCUMENTAL
     width: fit-content;
     max-width: 100%;
     margin: 0 auto 12px;
+    padding: 0;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 6px;
     box-sizing: border-box;
 }
+
+
 
 #plantillasTabs .cubika-tab {
     flex: 0 0 auto;
