@@ -338,7 +338,7 @@ async function obtenerFormularioCargo(cargo = null) {
 
             <div class="form-grid">
 
-                <div class="form-group">
+                <div class="form-group-2">
 
                     <label>Nombre</label>
 
@@ -352,7 +352,7 @@ async function obtenerFormularioCargo(cargo = null) {
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group-2">
 
                     <label>Descripción</label>
 
