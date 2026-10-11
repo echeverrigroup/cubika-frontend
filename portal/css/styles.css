@@ -4239,8 +4239,8 @@ EDITOR DOCUMENTAL
 }
 
 
-
-/* Pestañas del CRUD de Plantillas Documentales */
+/* 
+ Pestañas del CRUD de Plantillas Documentales
 #plantillasTabs {
     width: fit-content;
     max-width: 100%;
@@ -4260,4 +4260,5 @@ EDITOR DOCUMENTAL
     white-space: nowrap;
     padding: 8px 12px;
 }
+ */
 
