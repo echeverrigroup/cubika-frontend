@@ -707,6 +707,8 @@ body {
 
     font-weight:600;
     font-size:.9rem;
+    
+   margin-top:14px;
 
     padding:0px 14px;    
 
@@ -1092,6 +1094,14 @@ EDITOR DOCUMENTAL
 }
 
 
+.editor-section label{
+
+    margin-top:14px;
+    magin-bottom:14px;
+
+    gap:14px;
+
+}
 
 .editor-main{
 
@@ -4306,4 +4316,3 @@ EDITOR DOCUMENTAL
     padding-bottom: 0 !important;
     box-sizing: border-box;
 }
-
