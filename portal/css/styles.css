@@ -27,29 +27,6 @@ body {
 
 
 
-
-/* Pestañas del CRUD de Plantillas Documentales */
-
-#plantillasTabs .cubika-tabs {
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto 12px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    box-sizing: border-box;
-}
-
-
-#plantillasTabs {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding: 8px 12px;
-}
-
-
-
 .cubika-tabs{
 
     width: fit-content;
