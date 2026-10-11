@@ -4258,13 +4258,14 @@ EDITOR DOCUMENTAL
 #plantillasTabs {
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto 24px;
+    margin: 0 auto 14px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 6px;
     box-sizing: border-box;
 }
+
 
 #plantillasTabs .cubika-tab {
     flex: 0 0 auto;
