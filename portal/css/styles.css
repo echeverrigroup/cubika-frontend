@@ -41,8 +41,6 @@ body {
 }
 
 
-
-
 .cubika-tab{
 
     min-width:220px;
@@ -53,7 +51,7 @@ body {
 
     align-items:center;
 
-    padding:8px 12px;
+    padding:14px 22px;
 
     border:none;
 
@@ -688,8 +686,8 @@ body {
     display:flex;
     flex-direction:column;
     gap:14px;
-    margin-top:4px;
-    margin-bottom:4px;  
+    
+/*    margin-bottom:14px;   */
 }
 
 .form-group-2{
@@ -697,8 +695,8 @@ body {
     display:flex;
     flex-direction:column;
     gap:14px;
-    margin-top:4px;
-    margin-bottom:4px;
+    margin-top:14px;
+    margin-bottom:14px;
 
 
 }
@@ -708,7 +706,7 @@ body {
     font-weight:600;
     font-size:.9rem;
     
-    margin-bottom:4px;    
+/*    margin-bottom:4px; */    
 
     padding:0px 14px;    
 
@@ -754,9 +752,8 @@ body {
 
     font-weight:600;
     font-size:.9rem;
-
-    margin-top:4px;
-    margin-bottom:4px;    
+    
+/*    margin-bottom:4px; */    
 
     padding:0px 14px;    
 
@@ -2257,7 +2254,7 @@ EDITOR DOCUMENTAL
   display: block;
   flex: 1;
   min-width: 0;
-  height: 2px;
+  height: 4px;
   padding: 0;
   border: 0;
   border-radius: 999px;
@@ -4253,40 +4250,4 @@ EDITOR DOCUMENTAL
 
     line-height: 1;
 
-}
-
-
-/* Pestañas del CRUD de Plantillas Documentales */
-#plantillasTabs {
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto 24px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    box-sizing: border-box;
-}
-
-#plantillasTabs .cubika-tab {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding: 8px 12px;
-    min-width:180px;
-}
-
-
-/* Header fijo del editor de plantillas */
-
-/* Header integrado al inicio del editor de plantillas */
-.plantilla-editor-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    
-
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
 }
