@@ -30,20 +30,25 @@ body {
 
 .cubika-tabs{
 
-    display:flex;
-
-    justify-content:center;
-
-    gap:14px;
-
-    margin:24px 0;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    box-sizing: border-box;  
 
 }
 
 
 .cubika-tab{
 
-    min-width:130px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+    
+    min-width:140px;
 
     display:flex;
 
