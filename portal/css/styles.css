@@ -4253,11 +4253,12 @@ EDITOR DOCUMENTAL
 }
 
 
+
 /* Pestañas del CRUD de Plantillas Documentales */
 #plantillasTabs {
     width: fit-content;
     max-width: 100%;
-    margin: 0 auto 14px;
+    margin: 0 auto 24px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
