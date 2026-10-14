@@ -101,7 +101,7 @@ export const plantillasDocumentoService = {
 
         return data;
 
-    }
+    },
 
 
     
