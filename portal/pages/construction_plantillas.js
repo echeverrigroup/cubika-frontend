@@ -44,70 +44,64 @@ export async function renderConstructionPlantillas() {
         </div>
 
 
-        <div class="cubika-tabs" id="plantillasTabs">
-
-            <button
-                type="button"
-                class="cubika-tab active"
-                data-tipo="CONTRATO">
-
-                Contratos
-
-            </button>
-
-            <button
-                type="button"
-                class="cubika-tab"
-                data-tipo="ANEXO">
-
-                Anexos
-
-            </button>
-
-            <button
-                type="button"
-                class="cubika-tab"
-                data-tipo="COMPLEMENTO">
-
-                Complementos
-
-            </button>
-
-            <button
-                type="button"
-                class="cubika-tab"
-                data-tipo="FINIQUITO">
-
-                Finiquitos
-
-            </button>
-
-            <button
-                type="button"
-                class="cubika-tab"
-                data-tipo="CERTIFICADO">
-
-                Certificados
-
-            </button>
-
+        
+        <div class="crud-workspace">
+        
+            <div class="cubika-tabs" id="plantillasTabs">
+        
+                <button
+                    type="button"
+                    class="cubika-tab active"
+                    data-tipo="CONTRATO">
+                    Contratos
+                </button>
+        
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="ANEXO">
+                    Anexos
+                </button>
+        
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="COMPLEMENTO">
+                    Complementos
+                </button>
+        
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="FINIQUITO">
+                    Finiquitos
+                </button>
+        
+                <button
+                    type="button"
+                    class="cubika-tab"
+                    data-tipo="CERTIFICADO">
+                    Certificados
+                </button>
+        
+            </div>
+        
+            <div class="table-filters">
+        
+                <input
+                    id="buscarPlantilla"
+                    class="cubika-input"
+                    type="text"
+                    placeholder="Buscar plantilla...">
+        
+            </div>
+        
+            <div id="plantillasTable">
+                Cargando...
+            </div>
+        
         </div>
 
-
-        <div class="table-filters">
-
-            <input
-                id="buscarPlantilla"
-                class="cubika-input"
-                type="text"
-                placeholder="Buscar plantilla...">
-
-        </div>
-
-
-        <div id="plantillasTable">
-            Cargando...
-        </div>
 
     `;
 
