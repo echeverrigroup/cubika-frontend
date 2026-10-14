@@ -5,6 +5,12 @@ import {
 }
 from "../modules/construccion/documentVariables.js";
 
+import { constructorasService }
+from "../services/constructorasService.js";
+
+import { cargosService }
+from "../services/cargosService.js";
+
 
 import {
 
