@@ -4271,3 +4271,16 @@ EDITOR DOCUMENTAL
     box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
 }
 
+
+/* Área de trabajo reutilizable para los CRUD */
+.crud-workspace {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-radius: 10px;
+    box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+
+/* Evitar separación adicional antes de las pestañas */
+.crud-workspace #plantillasTabs {
+    margin-top: 0;
+}
