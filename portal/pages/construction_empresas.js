@@ -62,61 +62,56 @@ export async function renderConstructionEmpresas() {
         </div>
 
 
-        <div class="cubika-tabs">
 
+        <div class="cubika-tabs">
+        
             <button
                 id="tabMandantes"
                 class="cubika-tab ${
-                tipoEntidadActivo === "mandante"
-                    ? "active"
-                    : ""
-            }"> Mandantes
-            
+                    tipoEntidadActivo === "mandante" ? "active" : ""
+                }">
+                Mandantes
             </button>
         
             <button
                 id="tabConstructoras"
                 class="cubika-tab ${
-                tipoEntidadActivo === "constructora"
-                    ? "active"
-                    : ""
-            }"> Constructoras
-        
+                    tipoEntidadActivo === "constructora" ? "active" : ""
+                }">
+                Constructoras
             </button>
-
+        
             <button
                 id="tabObras"
                 class="cubika-tab ${
-                    tipoEntidadActivo === "obra"
-                        ? "active"
-                        : ""
+                    tipoEntidadActivo === "obra" ? "active" : ""
                 }">
                 Obras
             </button>
         
         </div>
-
-
-        <div class="table-filters">
-
-            <input
-                id="buscarEmpresa"
-                class="cubika-input"
-                type="text"
-                placeholder="${
-                tipoEntidadActivo === "obra"
-                    ? "Buscar obra..."
-                    : "Buscar empresa..."
-            }"
-
+        
+        <div class="crud-workspace">
+        
+            <div class="table-filters">
+                <input
+                    id="buscarEmpresa"
+                    class="cubika-input"
+                    type="text"
+                    placeholder="${
+                        tipoEntidadActivo === "obra"
+                            ? "Buscar obra..."
+                            : "Buscar empresa..."
+                    }"
+                >
+            </div>
+        
+            <div id="empresasTable" class="crud-table-shadow">
+                Cargando...
+            </div>
+        
         </div>
 
-
-        <div id="empresasTable">
-
-            Cargando...
-
-        </div>
 
     `;
 
