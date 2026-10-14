@@ -236,7 +236,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
         <div class="form-grid plantilla-fila">
                            
-            <div class="form-group" style="grid-column:1/-1;">
+            <div class="form-group">
             
                 <label style="margin-top:15px;">
                     Nombre
@@ -376,6 +376,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </div>
             </div>
          </div>
+         
 
 
 
@@ -405,7 +406,9 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                     </div>
 
+                </div>
 
+                
 
                     <div class="editor-section">
 
