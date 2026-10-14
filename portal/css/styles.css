@@ -4425,3 +4425,17 @@ EDITOR DOCUMENTAL
 .cubika-tabs + .crud-workspace {
     margin-top: 1px;
 }
+
+
+
+```css
+/* =========================================================
+   EDITOR DE PLANTILLAS — DELIMITACIÓN DE COLUMNAS
+   ========================================================= */
+
+.editor-main,
+.editor-sidebar {
+    border-radius: 10px;
+    box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+```
