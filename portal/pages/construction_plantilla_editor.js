@@ -249,29 +249,19 @@ export async function renderConstructionPlantillaEditor(id = null) {
                     <div class="editor-section">
 
                         <h2>
-
                             Contenido
-
                         </h2>
 
 
-                                                <textarea
-
+                        <textarea
                             id="contenido"
-
                             class="cubika-input"
-
                             style="
-
                                 min-height:650px;
-
                                 resize:vertical;
-
                                 font-family:Consolas, monospace;
-
                                 line-height:1.6;
-
-                            "
+                           "
 
                         >${plantilla?.contenido ?? ""}</textarea>
 
