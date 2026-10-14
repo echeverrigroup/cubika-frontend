@@ -20,20 +20,26 @@ export async function renderCargosTab(container) {
         return;
 
 
-   container.innerHTML = `
-        <div class="table-filters">
-            <input
-                id="buscarCargo"
-                class="cubika-input"
-                type="text"
-                placeholder="Buscar cargo..."
-            >
-        </div>
-    
-        <div id="cargosTable">
-            Cargando...
+  
+    container.innerHTML = `
+        <div class="crud-workspace">
+
+            <div class="table-filters">
+                <input
+                    id="buscarCargo"
+                    class="cubika-input"
+                    type="text"
+                    placeholder="Buscar cargo..."
+                >
+            </div>
+
+            <div id="cargosTable" class="crud-table-shadow">
+                Cargando...
+            </div>
+
         </div>
     `;
+
     
 
     await cargarCargos(container);
