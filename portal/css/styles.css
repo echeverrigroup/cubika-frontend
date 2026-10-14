@@ -4329,6 +4329,59 @@ EDITOR DOCUMENTAL
     margin-bottom: 0;
 }
 
+
+
+
+/* =========================================================
+   PESTAÑAS CRUD — COMPACTAS, ESTILO ORIGINAL CUBIKA
+   ========================================================= */
+
+.cubika-tabs {
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.cubika-tab {
+    border-radius: 8px 8px 4px 4px;
+    box-shadow: none;
+}
+
+.cubika-tab.active {
+
+    border: none;
+    margin-bottom: 0;
+}
+
+/* Panel de contenido */
+#trabajadoresTab,
+#cargosTab {
+    margin-top: 0;
+    padding: 16px;
+
+    border-radius: 10px;
+}
+
+/* El área de trabajo no agrega distancia superior */
+#trabajadoresTab .crud-workspace,
+#cargosTab .crud-workspace {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .cubika-tabs {
+        margin: 16px 0 2px;
+        gap: 4px;
+    }
+
+    #trabajadoresTab,
+    #cargosTab {
+        padding: 12px;
+    }
+}
+
+
 /* Panel de contenido conectado visualmente a las pestañas */
 .cubika-tab-content {
     margin-top: 0;
