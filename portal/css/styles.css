@@ -4378,3 +4378,43 @@ EDITOR DOCUMENTAL
 .content {
     margin-top: 0;
 }
+
+
+
+/* =========================================================
+   INTEGRACIÓN CRUD EMPRESAS
+   Mandantes / Constructoras / Obras
+   ========================================================= */
+
+/* Acercar el área de trabajo a las pestañas */
+.content > .crud-workspace {
+    margin-top: 1px;
+}
+
+/* Separación interior del buscador */
+.crud-workspace .table-filters {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Sombra superior de la tabla */
+.crud-workspace .crud-table-shadow {
+    margin-top: 24px;
+    border-radius: 10px;
+    box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+
+/* Mantener el ajuste compacto en móviles */
+@media (max-width: 768px) {
+    .content > .crud-workspace {
+        margin-top: 1px;
+    }
+
+    .crud-workspace .table-filters {
+        margin-bottom: 16px;
+    }
+
+    .crud-workspace .crud-table-shadow {
+        margin-top: 18px;
+    }
+}
