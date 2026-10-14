@@ -4324,3 +4324,14 @@ EDITOR DOCUMENTAL
     box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
 }
 
+
+/* Pestañas más cercanas al contenedor */
+.cubika-tabs {
+    margin-bottom: 0;
+}
+
+/* Panel de contenido conectado visualmente a las pestañas */
+.cubika-tab-content {
+    margin-top: 0;
+}
+
