@@ -42,10 +42,19 @@ export async function renderConstructionEmpresas() {
 
     content.innerHTML = `
 
+
         <div class="page-header">
-
-            <h1>Empresas</h1>
-
+        
+            <h1>
+                ${
+                    tipoEntidadActivo === "obra"
+                        ? "Obras"
+                        : tipoEntidadActivo === "constructora"
+                            ? "Constructoras"
+                            : "Empresas"
+                }
+            </h1>
+        
             <button
                 id="btnNuevaEmpresa"
                 class="btn-primary">
