@@ -39,10 +39,13 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
     const content =
         document.querySelector(".content");
+        
 
 
     content.innerHTML = `
 
+        padding:20px 10px;
+        
         <div class="page-header plantilla-editor-toolbar">
 
             <div>
