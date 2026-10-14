@@ -4338,7 +4338,7 @@ EDITOR DOCUMENTAL
 
 .cubika-tabs {
     gap: 4px;
-    margin-bottom: 0;
+    margin-bottom: 1px;
 }
 
 .cubika-tab {
@@ -4356,7 +4356,7 @@ EDITOR DOCUMENTAL
 /* El área de trabajo no agrega distancia superior */
 #trabajadoresTab .crud-workspace,
 #cargosTab .crud-workspace {
-    margin-top: 0;
+    margin-top: 1px;
     padding-top: 0;
 }
 
