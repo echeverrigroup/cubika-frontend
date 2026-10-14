@@ -4338,7 +4338,7 @@ EDITOR DOCUMENTAL
 
 .cubika-tabs {
     gap: 4px;
-    margin-bottom: 2px;
+    margin-bottom: 0;
 }
 
 .cubika-tab {
@@ -4352,14 +4352,6 @@ EDITOR DOCUMENTAL
     margin-bottom: 0;
 }
 
-/* Panel de contenido */
-#trabajadoresTab,
-#cargosTab {
-    margin-top: 0;
-    padding: 16px;
-
-    border-radius: 10px;
-}
 
 /* El área de trabajo no agrega distancia superior */
 #trabajadoresTab .crud-workspace,
@@ -4383,6 +4375,6 @@ EDITOR DOCUMENTAL
 
 
 /* Panel de contenido conectado visualmente a las pestañas */
-.cubika-tab-content {
+.content {
     margin-top: 0;
 }
