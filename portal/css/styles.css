@@ -4331,7 +4331,67 @@ EDITOR DOCUMENTAL
 }
 
 /* Panel de contenido conectado visualmente a las pestañas */
-.content {
+.cubika-tab-content {
     margin-top: 0;
+}
+
+
+
+
+/* =========================================================
+   PESTAÑAS CRUD — ESTILO WINDOWS
+   ========================================================= */
+
+.cubika-tabs {
+    gap: 4px;
+    margin-bottom: 0;
+}
+
+.cubika-tab {
+    border-radius: 8px 8px 0 0;
+    box-shadow: none;
+    position: relative;
+}
+
+.cubika-tab.active {
+    background: #fff;
+    color: #146C5B;
+    border: 1px solid #dfe5e9;
+    border-bottom-color: #fff;
+    box-shadow: none;
+    z-index: 2;
+    margin-bottom: -1px;
+}
+
+/* Panel conectado a las pestañas */
+#trabajadoresTab,
+#cargosTab {
+    margin-top: 0;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #dfe5e9;
+    border-radius: 0 10px 10px 10px;
+    position: relative;
+}
+
+/* El espacio del área de trabajo no debe separar
+   el panel de las pestañas */
+#trabajadoresTab .crud-workspace,
+#cargosTab .crud-workspace {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+    .cubika-tabs {
+        margin: 16px 0 0;
+        gap: 4px;
+    }
+
+    #trabajadoresTab,
+    #cargosTab {
+        padding: 12px;
+    }
 }
 
