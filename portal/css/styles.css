@@ -4261,12 +4261,10 @@ EDITOR DOCUMENTAL
     white-space: nowrap;
     padding: 8px 12px;
 }
- */
+ 
 
 
-
-
-/* Área de trabajo reutilizable para los CRUD */
+Área de trabajo reutilizable para los CRUD
 .crud-workspace {
     margin-top: 16px;
     padding-top: 16px;
@@ -4274,7 +4272,46 @@ EDITOR DOCUMENTAL
     box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
 }
 
-/* Evitar separación adicional antes de las pestañas */
+
+ Evitar separación adicional antes de las pestañas
 .crud-workspace #plantillasTabs {
     margin-top: 0;
+}
+ */
+
+
+
+/* =========================================================
+   CUBIKA — SISTEMA VISUAL GLOBAL PARA CRUD
+   ========================================================= */
+
+/* Superficie de trabajo situada debajo del encabezado */
+.crud-workspace {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-radius: 10px;
+
+    box-shadow:
+        0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+
+/* Separación de las pestañas al inicio del área */
+.crud-workspace .cubika-tabs {
+    margin-top: 0;
+}
+
+/* Transición visual superior de las tablas */
+.crud-workspace .cubika-table,
+.crud-workspace .table-responsive,
+.crud-workspace .crud-table-container {
+    border-radius: 10px;
+
+    box-shadow:
+        0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+
+/* Evita que el contenedor de tabla quede pegado
+   a los filtros */
+.crud-workspace .table-filters {
+    margin-bottom: 20px;
 }
