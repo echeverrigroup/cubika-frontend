@@ -4315,3 +4315,13 @@ EDITOR DOCUMENTAL
 .crud-workspace .table-filters {
     margin-bottom: 20px;
 }
+
+
+
+/* Sombra superior de la tabla dentro de los CRUD */
+.crud-workspace .crud-table-shadow {
+    margin-top: 24px;
+    border-radius: 10px;
+    box-shadow: 0 -5px 14px rgba(20, 40, 55, 0.045);
+}
+
