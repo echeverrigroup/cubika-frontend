@@ -232,7 +232,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                         </h2>
 
 
-            <div class="form-grid">
+
 
         <div class="form-grid plantilla-fila">
                            
