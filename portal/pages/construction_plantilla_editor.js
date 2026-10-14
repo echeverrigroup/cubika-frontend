@@ -232,9 +232,9 @@ export async function renderConstructionPlantillaEditor(id = null) {
                         </h2>
 
 
-                        <div class="form-grid">
+            <div class="form-grid">
 
-
+        <div class="form-grid plantilla-fila">
                            
             <div class="form-group" style="grid-column:1/-1;">
             
@@ -287,8 +287,12 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </select>
             </div>
             
+        </div>
+
+
+        <div class="form-grid plantilla-fila">
             
-        <div class="form-group">
+            <div class="form-group">
         
             <label>Constructoras autorizadas</label>
         
@@ -371,7 +375,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
         
                 </div>
             </div>
-        
+         </div>
         </div>
 
 
