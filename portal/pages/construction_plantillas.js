@@ -45,9 +45,7 @@ export async function renderConstructionPlantillas() {
 
 
         
-        <div class="crud-workspace">
-        
-            <div class="cubika-tabs" id="plantillasTabs">
+       <div class="cubika-tabs" id="plantillasTabs">
         
                 <button
                     type="button"
@@ -85,8 +83,11 @@ export async function renderConstructionPlantillas() {
                 </button>
         
             </div>
-        
-            <div class="table-filters">
+            
+
+            <div class="crud-workspace">
+            
+                <div class="table-filters">
         
                 <input
                     id="buscarPlantilla"
@@ -96,7 +97,7 @@ export async function renderConstructionPlantillas() {
         
             </div>
         
-            <div id="plantillasTable">
+            <div id="plantillasTable" class="crud-table-shadow">
                 Cargando...
             </div>
         
