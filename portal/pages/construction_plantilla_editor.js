@@ -43,14 +43,31 @@ export async function renderConstructionPlantillaEditor(id = null) {
     }
 
 
+    
+        const [
+            constructoras,
+            cargos,
+            constructorasSeleccionadas,
+            cargosSeleccionados
+        ] = await Promise.all([
+            constructorasService.getAll(),
+            cargosService.getAll(),
+            id
+                ? plantillasDocumentoService.getConstructorasIds(id)
+                : Promise.resolve([]),
+            id
+                ? plantillasDocumentoService.getCargosIds(id)
+                : Promise.resolve([])
+        ]);
+
+
+
     const content =
         document.querySelector(".content");
         
 
 
     content.innerHTML = `
-
-        padding:20px 10px;
         
         <div class="page-header plantilla-editor-toolbar">
 
@@ -134,94 +151,112 @@ export async function renderConstructionPlantillaEditor(id = null) {
                         <div class="form-grid">
 
 
-                            <div class="form-group">
+                           
+            <div class="form-group" style="grid-column:1/-1;">
+            
+                <label style="margin-top:15px;">
+                    Nombre
+                </label>
+            
+                <input
+                    id="nombre"
+                    class="cubika-input"
+                    type="text"
+                    value="${plantilla?.nombre ?? ""}">
+            </div>
+            
+            <div class="form-group">
+            
+                <label style="margin-top:10px;">
+                    Tipo Documento
+                </label>
+            
+                <select
+                    id="tipo_documento"
+                    class="cubika-select">
+            
+                    <option value="CONTRATO"
+                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CONTRATO" ? "selected" : ""}>
+                        CONTRATO
+                    </option>
+            
+                    <option value="ANEXO"
+                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "ANEXO" ? "selected" : ""}>
+                        ANEXO
+                    </option>
+            
+                    <option value="COMPLEMENTO"
+                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "COMPLEMENTO" ? "selected" : ""}>
+                        COMPLEMENTO
+                    </option>
+            
+                    <option value="FINIQUITO"
+                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "FINIQUITO" ? "selected" : ""}>
+                        FINIQUITO
+                    </option>
+            
+                    <option value="CERTIFICADO"
+                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CERTIFICADO" ? "selected" : ""}>
+                        CERTIFICADO
+                    </option>
+            
+                </select>
+            </div>
+            
+            <div class="form-group">
+            
+                <label style="margin-top:10px;">
+                    Constructoras autorizadas
+                </label>
+            
+                <select
+                    id="constructoras_plantilla"
+                    class="cubika-select"
+                    multiple
+                    size="4">
+            
+                    ${constructoras.map(constructora => `
+                        <option
+                            value="${constructora.id}"
+                            ${constructorasSeleccionadas.includes(constructora.id) ? "selected" : ""}>
+                            ${constructora.nombre}
+                        </option>
+                    `).join("")}
+            
+                </select>
+            
+                <small>
+                    Sin selección: todas las constructoras.
+                </small>
+            </div>
+            
+            <div class="form-group">
+            
+                <label style="margin-top:10px;">
+                    Cargos autorizados
+                </label>
+            
+                <select
+                    id="cargos_plantilla"
+                    class="cubika-select"
+                    multiple
+                    size="4">
+            
+                    ${cargos.map(cargo => `
+                        <option
+                            value="${cargo.id}"
+                            ${cargosSeleccionados.includes(cargo.id) ? "selected" : ""}>
+                            ${cargo.nombre}
+                        </option>
+                    `).join("")}
+            
+                </select>
+            
+                <small>
+                    Sin selección: todos los cargos.
+                </small>
+            </div>
 
-                                <label style="margin-top:15px;">
-
-                                    Nombre
-
-                                </label>
-
-                                <input
-
-                                    id="nombre"
-
-                                    class="cubika-input"
-
-                                    type="text"
-
-                                    value="${plantilla?.nombre ?? ""}">
-
-                            </div>
-
-
-
-                            <div class="form-group">
-
-                                <label style="margin-top:10px;">
-
-                                    Tipo Documento
-
-                                </label>
-
-                                <select
-
-                                    id="tipo_documento"
-
-                                    class="cubika-select">
-
-                                    <option
-                                        value="CONTRATO"
-                                        ${plantilla?.tipo_documento === "CONTRATO"
-                                            ? "selected"
-                                            : ""}>
-                                    
-                                        CONTRATO
-                                    
-                                    </option>
-                                    
-                                    <option
-                                        value="ANEXO"
-                                        ${plantilla?.tipo_documento === "ANEXO"
-                                            ? "selected"
-                                            : ""}>
-                                    
-                                        ANEXO
-                                    
-                                    </option>
-                                    
-                                    <option
-                                        value="COMPLEMENTO"
-                                        ${plantilla?.tipo_documento === "COMPLEMENTO"
-                                            ? "selected"
-                                            : ""}>
-                                    
-                                        COMPLEMENTO
-                                    
-                                    </option>
-                                    
-                                    <option
-                                        value="FINIQUITO"
-                                        ${plantilla?.tipo_documento === "FINIQUITO"
-                                            ? "selected"
-                                            : ""}>
-                                    
-                                        FINIQUITO
-                                    
-                                    </option>
-                                    
-                                    <option
-                                        value="CERTIFICADO"
-                                        ${plantilla?.tipo_documento === "CERTIFICADO"
-                                            ? "selected"
-                                            : ""}>
-                                    
-                                        CERTIFICADO
-                                    
-                                    </option>
-                                </select>
-
-                            </div>
 
 
 
@@ -614,6 +649,19 @@ async function guardarPlantilla(id = null) {
     }
 
 
+    
+    const constructoraIds = Array.from(
+        document.getElementById("constructoras_plantilla").selectedOptions,
+        option => option.value
+    );
+    
+    const cargoIds = Array.from(
+        document.getElementById("cargos_plantilla").selectedOptions,
+        option => option.value
+    );
+
+
+
     const datos = {
 
         nombre,
@@ -627,51 +675,52 @@ async function guardarPlantilla(id = null) {
     };
 
 
-    try {
-
-        if (id) {
-
-            datos.updated_at =
-                new Date().toISOString();
-
-            await plantillasDocumentoService.update(
-                id,
-                datos
+    
+        try {
+        
+            let plantillaGuardada;
+        
+            if (id) {
+        
+                datos.updated_at = new Date().toISOString();
+        
+                plantillaGuardada = await plantillasDocumentoService.update(
+                    id,
+                    datos
+                );
+        
+            } else {
+        
+                datos.version = 1;
+                datos.estado = "Activo";
+        
+                plantillaGuardada = await plantillasDocumentoService.create(
+                    datos
+                );
+        
+            }
+        
+            await plantillasDocumentoService.guardarAsociaciones(
+                plantillaGuardada.id,
+                constructoraIds,
+                cargoIds
             );
-
+        
+            navigate("construction_plantillas");
+        
+            return true;
+        
+        } catch (error) {
+        
+            console.error(error);
+        
+            mostrarErrorEditor(
+                "No fue posible guardar la plantilla y sus asociaciones."
+            );
+        
+            return false;
+        
         }
 
-        else {
-
-            datos.version = 1;
-
-            datos.estado = "Activo";
-
-            await plantillasDocumentoService.create(
-                datos
-            );
-
-        }
-
-
-        navigate(
-            "construction_plantillas"
-        );
-
-        return true;
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        mostrarErrorEditor(
-            "No fue posible guardar la plantilla."
-        );
-
-        return false;
-
-    }
 
 }
