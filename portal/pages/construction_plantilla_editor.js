@@ -31,8 +31,92 @@ from "../router.js";
 
 
 
+
+function inicializarSelectorConChecks({
+    containerId,
+    buttonId,
+    panelId,
+    allId,
+    optionClass,
+    allLabel
+}) {
+    const container = document.getElementById(containerId);
+    const button = document.getElementById(buttonId);
+    const panel = document.getElementById(panelId);
+    const checkboxTodos = document.getElementById(allId);
+
+    if (!container || !button || !panel || !checkboxTodos) return;
+
+    const opciones = Array.from(
+        panel.querySelectorAll(`.${optionClass}`)
+    );
+
+    function actualizarResumen() {
+        const seleccionadas = opciones.filter(opcion => opcion.checked);
+
+        if (seleccionadas.length === 0) {
+            checkboxTodos.checked = true;
+            button.innerHTML = `${allLabel} <span>▾</span>`;
+        } else {
+            checkboxTodos.checked = false;
+            button.innerHTML =
+                `${seleccionadas.length} seleccionada(s) <span>▾</span>`;
+        }
+    }
+
+    button.addEventListener("click", () => {
+        const abrir = panel.hidden;
+
+        // Cerrar los otros selectores personalizados del editor.
+        document.querySelectorAll(".cubika-multi-panel").forEach(otro => {
+            if (otro !== panel) otro.hidden = true;
+        });
+
+        document.querySelectorAll(".cubika-multi-trigger").forEach(otro => {
+            if (otro !== button) otro.setAttribute("aria-expanded", "false");
+        });
+
+        panel.hidden = !abrir;
+        button.setAttribute("aria-expanded", String(abrir));
+    });
+
+    checkboxTodos.addEventListener("change", () => {
+        if (checkboxTodos.checked) {
+            opciones.forEach(opcion => {
+                opcion.checked = false;
+            });
+        } else if (!opciones.some(opcion => opcion.checked)) {
+            checkboxTodos.checked = true;
+        }
+
+        actualizarResumen();
+    });
+
+    opciones.forEach(opcion => {
+        opcion.addEventListener("change", () => {
+            const haySeleccionadas = opciones.some(item => item.checked);
+
+            checkboxTodos.checked = !haySeleccionadas;
+            actualizarResumen();
+        });
+    });
+
+    // Cerrar al hacer clic fuera del selector.
+    container.addEventListener("focusout", event => {
+        if (!container.contains(event.relatedTarget)) {
+            panel.hidden = true;
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+
+    actualizarResumen();
+}
+
+
+
 export async function renderConstructionPlantillaEditor(id = null) {
 
+    
     let plantilla = null;
 
     if (id) {
@@ -203,59 +287,92 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </select>
             </div>
             
-            <div class="form-group">
             
-                <label style="margin-top:10px;">
-                    Constructoras autorizadas
-                </label>
-            
-                <select
-                    id="constructoras_plantilla"
-                    class="cubika-select"
-                    multiple
-                    size="4">
-            
+        <div class="form-group">
+        
+            <label>Constructoras autorizadas</label>
+        
+            <div class="cubika-multi-dropdown" id="selectorConstructoras">
+        
+                <button
+                    type="button"
+                    class="cubika-select cubika-multi-trigger"
+                    id="btnConstructoras"
+                    aria-expanded="false">
+                    Todas las constructoras
+                    <span>▾</span>
+                </button>
+        
+                <div class="cubika-multi-panel" id="panelConstructoras" hidden>
+        
+                    <label class="cubika-multi-option">
+                        <input
+                            type="checkbox"
+                            id="todasConstructoras"
+                            ${constructorasSeleccionadas.length === 0 ? "checked" : ""}>
+                        <span>Todas las constructoras</span>
+                    </label>
+        
+                    <div class="cubika-multi-divider"></div>
+        
                     ${constructoras.map(constructora => `
-                        <option
-                            value="${constructora.id}"
-                            ${constructorasSeleccionadas.includes(constructora.id) ? "selected" : ""}>
-                            ${constructora.nombre}
-                        </option>
+                        <label class="cubika-multi-option">
+                            <input
+                                type="checkbox"
+                                class="opcion-constructora"
+                                value="${constructora.id}"
+                                ${constructorasSeleccionadas.includes(constructora.id) ? "checked" : ""}>
+                            <span>${constructora.nombre}</span>
+                        </label>
                     `).join("")}
-            
-                </select>
-            
-                <small>
-                    Sin selección: todas las constructoras.
-                </small>
+        
+                </div>
             </div>
-            
-            <div class="form-group">
-            
-                <label style="margin-top:10px;">
-                    Cargos autorizados
-                </label>
-            
-                <select
-                    id="cargos_plantilla"
-                    class="cubika-select"
-                    multiple
-                    size="4">
-            
+        
+        </div>
+        
+        <div class="form-group">
+        
+            <label>Cargos autorizados</label>
+        
+            <div class="cubika-multi-dropdown" id="selectorCargos">
+        
+                <button
+                    type="button"
+                    class="cubika-select cubika-multi-trigger"
+                    id="btnCargos"
+                    aria-expanded="false">
+                    Todos los cargos
+                    <span>▾</span>
+                </button>
+        
+                <div class="cubika-multi-panel" id="panelCargos" hidden>
+        
+                    <label class="cubika-multi-option">
+                        <input
+                            type="checkbox"
+                            id="todosCargos"
+                            ${cargosSeleccionados.length === 0 ? "checked" : ""}>
+                        <span>Todos los cargos</span>
+                    </label>
+        
+                    <div class="cubika-multi-divider"></div>
+        
                     ${cargos.map(cargo => `
-                        <option
-                            value="${cargo.id}"
-                            ${cargosSeleccionados.includes(cargo.id) ? "selected" : ""}>
-                            ${cargo.nombre}
-                        </option>
+                        <label class="cubika-multi-option">
+                            <input
+                                type="checkbox"
+                                class="opcion-cargo"
+                                value="${cargo.id}"
+                                ${cargosSeleccionados.includes(cargo.id) ? "checked" : ""}>
+                            <span>${cargo.nombre}</span>
+                        </label>
                     `).join("")}
-            
-                </select>
-            
-                <small>
-                    Sin selección: todos los cargos.
-                </small>
+        
+                </div>
             </div>
+        
+        </div>
 
 
 
@@ -347,6 +464,25 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
     inicializarVariables();
 
+
+    inicializarSelectorConChecks({
+        containerId: "selectorConstructoras",
+        buttonId: "btnConstructoras",
+        panelId: "panelConstructoras",
+        allId: "todasConstructoras",
+        optionClass: "opcion-constructora",
+        allLabel: "Todas las constructoras"
+    });
+    
+    inicializarSelectorConChecks({
+        containerId: "selectorCargos",
+        buttonId: "btnCargos",
+        panelId: "panelCargos",
+        allId: "todosCargos",
+        optionClass: "opcion-cargo",
+        allLabel: "Todos los cargos"
+    });
+    
 
     document
 
