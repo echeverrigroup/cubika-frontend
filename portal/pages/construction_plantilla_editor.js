@@ -129,7 +129,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                             <div class="form-group">
 
-                                <label>
+                                <label style="margin-top:15px;">
 
                                     Nombre
 
