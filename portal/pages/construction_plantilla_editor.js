@@ -116,7 +116,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                     <div class="editor-section">
 
-                        <h2>
+                        <h2 style="margin-top:10px;">
                             Datos Generales
 
                         </h2>
