@@ -1054,8 +1054,6 @@ EDITOR DOCUMENTAL
 
     width:100%;
 
-    margin-bottom: 5px;
-
 }
 
 
@@ -1098,7 +1096,7 @@ EDITOR DOCUMENTAL
 
     border-radius:10px;
 
-    padding:20px;
+    padding:20px 15px;
 
     max-height:calc(100vh - 120px);
 
