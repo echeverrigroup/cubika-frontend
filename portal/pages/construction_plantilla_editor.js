@@ -257,6 +257,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                             id="contenido"
                             class="cubika-input"
                             style="
+                                margin-top:10px;
                                 min-height:650px;
                                 resize:vertical;
                                 font-family:Consolas, monospace;
