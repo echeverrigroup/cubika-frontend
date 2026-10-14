@@ -4519,3 +4519,20 @@ EDITOR DOCUMENTAL
 }
 
 
+/* Editor de plantillas: dos columnas en las primeras dos filas */
+.plantilla-fila {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.plantilla-fila > .form-group {
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .plantilla-fila {
+        grid-template-columns: 1fr;
+    }
+}
