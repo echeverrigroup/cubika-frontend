@@ -4418,3 +4418,10 @@ EDITOR DOCUMENTAL
         margin-top: 18px;
     }
 }
+
+
+/* Pestañas conectadas visualmente al área de trabajo */
+
+.cubika-tabs + .crud-workspace {
+    margin-top: 1px;
+}
