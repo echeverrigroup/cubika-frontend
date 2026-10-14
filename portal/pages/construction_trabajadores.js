@@ -112,28 +112,31 @@ console.log("TIPOS DOCUMENTO:", testGlobal);
         </div>
 
 
+
         <div
             id="trabajadoresTab"
             class="cubika-tab-content">
-
-
-            <div class="table-filters">
-
-                <input
-                    id="buscarTrabajador"
-                    class="cubika-input"
-                    type="text"
-                    placeholder="Buscar trabajador...">
-
+        
+            <div class="crud-workspace">
+        
+                <div class="table-filters">
+                    <input
+                        id="buscarTrabajador"
+                        class="cubika-input"
+                        type="text"
+                        placeholder="Buscar trabajador...">
+                </div>
+        
+                <div
+                    id="trabajadoresTable"
+                    class="crud-table-shadow">
+        
+                    Cargando...
+        
+                </div>
+        
             </div>
-
-
-            <div id="trabajadoresTable">
-
-                Cargando...
-
-            </div>
-
+        
         </div>
 
 
