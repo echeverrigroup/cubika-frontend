@@ -31,8 +31,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 18px;
-    margin: 24px 0 0;
-    margin-bottom: 1px;
+
 }
 
 .cubika-tab {
@@ -1933,7 +1932,7 @@ EDITOR DOCUMENTAL
         margin: 16px 0;
 
         overflow-x: auto;
-        padding-bottom: 3px;
+        padding-bottom: 1px;
 
         -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
