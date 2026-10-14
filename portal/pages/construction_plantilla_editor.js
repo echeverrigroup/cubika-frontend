@@ -786,15 +786,21 @@ async function guardarPlantilla(id = null) {
 
 
     
+    
     const constructoraIds = Array.from(
-        document.getElementById("constructoras_plantilla").selectedOptions,
-        option => option.value
+        document.querySelectorAll(
+            "#panelConstructoras .opcion-constructora:checked"
+        ),
+        opcion => opcion.value
     );
     
     const cargoIds = Array.from(
-        document.getElementById("cargos_plantilla").selectedOptions,
-        option => option.value
+        document.querySelectorAll(
+            "#panelCargos .opcion-cargo:checked"
+        ),
+        opcion => opcion.value
     );
+
 
 
 
@@ -836,11 +842,13 @@ async function guardarPlantilla(id = null) {
         
             }
         
+            
             await plantillasDocumentoService.guardarAsociaciones(
                 plantillaGuardada.id,
                 constructoraIds,
                 cargoIds
             );
+
         
             navigate("construction_plantillas");
         
