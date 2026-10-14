@@ -223,216 +223,225 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                 <div class="editor-main">
 
+ <div class="editor-section">
 
-                    <div class="editor-section">
+    <h2 style="margin-top:10px;">
+        Datos Generales
+    </h2>
 
-                        <h2 style="margin-top:10px;">
-                            Datos Generales
+    <!-- FILA 1: Nombre y Tipo de Plantilla -->
+    <div class="form-grid plantilla-fila">
 
-                        </h2>
+        <div class="form-group">
+            <label style="margin-top:15px;">
+                Nombre
+            </label>
 
-
-
-
-        <div class="form-grid plantilla-fila">
-                           
-            <div class="form-group">
-            
-                <label style="margin-top:15px;">
-                    Nombre
-                </label>
-            
-                <input
-                    id="nombre"
-                    class="cubika-input"
-                    type="text"
-                    value="${plantilla?.nombre ?? ""}">
-            </div>
-            
-            <div class="form-group">
-            
-                <label style="margin-top:10px;">
-                    Tipo Documento
-                </label>
-            
-                <select
-                    id="tipo_documento"
-                    class="cubika-select">
-            
-                    <option value="CONTRATO"
-                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CONTRATO" ? "selected" : ""}>
-                        CONTRATO
-                    </option>
-            
-                    <option value="ANEXO"
-                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "ANEXO" ? "selected" : ""}>
-                        ANEXO
-                    </option>
-            
-                    <option value="COMPLEMENTO"
-                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "COMPLEMENTO" ? "selected" : ""}>
-                        COMPLEMENTO
-                    </option>
-            
-                    <option value="FINIQUITO"
-                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "FINIQUITO" ? "selected" : ""}>
-                        FINIQUITO
-                    </option>
-            
-                    <option value="CERTIFICADO"
-                        ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CERTIFICADO" ? "selected" : ""}>
-                        CERTIFICADO
-                    </option>
-            
-                </select>
-            </div>
-            
+            <input
+                id="nombre"
+                class="cubika-input"
+                type="text"
+                value="${plantilla?.nombre ?? ""}">
         </div>
 
+        <div class="form-group">
+            <label style="margin-top:10px;">
+                Tipo Documento
+            </label>
 
-        <div class="form-grid plantilla-fila">
-            
-            <div class="form-group">
-        
+            <select
+                id="tipo_documento"
+                class="cubika-select">
+
+                <option value="CONTRATO"
+                    ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CONTRATO" ? "selected" : ""}>
+                    CONTRATO
+                </option>
+
+                <option value="ANEXO"
+                    ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "ANEXO" ? "selected" : ""}>
+                    ANEXO
+                </option>
+
+                <option value="COMPLEMENTO"
+                    ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "COMPLEMENTO" ? "selected" : ""}>
+                    COMPLEMENTO
+                </option>
+
+                <option value="FINIQUITO"
+                    ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "FINIQUITO" ? "selected" : ""}>
+                    FINIQUITO
+                </option>
+
+                <option value="CERTIFICADO"
+                    ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CERTIFICADO" ? "selected" : ""}>
+                    CERTIFICADO
+                </option>
+
+            </select>
+        </div>
+
+    </div>
+
+    <!-- FILA 2: Constructoras y Cargos -->
+    <div class="form-grid plantilla-fila">
+
+        <div class="form-group">
+
             <label>Constructoras autorizadas</label>
-        
-            <div class="cubika-multi-dropdown" id="selectorConstructoras">
-        
+
+            <div
+                class="cubika-multi-dropdown"
+                id="selectorConstructoras">
+
                 <button
                     type="button"
                     class="cubika-select cubika-multi-trigger"
                     id="btnConstructoras"
                     aria-expanded="false">
+
                     Todas las constructoras
                     <span>▾</span>
+
                 </button>
-        
-                <div class="cubika-multi-panel" id="panelConstructoras" hidden>
-        
+
+                <div
+                    class="cubika-multi-panel"
+                    id="panelConstructoras"
+                    hidden>
+
                     <label class="cubika-multi-option">
+
                         <input
                             type="checkbox"
                             id="todasConstructoras"
                             ${constructorasSeleccionadas.length === 0 ? "checked" : ""}>
+
                         <span>Todas las constructoras</span>
+
                     </label>
-        
+
                     <div class="cubika-multi-divider"></div>
-        
+
                     ${constructoras.map(constructora => `
                         <label class="cubika-multi-option">
+
                             <input
                                 type="checkbox"
                                 class="opcion-constructora"
                                 value="${constructora.id}"
                                 ${constructorasSeleccionadas.includes(constructora.id) ? "checked" : ""}>
+
                             <span>${constructora.nombre}</span>
+
                         </label>
                     `).join("")}
-        
+
                 </div>
+
             </div>
-        
+
         </div>
-        
+
         <div class="form-group">
-        
+
             <label>Cargos autorizados</label>
-        
-            <div class="cubika-multi-dropdown" id="selectorCargos">
-        
+
+            <div
+                class="cubika-multi-dropdown"
+                id="selectorCargos">
+
                 <button
                     type="button"
                     class="cubika-select cubika-multi-trigger"
                     id="btnCargos"
                     aria-expanded="false">
+
                     Todos los cargos
                     <span>▾</span>
+
                 </button>
-        
-                <div class="cubika-multi-panel" id="panelCargos" hidden>
-        
+
+                <div
+                    class="cubika-multi-panel"
+                    id="panelCargos"
+                    hidden>
+
                     <label class="cubika-multi-option">
+
                         <input
                             type="checkbox"
                             id="todosCargos"
                             ${cargosSeleccionados.length === 0 ? "checked" : ""}>
+
                         <span>Todos los cargos</span>
+
                     </label>
-        
+
                     <div class="cubika-multi-divider"></div>
-        
+
                     ${cargos.map(cargo => `
                         <label class="cubika-multi-option">
+
                             <input
                                 type="checkbox"
                                 class="opcion-cargo"
                                 value="${cargo.id}"
                                 ${cargosSeleccionados.includes(cargo.id) ? "checked" : ""}>
+
                             <span>${cargo.nombre}</span>
+
                         </label>
                     `).join("")}
-        
+
                 </div>
+
             </div>
-         </div>
-         
 
+        </div>
 
+    </div>
 
-                            <div
-                                class="form-group"
-                                style="grid-column:1/-1;">
+    <!-- DESCRIPCIÓN: ancho completo -->
+    <div class="form-group" style="margin-top:16px;">
 
-                                <label style="margin-top:10px;">
+        <label style="margin-top:10px;">
+            Descripción
+        </label>
 
-                                    Descripción
+        <input
+            id="descripcion"
+            class="cubika-input"
+            type="text"
+            value="${plantilla?.descripcion ?? ""}">
 
-                                </label>
+    </div>
 
-                                <input
+</div>
 
-                                    id="descripcion"
+<!-- CONTENIDO: permanece dentro de editor-main -->
+<div class="editor-section">
 
-                                    class="cubika-input"
+    <h2>
+        Contenido
+    </h2>
 
-                                    type="text"
+    <textarea
+        id="contenido"
+        class="cubika-input"
+        style="
+            margin-top:10px;
+            min-height:650px;
+            resize:vertical;
+            font-family:Consolas, monospace;
+            line-height:1.6;
+        "
+    >${plantilla?.contenido ?? ""}</textarea>
 
-                                    value="${plantilla?.descripcion ?? ""}">
+</div>
 
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                
-
-                    <div class="editor-section">
-
-                        <h2>
-                            Contenido
-                        </h2>
-
-
-                        <textarea
-                            id="contenido"
-                            class="cubika-input"
-                            style="
-                                margin-top:10px;
-                                min-height:650px;
-                                resize:vertical;
-                                font-family:Consolas, monospace;
-                                line-height:1.6;
-                           "
-
-                        >${plantilla?.contenido ?? ""}</textarea>
-
-                    </div>
-
-                </div>
+</div>
+  
 
 
                 <!-- ====================================== -->
