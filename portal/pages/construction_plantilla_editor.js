@@ -376,8 +376,6 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 </div>
             </div>
          </div>
-        </div>
-
 
 
 
