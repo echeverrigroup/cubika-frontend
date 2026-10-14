@@ -151,7 +151,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
                             <div class="form-group">
 
-                                <label>
+                                <label style="margin-top:10px;">
 
                                     Tipo Documento
 
@@ -222,7 +222,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                                 class="form-group"
                                 style="grid-column:1/-1;">
 
-                                <label>
+                                <label style="margin-top:10px;">
 
                                     Descripción
 
