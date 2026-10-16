@@ -400,7 +400,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
     <!-- DESCRIPCIÓN: ancho completo -->
     <div class="form-group" style="margin-top:16px;">
 
-        <label style="margin-top:10px;">
+        <label>
             Descripción
         </label>
 
