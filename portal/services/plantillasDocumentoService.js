@@ -126,6 +126,30 @@ export const plantillasDocumentoService = {
     
         return data.map(item => item.cargo_id);
     },
+
+
+    
+    async getTodasLasAsociacionesConstructoras() {
+        const { data, error } = await supabase
+            .from("plantilla_constructoras")
+            .select("plantilla_id, constructora_id");
+
+        if (error) throw error;
+
+        return data;
+    },
+
+    async getTodasLasAsociacionesCargos() {
+        const { data, error } = await supabase
+            .from("plantilla_cargos")
+            .select("plantilla_id, cargo_id");
+
+        if (error) throw error;
+
+        return data;
+    },
+
+    
     
     async guardarAsociaciones(plantillaId, constructoraIds = [], cargoIds = []) {
         // Normalizar selecciones y evitar duplicados.
