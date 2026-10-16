@@ -253,6 +253,11 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 id="tipo_documento"
                 class="cubika-select">
 
+                <option value="" disabled
+                    ${!plantilla?.tipo_documento ? "selected" : ""}>
+                    Seleccionar tipo de plantilla
+                </option>
+
                 <option value="CONTRATO"
                     ${String(plantilla?.tipo_documento ?? "").toUpperCase() === "CONTRATO" ? "selected" : ""}>
                     CONTRATO
@@ -774,6 +779,14 @@ async function guardarPlantilla(id = null) {
     
         return false;
     
+    }
+
+
+    if (!tipo_documento) {
+        mostrarErrorEditor(
+            "Debe seleccionar el tipo de plantilla."
+        );
+        return false;
     }
 
     
