@@ -4458,7 +4458,7 @@ EDITOR DOCUMENTAL
     justify-content: space-between;
     gap: 12px;
     width: 100%;
-    min-height: 42px;
+    min-height: 38px;
     text-align: left;
     cursor: pointer;
 }
