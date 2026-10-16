@@ -4540,7 +4540,14 @@ EDITOR DOCUMENTAL
 
 /* Sombreado exterior para los contenedores del CRUD de Contratos */
 .contratos-card {
-    margin: 5px 5px 5px 5px;
+    margin: 8px 8px 8px 8px;
     border-radius: 10px;
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Sombreado exterior del editor de contratos */
+.contrato-editor-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
