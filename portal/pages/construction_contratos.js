@@ -58,9 +58,8 @@ export function renderConstructionContratos() {
              </div>
 
 
-       <div class="card">        
-        
-            <details class="cubika-filters-panel">
+       <div class="card contratos-card">
+        <details class="cubika-filters-panel">
 
    <summary class="cubika-filters-header">
 
@@ -461,8 +460,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
     tabla.innerHTML = `
 
-        <div class="card">
-
+        <div class="card contratos-card">
+        
             <div class="table-container contratos-table-scroll">
 
                 <table class="cubika-table">
