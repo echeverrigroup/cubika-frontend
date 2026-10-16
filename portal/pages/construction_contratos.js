@@ -478,7 +478,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Trabajador</th>
 
-                            <th>Tipo documento</th>
+
 
                             <th>Cargo</th>
 
@@ -486,11 +486,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
                             <th>Fecha inicio</th>
 
-                            <th>Fecha fin</th>
 
-                            <th>Causal fin</th>
-
-                            <th>Sueldo base</th>
 
                             <th>Constructora</th>
 
@@ -557,10 +553,7 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                         <td>
                                             ${trabajador}
                                         </td>
-
-                                        <td>
-                                            Contrato
-                                        </td>
+                                        
 
                                          <td>
                                             ${contrato.cargo?.nombre ?? "-"}
@@ -577,21 +570,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
                                             )}
                                         </td>
 
-                                        <td>
-                                            ${formatearFecha(
-                                                contrato.fecha_termino
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${contrato.causal_termino ?? "-"}
-                                        </td>
-
-                                        <td>
-                                            ${formatearSueldo(
-                                                contrato.sueldo
-                                            )}
-                                        </td>
 
                                         <td>
                                             ${contrato.obra?.constructora?.nombre ?? "-"}
