@@ -402,7 +402,7 @@ function renderPaso1() {
 
     return ` 
 
-        <div class="editor-section">
+        <div class="editor-section editor-section-card">
 
             <div class="form-grid-3">
 
@@ -544,7 +544,7 @@ function renderPaso2() {
 
     return `
 
-        <div class="editor-section">
+        <div class="editor-section editor-section-card">
 
             <div class="form-grid-3">
 
@@ -761,7 +761,7 @@ function renderPaso3() {
 
     return `
 
-        <div class="editor-section">
+        <div class="editor-section editor-section-card">
 
             <div
                 id="previewContrato"
