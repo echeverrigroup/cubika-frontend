@@ -4562,3 +4562,29 @@ EDITOR DOCUMENTAL
     border-radius: 10px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
+
+
+
+/* Barra horizontal superior del CRUD de contratos */
+.contratos-scroll-superior {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 16px;
+    margin-bottom: 4px;
+}
+
+.contratos-scroll-superior-interior {
+    height: 1px;
+}
+
+/* Mantener sincronizado el desplazamiento de la tabla */
+.contratos-table-scroll {
+    width: 100%;
+    max-height: calc(100vh - 280px);
+    overflow-x: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: relative;
+}
+
