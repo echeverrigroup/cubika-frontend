@@ -3,6 +3,8 @@ import puppeteer from "puppeteer-core";
 
 const ALLOWED_ORIGIN = "https://cubika.cl";
 
+
+
 export default async function handler(req, res) {
 
     res.setHeader(
