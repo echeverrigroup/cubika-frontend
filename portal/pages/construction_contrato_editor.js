@@ -1489,6 +1489,7 @@ async function cargarPaso2() {
             .getAll();
     
 
+        
     
     const plantillas =
         await plantillasDocumentoService.getAll();
@@ -1496,46 +1497,81 @@ async function cargarPaso2() {
     const constructoraId = contratoActual.constructora_id;
     const cargoId = contratoActual.cargo_id;
     
-    const plantillasContratoBase = plantillas.filter(plantilla =>
-        String(plantilla.tipo_documento ?? "")
+    // Cargar todas las asociaciones en solo dos consultas.
+    const [
+        asociacionesConstructoras,
+        asociacionesCargos
+    ] = await Promise.all([
+        plantillasDocumentoService
+            .getTodasLasAsociacionesConstructoras(),
+    
+        plantillasDocumentoService
+            .getTodasLasAsociacionesCargos()
+    ]);
+    
+    // Indexar asociaciones por plantilla para consultar en memoria.
+    const constructorasPorPlantilla = new Map();
+    const cargosPorPlantilla = new Map();
+    
+    for (const asociacion of asociacionesConstructoras) {
+        if (!constructorasPorPlantilla.has(asociacion.plantilla_id)) {
+            constructorasPorPlantilla.set(
+                asociacion.plantilla_id,
+                new Set()
+            );
+        }
+    
+        constructorasPorPlantilla
+            .get(asociacion.plantilla_id)
+            .add(String(asociacion.constructora_id));
+    }
+    
+    for (const asociacion of asociacionesCargos) {
+        if (!cargosPorPlantilla.has(asociacion.plantilla_id)) {
+            cargosPorPlantilla.set(
+                asociacion.plantilla_id,
+                new Set()
+            );
+        }
+    
+        cargosPorPlantilla
+            .get(asociacion.plantilla_id)
+            .add(String(asociacion.cargo_id));
+    }
+    
+    // Filtrar las plantillas según tipo, estado y permisos.
+    const plantillasContrato = plantillas.filter(plantilla => {
+        const tipo = String(plantilla.tipo_documento ?? "")
             .trim()
-            .toUpperCase() === "CONTRATO"
-        &&
-        String(plantilla.estado ?? "")
+            .toUpperCase();
+    
+        const estado = String(plantilla.estado ?? "")
             .trim()
-            .toUpperCase() === "ACTIVO"
-    );
+            .toUpperCase();
     
-    const plantillasContrato = (
-        await Promise.all(
-            plantillasContratoBase.map(async plantilla => {
-                const [constructorasIds, cargosIds] =
-                    await Promise.all([
-                        plantillasDocumentoService
-                            .getConstructorasIds(plantilla.id),
+        if (tipo !== "CONTRATO" || estado !== "ACTIVO") {
+            return false;
+        }
     
-                        plantillasDocumentoService
-                            .getCargosIds(plantilla.id)
-                    ]);
+        const constructorasPermitidas =
+            constructorasPorPlantilla.get(plantilla.id);
     
-                const constructoraAutorizada =
-                    constructorasIds.length === 0 ||
-                    constructorasIds.some(
-                        id => String(id) === String(constructoraId)
-                    );
+        const cargosPermitidos =
+            cargosPorPlantilla.get(plantilla.id);
     
-                const cargoAutorizado =
-                    cargosIds.length === 0 ||
-                    cargosIds.some(
-                        id => String(id) === String(cargoId)
-                    );
+        const constructoraAutorizada =
+            !constructorasPermitidas ||
+            constructorasPermitidas.size === 0 ||
+            constructorasPermitidas.has(String(constructoraId));
     
-                return constructoraAutorizada && cargoAutorizado
-                    ? plantilla
-                    : null;
-            })
-        )
-    ).filter(Boolean);
+        const cargoAutorizado =
+            !cargosPermitidos ||
+            cargosPermitidos.size === 0 ||
+            cargosPermitidos.has(String(cargoId));
+    
+        return constructoraAutorizada && cargoAutorizado;
+    });
+
 
 
     const tiposJornada =
