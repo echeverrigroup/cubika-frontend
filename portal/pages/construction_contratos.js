@@ -463,10 +463,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
         <div class="card contratos-card">
         
             
-    <div class="contratos-scroll-superior">
-            <div class="contratos-scroll-superior-interior"></div>
-        </div>
-        
         <div class="table-container contratos-table-scroll">
             <table class="cubika-table">
 
@@ -688,7 +684,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
     `;
 
-    configurarScrollSuperiorContratos();
     configurarAccionesContratos();
 
 }
@@ -744,39 +739,6 @@ function configurarAccionesContratos() {
         }
     );
 
-}
-
-
-
-
-function configurarScrollSuperiorContratos() {
-    const tabla = document.querySelector(
-        "#contratosTable .contratos-table-scroll"
-    );
-
-    const scrollSuperior = document.querySelector(
-        "#contratosTable .contratos-scroll-superior"
-    );
-
-    const interior = document.querySelector(
-        "#contratosTable .contratos-scroll-superior-interior"
-    );
-
-    const tablaContenido = tabla?.querySelector("table");
-
-    if (!tabla || !scrollSuperior || !interior || !tablaContenido) {
-        return;
-    }
-
-    interior.style.width = `${tablaContenido.scrollWidth}px`;
-
-    scrollSuperior.onscroll = () => {
-        tabla.scrollLeft = scrollSuperior.scrollLeft;
-    };
-
-    tabla.onscroll = () => {
-        scrollSuperior.scrollLeft = tabla.scrollLeft;
-    };
 }
 
 
