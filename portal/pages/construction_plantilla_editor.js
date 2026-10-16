@@ -233,7 +233,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
     <div class="form-grid plantilla-fila">
 
         <div class="form-group">
-            <label style="margin-top:15px;">
+            <label style="margin-top:10px;">
                 Nombre
             </label>
 
