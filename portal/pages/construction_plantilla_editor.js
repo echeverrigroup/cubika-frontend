@@ -292,8 +292,10 @@ export async function renderConstructionPlantillaEditor(id = null) {
     <div class="form-grid plantilla-fila">
 
         <div class="form-group">
-
-            <label>Constructoras autorizadas</label>
+            
+            <label style="margin-top:10px;">
+                Constructoras autorizadas
+            </label>
 
             <div
                 class="cubika-multi-dropdown"
@@ -349,7 +351,9 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
         <div class="form-group">
 
-            <label>Cargos autorizados</label>
+            <label style="margin-top:10px;">
+                Cargos autorizados
+            </label>
 
             <div
                 class="cubika-multi-dropdown"
