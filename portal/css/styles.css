@@ -4561,4 +4561,12 @@ EDITOR DOCUMENTAL
 }
 
 
-
+.wizard-validation-message {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: auto;
+}
