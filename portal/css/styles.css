@@ -4536,3 +4536,10 @@ EDITOR DOCUMENTAL
     padding-left: 15px;
     padding-right: 15px;
 }
+
+
+/* Sombreado exterior para los contenedores del CRUD de Contratos */
+.contratos-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
