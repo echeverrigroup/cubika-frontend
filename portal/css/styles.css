@@ -983,6 +983,7 @@ body {
 
 .variables-category{
 
+    margin-top:10px;
     margin-bottom:24px;
 
 }
@@ -1005,7 +1006,7 @@ body {
 
     flex-wrap:wrap;
 
-    gap:10px;
+    gap:8px;
 
 }
 
