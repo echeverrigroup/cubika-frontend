@@ -239,7 +239,7 @@ export async function renderConstructionContratoEditor() {
 
 
 
-        <div class="editor-documento">
+    <div class="editor-documento contrato-editor-card">
 
 
             <div class="wizard-steps">
