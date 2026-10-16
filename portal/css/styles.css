@@ -4540,6 +4540,6 @@ EDITOR DOCUMENTAL
 
 /* Márgenes laterales del contenido del editor de plantillas */
 .editor-main > .editor-section {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
