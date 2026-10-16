@@ -522,15 +522,45 @@ function renderPaso1() {
 
 
             <div class="wizard-buttons">
-
+            
+                <div
+                    id="mensajeValidacionWizard"
+                    class="wizard-validation-message"
+                    style="display: none;"
+                    role="alert"
+                >
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            fill="#dc2626"
+                        />
+                        <path
+                            d="M8 12h8"
+                            stroke="#ffffff"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+            
+                    <span>Rellene toda la información</span>
+                </div>
+            
                 <button
                     id="btnSiguiente"
-                    class="btn-primary">
-
+                    class="btn-primary"
+                    type="button"
+                >
                     Siguiente →
-
                 </button>
-
+            
             </div>
 
         </div>
@@ -730,26 +760,55 @@ function renderPaso2() {
 
 
             <div class="wizard-buttons">
-
+            
                 <button
                     id="btnAnterior"
-                    class="btn-secondary">
-
+                    class="btn-secondary"
+                    type="button"
+                >
                     ← Anterior
-
                 </button>
-
-
+            
+                <div
+                    id="mensajeValidacionWizard"
+                    class="wizard-validation-message"
+                    style="display: none;"
+                    role="alert"
+                >
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            fill="#dc2626"
+                        />
+                        <path
+                            d="M8 12h8"
+                            stroke="#ffffff"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+            
+                    <span>Rellene toda la información</span>
+                </div>
+            
                 <button
                     id="btnSiguiente"
-                    class="btn-primary">
-
+                    class="btn-primary"
+                    type="button"
+                >
                     Siguiente →
-
                 </button>
-
+            
             </div>
-
+            
         </div>
 
     `;
@@ -804,6 +863,116 @@ function renderPaso3() {
 
 }
 
+function validarPasoActual() {
+
+    const obtenerValor = id =>
+        document.getElementById(id)?.value?.trim() ?? "";
+
+    const tieneValor = id => {
+        const valor = obtenerValor(id);
+
+        return valor !== "" &&
+            !valor.startsWith("__crear_");
+    };
+
+    // PASO 1: Información Base
+    if (pasoActual === 1) {
+
+        const camposObligatorios = [
+            "empresa_id",
+            "constructora_id",
+            "obra_id",
+            "worker_id",
+            "cargo_id"
+        ];
+
+        return camposObligatorios.every(tieneValor);
+    }
+
+    // PASO 2: Datos Contractuales
+    if (pasoActual === 2) {
+
+        const camposObligatorios = [
+            "fecha_inicio",
+            "tipo_contrato_id",
+            "sueldo",
+            "jornada_id",
+            "plantilla_id"
+        ];
+
+        const camposCompletos =
+            camposObligatorios.every(tieneValor);
+
+        if (!camposCompletos) {
+            return false;
+        }
+
+        const tipoContrato =
+            document.getElementById("tipo_contrato_id")
+                ?.selectedOptions[0]
+                ?.textContent
+                ?.trim();
+
+        // Validar el campo de término según el tipo de contrato.
+        if (tipoContrato === "Plazo Fijo") {
+            if (!tieneValor("fecha_termino")) {
+                return false;
+            }
+        }
+
+        if (tipoContrato === "Por Obra o Faena") {
+            if (!tieneValor("causal_termino")) {
+                return false;
+            }
+        }
+
+        // Exigir al menos una distribución horaria completa.
+        const distribuciones = Array.from(
+            document.querySelectorAll(
+                "#distribucionesHorarias .distribucion-input"
+            )
+        );
+
+        const tieneDistribucionCompleta =
+            distribuciones.some(
+                input => input.value.trim() !== ""
+            );
+
+        if (!tieneDistribucionCompleta) {
+            return false;
+        }
+
+        return true;
+    }
+
+    return true;
+}
+
+
+function actualizarMensajeValidacion() {
+
+    const mensaje = document.getElementById(
+        "mensajeValidacionWizard"
+    );
+
+    if (!mensaje) return;
+
+    // No mostrar errores antes del primer intento de avanzar.
+    const container = document.getElementById(
+        "contratoWizard"
+    );
+
+    if (container?.dataset.intentoValidacion !== "true") {
+        return;
+    }
+
+    mensaje.style.display =
+        validarPasoActual() ? "none" : "flex";
+}
+
+
+
+
 
 function inicializarNavegacion() {
 
@@ -831,27 +1000,32 @@ function inicializarNavegacion() {
 
 
     document
+    .getElementById("btnSiguiente")
+    ?.addEventListener("click", () => {
 
-        .getElementById(
-            "btnSiguiente"
-        )
-
-        ?.addEventListener(
-
-            "click",
-
-            () => {
-
-                guardarPasoActual();
-
-                pasoActual++;
-
-                renderConstructionContratoEditor();
-
-            }
-
+        const container = document.getElementById(
+            "contratoWizard"
         );
 
+        // Registrar que el usuario intentó avanzar.
+        if (container) {
+            container.dataset.intentoValidacion = "true";
+        }
+
+        // Si falta algún dato, permanecer en el paso actual.
+        if (!validarPasoActual()) {
+            actualizarMensajeValidacion();
+            return;
+        }
+
+        // Si todo está completo, continuar normalmente.
+        guardarPasoActual();
+
+        pasoActual++;
+
+        renderConstructionContratoEditor();
+    });
+    
 
     document
     .getElementById(
@@ -865,7 +1039,16 @@ function inicializarNavegacion() {
 
     );
 
-    
+
+    const wizard = document.getElementById("contratoWizard");
+
+        wizard?.addEventListener("input", () => {
+            actualizarMensajeValidacion();
+        });
+        
+        wizard?.addEventListener("change", () => {
+            actualizarMensajeValidacion();
+        });
 
 }
 
