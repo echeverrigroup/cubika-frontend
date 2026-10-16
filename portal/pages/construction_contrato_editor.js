@@ -1493,17 +1493,50 @@ async function cargarPaso2() {
     const plantillas =
         await plantillasDocumentoService.getAll();
     
-    const plantillasContrato =
-        plantillas.filter(plantilla =>
-            String(plantilla.tipo_documento ?? "")
-                .trim()
-                .toUpperCase() === "CONTRATO"
-            &&
-            String(plantilla.estado ?? "")
-                .trim()
-                .toUpperCase() === "ACTIVO"
-        );
+    const constructoraId = contratoActual.constructora_id;
+    const cargoId = contratoActual.cargo_id;
     
+    const plantillasContratoBase = plantillas.filter(plantilla =>
+        String(plantilla.tipo_documento ?? "")
+            .trim()
+            .toUpperCase() === "CONTRATO"
+        &&
+        String(plantilla.estado ?? "")
+            .trim()
+            .toUpperCase() === "ACTIVO"
+    );
+    
+    const plantillasContrato = (
+        await Promise.all(
+            plantillasContratoBase.map(async plantilla => {
+                const [constructorasIds, cargosIds] =
+                    await Promise.all([
+                        plantillasDocumentoService
+                            .getConstructorasIds(plantilla.id),
+    
+                        plantillasDocumentoService
+                            .getCargosIds(plantilla.id)
+                    ]);
+    
+                const constructoraAutorizada =
+                    constructorasIds.length === 0 ||
+                    constructorasIds.some(
+                        id => String(id) === String(constructoraId)
+                    );
+    
+                const cargoAutorizado =
+                    cargosIds.length === 0 ||
+                    cargosIds.some(
+                        id => String(id) === String(cargoId)
+                    );
+    
+                return constructoraAutorizada && cargoAutorizado
+                    ? plantilla
+                    : null;
+            })
+        )
+    ).filter(Boolean);
+
 
     const tiposJornada =
         await globalService
