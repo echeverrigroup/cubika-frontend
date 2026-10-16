@@ -306,7 +306,6 @@ export async function renderConstructionPlantillaEditor(id = null) {
                     aria-expanded="false">
 
                     Todas las constructoras
-                    <span>▾</span>
 
                 </button>
 
@@ -363,7 +362,6 @@ export async function renderConstructionPlantillaEditor(id = null) {
                     aria-expanded="false">
 
                     Todos los cargos
-                    <span>▾</span>
 
                 </button>
 
