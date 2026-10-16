@@ -155,17 +155,26 @@ export async function renderConstructionPlantillaEditor(id = null) {
         
         <div class="page-header plantilla-editor-toolbar">
 
-            <div>
-
-                <button
-                    id="btnVolverPlantillas"
-                    class="btn-secondary">
-
-                    ← Volver
-
-                </button>
-
+    <div class="editor-header">
+    
+                    <h1>
+    
+                        ${id
+                            ? "Editar Plantilla"
+                            : "Nueva Plantilla"}
+    
+                    </h1>
+    
+                    <p> <br>
+    
+                        Configure la información general y el contenido
+                        del documento.
+    
+                    </p>
+    
             </div>
+
+
 
 
             <div>
@@ -184,27 +193,6 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
 
         <div class="editor-documento">
-
-
-            <div class="editor-header">
-
-                <h1>
-
-                    ${id
-                        ? "Editar Plantilla"
-                        : "Nueva Plantilla"}
-
-                </h1>
-
-                <p> <br>
-
-                    Configure la información general y el contenido
-                    del documento.
-
-                </p>
-
-            </div>
-
 
             <div
                 id="editorError"
