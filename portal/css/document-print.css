@@ -10,13 +10,14 @@ body {
     background: white;
 }
 
+
 .document-print {
     width: 100%;
     box-sizing: border-box;
 
     font-family: Inter, Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.7;
+    line-height: 1.4;
 
     color: #111827;
 
@@ -24,6 +25,8 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+
+
 
 .document-print strong {
     font-weight: 700;
