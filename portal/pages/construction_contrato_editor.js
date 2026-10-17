@@ -2172,6 +2172,12 @@ async function construirContrato() {
             contratoActual.empresa_id
         );
 
+    const logoUrl = empresa?.logo_path
+        ? await storageService.createSignedUrlLogo(
+            empresa.logo_path
+        )
+        : null;
+
     const constructora =
         await constructorasService.getById(
             contratoActual.constructora_id
@@ -2243,14 +2249,12 @@ async function construirContrato() {
             variables
         );
 
+    
     return {
-
         plantilla,
-
         variables,
-
-        contenidoHtml
-
+        contenidoHtml,
+        logoUrl
     };
 
 }
@@ -2283,46 +2287,65 @@ async function obtenerDocumentPrintCss() {
 }
 
 
+
 async function construirDocumentoHtml(
-    contenido
-) {
+        contenido,
+        logoUrl = null
+    ) {
+        const css = await obtenerDocumentPrintCss();
+    
+        const logoHtml = logoUrl
+            ? `
+                <div class="document-logo-container">
+                    <img
+                        class="document-company-logo"
+                        src="${logoUrl}"
+                        alt="Logo de la empresa mandante"
+                    >
+                </div>
+            `
+            : "";
+    
+        return `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Documento Cubika</title>
+    
+        <style>
+            ${css}
+    
+            .document-logo-container {
+                display: block;
+                width: 100%;
+                margin: 0 0 18px 0;
+                text-align: left;
+                page-break-inside: avoid;
+            }
+    
+            .document-company-logo {
+                display: block;
+                width: auto;
+                height: auto;
+                max-width: 180px;
+                max-height: 75px;
+                object-fit: contain;
+                object-position: left center;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <main class="document-print">
+            ${logoHtml}
+            ${contenido}
+        </main>
+    </body>
+    </html>
+        `.trim();
+    }
 
-    const css =
-        await obtenerDocumentPrintCss();
-
-    return `
-<!DOCTYPE html>
-
-<html lang="es">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Documento Cubika</title>
-
-    <style>
-
-        ${css}
-
-    </style>
-
-</head>
-
-<body>
-
-    <main class="document-print">
-
-        ${contenido}
-
-    </main>
-
-</body>
-
-</html>
-    `.trim();
-
-}
 
 
 async function generarVistaPrevia() {
@@ -2344,7 +2367,8 @@ async function generarVistaPrevia() {
 
     const documentHtml =
         await construirDocumentoHtml(
-            contrato.contenidoHtml
+            contrato.contenidoHtml,
+            contrato.logoUrl
         );
 
     const parser =
@@ -2764,16 +2788,24 @@ async function mostrarModalSeleccionDocumentos(
         
                 setModalError("");
                 setModalLoading(true);
-        
-                /*
-                 * 1. Preparar el PDF del contrato principal.
-                 * Todavía no se crea el registro.
-                 */
-        
-                const documentoHtml =
-                    await construirDocumentoHtml(
-                        contratoGenerado.contenido_html
-                    );
+
+                
+            // 1. Obtener el mandante y su logo
+                const empresa = await empresasService.getById(
+                    contratoGenerado.empresa_id
+                );
+                
+                const logoUrl = empresa?.logo_path
+                    ? await storageService.createSignedUrlLogo(
+                        empresa.logo_path
+                    )
+                    : null;
+                
+                // 2. Construir el HTML definitivo del contrato
+                const documentoHtml = await construirDocumentoHtml(
+                    contratoGenerado.contenido_html,
+                    logoUrl
+                );
         
                 const responseContrato =
                     await fetch(
