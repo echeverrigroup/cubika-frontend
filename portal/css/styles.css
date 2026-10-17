@@ -4609,6 +4609,9 @@ EDITOR DOCUMENTAL
     gap: 6px;
     flex-shrink: 0;
     min-width: 76px;
+
+    marging-top: 2px;
+    
     padding: 9px 10px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
