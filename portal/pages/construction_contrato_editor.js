@@ -2254,7 +2254,8 @@ async function construirContrato() {
         plantilla,
         variables,
         contenidoHtml,
-        logoUrl
+        logoUrl,
+        nombreEmpresa: empresa?.nombre ?? ""
     };
 
 }
@@ -2288,63 +2289,159 @@ async function obtenerDocumentPrintCss() {
 
 
 
+
 async function construirDocumentoHtml(
+    contenido,
+    logoUrl = null,
+    nombreEmpresa = ""
+) {
+    const css = await obtenerDocumentPrintCss();
+
+    // Analizar el HTML de la plantilla.
+    const parser = new DOMParser();
+    const documento = parser.parseFromString(
         contenido,
-        logoUrl = null
-    ) {
-        const css = await obtenerDocumentPrintCss();
-    
-        const logoHtml = logoUrl
-            ? `
-                <div class="document-logo-container">
-                    <img
-                        class="document-company-logo"
-                        src="${logoUrl}"
-                        alt="Logo de la empresa mandante"
-                    >
-                </div>
-            `
-            : "";
-    
-        return `
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Documento Cubika</title>
-    
-        <style>
-            ${css}
-    
-            .document-logo-container {
-                display: block;
-                width: 100%;
-                margin: 0 0 18px 0;
-                text-align: left;
-                page-break-inside: avoid;
-            }
-    
-            .document-company-logo {
-                display: block;
-                width: auto;
-                height: auto;
-                max-width: 180px;
-                max-height: 75px;
-                object-fit: contain;
-                object-position: left center;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <main class="document-print">
-            ${logoHtml}
-            ${contenido}
-        </main>
-    </body>
-    </html>
-        `.trim();
+        "text/html"
+    );
+
+    // Buscar el título sin depender de una etiqueta concreta.
+    const elementos = Array.from(
+        documento.body.querySelectorAll(
+            "h1, h2, h3, p, div"
+        )
+    );
+
+    const titulo = elementos.find(elemento =>
+        elemento.textContent
+            .replace(/\s+/g, " ")
+            .trim()
+            .toUpperCase() === "CONTRATO DE TRABAJO"
+    );
+
+    const tituloHtml = titulo
+        ? titulo.outerHTML
+        : "<h1 class=\"document-header-title\">CONTRATO DE TRABAJO</h1>";
+
+    // Retirar el título de su posición original.
+    if (titulo) {
+        titulo.remove();
     }
+
+    const contenidoRestante =
+        documento.body.innerHTML;
+
+    const logoHtml = logoUrl
+        ? `
+            <div class="document-header-logo">
+                <img
+                    src="${logoUrl}"
+                    alt="Logo de la empresa mandante"
+                >
+            </div>
+        `
+        : "";
+
+    const nombreHtml = nombreEmpresa
+        ? `
+            <div class="document-header-company">
+                ${nombreEmpresa}
+            </div>
+        `
+        : "";
+
+    return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contrato de trabajo</title>
+
+    <style>
+        ${css}
+
+        .document-contract-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            width: 100%;
+            margin: 0 0 22px;
+            box-sizing: border-box;
+            page-break-inside: avoid;
+        }
+
+        .document-header-logo {
+            flex: 0 0 120px;
+            width: 120px;
+        }
+
+        .document-header-logo img {
+            display: block;
+            width: 100%;
+            max-height: 65px;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        .document-header-info {
+            flex: 1;
+            min-width: 0;
+            text-align: right;
+        }
+
+        .document-header-title {
+            margin: 0 0 7px;
+            font-size: 15px;
+            line-height: 1.3;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .document-header-company {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .document-header-company-label {
+            margin-top: 2px;
+            font-size: 9px;
+            color: #555;
+        }
+
+        @media print {
+            .document-contract-header {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="document-print">
+        <header class="document-contract-header">
+            ${logoHtml}
+
+            <div class="document-header-info">
+                <div class="document-header-title">
+                    ${tituloHtml}
+                </div>
+
+                ${nombreHtml}
+
+                <div class="document-header-company-label">
+                    Empresa mandante
+                </div>
+            </div>
+        </header>
+
+        ${contenidoRestante}
+    </main>
+</body>
+</html>
+    `.trim();
+}
 
 
 
@@ -2373,9 +2470,10 @@ async function generarVistaPrevia() {
         contratoActual.contenido = contrato.contenidoHtml;
 
         // 2. Construir el HTML con los estilos y el logo.
-        const documentoHtml = await construirDocumentoHtml(
+        const documentHtml = await construirDocumentoHtml(
             contrato.contenidoHtml,
-            contrato.logoUrl
+            contrato.logoUrl,
+            contrato.nombreEmpresa
         );
 
         // 3. Solicitar el PDF real al backend Puppeteer.
@@ -2845,7 +2943,8 @@ async function mostrarModalSeleccionDocumentos(
                 // 2. Construir el HTML definitivo del contrato
                 const documentoHtml = await construirDocumentoHtml(
                     contratoGenerado.contenido_html,
-                    logoUrl
+                    logoUrl,
+                    contratoGenerado.variables?.NOMBRE_EMPRESA ?? ""
                 );
         
                 const responseContrato =
