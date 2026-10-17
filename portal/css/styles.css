@@ -4581,7 +4581,7 @@ EDITOR DOCUMENTAL
 .empresa-logo-row {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 5px;
     min-width: 0;
 }
 
@@ -4612,7 +4612,7 @@ EDITOR DOCUMENTAL
 
     marging-top: 0;
     
-    padding: 5px 12px;
+    padding: 12px 12px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
     background: #edf8f8;
