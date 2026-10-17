@@ -4590,10 +4590,15 @@ EDITOR DOCUMENTAL
     min-width: 0;
 }
 
+
+
 .empresa-logo-file input[type="file"] {
+    display: flex;
+    align-items: center;
     width: 100%;
     min-width: 0;
-    padding: 9px 10px;
+    height: 42px;
+    padding: 6px 10px;
     border: 1px solid var(--border-color, #d8e2e8);
     border-radius: 8px;
     background: var(--surface-color, #fff);
@@ -4601,6 +4606,7 @@ EDITOR DOCUMENTAL
     font-size: 12px;
     box-sizing: border-box;
 }
+
 
 .btn-ver-logo {
     display: inline-flex;
@@ -4612,7 +4618,7 @@ EDITOR DOCUMENTAL
 
     marging-top: 0;
     
-    padding: 10px 10px;
+    padding: 8px 8px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
     background: #edf8f8;
