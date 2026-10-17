@@ -2290,6 +2290,7 @@ async function obtenerDocumentPrintCss() {
 
 
 
+
 async function construirDocumentoHtml(
     contenido,
     logoUrl = null,
@@ -2297,60 +2298,66 @@ async function construirDocumentoHtml(
 ) {
     const css = await obtenerDocumentPrintCss();
 
-    // Analizar el HTML de la plantilla.
     const parser = new DOMParser();
-    const documento = parser.parseFromString(
-        contenido,
+
+    const plantilla = parser.parseFromString(
+        `<div id="contenido-plantilla">${contenido}</div>`,
         "text/html"
     );
 
-
-    // Buscar y retirar todas las apariciones independientes
-    // del título, para evitar que quede duplicado.
-    const normalizarTexto = texto =>
-        texto.replace(/\s+/g, " ").trim().toUpperCase();
-
-    const candidatos = Array.from(
-        documento.body.querySelectorAll(
-            "h1, h2, h3, h4, p, div, td, th"
-        )
+    const contenedor = plantilla.querySelector(
+        "#contenido-plantilla"
     );
 
-    const titulos = candidatos.filter(elemento =>
-        normalizarTexto(elemento.textContent) ===
-        "CONTRATO DE TRABAJO"
-    );
+    // Identificar el título al inicio de la plantilla.
+    let tituloTexto = "CONTRATO DE TRABAJO";
 
-    // Conservar el formato original del primer título encontrado.
-    const tituloOriginal = titulos[0];
+    const primerElemento = contenedor.firstElementChild;
 
-    const tituloHtml = tituloOriginal
-        ? tituloOriginal.innerHTML
-        : "CONTRATO DE TRABAJO";
+    if (
+        primerElemento &&
+        primerElemento.textContent.trim().toUpperCase() ===
+            "CONTRATO DE TRABAJO"
+    ) {
+        tituloTexto = primerElemento.textContent.trim();
+        primerElemento.remove();
+    } else {
+        const nodos = Array.from(contenedor.childNodes);
 
-    // Retirar todas las apariciones independientes del título.
-    titulos.forEach(elemento => elemento.remove());
+        const primerTexto = nodos.find(
+            nodo =>
+                nodo.nodeType === Node.TEXT_NODE &&
+                nodo.textContent.trim()
+        );
 
-    const contenidoRestante = documento.body.innerHTML;
+        if (
+            primerTexto &&
+            primerTexto.textContent.trim().toUpperCase() ===
+                "CONTRATO DE TRABAJO"
+        ) {
+            primerTexto.remove();
+        }
+    }
 
+    // Eliminar saltos de línea iniciales que dejan espacio vacío.
+    while (
+        contenedor.firstChild &&
+        contenedor.firstChild.nodeType === Node.TEXT_NODE &&
+        !contenedor.firstChild.textContent.trim()
+    ) {
+        contenedor.firstChild.remove();
+    }
 
     const logoHtml = logoUrl
         ? `
-            <div class="document-header-logo">
-                <img
-                    src="${logoUrl}"
-                    alt="Logo de la empresa mandante"
-                >
+            <div class="contrato-logo">
+                <img src="${logoUrl}" alt="Logo empresa mandante">
             </div>
         `
         : "";
 
-    const nombreHtml = nombreEmpresa
-        ? `
-            <div class="document-header-company">
-                ${nombreEmpresa}
-            </div>
-        `
+    const empresaHtml = nombreEmpresa
+        ? `<div class="contrato-empresa">${nombreEmpresa}</div>`
         : "";
 
     return `
@@ -2358,114 +2365,81 @@ async function construirDocumentoHtml(
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Contrato de trabajo</title>
-
+    <title>Documento Cubika</title>
     <style>
         ${css}
 
-        .document-contract-header {
+        .contrato-encabezado {
             display: table;
             width: 100%;
             table-layout: fixed;
-            margin: 0 0 12px;
+            margin: 0 0 14px;
             padding: 0;
             page-break-inside: avoid;
         }
 
+        .contrato-logo,
+        .contrato-titulos {
+            display: table-cell;
+            vertical-align: middle;
+        }
 
-        .document-header-logo,
-            .document-header-info {
-                display: table-cell;
-                vertical-align: middle;
-                box-sizing: border-box;
-            }
+        .contrato-logo {
+            width: 35%;
+            text-align: left;
+        }
 
-        .document-header-logo {
-                width: 35%;
-                text-align: left;
-            }
+        .contrato-logo img {
+            display: block;
+            max-width: 120px;
+            max-height: 60px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: left center;
+        }
 
+        .contrato-titulos {
+            width: 65%;
+            text-align: right;
+        }
 
-        .document-header-logo img {
-                display: block;
-                width: auto;
-                height: auto;
-                max-width: 120px;
-                max-height: 60px;
-                object-fit: contain;
-                object-position: left center;
-            }
-            
-            .document-header-info {
-                width: 65%;
-                text-align: right;
-                overflow-wrap: anywhere;
-            }
-            
-            .document-header-title {
-                margin: 0 0 5px;
-                font-size: 15px;
-                line-height: 1.3;
-                font-weight: 700;
-                text-align: right;
-            }
-            
-            .document-header-title h1,
-            .document-header-title h2,
-            .document-header-title h3,
-            .document-header-title p {
-                margin: 0;
-                font-size: inherit;
-                line-height: inherit;
-                text-align: inherit;
-            }
-            
-            .document-header-company {
-                margin: 0;
-                font-size: 11px;
-                font-weight: 600;
-                line-height: 1.4;
-            }
-            
-            .document-header-company-label {
-                margin-top: 2px;
-                font-size: 9px;
-                color: #555;
-            }
+        .contrato-titulo {
+            margin: 0 0 5px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
 
-        @media print {
-            .document-contract-header {
-                break-inside: avoid;
-            }
+        .contrato-empresa {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .contrato-cuerpo > :first-child {
+            margin-top: 0 !important;
         }
     </style>
 </head>
-
 <body>
     <main class="document-print">
-        <header class="document-contract-header">
+        <header class="contrato-encabezado">
             ${logoHtml}
-
-            <div class="document-header-info">
-                <div class="document-header-title">
-                    ${tituloHtml}
-                </div>
-
-                ${nombreHtml}
-
-                <div class="document-header-company-label">
-                    Empresa mandante
-                </div>
+            <div class="contrato-titulos">
+                <div class="contrato-titulo">${tituloTexto}</div>
+                ${empresaHtml}
             </div>
         </header>
 
-        ${contenidoRestante}
+        <section class="contrato-cuerpo">
+            ${contenedor.innerHTML}
+        </section>
     </main>
 </body>
 </html>
     `.trim();
 }
-
 
 
 
