@@ -2504,23 +2504,24 @@ async function construirDocumentoHtml(
 </head>
 
 <body>
-    <main class="document-print">
-        <header class="contrato-encabezado">
-            ${logoHtml}
-
-            <div class="contrato-titulos">
-                <div class="contrato-titulo">
-                    ${tituloTexto}
+   <main class="document-print">
+       <header class="contrato-encabezado">
+           ${logoHtml}
+               <div class="contrato-titulos">
+                   <div class="contrato-titulo">
+                       ${tituloTexto}
+                    </div>
+                    
+                    ${empresaHtml}
                 </div>
-                ${empresaHtml}
-            </div>
         </header>
-
+        
         <section class="contrato-cuerpo">
             ${contenedor.innerHTML}
         </section>
     </main>
 </body>
+
 </html>
     `.trim();
 }
