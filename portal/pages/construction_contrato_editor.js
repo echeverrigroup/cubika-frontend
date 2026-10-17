@@ -2443,6 +2443,10 @@ async function construirDocumentoHtml(
         page-break-inside: avoid;
         line-height: 1;
     }
+
+    .contrato-encabezado {
+        white-space: normal;
+    }
     
     .contrato-logo,
     .contrato-titulos {
