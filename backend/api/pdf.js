@@ -56,6 +56,27 @@ export default async function handler(req, res) {
             waitUntil: "networkidle0",
         });
 
+        await page.evaluate(async () => {
+            if (document.fonts?.ready) {
+                await document.fonts.ready;
+            }
+        
+            const imagenes = Array.from(document.images);
+        
+            await Promise.all(
+                imagenes.map((imagen) => {
+                    if (imagen.complete) {
+                        return imagen.decode?.().catch(() => {});
+                    }
+        
+                    return new Promise((resolve) => {
+                        imagen.onload = resolve;
+                        imagen.onerror = resolve;
+                    });
+                })
+            );
+        });
+
         const pdf = await page.pdf({
             format: "A4",
             printBackground: true,
