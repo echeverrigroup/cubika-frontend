@@ -904,6 +904,7 @@ function obtenerFormularioMandante(
                     <label for="logoEmpresa">Logo de la empresa</label>
                 
                     <div class="empresa-logo-row">
+                        
                         <div class="empresa-logo-file">
                             <input
                                 id="logoEmpresa"
@@ -911,7 +912,12 @@ function obtenerFormularioMandante(
                                 accept=".jpg,.jpeg,image/jpeg"
                                 class="cubika-input"
                             />
+                        
+                            <div id="nombreLogoActual" class="empresa-logo-filename">
+                                Ningún logo cargado
+                            </div>
                         </div>
+
                 
                         <button
                             type="button"
@@ -952,6 +958,9 @@ function obtenerFormularioMandante(
 
 
 function configurarVistaPreviaLogo(urlExistente = null) {
+
+    const nombreLogo = document.getElementById("nombreLogoActual");
+    
     const input = document.getElementById("logoEmpresa");
     const botonVer = document.getElementById("btnVerLogoEmpresa");
 
@@ -961,6 +970,14 @@ function configurarVistaPreviaLogo(urlExistente = null) {
     let objectUrlActual = null;
 
     botonVer.disabled = !urlLogo;
+        
+        if (nombreLogo) {
+            nombreLogo.textContent = urlExistente
+                ? "Logo actual: logo.jpg"
+                : "Ningún logo cargado";
+        
+            nombreLogo.classList.toggle("has-logo", Boolean(urlExistente));
+        }
 
     input.addEventListener("change", () => {
         const archivo = input.files?.[0];
