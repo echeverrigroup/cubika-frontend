@@ -2291,6 +2291,7 @@ async function obtenerDocumentPrintCss() {
 
 
 
+
 async function construirDocumentoHtml(
     contenido,
     logoUrl = null,
@@ -2467,12 +2468,12 @@ async function generarVistaPrevia() {
         contratoActual.contenido = contrato.contenidoHtml;
 
         // 2. Construir el HTML con los estilos y el logo.
-        const documentHtml = await construirDocumentoHtml(
+         const documentHtml = await construirDocumentoHtml(
             contrato.contenidoHtml,
             contrato.logoUrl,
             contrato.nombreEmpresa
         );
-
+        
         // 3. Solicitar el PDF real al backend Puppeteer.
         const response = await fetch(
             "https://api.cubika.cl/api/pdf",
