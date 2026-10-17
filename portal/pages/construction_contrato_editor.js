@@ -2462,7 +2462,7 @@ async function construirDocumentoHtml(
 }
 
 .contrato-titulos {
-    width: 65%;
+    width: 55%;
     text-align: right;
     line-height: 1;
     white-space: normal;
@@ -2473,9 +2473,9 @@ async function construirDocumentoHtml(
   .contrato-titulo {
     margin: 0 !important;
     padding: 0 !important;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.5;
 }
 
 .contrato-empresa {
