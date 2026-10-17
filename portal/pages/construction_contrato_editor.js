@@ -2368,20 +2368,29 @@ async function construirDocumentoHtml(
     }
 
     // Limpiar saltos de línea y bloques vacíos al comienzo.
+   
+    // Eliminar únicamente espacios, saltos de línea y <br>
+    // al comienzo del contenido contractual.
     while (contenedor.firstChild) {
         const nodo = contenedor.firstChild;
 
-        if (
-            nodo.nodeType === Node.TEXT_NODE &&
-            !nodo.textContent.trim()
-        ) {
-            nodo.remove();
-            continue;
+        if (nodo.nodeType === Node.TEXT_NODE) {
+            nodo.textContent = nodo.textContent.replace(
+                /^[\s\u00A0]+/,
+                ""
+            );
+
+            if (!nodo.textContent) {
+                nodo.remove();
+                continue;
+            }
+
+            break;
         }
 
         if (
             nodo.nodeType === Node.ELEMENT_NODE &&
-            ["BR"].includes(nodo.tagName)
+            nodo.tagName === "BR"
         ) {
             nodo.remove();
             continue;
@@ -2398,6 +2407,7 @@ async function construirDocumentoHtml(
         break;
     }
 
+    
     const logoHtml = logoUrl
         ? `
             <div class="contrato-logo">
@@ -2422,6 +2432,36 @@ async function construirDocumentoHtml(
 
     <style>
         ${css}
+
+        
+.contrato-encabezado {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.contrato-titulo {
+    margin: 0 0 1px;
+    padding: 0;
+    line-height: 1.1;
+}
+
+.contrato-empresa {
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+}
+
+.contrato-cuerpo {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.contrato-cuerpo > :first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
 
         .contrato-encabezado {
             display: table;
@@ -2468,21 +2508,9 @@ async function construirDocumentoHtml(
         }
         
         .contrato-empresa {
-            margin: 0;
-            padding: 0;
+
             font-size: 10px;
             font-weight: 600;
-            line-height: 1.15;
-        }
-
-        .contrato-cuerpo {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-        }
-
-        .contrato-cuerpo > :first-child {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
         }
         
     </style>
