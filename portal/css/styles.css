@@ -4591,14 +4591,10 @@ EDITOR DOCUMENTAL
 }
 
 
-
 .empresa-logo-file input[type="file"] {
-    display: flex;
-    align-items: center;
     width: 100%;
     min-width: 0;
-    height: 42px;
-    padding: 6px 10px;
+    padding: 9px 7px;
     border: 1px solid var(--border-color, #d8e2e8);
     border-radius: 8px;
     background: var(--surface-color, #fff);
@@ -4618,7 +4614,7 @@ EDITOR DOCUMENTAL
 
     marging-top: 0;
     
-    padding: 8px 8px;
+    padding: 10px 8px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
     background: #edf8f8;
