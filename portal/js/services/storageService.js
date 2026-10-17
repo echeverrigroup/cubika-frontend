@@ -49,6 +49,53 @@ export const storageService = {
     },
 
 
+
+    
+    async uploadLogoEmpresa({ empresaId, imagen }) {
+
+        if (!empresaId)
+            throw new Error("Falta empresaId.");
+
+        if (!imagen)
+            throw new Error("Debes seleccionar un logo.");
+
+        if (!["image/jpeg", "image/jpg"].includes(imagen.type))
+            throw new Error("El logo debe estar en formato JPG.");
+
+        const path = `${empresaId}/logo.jpg`;
+
+        const { data, error } = await supabase
+            .storage
+            .from("logos-empresas")
+            .upload(path, imagen, {
+                contentType: "image/jpeg",
+                upsert: true
+            });
+
+        if (error)
+            throw error;
+
+        return { path: data.path };
+    },
+
+    async createSignedUrlLogo(path, expiresIn = 3600) {
+
+        if (!path)
+            throw new Error("Falta la ruta del logo.");
+
+        const { data, error } = await supabase
+            .storage
+            .from("logos-empresas")
+            .createSignedUrl(path, expiresIn);
+
+        if (error)
+            throw error;
+
+        return data.signedUrl;
+    },
+
+    
+
     async createSignedUrl(path, expiresIn = 3600) {
 
         if (!path)
