@@ -4637,7 +4637,7 @@ EDITOR DOCUMENTAL
 
 .empresa-logo-hint {
     display: block;
-    margin-top: 7px;
+    margin-top: 2px;
     color: var(--text-muted, #718096);
     font-size: 11px;
 }
@@ -4651,3 +4651,19 @@ EDITOR DOCUMENTAL
         min-width: 66px;
     }
 }
+
+
+
+.empresa-logo-filename {
+    margin-top: 5px;
+    padding-left: 2px;
+    color: var(--text-muted, #718096);
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.empresa-logo-filename.has-logo {
+    color: var(--text-color, #334155);
+    font-weight: 500;
+}
+
