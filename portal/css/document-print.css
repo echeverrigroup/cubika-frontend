@@ -24,6 +24,12 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    margin: 0;
+}
+
+.document-print .contrato-cuerpo {
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 
