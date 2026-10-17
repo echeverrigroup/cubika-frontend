@@ -4610,7 +4610,7 @@ EDITOR DOCUMENTAL
     flex-shrink: 0;
     min-width: 76px;
 
-    marging-top: 2px;
+    marging-top: 0;
     
     padding: 9px 10px;
     border: 1px solid #c9e5e7;
@@ -4634,6 +4634,9 @@ EDITOR DOCUMENTAL
 }
 
 .btn-ver-logo-icon {
+    
+    marging-top: 0;
+    
     font-size: 14px;
     line-height: 1;
 }
