@@ -2291,8 +2291,6 @@ async function obtenerDocumentPrintCss() {
 
 
 
-
-
 async function construirDocumentoHtml(
     contenido,
     logoUrl = null,
@@ -2436,12 +2434,15 @@ async function construirDocumentoHtml(
 
     /* Encabezado: logo y títulos */
     .contrato-encabezado {
+
+        margin: 0 !important;
+        padding: 0 !important;
+        white-space: pre-wrap;
+    
         display: table;
         width: 100%;
         table-layout: fixed;
-        padding-top: 15px;
-        margin: 0;
-        padding: 0;
+
         page-break-inside: avoid;
     }
 
@@ -2458,8 +2459,8 @@ async function construirDocumentoHtml(
 
     .contrato-logo img {
         display: block;
-        max-width: 180px;
-        max-height: 90px;
+        max-width: 200px;
+        max-height: 100px;
         width: auto;
         height: auto;
         object-fit: contain;
@@ -2478,7 +2479,7 @@ async function construirDocumentoHtml(
         padding: 0;
         font-size: 14px;
         font-weight: 700;
-        line-height: 1;
+        line-height: 1,15;
     }
 
     .contrato-empresa {
