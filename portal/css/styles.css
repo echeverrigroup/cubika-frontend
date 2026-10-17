@@ -4570,3 +4570,84 @@ EDITOR DOCUMENTAL
     font-weight: 500;
     margin-right: auto;
 }
+
+
+
+/* Logo de empresa — estilo Cubika */
+.empresa-logo-group {
+    margin-top: 16px;
+}
+
+.empresa-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.empresa-logo-file {
+    flex: 1;
+    min-width: 0;
+}
+
+.empresa-logo-file input[type="file"] {
+    width: 100%;
+    min-width: 0;
+    padding: 9px 10px;
+    border: 1px solid var(--border-color, #d8e2e8);
+    border-radius: 8px;
+    background: var(--surface-color, #fff);
+    color: var(--text-color, #334155);
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.btn-ver-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    min-width: 76px;
+    padding: 9px 13px;
+    border: 1px solid #c9e5e7;
+    border-radius: 8px;
+    background: #edf8f8;
+    color: #167d83;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-ver-logo:hover:not(:disabled) {
+    background: #dff1f2;
+    border-color: #8fcdd0;
+}
+
+.btn-ver-logo:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.btn-ver-logo-icon {
+    font-size: 15px;
+    line-height: 1;
+}
+
+.empresa-logo-hint {
+    display: block;
+    margin-top: 7px;
+    color: var(--text-muted, #718096);
+    font-size: 11px;
+}
+
+@media (max-width: 560px) {
+    .empresa-logo-row {
+        align-items: stretch;
+    }
+
+    .btn-ver-logo {
+        min-width: 66px;
+    }
+}
