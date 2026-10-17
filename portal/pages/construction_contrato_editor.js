@@ -2292,13 +2292,13 @@ async function obtenerDocumentPrintCss() {
 
 
 
+
 async function construirDocumentoHtml(
     contenido,
     logoUrl = null,
     nombreEmpresa = ""
 ) {
     const css = await obtenerDocumentPrintCss();
-
     const parser = new DOMParser();
 
     const plantilla = parser.parseFromString(
@@ -2310,22 +2310,46 @@ async function construirDocumentoHtml(
         "#contenido-plantilla"
     );
 
-    // Identificar el título al inicio de la plantilla.
-    let tituloTexto = "CONTRATO DE TRABAJO";
+    const tituloTexto = "CONTRATO DE TRABAJO";
 
-    const primerElemento = contenedor.firstElementChild;
+    const normalizarTexto = texto =>
+        texto.replace(/\s+/g, " ").trim().toUpperCase();
 
-    if (
-        primerElemento &&
-        primerElemento.textContent.trim().toUpperCase() ===
-            "CONTRATO DE TRABAJO"
-    ) {
-        tituloTexto = primerElemento.textContent.trim();
-        primerElemento.remove();
+    // Buscar el bloque más externo que contenga exclusivamente
+    // el título. Así se elimina también si está dentro de un <p>,
+    // <div>, <h1> o estructura equivalente.
+    const candidatos = Array.from(
+        contenedor.querySelectorAll(
+            "h1, h2, h3, h4, p, div, span, strong, b"
+        )
+    );
+
+    const tituloOriginal = candidatos.find(elemento =>
+        normalizarTexto(elemento.textContent) === tituloTexto &&
+        !Array.from(elemento.children).some(hijo =>
+            normalizarTexto(hijo.textContent) !== tituloTexto
+        )
+    );
+
+    if (tituloOriginal) {
+        // Subir hasta el bloque que se puede retirar sin borrar
+        // el contenedor principal de la plantilla.
+        let bloqueTitulo = tituloOriginal;
+
+        while (
+            bloqueTitulo.parentElement &&
+            bloqueTitulo.parentElement !== contenedor &&
+            normalizarTexto(
+                bloqueTitulo.parentElement.textContent
+            ) === tituloTexto
+        ) {
+            bloqueTitulo = bloqueTitulo.parentElement;
+        }
+
+        bloqueTitulo.remove();
     } else {
-        const nodos = Array.from(contenedor.childNodes);
-
-        const primerTexto = nodos.find(
+        // Alternativa para plantillas cuyo título es texto plano.
+        const primerTexto = Array.from(contenedor.childNodes).find(
             nodo =>
                 nodo.nodeType === Node.TEXT_NODE &&
                 nodo.textContent.trim()
@@ -2333,26 +2357,54 @@ async function construirDocumentoHtml(
 
         if (
             primerTexto &&
-            primerTexto.textContent.trim().toUpperCase() ===
-                "CONTRATO DE TRABAJO"
+            normalizarTexto(primerTexto.textContent).startsWith(
+                tituloTexto
+            )
         ) {
-            primerTexto.remove();
+            primerTexto.textContent =
+                primerTexto.textContent
+                    .replace(/^\s*CONTRATO\s+DE\s+TRABAJO/i, "");
         }
     }
 
-    // Eliminar saltos de línea iniciales que dejan espacio vacío.
-    while (
-        contenedor.firstChild &&
-        contenedor.firstChild.nodeType === Node.TEXT_NODE &&
-        !contenedor.firstChild.textContent.trim()
-    ) {
-        contenedor.firstChild.remove();
+    // Limpiar saltos de línea y bloques vacíos al comienzo.
+    while (contenedor.firstChild) {
+        const nodo = contenedor.firstChild;
+
+        if (
+            nodo.nodeType === Node.TEXT_NODE &&
+            !nodo.textContent.trim()
+        ) {
+            nodo.remove();
+            continue;
+        }
+
+        if (
+            nodo.nodeType === Node.ELEMENT_NODE &&
+            ["BR"].includes(nodo.tagName)
+        ) {
+            nodo.remove();
+            continue;
+        }
+
+        if (
+            nodo.nodeType === Node.ELEMENT_NODE &&
+            !nodo.textContent.trim()
+        ) {
+            nodo.remove();
+            continue;
+        }
+
+        break;
     }
 
     const logoHtml = logoUrl
         ? `
             <div class="contrato-logo">
-                <img src="${logoUrl}" alt="Logo empresa mandante">
+                <img
+                    src="${logoUrl}"
+                    alt="Logo empresa mandante"
+                >
             </div>
         `
         : "";
@@ -2367,6 +2419,7 @@ async function construirDocumentoHtml(
 <head>
     <meta charset="UTF-8">
     <title>Documento Cubika</title>
+
     <style>
         ${css}
 
@@ -2423,12 +2476,16 @@ async function construirDocumentoHtml(
         }
     </style>
 </head>
+
 <body>
     <main class="document-print">
         <header class="contrato-encabezado">
             ${logoHtml}
+
             <div class="contrato-titulos">
-                <div class="contrato-titulo">${tituloTexto}</div>
+                <div class="contrato-titulo">
+                    ${tituloTexto}
+                </div>
                 ${empresaHtml}
             </div>
         </header>
@@ -2441,6 +2498,7 @@ async function construirDocumentoHtml(
 </html>
     `.trim();
 }
+
 
 
 
