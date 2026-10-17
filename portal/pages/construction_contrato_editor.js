@@ -2304,31 +2304,35 @@ async function construirDocumentoHtml(
         "text/html"
     );
 
-    // Buscar el título sin depender de una etiqueta concreta.
-    const elementos = Array.from(
+
+    // Buscar y retirar todas las apariciones independientes
+    // del título, para evitar que quede duplicado.
+    const normalizarTexto = texto =>
+        texto.replace(/\s+/g, " ").trim().toUpperCase();
+
+    const candidatos = Array.from(
         documento.body.querySelectorAll(
-            "h1, h2, h3, p, div"
+            "h1, h2, h3, h4, p, div, td, th"
         )
     );
 
-    const titulo = elementos.find(elemento =>
-        elemento.textContent
-            .replace(/\s+/g, " ")
-            .trim()
-            .toUpperCase() === "CONTRATO DE TRABAJO"
+    const titulos = candidatos.filter(elemento =>
+        normalizarTexto(elemento.textContent) ===
+        "CONTRATO DE TRABAJO"
     );
 
-    const tituloHtml = titulo
-        ? titulo.outerHTML
-        : "<h1 class=\"document-header-title\">CONTRATO DE TRABAJO</h1>";
+    // Conservar el formato original del primer título encontrado.
+    const tituloOriginal = titulos[0];
 
-    // Retirar el título de su posición original.
-    if (titulo) {
-        titulo.remove();
-    }
+    const tituloHtml = tituloOriginal
+        ? tituloOriginal.innerHTML
+        : "CONTRATO DE TRABAJO";
 
-    const contenidoRestante =
-        documento.body.innerHTML;
+    // Retirar todas las apariciones independientes del título.
+    titulos.forEach(elemento => elemento.remove());
+
+    const contenidoRestante = documento.body.innerHTML;
+
 
     const logoHtml = logoUrl
         ? `
@@ -2360,55 +2364,74 @@ async function construirDocumentoHtml(
         ${css}
 
         .document-contract-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
+            display: table;
             width: 100%;
-            margin: 0 0 22px;
-            box-sizing: border-box;
+            table-layout: fixed;
+            margin: 0 0 12px;
+            padding: 0;
             page-break-inside: avoid;
         }
 
+
+        .document-header-logo,
+            .document-header-info {
+                display: table-cell;
+                vertical-align: middle;
+                box-sizing: border-box;
+            }
+
         .document-header-logo {
-            flex: 0 0 120px;
-            width: 120px;
-        }
+                width: 35%;
+                text-align: left;
+            }
+
 
         .document-header-logo img {
-            display: block;
-            width: 100%;
-            max-height: 65px;
-            object-fit: contain;
-            object-position: left center;
-        }
-
-        .document-header-info {
-            flex: 1;
-            min-width: 0;
-            text-align: right;
-        }
-
-        .document-header-title {
-            margin: 0 0 7px;
-            font-size: 15px;
-            line-height: 1.3;
-            font-weight: 700;
-            text-align: right;
-        }
-
-        .document-header-company {
-            font-size: 11px;
-            font-weight: 600;
-            line-height: 1.4;
-            overflow-wrap: anywhere;
-        }
-
-        .document-header-company-label {
-            margin-top: 2px;
-            font-size: 9px;
-            color: #555;
-        }
+                display: block;
+                width: auto;
+                height: auto;
+                max-width: 120px;
+                max-height: 60px;
+                object-fit: contain;
+                object-position: left center;
+            }
+            
+            .document-header-info {
+                width: 65%;
+                text-align: right;
+                overflow-wrap: anywhere;
+            }
+            
+            .document-header-title {
+                margin: 0 0 5px;
+                font-size: 15px;
+                line-height: 1.3;
+                font-weight: 700;
+                text-align: right;
+            }
+            
+            .document-header-title h1,
+            .document-header-title h2,
+            .document-header-title h3,
+            .document-header-title p {
+                margin: 0;
+                font-size: inherit;
+                line-height: inherit;
+                text-align: inherit;
+            }
+            
+            .document-header-company {
+                margin: 0;
+                font-size: 11px;
+                font-weight: 600;
+                line-height: 1.4;
+            }
+            
+            .document-header-company-label {
+                margin-top: 2px;
+                font-size: 9px;
+                color: #555;
+            }
 
         @media print {
             .document-contract-header {
