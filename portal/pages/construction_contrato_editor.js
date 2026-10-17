@@ -2348,67 +2348,108 @@ async function construirDocumentoHtml(
 
 
 
+
+let previewPdfUrl = null;
+
 async function generarVistaPrevia() {
+    const preview = document.getElementById("previewContrato");
 
-    const contrato =
-        await construirContrato();
+    if (!preview) return;
 
-    contratoActual.contenido =
-        contrato.contenidoHtml;
+    try {
+        preview.innerHTML = `
+            <div style="
+                padding: 32px;
+                text-align: center;
+                color: #6b7280;
+            ">
+                Generando vista previa del contrato...
+            </div>
+        `;
 
-    const preview =
-        document.getElementById(
-            "previewContrato"
-        );
+        // 1. Construir el contrato con los datos actuales.
+        const contrato = await construirContrato();
 
-    if (!preview) {
-        return;
-    }
+        contratoActual.contenido = contrato.contenidoHtml;
 
-    const documentHtml =
-        await construirDocumentoHtml(
+        // 2. Construir el HTML con los estilos y el logo.
+        const documentoHtml = await construirDocumentoHtml(
             contrato.contenidoHtml,
             contrato.logoUrl
         );
 
-    const parser =
-        new DOMParser();
-
-    const documento =
-        parser.parseFromString(
-            documentHtml,
-            "text/html"
+        // 3. Solicitar el PDF real al backend Puppeteer.
+        const response = await fetch(
+            "https://api.cubika.cl/api/pdf",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    html: documentoHtml
+                })
+            }
         );
 
-    const estilos =
-        documento.querySelector("style");
+        if (!response.ok) {
+            throw new Error(
+                `Error generando la vista previa (${response.status}).`
+            );
+        }
 
-    const contenido =
-        documento.querySelector(
-            ".document-print"
+        // 4. Recibir el PDF en memoria, sin guardarlo en Storage.
+        const pdfBlob = await response.blob();
+
+        if (!pdfBlob.size) {
+            throw new Error("El PDF generado está vacío.");
+        }
+
+        // 5. Liberar la URL de una vista previa anterior.
+        if (previewPdfUrl) {
+            URL.revokeObjectURL(previewPdfUrl);
+            previewPdfUrl = null;
+        }
+
+        // 6. Crear una URL temporal para mostrar el PDF.
+        previewPdfUrl = URL.createObjectURL(pdfBlob);
+
+        // 7. Mostrar el PDF real dentro del editor.
+        preview.innerHTML = "";
+
+        const visor = document.createElement("iframe");
+
+        visor.src = previewPdfUrl;
+        visor.title = "Vista previa del contrato";
+        visor.style.width = "100%";
+        visor.style.height = "75vh";
+        visor.style.minHeight = "650px";
+        visor.style.border = "none";
+        visor.style.borderRadius = "8px";
+        visor.style.display = "block";
+
+        preview.appendChild(visor);
+
+    } catch (error) {
+        console.error(
+            "Error generando vista previa del contrato:",
+            error
         );
 
-    preview.innerHTML = "";
-
-    if (estilos) {
-
-        const style =
-            document.createElement("style");
-
-        style.textContent =
-            estilos.textContent;
-
-        preview.appendChild(style);
+        preview.innerHTML = `
+            <div style="
+                padding: 24px;
+                text-align: center;
+                color: #b91c1c;
+            ">
+                <p>No fue posible generar la vista previa.</p>
+                <p style="font-size: 13px; color: #6b7280;">
+                    ${error.message}
+                </p>
+            </div>
+        `;
     }
-
-    if (contenido) {
-        preview.appendChild(
-            contenido.cloneNode(true)
-        );
-    }
-
 }
-
 
 
 
