@@ -4606,7 +4606,7 @@ EDITOR DOCUMENTAL
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    
     flex-shrink: 0;
     min-width: 76px;
 
@@ -4643,9 +4643,9 @@ EDITOR DOCUMENTAL
 
 .empresa-logo-hint {
     display: block;
-    margin-top: 2px;
+    margin-top: 1px;
     color: var(--text-muted, #718096);
-    font-size: 11px;
+    font-size: 10px;
 }
 
 @media (max-width: 560px) {
