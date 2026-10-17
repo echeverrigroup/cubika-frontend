@@ -913,7 +913,12 @@ function obtenerFormularioMandante(
                                 class="cubika-input"
                             />
 
-                             <button
+                        
+                            <div id="nombreLogoActual" class="empresa-logo-filename">
+                                Ningún logo cargado
+                            </div>
+
+                            <button
                                 type="button"
                                 id="btnVerLogoEmpresa"
                                 class="btn-ver-logo"
@@ -922,10 +927,7 @@ function obtenerFormularioMandante(
                                 <span class="btn-ver-logo-icon">◉</span>
                                 Ver
                             </button>
-                        
-                            <div id="nombreLogoActual" class="empresa-logo-filename">
-                                Ningún logo cargado
-                            </div>
+                            
                         </div>
 
                     </div>
