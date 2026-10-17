@@ -912,22 +912,22 @@ function obtenerFormularioMandante(
                                 accept=".jpg,.jpeg,image/jpeg"
                                 class="cubika-input"
                             />
+
+                             <button
+                                type="button"
+                                id="btnVerLogoEmpresa"
+                                class="btn-ver-logo"
+                                disabled
+                            >
+                                <span class="btn-ver-logo-icon">◉</span>
+                                Ver
+                            </button>
                         
                             <div id="nombreLogoActual" class="empresa-logo-filename">
                                 Ningún logo cargado
                             </div>
                         </div>
 
-                
-                        <button
-                            type="button"
-                            id="btnVerLogoEmpresa"
-                            class="btn-ver-logo"
-                            disabled
-                        >
-                            <span class="btn-ver-logo-icon">◉</span>
-                            Ver
-                        </button>
                     </div>
                 
                     <small class="empresa-logo-hint">
