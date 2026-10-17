@@ -918,7 +918,10 @@ function obtenerFormularioMandante(
                                 Ningún logo cargado
                             </div>
 
-                            <button
+                            
+                        </div>
+
+                        <button
                                 type="button"
                                 id="btnVerLogoEmpresa"
                                 class="btn-ver-logo"
@@ -927,8 +930,6 @@ function obtenerFormularioMandante(
                                 <span class="btn-ver-logo-icon">◉</span>
                                 Ver
                             </button>
-                            
-                        </div>
 
                     </div>
                 
