@@ -4575,13 +4575,13 @@ EDITOR DOCUMENTAL
 
 /* Logo de empresa — estilo Cubika */
 .empresa-logo-group {
-    margin-top: 16px;
+    margin-top: 10px;
 }
 
 .empresa-logo-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
 }
 
@@ -4609,7 +4609,7 @@ EDITOR DOCUMENTAL
     gap: 6px;
     flex-shrink: 0;
     min-width: 76px;
-    padding: 9px 13px;
+    padding: 9px 10px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
     background: #edf8f8;
@@ -4631,7 +4631,7 @@ EDITOR DOCUMENTAL
 }
 
 .btn-ver-logo-icon {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1;
 }
 
