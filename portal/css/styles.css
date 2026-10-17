@@ -4612,7 +4612,7 @@ EDITOR DOCUMENTAL
 
     marging-top: 0;
     
-    padding: 5px 5px;
+    padding: 5px 12px;
     border: 1px solid #c9e5e7;
     border-radius: 8px;
     background: #edf8f8;
@@ -4643,7 +4643,7 @@ EDITOR DOCUMENTAL
 
 .empresa-logo-hint {
     display: block;
-    margin-top: 1px;
+    margin-top: 0;
     color: var(--text-muted, #718096);
     font-size: 10px;
 }
