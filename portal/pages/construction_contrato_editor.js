@@ -2439,6 +2439,7 @@ async function construirDocumentoHtml(
         display: table;
         width: 100%;
         table-layout: fixed;
+        padding-top: 15px;
         margin: 0;
         padding: 0;
         page-break-inside: avoid;
@@ -2457,8 +2458,8 @@ async function construirDocumentoHtml(
 
     .contrato-logo img {
         display: block;
-        max-width: 120px;
-        max-height: 60px;
+        max-width: 180px;
+        max-height: 90px;
         width: auto;
         height: auto;
         object-fit: contain;
