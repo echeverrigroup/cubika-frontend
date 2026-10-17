@@ -2430,90 +2430,77 @@ async function construirDocumentoHtml(
     <meta charset="UTF-8">
     <title>Documento Cubika</title>
 
-    <style>
-        ${css}
 
-        
-.contrato-encabezado {
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
+<style>
+    ${css}
 
-.contrato-titulo {
-    margin: 0 0 1px;
-    padding: 0;
-    line-height: 1.1;
-}
+    /* Encabezado: logo y títulos */
+    .contrato-encabezado {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        margin: 0;
+        padding: 0;
+        page-break-inside: avoid;
+    }
 
-.contrato-empresa {
-    margin: 0;
-    padding: 0;
-    line-height: 1.1;
-}
+    .contrato-logo,
+    .contrato-titulos {
+        display: table-cell;
+        vertical-align: middle;
+    }
 
-.contrato-cuerpo {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
+    .contrato-logo {
+        width: 35%;
+        text-align: left;
+    }
 
-.contrato-cuerpo > :first-child {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
+    .contrato-logo img {
+        display: block;
+        max-width: 120px;
+        max-height: 60px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        object-position: left center;
+    }
 
+    .contrato-titulos {
+        width: 65%;
+        text-align: right;
+        line-height: 1;
+        white-space: normal;
+    }
 
+    .contrato-titulo {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1;
+    }
 
-        .contrato-encabezado {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-            margin: 0 0 4px;
-            padding: 0;
-            page-break-inside: avoid;
-        }
+    .contrato-empresa {
+        margin: 0;
+        padding: 0;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 1;
+    }
 
-        .contrato-logo,
-        .contrato-titulos {
-            display: table-cell;
-            vertical-align: middle;
-        }
+    /* Cuerpo: comienza inmediatamente después del encabezado */
+    .contrato-cuerpo {
+        margin: 0 !important;
+        padding: 0 !important;
+        white-space: pre-wrap;
+    }
 
-        .contrato-logo {
-            width: 35%;
-            text-align: left;
-        }
+    .contrato-cuerpo > :first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+</style>
 
-        .contrato-logo img {
-            display: block;
-            max-width: 120px;
-            max-height: 60px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            object-position: left center;
-        }
-
-        .contrato-titulos {
-            width: 65%;
-            text-align: right;
-            line-height: 1.15;
-        }
-
-        .contrato-titulo {
-            margin: 0 0 2px;
-            padding: 0;
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 1.15;
-        }
-        
-        .contrato-empresa {
-
-            font-size: 10px;
-            font-weight: 600;
-        }
-        
-    </style>
 </head>
 
 <body>
