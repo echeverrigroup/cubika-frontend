@@ -25,6 +25,7 @@ body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin: 0;
+    padding: 0;
 }
 
 .document-print .contrato-cuerpo {
