@@ -2459,7 +2459,7 @@ async function construirDocumentoHtml(
         }
 
         .contrato-titulo {
-            margin: 0 0 5px;
+            margin: 0 0 0 0;
             font-size: 14px;
             font-weight: 700;
             line-height: 1.3;
