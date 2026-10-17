@@ -900,7 +900,7 @@ function obtenerFormularioMandante(
     
 
                 <!-- LOGO DE LA EMPRESA -->
-                <div class="form-group empresa-logo-group">
+                <div class="form-group">
                     <label for="logoEmpresa">Logo de la empresa</label>
                 
                     <div class="empresa-logo-row">
