@@ -66,7 +66,7 @@ export const storageService = {
 
         const { data, error } = await supabase
             .storage
-            .from("logos-empresas")
+            .from("logos_empresas")
             .upload(path, imagen, {
                 contentType: "image/jpeg",
                 upsert: true
@@ -85,7 +85,7 @@ export const storageService = {
 
         const { data, error } = await supabase
             .storage
-            .from("logos-empresas")
+            .from("logos_empresas")
             .createSignedUrl(path, expiresIn);
 
         if (error)
