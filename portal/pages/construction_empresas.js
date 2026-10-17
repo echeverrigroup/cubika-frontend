@@ -1,4 +1,4 @@
-import { storageService } from "../services/storageService.js";
+import { storageService } from "../js/services/storageService.js";
 
 import { constructorasService }
 from "../services/constructorasService.js";
