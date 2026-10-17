@@ -2427,7 +2427,7 @@ async function construirDocumentoHtml(
             display: table;
             width: 100%;
             table-layout: fixed;
-            margin: 0 0 14px;
+            margin: 0 0 4px;
             padding: 0;
             page-break-inside: avoid;
         }
@@ -2456,24 +2456,35 @@ async function construirDocumentoHtml(
         .contrato-titulos {
             width: 65%;
             text-align: right;
+            line-height: 1.15;
         }
 
         .contrato-titulo {
-            margin: 0 0 0 0;
+            margin: 0 0 2px;
+            padding: 0;
             font-size: 14px;
             font-weight: 700;
-            line-height: 1.3;
+            line-height: 1.15;
         }
-
+        
         .contrato-empresa {
+            margin: 0;
+            padding: 0;
             font-size: 10px;
             font-weight: 600;
-            line-height: 1.4;
+            line-height: 1.15;
+        }
+
+        .contrato-cuerpo {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
         }
 
         .contrato-cuerpo > :first-child {
             margin-top: 0 !important;
+            padding-top: 0 !important;
         }
+        
     </style>
 </head>
 
