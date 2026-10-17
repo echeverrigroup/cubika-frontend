@@ -2457,8 +2457,8 @@ async function construirDocumentoHtml(
 
     .contrato-logo img {
     display: block;
-    max-width: 180px;
-    max-height: 90px;
+    max-width: 200px;
+    max-height: 100px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -2468,7 +2468,7 @@ async function construirDocumentoHtml(
 .contrato-titulos {
     width: 55%;
     text-align: right;
-    line-height: 1;
+    line-height: 1.5;
     white-space: normal;
 }
 
@@ -2477,9 +2477,9 @@ async function construirDocumentoHtml(
   .contrato-titulo {
     margin: 0 !important;
     padding: 0 !important;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.75;
 }
 
 .contrato-empresa {
