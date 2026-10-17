@@ -1,3 +1,5 @@
+import { storageService } from "../services/storageService.js";
+
 import { constructorasService }
 from "../services/constructorasService.js";
 
@@ -1225,6 +1227,22 @@ if (!rut) {
                 estado: "Activo"
         
             });
+        
+
+        const archivoLogo =
+            document.getElementById("logoEmpresa")?.files?.[0];
+        
+        if (archivoLogo) {
+            const resultadoLogo = await storageService.uploadLogoEmpresa({
+                empresaId: nuevaEmpresa.id,
+                imagen: archivoLogo
+            });
+        
+            await empresasService.update(nuevaEmpresa.id, {
+                logo_path: resultadoLogo.path
+            });
+        }
+        
     
         if (actualizarListado) {
         
@@ -1301,7 +1319,20 @@ async function editarEmpresa(id) {
         tipoEntidadActivo === "mandante"
     ) {
 
-        configurarVistaPreviaLogo();
+        let logoUrl = null;
+
+        if (empresa.logo_path) {
+            try {
+                logoUrl = await storageService.createSignedUrlLogo(
+                    empresa.logo_path
+                );
+            } catch (error) {
+                console.error("No fue posible cargar el logo existente:", error);
+            }
+        }
+        
+        configurarVistaPreviaLogo(logoUrl);
+        
 
         await cargarRegionesEmpresa(
             empresa.region_id
@@ -1475,6 +1506,20 @@ if (!rut) {
 
         setModalLoading(true);
 
+        const archivoLogo =
+            document.getElementById("logoEmpresa")?.files?.[0];
+        
+        let logoPathActualizado = null;
+        
+        if (archivoLogo) {
+            const resultadoLogo = await storageService.uploadLogoEmpresa({
+                empresaId: id,
+                imagen: archivoLogo
+            });
+        
+            logoPathActualizado = resultadoLogo.path;
+        }
+
       await servicioActivo.update(
 
             id,
@@ -1507,7 +1552,11 @@ if (!rut) {
                 comuna_representante_id:
                     comuna_representante_id || null,
         
-                estado:"Activo"
+                estado:"Activo",
+
+                ...(logoPathActualizado
+                ? { logo_path: logoPathActualizado }
+                : {})
         
             }
         
