@@ -898,35 +898,37 @@ function obtenerFormularioMandante(
                 </div>
 
     
-                    <!-- LOGO DE LA EMPRESA -->
-                    <div class="form-group empresa-logo-group">
-                        <label for="logoEmpresa">Logo de la empresa</label>
 
-                        <div class="empresa-logo-control">
-                            <div class="empresa-logo-preview">
-                                <img
-                                    id="logoEmpresaPreview"
-                                    alt="Vista previa del logo"
-                                    style="display:none;"
-                                >
-                                <span id="logoEmpresaPlaceholder">
-                                    Sin logo
-                                </span>
-                            </div>
-
-                            <div class="empresa-logo-actions">
-                                <input
-                                    id="logoEmpresa"
-                                    type="file"
-                                    accept=".jpg,.jpeg,image/jpeg"
-                                    class="cubika-input"
-                                >
-                                <small>
-                                    JPG · Opcional. Puedes reemplazarlo después.
-                                </small>
-                            </div>
+                <!-- LOGO DE LA EMPRESA -->
+                <div class="form-group empresa-logo-group">
+                    <label for="logoEmpresa">Logo de la empresa</label>
+                
+                    <div class="empresa-logo-row">
+                        <div class="empresa-logo-file">
+                            <input
+                                id="logoEmpresa"
+                                type="file"
+                                accept=".jpg,.jpeg,image/jpeg"
+                                class="cubika-input"
+                            />
                         </div>
+                
+                        <button
+                            type="button"
+                            id="btnVerLogoEmpresa"
+                            class="btn-ver-logo"
+                            disabled
+                        >
+                            <span class="btn-ver-logo-icon">◉</span>
+                            Ver
+                        </button>
                     </div>
+                
+                    <small class="empresa-logo-hint">
+                        JPG · Opcional · Puedes cambiarlo cuando quieras.
+                    </small>
+                </div>
+
 
 
                 </div>
@@ -948,30 +950,17 @@ function obtenerFormularioMandante(
 
 
 
+
 function configurarVistaPreviaLogo(urlExistente = null) {
     const input = document.getElementById("logoEmpresa");
-    const preview = document.getElementById("logoEmpresaPreview");
-    const placeholder = document.getElementById("logoEmpresaPlaceholder");
+    const botonVer = document.getElementById("btnVerLogoEmpresa");
 
-    if (!input || !preview || !placeholder) return;
+    if (!input || !botonVer) return;
 
-    const mostrarImagen = (url) => {
-        preview.src = url;
-        preview.style.display = "block";
-        placeholder.style.display = "none";
-    };
+    let urlLogo = urlExistente;
+    let objectUrlActual = null;
 
-    const mostrarPlaceholder = () => {
-        preview.removeAttribute("src");
-        preview.style.display = "none";
-        placeholder.style.display = "inline";
-    };
-
-    if (urlExistente) {
-        mostrarImagen(urlExistente);
-    } else {
-        mostrarPlaceholder();
-    }
+    botonVer.disabled = !urlLogo;
 
     input.addEventListener("change", () => {
         const archivo = input.files?.[0];
@@ -984,15 +973,29 @@ function configurarVistaPreviaLogo(urlExistente = null) {
             return;
         }
 
-        if (preview.dataset.objectUrl) {
-            URL.revokeObjectURL(preview.dataset.objectUrl);
+        if (objectUrlActual) {
+            URL.revokeObjectURL(objectUrlActual);
+            objectUrlActual = null;
         }
 
-        const objectUrl = URL.createObjectURL(archivo);
-        preview.dataset.objectUrl = objectUrl;
-        mostrarImagen(objectUrl);
+        objectUrlActual = URL.createObjectURL(archivo);
+        urlLogo = objectUrlActual;
+        botonVer.disabled = false;
+    });
+
+    botonVer.addEventListener("click", () => {
+        if (!urlLogo) return;
+
+        const ventana = window.open(urlLogo, "_blank", "noopener,noreferrer");
+
+        if (!ventana) {
+            setModalError(
+                "El navegador bloqueó la ventana. Permite abrir ventanas emergentes para ver el logo."
+            );
+        }
     });
 }
+
 
 
 
