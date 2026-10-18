@@ -114,6 +114,11 @@ export const DOCUMENT_VARIABLES = {
 
     ]
 
+    FIRMAS: [
+        "FIRMA_EMPLEADOR",
+        "FIRMA_TRABAJADOR"
+    ]
+
 };
 
 
