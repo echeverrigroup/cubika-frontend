@@ -1,4 +1,9 @@
 import {
+    documentosGeneradosEventosService
+} from "../services/documentosGeneradosEventosService.js";
+
+
+import {
     constructorasService
 }
 from "../services/constructorasService.js";
@@ -3491,6 +3496,8 @@ async function mostrarModalSeleccionDocumentos(
                 setModalError("");
                 setModalLoading(true);
 
+                const loteId = crypto.randomUUID();
+
                 
             // 1. Obtener el mandante y su logo
                 const empresa = await empresasService.getById(
@@ -3592,11 +3599,11 @@ async function mostrarModalSeleccionDocumentos(
                     }
         
                     pdfComplementarios.push({
+                        plantillaId: complemento.id,
                         nombre: complemento.nombre,
                         blob:
                             await responseComplementario.blob()
                     });
-        
                 }
         
         
@@ -3631,6 +3638,43 @@ async function mostrarModalSeleccionDocumentos(
                     await contratosGeneradosService.create(
                         contratoGuardar
                     );
+
+
+                
+                /*
+                 * Registrar la generación del contrato y los Complementos.
+                 * Los PDFs complementarios permanecen únicamente en memoria.
+                 */
+                
+                await registrarEventoDocumentalSeguro(
+                    "registrarGeneracion",
+                    {
+                        lote_id: loteId,
+                        contrato_id: contratoCreado.id,
+                        plantilla_id: contratoCreado.plantilla_id,
+                        empresa_id: contratoCreado.empresa_id,
+                        worker_id: contratoCreado.worker_id,
+                        tipo_documento: "CONTRATO",
+                        nombre_documento:
+                            `Contrato ${contratoCreado.numero_contrato}`
+                    }
+                );
+                
+                for (const pdf of pdfComplementarios) {
+                    await registrarEventoDocumentalSeguro(
+                        "registrarGeneracion",
+                        {
+                            lote_id: loteId,
+                            contrato_id: contratoCreado.id,
+                            plantilla_id: pdf.plantillaId,
+                            empresa_id: contratoCreado.empresa_id,
+                            worker_id: contratoCreado.worker_id,
+                            tipo_documento: "COMPLEMENTO",
+                            nombre_documento: pdf.nombre
+                        }
+                    );
+                }
+
         
         
                 /*
@@ -3669,20 +3713,48 @@ async function mostrarModalSeleccionDocumentos(
                 /*
                  * 5. Descargar el contrato y los complementos.
                  */
+
+                await registrarEventoDocumentalSeguro(
+                    "registrarDescarga",
+                    {
+                        lote_id: loteId,
+                        contrato_id: contratoCreado.id,
+                        plantilla_id: contratoCreado.plantilla_id,
+                        empresa_id: contratoCreado.empresa_id,
+                        worker_id: contratoCreado.worker_id,
+                        tipo_documento: "CONTRATO",
+                        nombre_documento:
+                            `Contrato ${contratoCreado.numero_contrato}`
+                    }
+                );
         
                 descargarPDF(
                     pdfContrato,
                     `contrato-${contratoCreado.numero_contrato}.pdf`
                 );
         
+                
                 for (const pdf of pdfComplementarios) {
-        
+                
+                    await registrarEventoDocumentalSeguro(
+                        "registrarDescarga",
+                        {
+                            lote_id: loteId,
+                            contrato_id: contratoCreado.id,
+                            plantilla_id: pdf.plantillaId,
+                            empresa_id: contratoCreado.empresa_id,
+                            worker_id: contratoCreado.worker_id,
+                            tipo_documento: "COMPLEMENTO",
+                            nombre_documento: pdf.nombre
+                        }
+                    );
+                
                     descargarPDF(
                         pdf.blob,
                         `${pdf.nombre}.pdf`
                     );
-        
                 }
+
         
                 setModalLoading(false);
         
@@ -3786,6 +3858,34 @@ async function cargarObrasPorConstructora(
     `;
 
 }
+
+
+
+
+async function registrarEventoDocumentalSeguro(
+    metodo,
+    datos,
+    detalle = null
+) {
+    try {
+        if (metodo === "registrarError") {
+            await documentosGeneradosEventosService.registrarError(
+                datos,
+                detalle
+            );
+            return;
+        }
+
+        await documentosGeneradosEventosService[metodo](datos);
+    } catch (error) {
+        // La trazabilidad no debe bloquear el proceso documental.
+        console.error(
+            "No fue posible registrar el evento documental:",
+            error
+        );
+    }
+}
+
 
 
 
