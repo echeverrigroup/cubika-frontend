@@ -112,7 +112,7 @@ export const DOCUMENT_VARIABLES = {
 
         "OBSERVACIONES"
 
-    ]
+    ],
 
     FIRMAS: [
         "FIRMA_EMPLEADOR",
