@@ -2820,31 +2820,6 @@ function ajustarAnchoPreview() {
 }
 
 
-async function cargarPdfJs() {
-
-    if (!pdfjsPromise) {
-
-        pdfjsPromise = import(
-            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs"
-        ).then(pdfjsLib => {
-
-            pdfjsLib.GlobalWorkerOptions.workerSrc =
-                "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
-
-            return pdfjsLib;
-
-        }).catch(error => {
-
-            pdfjsPromise = null;
-            throw error;
-
-        });
-
-    }
-
-    return pdfjsPromise;
-}
-
 
 async function generarVistaPrevia() {
     const preview = document.getElementById("previewContrato");
