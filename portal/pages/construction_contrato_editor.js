@@ -2664,9 +2664,10 @@ async function construirDocumentoHtml(
     
                 ${empresaHtml}
             </div>
+
+            <hr class="contrato-separador">
+            
         </header>
-    
-        <hr class="contrato-separador">
     
         <section class="contrato-cuerpo">
             ${contenedor.innerHTML}
