@@ -2566,7 +2566,7 @@ async function construirDocumentoHtml(
     box-sizing: border-box;
     border: 0;
     border-top: 1px solid #D1D5DB;
-    margin: 12px 0 22px;
+    margin: 2px 0 0px;
     padding: 0;
 }
 
