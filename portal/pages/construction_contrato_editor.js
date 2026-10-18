@@ -3198,33 +3198,40 @@ async function aprobarYGenerarContrato() {
 
 
 
+
 async function construirDocumentoComplementario(
     complemento,
     contratoGenerado
 ) {
 
-    if (!complemento)
+    if (!complemento) {
         throw new Error(
             "No se recibió la plantilla del complemento."
         );
+    }
 
-
-    if (!contratoGenerado)
+    if (!contratoGenerado) {
         throw new Error(
             "No se recibió el contrato generado."
         );
+    }
 
-
-    const variablesSolicitadas =
-        obtenerVariablesPlantilla(
+    // 1. Procesar primero las variables especiales de firma.
+    const contenidoConFirmas =
+        procesarVariablesFirma(
             complemento.contenido
         );
 
+    // 2. Detectar las variables de datos que aún quedan.
+    const variablesSolicitadas =
+        obtenerVariablesPlantilla(
+            contenidoConFirmas
+        );
 
     const variablesDisponibles =
         contratoGenerado.variables || {};
 
-
+    // 3. Validar las variables restantes.
     const variablesFaltantes =
         variablesSolicitadas.filter(
             variable =>
@@ -3234,35 +3241,24 @@ async function construirDocumentoComplementario(
                 )
         );
 
-
     if (variablesFaltantes.length > 0) {
-
         throw new Error(
             `El complemento "${complemento.nombre}" utiliza variables que no están disponibles: ${variablesFaltantes.join(", ")}`
         );
-
     }
 
-
+    // 4. Reemplazar las variables de datos.
     const contenidoHtml =
         reemplazarVariables(
-            complemento.contenido,
+            contenidoConFirmas,
             variablesDisponibles
         );
 
-
     return {
-
-        plantilla:
-            complemento,
-
-        variables:
-            variablesDisponibles,
-
+        plantilla: complemento,
+        variables: variablesDisponibles,
         contenidoHtml
-
     };
-
 }
 
 
