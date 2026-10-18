@@ -2686,14 +2686,49 @@ async function construirDocumentoHtml(
 
 
 
-let previewPdfUrl = null;
+
+let previewPdfDocument = null;
+let previewRenderToken = 0;
+let pdfjsPromise = null;
+
+
+async function cargarPdfJs() {
+
+    if (!pdfjsPromise) {
+
+        pdfjsPromise = import(
+            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs"
+        ).then(pdfjsLib => {
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+
+            return pdfjsLib;
+
+        }).catch(error => {
+
+            pdfjsPromise = null;
+            throw error;
+
+        });
+
+    }
+
+    return pdfjsPromise;
+}
+
 
 async function generarVistaPrevia() {
-    const preview = document.getElementById("previewContrato");
+
+    const preview =
+        document.getElementById("previewContrato");
 
     if (!preview) return;
 
+    const renderToken = ++previewRenderToken;
+
     try {
+
         preview.innerHTML = `
             <div style="
                 padding: 32px;
@@ -2705,18 +2740,25 @@ async function generarVistaPrevia() {
         `;
 
         // 1. Construir el contrato con los datos actuales.
-        const contrato = await construirContrato();
+        const contrato =
+            await construirContrato();
 
-        contratoActual.contenido = contrato.contenidoHtml;
+        if (renderToken !== previewRenderToken) return;
 
-        // 2. Construir el HTML con los estilos y el logo.
-         const documentHtml = await construirDocumentoHtml(
-            contrato.contenidoHtml,
-            contrato.logoUrl,
-            contrato.nombreEmpresa
-        );
-        
-        // 3. Solicitar el PDF real al backend Puppeteer.
+        contratoActual.contenido =
+            contrato.contenidoHtml;
+
+        // 2. Construir el HTML del documento.
+        const documentHtml =
+            await construirDocumentoHtml(
+                contrato.contenidoHtml,
+                contrato.logoUrl,
+                contrato.nombreEmpresa
+            );
+
+        if (renderToken !== previewRenderToken) return;
+
+        // 3. Solicitar el PDF al backend actual.
         const response = await fetch(
             "https://api.cubika.cl/api/pdf",
             {
@@ -2736,39 +2778,157 @@ async function generarVistaPrevia() {
             );
         }
 
-        // 4. Recibir el PDF en memoria, sin guardarlo en Storage.
         const pdfBlob = await response.blob();
 
         if (!pdfBlob.size) {
-            throw new Error("El PDF generado está vacío.");
+            throw new Error(
+                "El PDF generado está vacío."
+            );
         }
 
-        // 5. Liberar la URL de una vista previa anterior.
-        if (previewPdfUrl) {
-            URL.revokeObjectURL(previewPdfUrl);
-            previewPdfUrl = null;
+        if (renderToken !== previewRenderToken) return;
+
+        // 4. Cargar PDF.js.
+        const pdfjsLib = await cargarPdfJs();
+
+        if (renderToken !== previewRenderToken) return;
+
+        // 5. Liberar el documento anterior, si existe.
+        if (previewPdfDocument) {
+
+            await previewPdfDocument.destroy();
+
+            previewPdfDocument = null;
         }
 
-        // 6. Crear una URL temporal para mostrar el PDF.
-        previewPdfUrl = URL.createObjectURL(pdfBlob);
+        if (renderToken !== previewRenderToken) return;
 
-        // 7. Mostrar el PDF real dentro del editor.
+        // 6. Leer el PDF en memoria.
+        const pdfData = await pdfBlob.arrayBuffer();
+
+        const loadingTask =
+            pdfjsLib.getDocument({
+                data: new Uint8Array(pdfData)
+            });
+
+        const pdfDocument = await loadingTask.promise;
+
+        if (renderToken !== previewRenderToken) {
+
+            await pdfDocument.destroy();
+            return;
+        }
+
+        previewPdfDocument = pdfDocument;
+
+        // 7. Preparar un visor propio, sin barra nativa.
         preview.innerHTML = "";
 
-        const visor = document.createElement("iframe");
+        const visor = document.createElement("div");
 
-        visor.src = previewPdfUrl;
-        visor.title = "Vista previa del contrato";
+        visor.className = "cubika-pdf-preview";
+
         visor.style.width = "100%";
         visor.style.height = "75vh";
         visor.style.minHeight = "650px";
-        visor.style.border = "none";
-        visor.style.borderRadius = "8px";
-        visor.style.display = "block";
+        visor.style.overflowY = "auto";
+        visor.style.overflowX = "hidden";
+        visor.style.boxSizing = "border-box";
+        visor.style.padding = "16px";
+        visor.style.background = "#e5e7eb";
+        visor.style.display = "flex";
+        visor.style.flexDirection = "column";
+        visor.style.alignItems = "center";
+        visor.style.gap = "16px";
 
         preview.appendChild(visor);
 
+        // 8. Dibujar cada página como un canvas.
+        const outputScale =
+            window.devicePixelRatio || 1;
+
+        for (
+            let pageNumber = 1;
+            pageNumber <= pdfDocument.numPages;
+            pageNumber++
+        ) {
+
+            if (renderToken !== previewRenderToken) return;
+
+            const page =
+                await pdfDocument.getPage(pageNumber);
+
+            if (renderToken !== previewRenderToken) return;
+
+            const viewportOriginal =
+                page.getViewport({ scale: 1 });
+
+            const availableWidth =
+                Math.max(280, visor.clientWidth - 32);
+
+            const scale = Math.min(
+                1,
+                availableWidth / viewportOriginal.width
+            );
+
+            const viewport =
+                page.getViewport({ scale });
+
+            const canvas =
+                document.createElement("canvas");
+
+            const context =
+                canvas.getContext("2d");
+
+            if (!context) {
+                throw new Error(
+                    "No fue posible preparar la vista previa."
+                );
+            }
+
+            canvas.width =
+                Math.floor(viewport.width * outputScale);
+
+            canvas.height =
+                Math.floor(viewport.height * outputScale);
+
+            canvas.style.width =
+                `${Math.floor(viewport.width)}px`;
+
+            canvas.style.height =
+                `${Math.floor(viewport.height)}px`;
+
+            canvas.style.maxWidth = "100%";
+            canvas.style.display = "block";
+            canvas.style.background = "#ffffff";
+            canvas.style.boxShadow =
+                "0 2px 8px rgba(0, 0, 0, 0.14)";
+            canvas.style.borderRadius = "2px";
+            canvas.style.flexShrink = "0";
+
+            visor.appendChild(canvas);
+
+            await page.render({
+                canvasContext: context,
+                viewport,
+                transform: outputScale !== 1
+                    ? [
+                        outputScale, 0,
+                        0, outputScale,
+                        0, 0
+                    ]
+                    : null
+            }).promise;
+
+            if (renderToken !== previewRenderToken) return;
+
+            page.cleanup();
+        }
+
     } catch (error) {
+
+        if (renderToken !== previewRenderToken) return;
+
         console.error(
             "Error generando vista previa del contrato:",
             error
@@ -2781,13 +2941,17 @@ async function generarVistaPrevia() {
                 color: #b91c1c;
             ">
                 <p>No fue posible generar la vista previa.</p>
-                <p style="font-size: 13px; color: #6b7280;">
+                <p style="
+                    font-size: 13px;
+                    color: #6b7280;
+                ">
                     ${error.message}
                 </p>
             </div>
         `;
     }
 }
+
 
 
 
