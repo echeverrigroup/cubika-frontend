@@ -2556,7 +2556,8 @@ async function construirDocumentoHtml(
     padding: 0 !important;
     font-size: 10px;
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.2;
+    font-color: #D1D5DB;
 }
 
 
@@ -2567,7 +2568,7 @@ async function construirDocumentoHtml(
     box-sizing: border-box;
     border: 0;
     border-top: 1px solid #D1D5DB;
-    margin: 5px 0 0 auto;
+    margin: 8px 0 0 auto;
     padding: 0;
 }
 
