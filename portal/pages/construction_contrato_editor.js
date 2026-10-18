@@ -2585,6 +2585,8 @@ async function construirDocumentoHtml(
     margin: 36px 0 16px;
     page-break-inside: avoid;
     break-inside: avoid;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .firma-bloque {
