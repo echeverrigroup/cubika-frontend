@@ -2559,6 +2559,7 @@ async function construirDocumentoHtml(
     line-height: 1.1;
 }
 
+
 .contrato-separador {
     display: block;
     width: 100%;
@@ -2566,9 +2567,10 @@ async function construirDocumentoHtml(
     box-sizing: border-box;
     border: 0;
     border-top: 1px solid #D1D5DB;
-    margin: 2px 0 0px;
+    margin: 5px 0 0 auto;
     padding: 0;
 }
+
 
     /* Cuerpo: comienza inmediatamente después del encabezado */
     .contrato-cuerpo {
@@ -2663,9 +2665,10 @@ async function construirDocumentoHtml(
                 </div>
     
                 ${empresaHtml}
-            </div>
 
-            <div class="contrato-separador">
+                 <hr class="contrato-separador">
+                 
+            </div>
             
         </header>
     
