@@ -2165,6 +2165,68 @@ async function cargarPaso3() {
 }
 
 
+
+
+function procesarVariablesFirma(contenido) {
+    const firmaEmpleador = `
+        <div class="firma-bloque firma-empleador">
+            <div class="firma-espacio"></div>
+            <div class="firma-nombre">{{EMPRESA}}</div>
+            <div class="firma-rut">RUT: {{RUT_EMPRESA}}</div>
+            <div class="firma-cargo">EMPLEADOR/A</div>
+        </div>
+    `;
+
+    const firmaTrabajador = `
+        <div class="firma-bloque firma-trabajador">
+            <div class="firma-espacio"></div>
+            <div class="firma-nombre">{{TRABAJADOR}}</div>
+            <div class="firma-rut">RUT: {{RUT_TRABAJADOR}}</div>
+            <div class="firma-cargo">TRABAJADOR/A</div>
+        </div>
+    `;
+
+    let resultado = contenido;
+
+    // Caso 1: ambas firmas consecutivas, empleador primero.
+    resultado = resultado.replace(
+        /\{\{FIRMA_EMPLEADOR\}\}\s*\{\{FIRMA_TRABAJADOR\}\}/g,
+        `
+        <div class="firmas-contenedor">
+            ${firmaEmpleador}
+            ${firmaTrabajador}
+        </div>
+        `
+    );
+
+    // Caso 2: ambas firmas consecutivas, trabajador primero.
+    resultado = resultado.replace(
+        /\{\{FIRMA_TRABAJADOR\}\}\s*\{\{FIRMA_EMPLEADOR\}\}/g,
+        `
+        <div class="firmas-contenedor">
+            ${firmaTrabajador}
+            ${firmaEmpleador}
+        </div>
+        `
+    );
+
+    // Caso 3: una firma aparece de manera independiente.
+    resultado = resultado.replaceAll(
+        "{{FIRMA_EMPLEADOR}}",
+        firmaEmpleador
+    );
+
+    resultado = resultado.replaceAll(
+        "{{FIRMA_TRABAJADOR}}",
+        firmaTrabajador
+    );
+
+    return resultado;
+}
+
+
+
+
 async function construirContrato() {
 
     const empresa =
@@ -2243,11 +2305,18 @@ async function construirContrato() {
 
     }
 
-    const contenidoHtml =
-        reemplazarVariables(
-            plantilla.contenido,
-            variables
-        );
+    
+        const contenidoConFirmas =
+            procesarVariablesFirma(
+                plantilla.contenido
+            );
+        
+        const contenidoHtml =
+            reemplazarVariables(
+                contenidoConFirmas,
+                variables
+            );
+
 
     
     return {
@@ -2501,6 +2570,69 @@ async function construirDocumentoHtml(
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
+
+
+
+/* Bloques de firma del documento */
+
+.firmas-contenedor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    margin: 36px 0 16px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.firma-bloque {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.firma-espacio {
+    height: 52px;
+    border-bottom: 1px solid #111827;
+    margin: 0 8px 8px;
+}
+
+.firma-nombre {
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.firma-rut {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.firma-cargo {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+@media print {
+    .firmas-contenedor {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .firma-bloque {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
 
     
 </style>
