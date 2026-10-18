@@ -2669,8 +2669,11 @@ async function construirDocumentoHtml(
                 <div class="contrato-titulo">
                     ${tituloTexto}
                 </div>
-    
-                ${empresaHtml}
+
+                
+                 <div class="contrato-empresa">
+                    ${empresaHtml}
+                </div>
 
                  <hr class="contrato-separador">
                  
