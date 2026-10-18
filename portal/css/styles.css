@@ -1431,7 +1431,7 @@ EDITOR DOCUMENTAL
 
 
 /* =========================================================
-   CONTRATOS — FRANJA VERTICAL CUBIKA EN ESTADO
+   CONTRATOS — FRANJA CUBIKA CENTRADA EN ESTADO
    ========================================================= */
 
 #contratosTable .contratos-table-scroll .estado-cell {
@@ -1443,25 +1443,25 @@ EDITOR DOCUMENTAL
     background: #ffffff;
 }
 
-/* Franja vertical azul translúcida */
+/* Franja horizontalmente centrada, ocupando el 85 % */
 #contratosTable .contratos-table-scroll .estado-cell::before {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 5px;
-    background: rgba(37, 99, 235, 0.14);
+    top: 7%;
+    bottom: 7%;
+    left: 7.5%;
+    width: 85%;
+    background: rgba(37, 99, 235, 0.055);
+    border-radius: 4px;
     pointer-events: none;
 }
 
-/* Mantener el indicador por encima de la franja */
+/* Indicador de estado por encima de la franja */
 #contratosTable .contratos-table-scroll .estado-cell .estado-indicador {
     position: relative;
     z-index: 1;
     margin-right: 0;
 }
-
 
 
 .distribucion-horaria-row {
