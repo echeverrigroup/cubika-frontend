@@ -4701,3 +4701,36 @@ EDITOR DOCUMENTAL
     font-weight: 500;
 }
 
+
+/* =========================================================
+   CONTRATOS — FRANJA CUBIKA EN CELDAS DE ACCIONES
+   ========================================================= */
+
+#contratosTable .contratos-table-scroll .acciones-cell {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    background: #ffffff;
+}
+
+/* Franja translúcida centrada */
+#contratosTable .contratos-table-scroll .acciones-cell::before {
+    content: "";
+    position: absolute;
+    top: 7%;
+    bottom: 7%;
+    left: 7.5%;
+    width: 85%;
+    background: rgba(37, 99, 235, 0.055);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Mantener los botones por encima de la franja */
+#contratosTable .contratos-table-scroll .acciones-cell > * {
+    position: relative;
+    z-index: 1;
+}
+
