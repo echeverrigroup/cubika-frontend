@@ -2684,12 +2684,140 @@ async function construirDocumentoHtml(
 }
 
 
-
-
-
 let previewPdfDocument = null;
 let previewRenderToken = 0;
 let pdfjsPromise = null;
+
+let previewZoom = 1;
+let previewFitScale = 1;
+let previewCanvasContainer = null;
+let previewPages = [];
+let previewOutputScale = window.devicePixelRatio || 1;
+
+async function cargarPdfJs() {
+    if (!pdfjsPromise) {
+        pdfjsPromise = import(
+            "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs"
+        ).then(pdfjsLib => {
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+
+            return pdfjsLib;
+        }).catch(error => {
+            pdfjsPromise = null;
+            throw error;
+        });
+    }
+
+    return pdfjsPromise;
+}
+
+function actualizarIndicadorZoom() {
+    const indicador = document.getElementById("previewZoomValue");
+
+    if (indicador) {
+        indicador.textContent = `${Math.round(previewZoom * 100)}%`;
+    }
+}
+
+async function renderizarPaginasPreview() {
+    if (!previewPdfDocument || !previewCanvasContainer) return;
+
+    const renderToken = previewRenderToken;
+    const pdfDocument = previewPdfDocument;
+    const container = previewCanvasContainer;
+    const outputScale = previewOutputScale;
+
+    actualizarIndicadorZoom();
+
+    for (const item of previewPages) {
+        if (
+            renderToken !== previewRenderToken ||
+            pdfDocument !== previewPdfDocument
+        ) {
+            return;
+        }
+
+        const page = await pdfDocument.getPage(item.pageNumber);
+
+        if (
+            renderToken !== previewRenderToken ||
+            pdfDocument !== previewPdfDocument
+        ) {
+            return;
+        }
+
+        const scale = previewFitScale * previewZoom;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = item.canvas;
+        const context = canvas.getContext("2d");
+
+        if (!context) {
+            throw new Error("No fue posible preparar la vista previa.");
+        }
+
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+
+        canvas.style.width = `${viewport.width}px`;
+        canvas.style.height = `${viewport.height}px`;
+        canvas.style.maxWidth = "none";
+
+        await page.render({
+            canvasContext: context,
+            viewport,
+            transform: outputScale !== 1
+                ? [outputScale, 0, 0, outputScale, 0, 0]
+                : null
+        }).promise;
+
+        if (
+            renderToken !== previewRenderToken ||
+            pdfDocument !== previewPdfDocument
+        ) {
+            return;
+        }
+
+        page.cleanup();
+    }
+
+    // Conserva el desplazamiento dentro del visor.
+    container.style.overflowX =
+        previewZoom > 1 ? "auto" : "hidden";
+}
+
+function cambiarZoomPreview(factor) {
+    if (!previewPdfDocument) return;
+
+    previewZoom = Math.min(
+        2.5,
+        Math.max(0.5, previewZoom * factor)
+    );
+
+    renderizarPaginasPreview().catch(error => {
+        console.error("Error ajustando el zoom:", error);
+    });
+}
+
+function ajustarAnchoPreview() {
+    if (!previewPdfDocument || !previewCanvasContainer) return;
+
+    const containerWidth = previewCanvasContainer.clientWidth - 32;
+
+    if (containerWidth <= 0 || previewPages.length === 0) return;
+
+    const primeraPagina = previewPages[0].page;
+
+    previewFitScale =
+        containerWidth / primeraPagina.getViewport({ scale: 1 }).width;
+
+    previewZoom = 1;
+
+    renderizarPaginasPreview().catch(error => {
+        console.error("Error ajustando el ancho:", error);
+    });
+}
 
 
 async function cargarPdfJs() {
@@ -2719,58 +2847,51 @@ async function cargarPdfJs() {
 
 
 async function generarVistaPrevia() {
-
-    const preview =
-        document.getElementById("previewContrato");
+    const preview = document.getElementById("previewContrato");
 
     if (!preview) return;
 
     const renderToken = ++previewRenderToken;
 
     try {
-
         preview.innerHTML = `
             <div style="
                 padding: 32px;
                 text-align: center;
-                color: #6b7280;
+                color: #64748b;
             ">
                 Generando vista previa del contrato...
             </div>
         `;
 
-        // 1. Construir el contrato con los datos actuales.
-        const contrato =
-            await construirContrato();
+        previewPdfDocument = null;
+        previewCanvasContainer = null;
+        previewPages = [];
+        previewZoom = 1;
+
+        const contrato = await construirContrato();
 
         if (renderToken !== previewRenderToken) return;
 
-        contratoActual.contenido =
-            contrato.contenidoHtml;
+        contratoActual.contenido = contrato.contenidoHtml;
 
-        // 2. Construir el HTML del documento.
-        const documentHtml =
-            await construirDocumentoHtml(
-                contrato.contenidoHtml,
-                contrato.logoUrl,
-                contrato.nombreEmpresa
-            );
-
-        if (renderToken !== previewRenderToken) return;
-
-        // 3. Solicitar el PDF al backend actual.
-        const response = await fetch(
-            "https://api.cubika.cl/api/pdf",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    html: documentHtml
-                })
-            }
+        const documentHtml = await construirDocumentoHtml(
+            contrato.contenidoHtml,
+            contrato.logoUrl,
+            contrato.nombreEmpresa
         );
+
+        if (renderToken !== previewRenderToken) return;
+
+        const response = await fetch("https://api.cubika.cl/api/pdf", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                html: documentHtml
+            })
+        });
 
         if (!response.ok) {
             throw new Error(
@@ -2781,152 +2902,218 @@ async function generarVistaPrevia() {
         const pdfBlob = await response.blob();
 
         if (!pdfBlob.size) {
-            throw new Error(
-                "El PDF generado está vacío."
-            );
+            throw new Error("El PDF generado está vacío.");
         }
 
         if (renderToken !== previewRenderToken) return;
 
-        // 4. Cargar PDF.js.
         const pdfjsLib = await cargarPdfJs();
 
         if (renderToken !== previewRenderToken) return;
 
-        // 5. Liberar el documento anterior, si existe.
         if (previewPdfDocument) {
-
             await previewPdfDocument.destroy();
-
             previewPdfDocument = null;
         }
 
-        if (renderToken !== previewRenderToken) return;
-
-        // 6. Leer el PDF en memoria.
         const pdfData = await pdfBlob.arrayBuffer();
 
-        const loadingTask =
-            pdfjsLib.getDocument({
-                data: new Uint8Array(pdfData)
-            });
+        const loadingTask = pdfjsLib.getDocument({
+            data: new Uint8Array(pdfData)
+        });
 
         const pdfDocument = await loadingTask.promise;
 
         if (renderToken !== previewRenderToken) {
-
             await pdfDocument.destroy();
             return;
         }
 
         previewPdfDocument = pdfDocument;
 
-        // 7. Preparar un visor propio, sin barra nativa.
+        // Contenedor principal.
         preview.innerHTML = "";
 
+        const wrapper = document.createElement("div");
+
+        Object.assign(wrapper.style, {
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0",
+            minWidth: "0"
+        });
+
+        // Barra de herramientas personalizada.
+        const toolbar = document.createElement("div");
+
+        Object.assign(toolbar.style, {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+            flexWrap: "wrap",
+            padding: "12px 16px",
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            borderBottom: "none",
+            borderRadius: "8px 8px 0 0",
+            position: "sticky",
+            top: "0",
+            zIndex: "2"
+        });
+
+        function crearBoton(texto, titulo, accion) {
+            const button = document.createElement("button");
+
+            button.type = "button";
+            button.textContent = texto;
+            button.title = titulo;
+            button.setAttribute("aria-label", titulo);
+
+            Object.assign(button.style, {
+                minWidth: "38px",
+                height: "36px",
+                padding: "0 12px",
+                border: "1px solid #cbd5e1",
+                borderRadius: "6px",
+                background: "#ffffff",
+                color: "#334155",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontWeight: "600"
+            });
+
+            button.addEventListener("click", accion);
+
+            button.addEventListener("mouseenter", () => {
+                button.style.background = "#f1f5f9";
+            });
+
+            button.addEventListener("mouseleave", () => {
+                button.style.background = "#ffffff";
+            });
+
+            return button;
+        }
+
+        toolbar.appendChild(
+            crearBoton("−", "Alejar", () => {
+                cambiarZoomPreview(0.8);
+            })
+        );
+
+        const zoomValue = document.createElement("span");
+
+        zoomValue.id = "previewZoomValue";
+
+        Object.assign(zoomValue.style, {
+            minWidth: "52px",
+            textAlign: "center",
+            color: "#334155",
+            fontSize: "13px",
+            fontWeight: "600"
+        });
+
+        toolbar.appendChild(zoomValue);
+
+        toolbar.appendChild(
+            crearBoton("+", "Acercar", () => {
+                cambiarZoomPreview(1.25);
+            })
+        );
+
+        toolbar.appendChild(
+            crearBoton("Ajustar al ancho", "Ajustar al ancho", () => {
+                ajustarAnchoPreview();
+            })
+        );
+
+        wrapper.appendChild(toolbar);
+
+        // Área desplazable donde se muestran las páginas.
         const visor = document.createElement("div");
 
         visor.className = "cubika-pdf-preview";
 
-        visor.style.width = "100%";
-        visor.style.height = "75vh";
-        visor.style.minHeight = "650px";
-        visor.style.overflowY = "auto";
-        visor.style.overflowX = "hidden";
-        visor.style.boxSizing = "border-box";
-        visor.style.padding = "16px";
-        visor.style.background = "#e5e7eb";
-        visor.style.display = "flex";
-        visor.style.flexDirection = "column";
-        visor.style.alignItems = "center";
-        visor.style.gap = "16px";
+        Object.assign(visor.style, {
+            width: "100%",
+            height: "75vh",
+            minHeight: "650px",
+            overflowY: "auto",
+            overflowX: "hidden",
+            boxSizing: "border-box",
+            padding: "16px",
+            background: "#e5e7eb",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "16px",
+            border: "1px solid #e2e8f0",
+            borderRadius: "0 0 8px 8px"
+        });
 
-        preview.appendChild(visor);
+        wrapper.appendChild(visor);
+        preview.appendChild(wrapper);
 
-        // 8. Dibujar cada página como un canvas.
-        const outputScale =
-            window.devicePixelRatio || 1;
+        previewCanvasContainer = visor;
 
+        // Calcula la escala inicial para ajustar al ancho disponible.
+        const primeraPagina = await pdfDocument.getPage(1);
+
+        if (renderToken !== previewRenderToken) return;
+
+        const anchoDisponible = Math.max(
+            280,
+            visor.clientWidth - 32
+        );
+
+        const anchoOriginal =
+            primeraPagina.getViewport({ scale: 1 }).width;
+
+        previewFitScale = Math.min(
+            1,
+            anchoDisponible / anchoOriginal
+        );
+
+        previewZoom = 1;
+        previewOutputScale = window.devicePixelRatio || 1;
+
+        // Prepara un canvas por cada página del documento.
         for (
             let pageNumber = 1;
             pageNumber <= pdfDocument.numPages;
             pageNumber++
         ) {
+            if (renderToken !== previewRenderToken) return;
+
+            const page = await pdfDocument.getPage(pageNumber);
 
             if (renderToken !== previewRenderToken) return;
 
-            const page =
-                await pdfDocument.getPage(pageNumber);
+            const canvas = document.createElement("canvas");
 
-            if (renderToken !== previewRenderToken) return;
-
-            const viewportOriginal =
-                page.getViewport({ scale: 1 });
-
-            const availableWidth =
-                Math.max(280, visor.clientWidth - 32);
-
-            const scale = Math.min(
-                1,
-                availableWidth / viewportOriginal.width
-            );
-
-            const viewport =
-                page.getViewport({ scale });
-
-            const canvas =
-                document.createElement("canvas");
-
-            const context =
-                canvas.getContext("2d");
-
-            if (!context) {
-                throw new Error(
-                    "No fue posible preparar la vista previa."
-                );
-            }
-
-            canvas.width =
-                Math.floor(viewport.width * outputScale);
-
-            canvas.height =
-                Math.floor(viewport.height * outputScale);
-
-            canvas.style.width =
-                `${Math.floor(viewport.width)}px`;
-
-            canvas.style.height =
-                `${Math.floor(viewport.height)}px`;
-
-            canvas.style.maxWidth = "100%";
-            canvas.style.display = "block";
-            canvas.style.background = "#ffffff";
-            canvas.style.boxShadow =
-                "0 2px 8px rgba(0, 0, 0, 0.14)";
-            canvas.style.borderRadius = "2px";
-            canvas.style.flexShrink = "0";
+            Object.assign(canvas.style, {
+                display: "block",
+                maxWidth: "none",
+                background: "#ffffff",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.14)",
+                borderRadius: "2px",
+                flexShrink: "0"
+            });
 
             visor.appendChild(canvas);
 
-            await page.render({
-                canvasContext: context,
-                viewport,
-                transform: outputScale !== 1
-                    ? [
-                        outputScale, 0,
-                        0, outputScale,
-                        0, 0
-                    ]
-                    : null
-            }).promise;
-
-            if (renderToken !== previewRenderToken) return;
-
-            page.cleanup();
+            previewPages.push({
+                pageNumber,
+                page,
+                canvas
+            });
         }
 
-    } catch (error) {
+        await renderizarPaginasPreview();
 
+    } catch (error) {
         if (renderToken !== previewRenderToken) return;
 
         console.error(
@@ -2937,16 +3124,13 @@ async function generarVistaPrevia() {
         preview.innerHTML = `
             <div style="
                 padding: 24px;
-                text-align: center;
                 color: #b91c1c;
+                background: #fef2f2;
+                border-radius: 8px;
             ">
-                <p>No fue posible generar la vista previa.</p>
-                <p style="
-                    font-size: 13px;
-                    color: #6b7280;
-                ">
-                    ${error.message}
-                </p>
+                No fue posible generar la vista previa del contrato.
+                <br>
+                <small>${error.message}</small>
             </div>
         `;
     }
