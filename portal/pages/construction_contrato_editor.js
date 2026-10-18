@@ -2557,7 +2557,7 @@ async function construirDocumentoHtml(
     font-size: 10px;
     font-weight: 600;
     line-height: 1.2;
-    font-color: #D1D5DB;
+    color: #D1D5DB;
 }
 
 
