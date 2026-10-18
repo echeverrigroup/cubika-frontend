@@ -2526,8 +2526,8 @@ async function construirDocumentoHtml(
 
     .contrato-logo img {
     display: block;
-    max-width: 200px;
-    max-height: 100px;
+    max-width: 260px;
+    max-height: 130px;
     width: auto;
     height: auto;
     object-fit: contain;
