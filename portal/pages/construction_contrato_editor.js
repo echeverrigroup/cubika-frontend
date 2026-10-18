@@ -2560,10 +2560,14 @@ async function construirDocumentoHtml(
 }
 
 .contrato-separador {
+    display: block;
     width: 100%;
+    height: 0;
+    box-sizing: border-box;
     border: 0;
     border-top: 1px solid #D1D5DB;
     margin: 12px 0 22px;
+    padding: 0;
 }
 
     /* Cuerpo: comienza inmediatamente después del encabezado */
@@ -2649,21 +2653,21 @@ async function construirDocumentoHtml(
 </head>
 
 <body>
-   <main class="document-print">
-       <header class="contrato-encabezado">
-           ${logoHtml}
-               <div class="contrato-titulos">
-                    <div class="contrato-titulo">
-                        ${tituloTexto}
-                    </div>
-                
-                    ${empresaHtml}
+    <main class="document-print">
+        <header class="contrato-encabezado">
+            ${logoHtml}
+    
+            <div class="contrato-titulos">
+                <div class="contrato-titulo">
+                    ${tituloTexto}
                 </div>
-
-                <hr class="contrato-separador">
-                
+    
+                ${empresaHtml}
+            </div>
         </header>
-        
+    
+        <hr class="contrato-separador">
+    
         <section class="contrato-cuerpo">
             ${contenedor.innerHTML}
         </section>
