@@ -2599,7 +2599,7 @@ async function construirDocumentoHtml(
 
 .firma-espacio {
     height: 52px;
-    border-bottom: 1px solid #111827;
+    border-bottom: 1px solid #9CA3AF;
     margin: 0 8px 8px;
 }
 
