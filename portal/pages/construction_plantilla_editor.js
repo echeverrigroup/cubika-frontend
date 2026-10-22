@@ -414,28 +414,141 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
 </div>
 
-<!-- CONTENIDO: permanece dentro de editor-main -->
-<div class="editor-section">
 
-    <h2>
-        Contenido
-    </h2>
+<!-- FORMATO DE CONTENIDO: HTML o DOCX -->
+<div class="editor-section plantilla-formato-section">
 
-    <textarea
-        id="contenido"
-        class="cubika-input"
-        style="
-            margin-top:10px;
-            min-height:650px;
-            resize:vertical;
-            font-family:Consolas, monospace;
-            line-height:1.6;
-        "
-    >${plantilla?.contenido ?? ""}</textarea>
+    <div
+        class="cubika-tabs plantilla-formato-tabs"
+        role="tablist"
+        aria-label="Formato de plantilla">
+
+        <button
+            type="button"
+            id="tabContenidoHTML"
+            class="cubika-tab ${
+                !plantilla?.formato_contenido ||
+                plantilla?.formato_contenido === "HTML"
+                    ? "active"
+                    : ""
+            }"
+            role="tab"
+            aria-selected="${
+                !plantilla?.formato_contenido ||
+                plantilla?.formato_contenido === "HTML"
+                    ? "true"
+                    : "false"
+            }"
+            aria-controls="panelContenidoHTML">
+            Contenido
+        </button>
+
+        <button
+            type="button"
+            id="tabContenidoDOCX"
+            class="cubika-tab ${
+                plantilla?.formato_contenido === "DOCX"
+                    ? "active"
+                    : ""
+            }"
+            role="tab"
+            aria-selected="${
+                plantilla?.formato_contenido === "DOCX"
+                    ? "true"
+                    : "false"
+            }"
+            aria-controls="panelContenidoDOCX">
+            Cargar
+        </button>
+
+    </div>
+
+    <input
+        type="hidden"
+        id="formato_contenido"
+        value="${
+            plantilla?.formato_contenido === "DOCX"
+                ? "DOCX"
+                : "HTML"
+        }">
+
+    <!-- PANEL HTML: conserva el editor existente -->
+    <div
+        id="panelContenidoHTML"
+        role="tabpanel"
+        aria-labelledby="tabContenidoHTML"
+        ${
+            plantilla?.formato_contenido === "DOCX"
+                ? "hidden"
+                : ""
+        }>
+
+        <h2>Contenido</h2>
+
+        <textarea
+            id="contenido"
+            class="cubika-input"
+            style="
+                margin-top:10px;
+                min-height:650px;
+                resize:vertical;
+                font-family:Consolas, monospace;
+                line-height:1.6;
+            "
+        >${plantilla?.contenido ?? ""}</textarea>
+
+    </div>
+
+    <!-- PANEL DOCX -->
+    <div
+        id="panelContenidoDOCX"
+        role="tabpanel"
+        aria-labelledby="tabContenidoDOCX"
+        ${
+            plantilla?.formato_contenido !== "DOCX"
+                ? "hidden"
+                : ""
+        }>
+
+        <h2>Plantilla Word (.docx)</h2>
+
+        <p style="margin:10px 0;">
+            Selecciona el documento Word que servirá como plantilla.
+            El documento final se generará para descargar y no se
+            guardará en Storage.
+        </p>
+
+        <div class="form-group">
+
+            <label for="archivoDocx">
+                Archivo DOCX
+            </label>
+
+            <input
+                id="archivoDocx"
+                class="cubika-input"
+                type="file"
+                accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+
+        </div>
+
+        <div
+            id="archivoDocxActual"
+            style="margin-top:10px;">
+
+            ${
+                plantilla?.formato_contenido === "DOCX" &&
+                plantilla?.archivo_docx_path
+                    ? "Ya existe una plantilla DOCX guardada. Selecciona otro archivo solo si deseas reemplazarla."
+                    : "Aún no se ha cargado una plantilla DOCX."
+            }
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
   
 
 
@@ -469,9 +582,25 @@ export async function renderConstructionPlantillaEditor(id = null) {
     `;
 
 
-    renderBibliotecaVariables();
 
+    window.__plantillaDocxActual =
+        plantilla?.formato_contenido === "DOCX"
+            ? {
+                id: plantilla.id,
+                path: plantilla.archivo_docx_path
+            }
+            : null;
+    
+    renderBibliotecaVariables();
+    
     inicializarVariables();
+    
+    inicializarTabsFormato(
+        plantilla?.formato_contenido === "DOCX"
+            ? "DOCX"
+            : "HTML"
+    );
+
 
 
     inicializarSelectorConChecks({
@@ -507,6 +636,63 @@ export async function renderConstructionPlantillaEditor(id = null) {
         );
 
 }
+
+
+
+function inicializarTabsFormato(formatoInicial = "HTML") {
+
+    const tabHTML = document.getElementById("tabContenidoHTML");
+    const tabDOCX = document.getElementById("tabContenidoDOCX");
+
+    const panelHTML = document.getElementById("panelContenidoHTML");
+    const panelDOCX = document.getElementById("panelContenidoDOCX");
+
+    const inputFormato = document.getElementById("formato_contenido");
+
+    if (
+        !tabHTML ||
+        !tabDOCX ||
+        !panelHTML ||
+        !panelDOCX ||
+        !inputFormato
+    ) {
+        return;
+    }
+
+    function activarFormato(formato) {
+
+        const esHTML = formato === "HTML";
+
+        inputFormato.value = esHTML ? "HTML" : "DOCX";
+
+        panelHTML.hidden = !esHTML;
+        panelDOCX.hidden = esHTML;
+
+        tabHTML.classList.toggle("active", esHTML);
+        tabDOCX.classList.toggle("active", !esHTML);
+
+        tabHTML.setAttribute(
+            "aria-selected",
+            String(esHTML)
+        );
+
+        tabDOCX.setAttribute(
+            "aria-selected",
+            String(!esHTML)
+        );
+    }
+
+    tabHTML.addEventListener("click", () => {
+        activarFormato("HTML");
+    });
+
+    tabDOCX.addEventListener("click", () => {
+        activarFormato("DOCX");
+    });
+
+    activarFormato(formatoInicial);
+}
+
 
 
 function volverListadoPlantillas() {
@@ -708,58 +894,40 @@ function limpiarErrorEditor() {
 }
 
 
+
+
 async function guardarPlantilla(id = null) {
 
     limpiarErrorEditor();
 
+    const nombre = document
+        .getElementById("nombre")
+        .value
+        .trim();
 
-    const nombre =
-        document
-            .getElementById("nombre")
-            .value
-            .trim();
+    const descripcion = document
+        .getElementById("descripcion")
+        .value
+        .trim();
 
-    const descripcion =
-        document
-            .getElementById("descripcion")
-            .value
-            .trim();
+    const tipo_documento = document
+        .getElementById("tipo_documento")
+        .value;
 
-    const tipo_documento =
-        document
-            .getElementById("tipo_documento")
-            .value;
+    const formato = document
+        .getElementById("formato_contenido")
+        .value;
 
-    const contenido =
-        document
-            .getElementById("contenido")
-            .value
-            .trim();
+    const contenidoHTML = document
+        .getElementById("contenido")
+        .value
+        .trim();
 
-   const validacion =
-        validarPlantilla(
-            contenido
-        );
-    
-    if (
-        !validacion.valido
-    ) {
-    
-        mostrarErrorEditor(
-    
-            validacion.errores
-                .map(
-                    e => e.mensaje
-                )
-                .join("<br>")
-    
-        );
-    
-        return false;
-    
-    }
+    const archivoDocx = document
+        .getElementById("archivoDocx")
+        ?.files?.[0] ?? null;
 
-
+    // Validaciones generales.
     if (!tipo_documento) {
         mostrarErrorEditor(
             "Debe seleccionar el tipo de plantilla."
@@ -767,38 +935,77 @@ async function guardarPlantilla(id = null) {
         return false;
     }
 
-    
     if (!nombre) {
-
         mostrarErrorEditor(
             "Debe ingresar el nombre de la plantilla."
         );
-
         return false;
-
     }
 
+    // Validaciones exclusivas para HTML.
+    if (formato === "HTML") {
 
-    if (!contenido) {
+        const validacion = validarPlantilla(contenidoHTML);
 
-        mostrarErrorEditor(
-            "Debe ingresar el contenido de la plantilla."
-        );
+        if (!validacion.valido) {
+            mostrarErrorEditor(
+                validacion.errores
+                    .map(e => e.mensaje)
+                    .join("<br>")
+            );
+            return false;
+        }
 
-        return false;
-
+        if (!contenidoHTML) {
+            mostrarErrorEditor(
+                "Debe ingresar el contenido de la plantilla."
+            );
+            return false;
+        }
     }
 
+    // Validaciones exclusivas para DOCX.
+    const pathAnterior =
+        id &&
+        window.__plantillaDocxActual?.id === id
+            ? window.__plantillaDocxActual.path
+            : null;
 
-    
-    
+    if (formato === "DOCX") {
+
+        if (!archivoDocx && !pathAnterior) {
+            mostrarErrorEditor(
+                "Debes seleccionar un archivo DOCX."
+            );
+            return false;
+        }
+
+        if (
+            archivoDocx &&
+            !archivoDocx.name.toLowerCase().endsWith(".docx")
+        ) {
+            mostrarErrorEditor(
+                "El archivo debe tener extensión .docx."
+            );
+            return false;
+        }
+
+        if (archivoDocx && archivoDocx.size === 0) {
+            mostrarErrorEditor(
+                "El archivo seleccionado está vacío."
+            );
+            return false;
+        }
+    }
+
+    // Asociaciones actuales.
     const constructoraIds = Array.from(
         document.querySelectorAll(
             "#panelConstructoras .opcion-constructora:checked"
         ),
         opcion => opcion.value
     );
-    
+
     const cargoIds = Array.from(
         document.querySelectorAll(
             "#panelCargos .opcion-cargo:checked"
@@ -806,70 +1013,164 @@ async function guardarPlantilla(id = null) {
         opcion => opcion.value
     );
 
+    let plantillaGuardada = null;
+    let archivoSubidoPath = null;
+    let registroGuardado = false;
 
+    try {
 
+        // Preparar los datos según el formato elegido.
+        const datos = {
+            nombre,
+            descripcion,
+            tipo_documento,
+            formato_contenido: formato,
+            contenido: formato === "HTML"
+                ? contenidoHTML
+                : null,
+            archivo_docx_path: formato === "HTML"
+                ? null
+                : pathAnterior
+        };
 
-    const datos = {
+        if (formato === "DOCX") {
 
-        nombre,
+            // Para una plantilla nueva, generar primero su UUID.
+            const plantillaId = id || crypto.randomUUID();
 
-        descripcion,
+            // Subir el nuevo archivo antes de guardar la referencia.
+            // El servicio debe usar una ruta única por archivo.
+            if (archivoDocx) {
+                archivoSubidoPath =
+                    await plantillasDocumentoService.subirArchivoDocx(
+                        plantillaId,
+                        archivoDocx
+                    );
 
-        tipo_documento,
+                datos.archivo_docx_path = archivoSubidoPath;
+            }
 
-        contenido
-
-    };
-
-
-    
-        try {
-        
-            let plantillaGuardada;
-        
-            if (id) {
-        
-                datos.updated_at = new Date().toISOString();
-        
-                plantillaGuardada = await plantillasDocumentoService.update(
-                    id,
-                    datos
+            if (!datos.archivo_docx_path) {
+                throw new Error(
+                    "No se encontró el archivo DOCX de la plantilla."
                 );
-        
+            }
+
+            if (id) {
+
+                datos.updated_at = new Date().toISOString();
+
+                plantillaGuardada =
+                    await plantillasDocumentoService.update(
+                        id,
+                        datos
+                    );
+
             } else {
-        
+
+                datos.id = plantillaId;
                 datos.version = 1;
                 datos.estado = "Activo";
-        
-                plantillaGuardada = await plantillasDocumentoService.create(
-                    datos
-                );
-        
-            }
-        
-            
-            await plantillasDocumentoService.guardarAsociaciones(
-                plantillaGuardada.id,
-                constructoraIds,
-                cargoIds
-            );
 
-        
-            navigate("construction_plantillas");
-        
-            return true;
-        
-        } catch (error) {
-        
-            console.error(error);
-        
-            mostrarErrorEditor(
-                "No fue posible guardar la plantilla y sus asociaciones."
-            );
-        
-            return false;
-        
+                plantillaGuardada =
+                    await plantillasDocumentoService.create(
+                        datos
+                    );
+            }
+
+            registroGuardado = true;
+
+        } else {
+
+            // Flujo HTML: mantiene la validación y el contenido actual.
+            if (id) {
+
+                datos.updated_at = new Date().toISOString();
+
+                plantillaGuardada =
+                    await plantillasDocumentoService.update(
+                        id,
+                        datos
+                    );
+
+            } else {
+
+                datos.version = 1;
+                datos.estado = "Activo";
+
+                plantillaGuardada =
+                    await plantillasDocumentoService.create(
+                        datos
+                    );
+            }
+
+            registroGuardado = true;
         }
 
+        // Mantener las asociaciones existentes.
+        await plantillasDocumentoService.guardarAsociaciones(
+            plantillaGuardada.id,
+            constructoraIds,
+            cargoIds
+        );
 
+        // Eliminar el DOCX anterior solo después de guardar
+        // correctamente el nuevo estado de la plantilla.
+        if (
+            pathAnterior &&
+            (
+                formato === "HTML" ||
+                (
+                    archivoSubidoPath &&
+                    pathAnterior !== archivoSubidoPath
+                )
+            )
+        ) {
+            try {
+                await plantillasDocumentoService.eliminarArchivoDocx(
+                    pathAnterior
+                );
+            } catch (errorLimpieza) {
+                console.error(
+                    "La plantilla se guardó, pero no se pudo eliminar el DOCX anterior:",
+                    errorLimpieza
+                );
+            }
+        }
+
+        navigate("construction_plantillas");
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Error al guardar plantilla:",
+            error
+        );
+
+        // Si se subió un archivo, pero no se guardó el registro,
+        // intentar retirar el archivo recién subido.
+        if (archivoSubidoPath && !registroGuardado) {
+            try {
+                await plantillasDocumentoService.eliminarArchivoDocx(
+                    archivoSubidoPath
+                );
+            } catch (errorLimpieza) {
+                console.error(
+                    "No se pudo limpiar el archivo DOCX temporal:",
+                    errorLimpieza
+                );
+            }
+        }
+
+        mostrarErrorEditor(
+            error?.message
+                ? `No fue posible guardar la plantilla: ${error.message}`
+                : "No fue posible guardar la plantilla y sus asociaciones."
+        );
+
+        return false;
+    }
 }
+
