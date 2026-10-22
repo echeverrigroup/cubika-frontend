@@ -92,7 +92,8 @@ export const plantillasDocumentoService = {
         }
 
         // Ruta estable: un archivo original por plantilla.
-        const path = `${plantillaId}/plantilla.docx`;
+        const nombreSeguro = archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const path = `${plantillaId}/${Date.now()}-${nombreSeguro}`;
 
         const { error } = await supabase.storage
             .from(BUCKET)
