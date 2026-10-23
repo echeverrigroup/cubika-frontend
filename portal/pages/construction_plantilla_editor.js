@@ -520,30 +520,35 @@ export async function renderConstructionPlantillaEditor(id = null) {
         El documento generado se entregará para descargar.
     </p>
 
+    
+    <!-- VISOR DEL DOCUMENTO ACTUAL -->
     <div
         id="archivoDocxActual"
         style="margin-top:16px;">
-
+    
         ${
             plantilla?.formato_contenido === "DOCX" &&
             plantilla?.archivo_docx_path
                 ? `
                     <div class="plantilla-docx-existente">
-
+    
                         <div class="plantilla-docx-info">
                             <strong>Documento cargado</strong>
                             <span>
-                                ${plantilla.archivo_docx_path.split("/").pop().replace(/^\d+-/, "")}
+                                ${plantilla.archivo_docx_path
+                                    .split("/")
+                                    .pop()
+                                    .replace(/^\d+-/, "")}
                             </span>
                         </div>
-
+    
                         <button
                             type="button"
                             id="btnEditarArchivoDocx"
                             class="btn-secondary">
                             Editar
                         </button>
-
+    
                     </div>
                 `
                 : `
@@ -552,9 +557,10 @@ export async function renderConstructionPlantillaEditor(id = null) {
                     </p>
                 `
         }
-
+    
     </div>
-
+    
+    <!-- SELECTOR: OCUPA EL LUGAR DEL VISOR AL EDITAR -->
     <div
         id="selectorArchivoDocx"
         style="margin-top:16px; ${
@@ -563,38 +569,36 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 ? "display:none;"
                 : ""
         }">
-
+    
         <div class="form-group">
     
-                <label for="archivoDocx">
-                    ${plantilla?.archivo_docx_path
-                        ? "Seleccionar nuevo documento"
-                        : "Archivo DOCX"}
-                </label>
+            <label for="archivoDocx">
+                Seleccionar documento Word (.docx)
+            </label>
     
-                <input
-                    id="archivoDocx"
-                    class="cubika-input"
-                    type="file"
-                    accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-    
-            </div>
-    
-            <button
-                type="button"
-                id="btnCancelarEdicionDocx"
-                class="btn-secondary"
-                style="${
-                    plantilla?.formato_contenido === "DOCX" &&
-                    plantilla?.archivo_docx_path
-                        ? ""
-                        : "display:none;"
-                }">
-                Cancelar
-            </button>
+            <input
+                id="archivoDocx"
+                class="cubika-input"
+                type="file"
+                accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
     
         </div>
     
+        <button
+            type="button"
+            id="btnCancelarEdicionDocx"
+            class="btn-secondary"
+            style="${
+                plantilla?.formato_contenido === "DOCX" &&
+                plantilla?.archivo_docx_path
+                    ? ""
+                    : "display:none;"
+            }">
+            Cancelar
+        </button>
+    
+    </div>
+        
     </div>
 
 
@@ -658,6 +662,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
 
     // Edición del archivo DOCX existente.
+
         const btnEditarDocx = document.getElementById(
             "btnEditarArchivoDocx"
         );
@@ -665,6 +670,44 @@ export async function renderConstructionPlantillaEditor(id = null) {
         const btnCancelarDocx = document.getElementById(
             "btnCancelarEdicionDocx"
         );
+        
+        const visorDocx = document.getElementById(
+            "archivoDocxActual"
+        );
+        
+        const selectorDocx = document.getElementById(
+            "selectorArchivoDocx"
+        );
+        
+        const archivoDocxInput = document.getElementById(
+            "archivoDocx"
+        );
+        
+        // Cambiar del visor al selector.
+        if (btnEditarDocx && visorDocx && selectorDocx) {
+            btnEditarDocx.addEventListener("click", () => {
+                visorDocx.style.display = "none";
+                selectorDocx.style.display = "block";
+            });
+        }
+        
+        // Cancelar: descartar la selección y volver al visor.
+        if (
+            btnCancelarDocx &&
+            visorDocx &&
+            selectorDocx
+        ) {
+            btnCancelarDocx.addEventListener("click", () => {
+                if (archivoDocxInput) {
+                    archivoDocxInput.value = "";
+                }
+        
+                selectorDocx.style.display = "none";
+                visorDocx.style.display = "block";
+            });
+        }
+
+    
         
         const selectorDocx = document.getElementById(
             "selectorArchivoDocx"
