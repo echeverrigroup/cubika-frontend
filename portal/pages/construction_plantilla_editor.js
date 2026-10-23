@@ -510,12 +510,12 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 : ""
         }>
 
-        <h2>Plantilla Word (.docx)</h2>
+        <h2>Plantilla Word</h2>
 
         <p style="margin:10px 0;">
-            Selecciona el documento Word que servirá como plantilla.
+            Selecciona el documento Word (.docx) que servirá como plantilla.
             El documento final se generará para descargar y no se
-            guardará en Storage.
+            guardará en el Gestor.
         </p>
 
         <div class="form-group">
@@ -549,7 +549,9 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
 </div>
 
-  
+
+
+</div>
 
 
                 <!-- ====================================== -->
@@ -577,7 +579,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
             </div>
 
-        </div>
+    
 
     `;
 
