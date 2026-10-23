@@ -510,14 +510,6 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 : ""
         }>
 
-        <h2>Plantilla Word</h2>
-
-        <p style="margin:10px 0;">
-            Selecciona el documento Word (.docx) que servirá como plantilla.
-            El documento final se generará para descargar y no se
-            guardará en el Gestor.
-        </p>
-
         
 <div class="editor-section plantilla-docx-card">
 
