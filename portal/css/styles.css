@@ -12,6 +12,7 @@ body {
     background: #f5f7fa;
 }
 
+
 /* NAVBAR */
 
 .navbar {
@@ -24,6 +25,15 @@ body {
     justify-content: space-between;
 
     padding: 0 30px;
+}
+
+
+
+#logoutBtn img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
 }
 
 
