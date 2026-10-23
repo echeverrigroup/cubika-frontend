@@ -4734,3 +4734,49 @@ EDITOR DOCUMENTAL
     z-index: 1;
 }
 
+
+
+/* Tarjeta de documento DOCX */
+.plantilla-docx-card {
+    margin-top: 16px;
+}
+
+
+.plantilla-docx-existente {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+padding: 16px;
+border: 1px solid var(--border-color, #dce5eb);
+border-radius: 10px;
+background: var(--surface-color, #ffffff);
+}
+
+.plantilla-docx-info {
+display: flex;
+flex-direction: column;
+gap: 6px;
+min-width: 0;
+}
+
+.plantilla-docx-info strong {
+font-weight: 600;
+}
+
+.plantilla-docx-info span {
+overflow-wrap: anywhere;
+font-size: 13px;
+opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+.plantilla-docx-existente {
+align-items: stretch;
+flex-direction: column;
+}
+
+.plantilla-docx-existente button {
+align-self: flex-start;
+}
+}
