@@ -533,7 +533,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                         <div class="plantilla-docx-info">
                             <strong>Documento cargado</strong>
                             <span>
-                                ${plantilla.archivo_docx_path.split("/").pop()}
+                                ${plantilla.archivo_docx_path.split("/").pop().replace(/^\d+-/, "")}
                             </span>
                         </div>
 
