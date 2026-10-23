@@ -518,32 +518,93 @@ export async function renderConstructionPlantillaEditor(id = null) {
             guardará en el Gestor.
         </p>
 
+        
+<div class="editor-section plantilla-docx-card">
+
+    <h2>Documento Word</h2>
+
+    <p style="margin:10px 0;">
+        Selecciona un documento Word (.docx) como plantilla.
+        El documento generado se entregará para descargar.
+    </p>
+
+    <div
+        id="archivoDocxActual"
+        style="margin-top:16px;">
+
+        ${
+            plantilla?.formato_contenido === "DOCX" &&
+            plantilla?.archivo_docx_path
+                ? `
+                    <div class="plantilla-docx-existente">
+
+                        <div class="plantilla-docx-info">
+                            <strong>Documento cargado</strong>
+                            <span>
+                                ${plantilla.archivo_docx_path.split("/").pop()}
+                            </span>
+                        </div>
+
+                        <button
+                            type="button"
+                            id="btnEditarArchivoDocx"
+                            class="btn-secondary">
+                            Editar
+                        </button>
+
+                    </div>
+                `
+                : `
+                    <p>
+                        Aún no existe un documento Word asociado.
+                    </p>
+                `
+        }
+
+    </div>
+
+    <div
+        id="selectorArchivoDocx"
+        style="margin-top:16px; ${
+            plantilla?.formato_contenido === "DOCX" &&
+            plantilla?.archivo_docx_path
+                ? "display:none;"
+                : ""
+        }">
+
         <div class="form-group">
-
-            <label for="archivoDocx">
-                Archivo DOCX
-            </label>
-
-            <input
-                id="archivoDocx"
-                class="cubika-input"
-                type="file"
-                accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-
+    
+                <label for="archivoDocx">
+                    ${plantilla?.archivo_docx_path
+                        ? "Seleccionar nuevo documento"
+                        : "Archivo DOCX"}
+                </label>
+    
+                <input
+                    id="archivoDocx"
+                    class="cubika-input"
+                    type="file"
+                    accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+    
+            </div>
+    
+            <button
+                type="button"
+                id="btnCancelarEdicionDocx"
+                class="btn-secondary"
+                style="${
+                    plantilla?.formato_contenido === "DOCX" &&
+                    plantilla?.archivo_docx_path
+                        ? ""
+                        : "display:none;"
+                }">
+                Cancelar
+            </button>
+    
         </div>
+    
+    </div>
 
-        <div
-            id="archivoDocxActual"
-            style="margin-top:10px;">
-
-            ${
-                plantilla?.formato_contenido === "DOCX" &&
-                plantilla?.archivo_docx_path
-                    ? "Ya existe una plantilla DOCX guardada. Selecciona otro archivo solo si deseas reemplazarla."
-                    : "Aún no se ha cargado una plantilla DOCX."
-            }
-
-        </div>
 
     </div>
 
@@ -558,22 +619,22 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 <!-- SIDEBAR -->
                 <!-- ====================================== -->
 
-                <aside class="editor-sidebar">
-
+                
+                <aside
+                    class="editor-sidebar"
+                    id="bibliotecaVariablesSidebar">
+                
                     <div class="editor-section">
-
+                
                         <h2>
-
                             Biblioteca de Variables
-
                         </h2>
-
+                
                         <div id="variablesPanel">
-
                         </div>
-
+                
                     </div>
-
+                
                 </aside>
 
 
@@ -603,6 +664,50 @@ export async function renderConstructionPlantillaEditor(id = null) {
             : "HTML"
     );
 
+
+    // Edición del archivo DOCX existente.
+        const btnEditarDocx = document.getElementById(
+            "btnEditarArchivoDocx"
+        );
+        
+        const btnCancelarDocx = document.getElementById(
+            "btnCancelarEdicionDocx"
+        );
+        
+        const selectorDocx = document.getElementById(
+            "selectorArchivoDocx"
+        );
+        
+        const archivoDocxInput = document.getElementById(
+            "archivoDocx"
+        );
+        
+        if (btnEditarDocx && selectorDocx) {
+            btnEditarDocx.addEventListener("click", () => {
+                selectorDocx.style.display = "block";
+        
+                btnEditarDocx.style.display = "none";
+        
+                if (btnCancelarDocx) {
+                    btnCancelarDocx.style.display = "inline-flex";
+                }
+            });
+        }
+        
+        if (btnCancelarDocx && selectorDocx) {
+            btnCancelarDocx.addEventListener("click", () => {
+                selectorDocx.style.display = "none";
+        
+                if (btnEditarDocx) {
+                    btnEditarDocx.style.display = "inline-flex";
+                }
+        
+                if (archivoDocxInput) {
+                    archivoDocxInput.value = "";
+                }
+            });
+        }
+        
 
 
     inicializarSelectorConChecks({
@@ -670,6 +775,18 @@ function inicializarTabsFormato(formatoInicial = "HTML") {
         panelHTML.hidden = !esHTML;
         panelDOCX.hidden = esHTML;
 
+        
+        // Mostrar la Biblioteca de Variables únicamente
+        // cuando está activa la pestaña Contenido.
+        const bibliotecaVariables = document.getElementById(
+            "bibliotecaVariablesSidebar"
+        );
+        
+        if (bibliotecaVariables) {
+            bibliotecaVariables.style.display = esHTML ? "" : "none";
+        }
+
+        
         tabHTML.classList.toggle("active", esHTML);
         tabDOCX.classList.toggle("active", !esHTML);
 
