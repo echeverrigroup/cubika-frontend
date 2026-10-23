@@ -706,42 +706,7 @@ export async function renderConstructionPlantillaEditor(id = null) {
                 visorDocx.style.display = "block";
             });
         }
-
     
-        
-        const selectorDocx = document.getElementById(
-            "selectorArchivoDocx"
-        );
-        
-        const archivoDocxInput = document.getElementById(
-            "archivoDocx"
-        );
-        
-        if (btnEditarDocx && selectorDocx) {
-            btnEditarDocx.addEventListener("click", () => {
-                selectorDocx.style.display = "block";
-        
-                btnEditarDocx.style.display = "none";
-        
-                if (btnCancelarDocx) {
-                    btnCancelarDocx.style.display = "inline-flex";
-                }
-            });
-        }
-        
-        if (btnCancelarDocx && selectorDocx) {
-            btnCancelarDocx.addEventListener("click", () => {
-                selectorDocx.style.display = "none";
-        
-                if (btnEditarDocx) {
-                    btnEditarDocx.style.display = "inline-flex";
-                }
-        
-                if (archivoDocxInput) {
-                    archivoDocxInput.value = "";
-                }
-            });
-        }
         
 
 
