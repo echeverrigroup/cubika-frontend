@@ -1398,6 +1398,14 @@ function abrirDetalleContrato(contratoId) {
             
                 <button
                     type="button"
+                    class="btn-detalle-historial"
+                    data-accion-detalle="historial"
+                >
+                    Historial contractual
+                </button>
+
+                <button
+                    type="button"
                     class="btn-detalle-cerrar"
                     data-cerrar-detalle
                 >
@@ -1470,7 +1478,170 @@ function abrirDetalleContrato(contratoId) {
             abrirSelectorPlantillaAnexo(contrato.id);
         });
 
+    modal
+        .querySelector('[data-accion-detalle="historial"]')
+        ?.addEventListener("click", () => {
+            abrirHistorialContractual(contrato.id);
+        });
 
+
+}
+
+async function abrirHistorialContractual(contratoId) {
+    const anterior = document.getElementById("modalHistorialContractual");
+    anterior?.remove();
+
+    const modal = document.createElement("div");
+    modal.id = "modalHistorialContractual";
+    modal.className = "cubika-modal-overlay historial-contractual-overlay";
+    modal.innerHTML = `
+        <div class="cubika-modal historial-contractual-modal" role="dialog" aria-modal="true" aria-labelledby="historialContractualTitulo">
+            <div class="cubika-modal-header historial-contractual-header">
+                <div>
+                    <h2 id="historialContractualTitulo">Historial contractual</h2>
+                    <p class="historial-contractual-subtitulo">Trazabilidad de este contrato y sus documentos asociados</p>
+                </div>
+                <button type="button" class="cubika-modal-close" data-cerrar-historial aria-label="Cerrar">×</button>
+            </div>
+            <div class="historial-contractual-contenido">
+                <p class="historial-contractual-cargando">Cargando historial contractual…</p>
+            </div>
+            <div class="cubika-modal-footer historial-contractual-footer">
+                <button type="button" class="btn-detalle-cerrar" data-cerrar-historial> Cerrar </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const cerrar = () => modal.remove();
+    modal.querySelectorAll("[data-cerrar-historial]").forEach(btn => btn.addEventListener("click", cerrar));
+    modal.addEventListener("click", event => {
+        if (event.target === modal) cerrar();
+    });
+
+    const contenido = modal.querySelector(".historial-contractual-contenido");
+    const escapar = valor => String(valor ?? "—").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[c]);
+
+    const fechaHora = valor => {
+        if (!valor) return "Fecha no registrada";
+        const fecha = new Date(valor);
+        if (Number.isNaN(fecha.getTime())) return "Fecha no registrada";
+        return fecha.toLocaleString("es-CL", {
+            day: "2-digit", month: "2-digit", year: "numeric",
+            hour: "2-digit", minute: "2-digit"
+        });
+    };
+
+    try {
+        const [documentos, eventos] = await Promise.all([
+            contratosGeneradosService.getAll(),
+            documentosGeneradosEventosService.getAll()
+        ]);
+
+        const seleccionado = documentos.find(d => String(d.id) === String(contratoId));
+        if (!seleccionado) {
+            contenido.innerHTML = `<p class="historial-contractual-vacio">No se encontró el contrato seleccionado.</p>`;
+            return;
+        }
+
+        // Resolver el contrato raíz para que el historial se limite a esta relación laboral,
+        // sin mezclar otros contratos del mismo trabajador.
+        const porId = new Map(documentos.map(d => [String(d.id), d]));
+        let raiz = seleccionado;
+        const visitados = new Set();
+        while (raiz.contrato_madre_id && porId.has(String(raiz.contrato_madre_id)) && !visitados.has(String(raiz.id))) {
+            visitados.add(String(raiz.id));
+            raiz = porId.get(String(raiz.contrato_madre_id));
+        }
+
+        const idsRelacionados = new Set([String(raiz.id)]);
+        let cambio = true;
+        while (cambio) {
+            cambio = false;
+            documentos.forEach(d => {
+                if (d.contrato_madre_id && idsRelacionados.has(String(d.contrato_madre_id)) && !idsRelacionados.has(String(d.id))) {
+                    idsRelacionados.add(String(d.id));
+                    cambio = true;
+                }
+            });
+        }
+
+        const documentosRelacionados = documentos.filter(d => idsRelacionados.has(String(d.id)));
+        const nombreTrabajador = d => [d.worker?.nombres, d.worker?.apellido_paterno, d.worker?.apellido_materno].filter(Boolean).join(" ") || "Trabajador sin nombre";
+        const nombreTipo = tipo => ({
+            CONTRATO: "Contrato original",
+            ANEXO: "Anexo",
+            COMPLEMENTO: "Complemento"
+        }[String(tipo || "").toUpperCase()] || String(tipo || "Documento"));
+
+        const entradas = documentosRelacionados.map(d => ({
+            fecha: d.fecha_generacion || d.created_at,
+            titulo: nombreTipo(d.tipo_documento),
+            detalle: [
+                d.numero_contrato ? `N.º ${d.numero_contrato}` : "",
+                d.plantilla?.nombre || "",
+                d.estado?.nombre ? `Estado: ${d.estado.nombre}` : "",
+                d.observaciones || ""
+            ].filter(Boolean).join(" · "),
+            clase: String(d.tipo_documento || "").toLowerCase() || "documento",
+            tipo: "documento"
+        }));
+
+        eventos
+            .filter(e => idsRelacionados.has(String(e.contrato_id)))
+            .forEach(e => {
+                const fecha = e.created_at;
+                const etiquetas = {
+                    GENERADO: "Documento generado",
+                    DESCARGA_INICIADA: "Descarga iniciada",
+                    ERROR: "Error de generación"
+                };
+                entradas.push({
+                    fecha,
+                    titulo: etiquetas[e.evento] || e.evento || "Evento documental",
+                    detalle: [
+                        e.nombre_documento || "",
+                        e.tipo_documento || "",
+                        e.detalle || ""
+                    ].filter(Boolean).join(" · "),
+                    clase: String(e.evento || "evento").toLowerCase(),
+                    tipo: "evento"
+                });
+            });
+
+        entradas.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+
+        const resumen = `
+            <div class="historial-contractual-resumen">
+                <div><span>Trabajador</span><strong>${escapar(nombreTrabajador(seleccionado))}</strong></div>
+                <div><span>RUT</span><strong>${escapar(seleccionado.worker?.rut || "—")}</strong></div>
+                <div><span>Empresa</span><strong>${escapar(seleccionado.empresa?.nombre || "—")}</strong></div>
+                <div><span>Documentos vinculados</span><strong>${documentosRelacionados.length}</strong></div>
+            </div>`;
+
+        const lista = entradas.length ? `
+            <ol class="historial-contractual-timeline">
+                ${entradas.map(e => `
+                    <li class="historial-contractual-evento ${escapar(e.clase)}">
+                        <span class="historial-contractual-punto" aria-hidden="true"></span>
+                        <div class="historial-contractual-evento-cuerpo">
+                            <div class="historial-contractual-evento-cabecera">
+                                <strong>${escapar(e.titulo)}</strong>
+                                <time>${escapar(fechaHora(e.fecha))}</time>
+                            </div>
+                            ${e.detalle ? `<p>${escapar(e.detalle)}</p>` : ""}
+                        </div>
+                    </li>
+                `).join("")}
+            </ol>` : `<p class="historial-contractual-vacio">Todavía no hay eventos ni documentos registrados para este contrato.</p>`;
+
+        contenido.innerHTML = resumen + lista;
+    } catch (error) {
+        console.error("Error al cargar historial contractual:", error);
+        contenido.innerHTML = `<p class="historial-contractual-error">No fue posible cargar el historial contractual. Revisa la consola para ver el detalle del error.</p>`;
+    }
 }
 
 
