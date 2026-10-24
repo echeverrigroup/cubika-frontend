@@ -5301,3 +5301,39 @@ align-self: flex-start;
 }
 
 
+
+/* Barra superior de la tabla de Contratos: contador a la izquierda y exportación a la derecha */
+.contratos-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 14px 0 12px;
+    width: 100%;
+}
+
+.contratos-table-toolbar .contratos-resultados-resumen {
+    margin: 0;
+    flex: 1 1 auto;
+    text-align: left;
+}
+
+.contratos-table-toolbar .contratos-table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .contratos-table-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .contratos-table-toolbar .contratos-resultados-resumen {
+        flex-basis: 100%;
+    }
+}
+
+
