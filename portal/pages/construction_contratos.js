@@ -1472,329 +1472,279 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 
 
 
-async function abrirFormularioAnexo(
-    contrato,
-    plantilla
-) {
 
-    const trabajador =
-        contrato.worker
-            ? [
-                contrato.worker.nombres,
-                contrato.worker.apellido_paterno,
-                contrato.worker.apellido_materno
-            ]
-                .filter(Boolean)
-                .join(" ")
-            : "-";
+async function abrirFormularioAnexo(contrato, plantilla) {
+    const trabajadorNombre = contrato.worker
+        ? [
+            contrato.worker.nombres,
+            contrato.worker.apellido_paterno,
+            contrato.worker.apellido_materno
+        ].filter(Boolean).join(" ")
+        : "-";
 
-    const esTraslado =
-        plantilla.tipo_anexo === "TRASLADO";
+    const esTraslado = plantilla.tipo_anexo === "TRASLADO";
 
-    const overlay =
-        document.createElement("div");
-
-    overlay.className =
-        "cubika-modal-overlay";
+    const overlay = document.createElement("div");
+    overlay.className = "cubika-modal-overlay";
 
     overlay.innerHTML = `
-
         <div class="cubika-modal contrato-anexo-modal">
-
             <div class="cubika-modal-header">
-
                 <div>
                     <h2>Añadir anexo</h2>
-
-                    <p>
-                        Completa los antecedentes
-                        necesarios para generar el documento.
-                    </p>
+                    <p>Completa los antecedentes necesarios para generar el documento.</p>
                 </div>
-
-                <button
-                    type="button"
-                    class="cubika-modal-close"
-                    id="cerrarFormularioAnexo"
-                    aria-label="Cerrar"
-                >
-                    ×
-                </button>
-
+                <button type="button" class="cubika-modal-close"
+                    id="cerrarFormularioAnexo" aria-label="Cerrar">×</button>
             </div>
 
             <div class="cubika-modal-body">
-
                 <div class="anexo-contexto">
-
                     <div>
                         <span>Contrato</span>
-                        <strong>
-                            ${contrato.numero_contrato ?? "-"}
-                        </strong>
+                        <strong>${contrato.numero_contrato ?? "-"}</strong>
                     </div>
-
                     <div>
                         <span>Trabajador</span>
-                        <strong>${trabajador}</strong>
+                        <strong>${trabajadorNombre}</strong>
                     </div>
-
                     <div>
                         <span>Plantilla</span>
                         <strong>${plantilla.nombre}</strong>
                     </div>
-
                 </div>
 
                 <div class="anexo-seccion">
-
                     <div class="anexo-seccion-header">
-
                         <h3>Datos del anexo</h3>
-
-                        <p>
-                            Estos antecedentes serán utilizados
-                            al momento de generar el documento.
-                        </p>
-
+                        <p>Estos antecedentes serán utilizados al generar el documento.</p>
                     </div>
 
                     <div class="anexo-form-grid">
-
                         ${
                             esTraslado
                                 ? `
                                     <div class="form-group">
-
-                                        <label for="anexoObra">
-                                            Nueva obra
-                                        </label>
-
-                                        <select
-                                            id="anexoObra"
-                                            class="cubika-input"
-                                            required
-                                        >
-                                            <option value="">
-                                                Cargando obras...
-                                            </option>
+                                        <label for="anexoObra">Nueva obra</label>
+                                        <select id="anexoObra" class="cubika-input" required>
+                                            <option value="">Cargando obras...</option>
                                         </select>
-
                                     </div>
                                 `
                                 : ""
                         }
 
                         <div class="form-group">
-
-                            <label for="anexoFechaVigencia">
-                                Fecha de vigencia
-                            </label>
-
-                            <input
-                                type="date"
-                                id="anexoFechaVigencia"
-                                class="cubika-input"
-                                required
-                            >
-
+                            <label for="anexoFechaVigencia">Fecha de vigencia</label>
+                            <input type="date" id="anexoFechaVigencia"
+                                class="cubika-input" required>
                         </div>
 
                         <div class="form-group">
-
-                            <label for="anexoObservaciones">
-                                Observaciones
-                            </label>
-
-                            <input
-                                type="text"
-                                id="anexoObservaciones"
+                            <label for="anexoObservaciones">Observaciones</label>
+                            <input type="text" id="anexoObservaciones"
                                 class="cubika-input"
-                                placeholder="Observaciones del anexo"
-                            >
-
+                                placeholder="Observaciones del anexo">
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="cubika-modal-footer">
-
-                <button
-                    type="button"
-                    class="btn-cubika-secondary"
-                    id="cancelarFormularioAnexo"
-                >
-                    Cancelar
-                </button>
-
-                <button
-                    type="button"
-                    class="btn-cubika-green"
-                    id="continuarFormularioAnexo"
-                >
-                    Continuar
-                </button>
-
+                <button type="button" class="btn-cubika-secondary"
+                    id="cancelarFormularioAnexo">Cancelar</button>
+                <button type="button" class="btn-cubika-green"
+                    id="continuarFormularioAnexo">Generar anexo</button>
             </div>
-
         </div>
-
     `;
 
     document.body.appendChild(overlay);
 
     const cerrar = () => overlay.remove();
 
-    overlay
-        .querySelector("#cerrarFormularioAnexo")
+    overlay.querySelector("#cerrarFormularioAnexo")
         ?.addEventListener("click", cerrar);
 
-    overlay
-        .querySelector("#cancelarFormularioAnexo")
+    overlay.querySelector("#cancelarFormularioAnexo")
         ?.addEventListener("click", cerrar);
-
-
-    /*
-     * CARGAR OBRAS PARA ANEXO DE TRASLADO
-     */
 
     if (esTraslado) {
-
-        const selectObra =
-            overlay.querySelector("#anexoObra");
+        const selectObra = overlay.querySelector("#anexoObra");
 
         try {
+            const obras = await obrasService.getAll();
 
-            const obras =
-                await obrasService.getAll();
-
-            const obrasActivas =
-                obras.filter(obra =>
-                    obra.estado
-                        ?.toLowerCase() === "activa"
-                );
-
-            if (!obrasActivas.length) {
-
-                selectObra.innerHTML = `
-                    <option value="">
-                        No hay obras activas disponibles
-                    </option>
-                `;
-
-            } else {
-
-                selectObra.innerHTML = `
-                    <option value="">
-                        Selecciona una obra
-                    </option>
-                `;
-
-                obrasActivas.forEach(obra => {
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value = obra.id;
-
-                    option.textContent = [
-                        obra.nombre,
-                        obra.constructora?.nombre,
-                        obra.comuna?.nombre
-                    ]
-                        .filter(Boolean)
-                        .join(" — ");
-
-                    selectObra.appendChild(option);
-
-                });
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Error al cargar obras para el anexo:",
-                error
+            const obrasActivas = obras.filter(
+                obra => obra.estado?.toLowerCase() === "activa"
             );
 
             selectObra.innerHTML = `
-                <option value="">
-                    Error al cargar las obras
-                </option>
+                <option value="">Selecciona una obra</option>
             `;
 
-        }
+            obrasActivas.forEach(obra => {
+                const option = document.createElement("option");
+                option.value = obra.id;
+                option.textContent = [
+                    obra.nombre,
+                    obra.constructora?.nombre,
+                    obra.comuna?.nombre
+                ].filter(Boolean).join(" — ");
 
+                selectObra.appendChild(option);
+            });
+
+            if (!obrasActivas.length) {
+                selectObra.innerHTML = `
+                    <option value="">No hay obras activas disponibles</option>
+                `;
+            }
+        } catch (error) {
+            console.error("Error al cargar obras:", error);
+            selectObra.innerHTML = `
+                <option value="">Error al cargar las obras</option>
+            `;
+        }
     }
 
+    const botonGenerar = overlay.querySelector("#continuarFormularioAnexo");
 
-    /*
-     * CONTINUAR
-     */
+    botonGenerar.addEventListener("click", async () => {
+        const fechaVigencia =
+            overlay.querySelector("#anexoFechaVigencia")?.value;
 
-    overlay
-        .querySelector("#continuarFormularioAnexo")
-        ?.addEventListener("click", () => {
+        const observaciones =
+            overlay.querySelector("#anexoObservaciones")?.value.trim() ?? "";
 
-            const fechaVigencia =
-                overlay
-                    .querySelector("#anexoFechaVigencia")
-                    ?.value;
+        const obraId = esTraslado
+            ? overlay.querySelector("#anexoObra")?.value
+            : contrato.obra_id;
 
-            const observaciones =
-                overlay
-                    .querySelector("#anexoObservaciones")
-                    ?.value
-                    .trim();
+        if (!fechaVigencia) {
+            alert("Debes indicar la fecha de vigencia del anexo.");
+            return;
+        }
 
-            const obraId =
-                esTraslado
-                    ? overlay
-                        .querySelector("#anexoObra")
-                        ?.value
-                    : null;
+        if (esTraslado && !obraId) {
+            alert("Debes seleccionar la nueva obra para el traslado.");
+            return;
+        }
 
+        botonGenerar.disabled = true;
+        botonGenerar.textContent = "Generando...";
 
-            if (!fechaVigencia) {
+        try {
+            // 1. Recuperar los datos completos del contrato original.
+            const [
+                empresa,
+                trabajador,
+                obra,
+                cargo,
+                plantillaCompleta
+            ] = await Promise.all([
+                empresasService.getById(contrato.empresa_id),
+                workersService.getByIdForDocument(contrato.worker_id),
+                obrasService.getById(obraId),
+                cargosService.getById(contrato.cargo_id),
+                plantillasDocumentoService.getById(plantilla.id)
+            ]);
 
-                alert(
-                    "Debes indicar la fecha de vigencia del anexo."
-                );
-
-                return;
-            }
-
-
-            if (esTraslado && !obraId) {
-
-                alert(
-                    "Debes seleccionar la nueva obra para el traslado."
-                );
-
-                return;
-            }
-
-
-            console.log(
-                "Datos del anexo:",
-                {
-                    contratoId: contrato.id,
-                    plantillaId: plantilla.id,
-                    tipoAnexo: plantilla.tipo_anexo ?? null,
-                    fechaVigencia,
-                    observaciones,
-                    obraId
-                }
+            // La constructora debe corresponder a la obra seleccionada.
+            const constructora = await constructorasService.getById(
+                obra.constructora_id
             );
 
-        });
+            // 2. Construir las variables sin alterar el contrato original.
+            const contratoParaDocumento = {
+                ...contrato,
+                observaciones
+            };
 
+            const datosDocumento = {
+                empresa,
+                constructora,
+                trabajador,
+                obra,
+                cargo,
+                contrato: contratoParaDocumento,
+                fechaVigencia
+            };
+
+            const variables = construirVariables(datosDocumento);
+
+            variables.NUMERO_CONTRATO = contrato.numero_contrato ?? "";
+
+            const contenidoHtml = reemplazarVariables(
+                plantillaCompleta.contenido,
+                variables
+            );
+
+            if (!contenidoHtml.trim()) {
+                throw new Error(
+                    "La plantilla no generó contenido. Revisa su campo contenido."
+                );
+            }
+
+            // 3. Obtener el estado y el número del nuevo anexo.
+            const [numeroAnexo, estadoGenerado] = await Promise.all([
+                documentNumberService.generarNumeroDocumento("ANX"),
+                estadosContratoService.getByCodigo("GENERADO")
+            ]);
+
+            if (!estadoGenerado?.id) {
+                throw new Error(
+                    "No se encontró el estado GENERADO en estados_contrato."
+                );
+            }
+
+            // 4. Guardar un registro independiente vinculado al contrato madre.
+            const registroAnexo = {
+                worker_id: contrato.worker_id,
+                empresa_id: contrato.empresa_id,
+                obra_id: obraId,
+                cargo_id: contrato.cargo_id,
+                plantilla_id: plantilla.id,
+                numero_contrato: numeroAnexo,
+
+                fecha_inicio: contrato.fecha_inicio,
+                fecha_termino: contrato.fecha_termino,
+                sueldo: contrato.sueldo,
+                jornada_id: contrato.jornada_id,
+                distribucion_horaria: contrato.distribucion_horaria,
+                causal_termino: contrato.causal_termino,
+
+                observaciones,
+                contenido_html: contenidoHtml,
+                variables,
+
+                estado_id: estadoGenerado.id,
+                tipo_documento: "ANEXO",
+                contrato_madre_id: contrato.id
+            };
+
+            await contratosGeneradosService.create(registroAnexo);
+
+            alert(`Anexo ${numeroAnexo} generado correctamente.`);
+            cerrar();
+
+            // Recargar el listado para mostrar el documento recién creado.
+            await cargarContratos();
+
+        } catch (error) {
+            console.error("Error al generar el anexo:", error);
+
+            alert(
+                "No fue posible generar el anexo. " +
+                (error.message ?? "Revisa la consola para más detalles.")
+            );
+
+            botonGenerar.disabled = false;
+            botonGenerar.textContent = "Generar anexo";
+        }
+    });
 }
+
 
 
 
