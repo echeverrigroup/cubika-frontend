@@ -94,8 +94,9 @@ export const DOCUMENT_VARIABLES = {
 
         "TIPO_CONTRATO",
 
-        "FECHA_INICIO",
-        "FECHA_TERMINO",
+        "FECHA_INICIO_TEXTO",
+        "FECHA_VIGENCIA_TEXTO",
+        "FECHA_TERMINO_TEXTO",
 
         "FECHA_INICIO_TEXTO",
         "FECHA_TERMINO_TEXTO",
