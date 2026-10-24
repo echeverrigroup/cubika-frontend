@@ -3170,12 +3170,33 @@ async function cargarHistorialDocumentos() {
                 "'": "&#39;"
             })[caracter]);
 
+        const etiquetaTipo = tipo => {
+            const tipoNormalizado = String(tipo || "").toUpperCase();
+            const clases = {
+                CONTRATO: "contrato",
+                ANEXO: "anexo",
+                COMPLEMENTO: "complemento"
+            };
+            const etiquetas = {
+                CONTRATO: "Contrato",
+                ANEXO: "Anexo",
+                COMPLEMENTO: "Complemento"
+            };
+
+            return `<span class="historial-tipo-badge ${clases[tipoNormalizado] || "otro"}">${etiquetas[tipoNormalizado] || escapar(tipoNormalizado || "Otro")}</span>`;
+        };
+
+        const etiquetaOrigen = origen => {
+            const temporal = origen === "Generación temporal";
+            return `<span class="historial-origen-badge ${temporal ? "temporal" : "persistido"}">${escapar(temporal ? "Temporal" : "Persistido")}</span>`;
+        };
+
         tabla.innerHTML = `
-            <div class="table-container">
-                <table class="cubika-table">
+            <div class="historial-table-scroll">
+                <table class="cubika-table historial-documentos-table">
                     <thead>
                         <tr>
-                            <th>Fecha generación</th>
+                            <th>Fecha de generación</th>
                             <th>Documento</th>
                             <th>Tipo</th>
                             <th>RUT trabajador</th>
@@ -3187,17 +3208,17 @@ async function cargarHistorialDocumentos() {
                     <tbody>
                         ${historial.map(documento => `
                             <tr>
-                                <td>${escapar(
+                                <td class="historial-fecha">${escapar(
                                     documento.fecha
                                         ? new Date(documento.fecha).toLocaleString("es-CL")
                                         : "—"
                                 )}</td>
-                                <td>${escapar(documento.nombre)}</td>
-                                <td>${escapar(documento.tipo)}</td>
-                                <td>${escapar(documento.rut)}</td>
+                                <td class="historial-documento-nombre">${escapar(documento.nombre)}</td>
+                                <td>${etiquetaTipo(documento.tipo)}</td>
+                                <td class="historial-rut">${escapar(documento.rut)}</td>
                                 <td>${escapar(documento.trabajador || "—")}</td>
                                 <td>${escapar(documento.empresa)}</td>
-                                <td>${escapar(documento.origen)}</td>
+                                <td>${etiquetaOrigen(documento.origen)}</td>
                             </tr>
                         `).join("")}
                     </tbody>
@@ -3322,4 +3343,3 @@ function exportarContratosExcel(contratos) {
     );
 
 }
-
