@@ -1394,15 +1394,23 @@ function abrirDetalleContrato(contratoId) {
                             : ""
                     }
             
+                    <button
+                        type="button"
+                        class="btn-detalle-historial"
+                        data-accion-detalle="historial"
+                        title="Historial contractual"
+                        aria-label="Historial contractual"
+                    >
+                        <svg class="btn-detalle-historial-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M7 3.75h7l4 4v5.1" />
+                            <path d="M14 3.75v4h4" />
+                            <path d="M7 7.5H5.75A1.75 1.75 0 0 0 4 9.25v10A1.75 1.75 0 0 0 5.75 21h7.5A1.75 1.75 0 0 0 15 19.25V18" />
+                            <path d="M7.5 11h5M7.5 14h3" />
+                            <circle cx="17" cy="16" r="4.25" />
+                            <path d="M17 13.8v2.45l1.65 1" />
+                        </svg>
+                    </button>
                 </div>
-            
-                <button
-                    type="button"
-                    class="btn-detalle-historial"
-                    data-accion-detalle="historial"
-                >
-                    Historial contractual
-                </button>
 
                 <button
                     type="button"
