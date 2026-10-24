@@ -1200,6 +1200,16 @@ function abrirDetalleContrato(contratoId) {
         }
     );
 
+
+    
+    modal
+        .querySelector('[data-accion-detalle="anexo"]')
+        ?.addEventListener("click", () => {
+            cerrar();
+            abrirSelectorPlantillaAnexo(contrato.id);
+        });
+
+
 }
 
 
