@@ -790,6 +790,9 @@ async function descargarContratoPDF(contratoId) {
         const rutaPDF =
             `${contrato.empresa_id}/${contrato.worker_id}/${contrato.id}/contrato.pdf`;
 
+            console.log("Contrato seleccionado:", contrato);
+            console.log("Ruta PDF que se intentará descargar:", rutaPDF);
+
         // Generar una URL firmada nueva para evitar usar una URL vencida.
         const pdfUrl = await storageService.createSignedUrl(
             rutaPDF
