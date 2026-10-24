@@ -1,6 +1,6 @@
 import {
-    constructorassService
-} from "../services/constructorassService.js";
+    constructorasService
+} from "../services/constructorasService.js";
 
 import {
     obrasService
