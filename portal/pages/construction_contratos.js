@@ -1,3 +1,6 @@
+import {
+    obrasService
+} from "../services/obrasService.js";
 
 
 import {
@@ -1468,7 +1471,8 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 }
 
 
-function abrirFormularioAnexo(
+
+async function abrirFormularioAnexo(
     contrato,
     plantilla
 ) {
@@ -1484,6 +1488,9 @@ function abrirFormularioAnexo(
                 .join(" ")
             : "-";
 
+    const esTraslado =
+        plantilla.tipo_anexo === "TRASLADO";
+
     const overlay =
         document.createElement("div");
 
@@ -1492,23 +1499,17 @@ function abrirFormularioAnexo(
 
     overlay.innerHTML = `
 
-        <div
-            class="cubika-modal contrato-anexo-modal"
-        >
+        <div class="cubika-modal contrato-anexo-modal">
 
             <div class="cubika-modal-header">
 
                 <div>
-
-                    <h2>
-                        Añadir anexo
-                    </h2>
+                    <h2>Añadir anexo</h2>
 
                     <p>
                         Completa los antecedentes
                         necesarios para generar el documento.
                     </p>
-
                 </div>
 
                 <button
@@ -1522,51 +1523,34 @@ function abrirFormularioAnexo(
 
             </div>
 
-
             <div class="cubika-modal-body">
 
                 <div class="anexo-contexto">
 
                     <div>
-                        <span>
-                            Contrato
-                        </span>
-
+                        <span>Contrato</span>
                         <strong>
                             ${contrato.numero_contrato ?? "-"}
                         </strong>
                     </div>
 
                     <div>
-                        <span>
-                            Trabajador
-                        </span>
-
-                        <strong>
-                            ${trabajador}
-                        </strong>
+                        <span>Trabajador</span>
+                        <strong>${trabajador}</strong>
                     </div>
 
                     <div>
-                        <span>
-                            Plantilla
-                        </span>
-
-                        <strong>
-                            ${plantilla.nombre}
-                        </strong>
+                        <span>Plantilla</span>
+                        <strong>${plantilla.nombre}</strong>
                     </div>
 
                 </div>
-
 
                 <div class="anexo-seccion">
 
                     <div class="anexo-seccion-header">
 
-                        <h3>
-                            Datos del anexo
-                        </h3>
+                        <h3>Datos del anexo</h3>
 
                         <p>
                             Estos antecedentes serán utilizados
@@ -1575,8 +1559,31 @@ function abrirFormularioAnexo(
 
                     </div>
 
-
                     <div class="anexo-form-grid">
+
+                        ${
+                            esTraslado
+                                ? `
+                                    <div class="form-group">
+
+                                        <label for="anexoObra">
+                                            Nueva obra
+                                        </label>
+
+                                        <select
+                                            id="anexoObra"
+                                            class="cubika-input"
+                                            required
+                                        >
+                                            <option value="">
+                                                Cargando obras...
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                `
+                                : ""
+                        }
 
                         <div class="form-group">
 
@@ -1588,10 +1595,10 @@ function abrirFormularioAnexo(
                                 type="date"
                                 id="anexoFechaVigencia"
                                 class="cubika-input"
+                                required
                             >
 
                         </div>
-
 
                         <div class="form-group">
 
@@ -1613,7 +1620,6 @@ function abrirFormularioAnexo(
                 </div>
 
             </div>
-
 
             <div class="cubika-modal-footer">
 
@@ -1639,86 +1645,154 @@ function abrirFormularioAnexo(
 
     `;
 
-    document.body.appendChild(
-        overlay
-    );
+    document.body.appendChild(overlay);
+
+    const cerrar = () => overlay.remove();
+
+    overlay
+        .querySelector("#cerrarFormularioAnexo")
+        ?.addEventListener("click", cerrar);
+
+    overlay
+        .querySelector("#cancelarFormularioAnexo")
+        ?.addEventListener("click", cerrar);
 
 
-    const cerrar =
-        () => overlay.remove();
+    /*
+     * CARGAR OBRAS PARA ANEXO DE TRASLADO
+     */
 
+    if (esTraslado) {
 
-    document
-        .getElementById(
-            "cerrarFormularioAnexo"
-        )
-        ?.addEventListener(
-            "click",
-            cerrar
-        );
+        const selectObra =
+            overlay.querySelector("#anexoObra");
 
+        try {
 
-    document
-        .getElementById(
-            "cancelarFormularioAnexo"
-        )
-        ?.addEventListener(
-            "click",
-            cerrar
-        );
+            const obras =
+                await obrasService.getAll();
 
-
-    document
-        .getElementById(
-            "continuarFormularioAnexo"
-        )
-        ?.addEventListener(
-            "click",
-            () => {
-
-                const fechaVigencia =
-                    document
-                        .getElementById(
-                            "anexoFechaVigencia"
-                        )
-                        ?.value;
-
-                const observaciones =
-                    document
-                        .getElementById(
-                            "anexoObservaciones"
-                        )
-                        ?.value
-                        .trim();
-
-
-                if (!fechaVigencia) {
-
-                    alert(
-                        "Debes indicar la fecha de vigencia del anexo."
-                    );
-
-                    return;
-                }
-
-
-                console.log(
-                    "Datos del anexo:",
-                    {
-                        contratoId:
-                            contrato.id,
-
-                        plantillaId:
-                            plantilla.id,
-
-                        fechaVigencia,
-
-                        observaciones
-                    }
+            const obrasActivas =
+                obras.filter(obra =>
+                    obra.estado
+                        ?.toLowerCase() === "activa"
                 );
 
+            if (!obrasActivas.length) {
+
+                selectObra.innerHTML = `
+                    <option value="">
+                        No hay obras activas disponibles
+                    </option>
+                `;
+
+            } else {
+
+                selectObra.innerHTML = `
+                    <option value="">
+                        Selecciona una obra
+                    </option>
+                `;
+
+                obrasActivas.forEach(obra => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = obra.id;
+
+                    option.textContent = [
+                        obra.nombre,
+                        obra.constructora?.nombre,
+                        obra.comuna?.nombre
+                    ]
+                        .filter(Boolean)
+                        .join(" — ");
+
+                    selectObra.appendChild(option);
+
+                });
+
             }
-        );
+
+        } catch (error) {
+
+            console.error(
+                "Error al cargar obras para el anexo:",
+                error
+            );
+
+            selectObra.innerHTML = `
+                <option value="">
+                    Error al cargar las obras
+                </option>
+            `;
+
+        }
+
+    }
+
+
+    /*
+     * CONTINUAR
+     */
+
+    overlay
+        .querySelector("#continuarFormularioAnexo")
+        ?.addEventListener("click", () => {
+
+            const fechaVigencia =
+                overlay
+                    .querySelector("#anexoFechaVigencia")
+                    ?.value;
+
+            const observaciones =
+                overlay
+                    .querySelector("#anexoObservaciones")
+                    ?.value
+                    .trim();
+
+            const obraId =
+                esTraslado
+                    ? overlay
+                        .querySelector("#anexoObra")
+                        ?.value
+                    : null;
+
+
+            if (!fechaVigencia) {
+
+                alert(
+                    "Debes indicar la fecha de vigencia del anexo."
+                );
+
+                return;
+            }
+
+
+            if (esTraslado && !obraId) {
+
+                alert(
+                    "Debes seleccionar la nueva obra para el traslado."
+                );
+
+                return;
+            }
+
+
+            console.log(
+                "Datos del anexo:",
+                {
+                    contratoId: contrato.id,
+                    plantillaId: plantilla.id,
+                    tipoAnexo: plantilla.tipo_anexo ?? null,
+                    fechaVigencia,
+                    observaciones,
+                    obraId
+                }
+            );
+
+        });
 
 }
 
