@@ -2365,7 +2365,7 @@ async function obtenerDocumentPrintCss() {
 
 
 
-async function construirDocumentoHtml(
+export async function construirDocumentoHtml(
     contenido,
     logoUrl = null,
     nombreEmpresa = ""
