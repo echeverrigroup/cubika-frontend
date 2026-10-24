@@ -53,6 +53,16 @@ import {
 }
 from "../services/contratosGeneradosService.js";
 
+
+import {
+    documentNumberService
+} from "../services/documentNumberService.js";
+
+import {
+    estadosContratoService
+} from "../services/estadosContratoService.js";
+
+
 import { supabase }
 from "../../js/supabaseClient.js";
 
@@ -1752,7 +1762,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             cerrar();
 
             // Recargar el listado para mostrar el documento recién creado.
-            await cargarContratos();
+            await cargarContratosGenerados(true);
 
         } catch (error) {
             console.error("Error al generar el anexo:", error);
