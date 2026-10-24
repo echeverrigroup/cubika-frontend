@@ -324,7 +324,17 @@ export function renderConstructionContratos() {
 </details>
 
 
-<div class="contratos-table-actions">
+<div class="contratos-table-toolbar">
+
+    <div
+        id="contratosResultadosResumen"
+        class="historial-resultados-resumen contratos-resultados-resumen"
+        aria-live="polite"
+    >
+        Mostrando 0 de 0
+    </div>
+
+    <div class="contratos-table-actions">
 
     <button
         type="button"
@@ -339,6 +349,8 @@ export function renderConstructionContratos() {
             aria-hidden="true"
         >
     </button>
+
+    </div>
 
 </div>
 
@@ -638,11 +650,19 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     }
 
 
+    const resumenContratos = document.getElementById(
+        "contratosResultadosResumen"
+    );
+
+    if (resumenContratos) {
+        resumenContratos.textContent =
+            `Mostrando ${contratosFiltrados.length} de ${contratos.length}`;
+    }
+
     if (!contratos.length) {
 
         tabla.innerHTML = `
             <div class="card">
-                <div class="historial-resultados-resumen">Mostrando 0 de 0</div>
                 <p>No hay contratos generados todavía.</p>
             </div>
         `;
@@ -656,10 +676,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
         <div class="card contratos-card">
         
-            <div class="historial-resultados-resumen" id="contratosResultadosResumen">
-                Mostrando ${contratosFiltrados.length} de ${contratos.length}
-            </div>
-            
         <div class="table-container contratos-table-scroll">
             <table class="cubika-table historial-documentos-table">
 
