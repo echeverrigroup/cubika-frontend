@@ -5381,7 +5381,9 @@ align-self: flex-start;
     transform: translateY(1px);
 }
 .historial-contractual-overlay {
-    z-index: 10020;
+    /* El modal de detalle utiliza z-index: 99999; el historial debe quedar por encima. */
+    z-index: 100100;
+    background: rgba(11, 47, 91, 0.42);
 }
 .historial-contractual-modal {
     width: min(900px, calc(100vw - 32px));
