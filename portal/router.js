@@ -40,6 +40,8 @@ export function navigate(page, params = null) {
         
         case "dashboard":
         content.innerHTML = renderDashboard();
+         initDashboard();
+                      
         break;
 
 
