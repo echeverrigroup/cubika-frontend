@@ -641,18 +641,10 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     if (!contratos.length) {
 
         tabla.innerHTML = `
-
             <div class="card">
-
-                <p>
-
-                    No hay contratos
-                    generados todavía.
-
-                </p>
-
+                <div class="historial-resultados-resumen">Mostrando 0 de 0</div>
+                <p>No hay contratos generados todavía.</p>
             </div>
-
         `;
 
         return;
@@ -664,9 +656,12 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
         <div class="card contratos-card">
         
+            <div class="historial-resultados-resumen" id="contratosResultadosResumen">
+                Mostrando ${contratosFiltrados.length} de ${contratos.length}
+            </div>
             
         <div class="table-container contratos-table-scroll">
-            <table class="cubika-table">
+            <table class="cubika-table historial-documentos-table">
 
 
                     <thead>
