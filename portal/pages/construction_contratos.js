@@ -114,7 +114,31 @@ export function renderConstructionContratos() {
              </div>
 
 
-       <div class="card contratos-card">
+        <div class="cubika-tabs" role="tablist" aria-label="Vistas de documentos">
+            <button
+                type="button"
+                id="tabContratos"
+                class="cubika-tab active"
+                role="tab"
+                aria-selected="true"
+            >
+                Contratos
+            </button>
+        
+            <button
+                type="button"
+                id="tabHistorial"
+                class="cubika-tab"
+                role="tab"
+                aria-selected="false"
+            >
+                Historial
+            </button>
+        </div>
+
+
+       <div id="vistaContratos" class="card contratos-card">
+       
         <details class="cubika-filters-panel">
 
    <summary class="cubika-filters-header">
@@ -318,6 +342,16 @@ export function renderConstructionContratos() {
 
         </div>
 
+    <div id="vistaHistorial" class="card contratos-card" hidden>
+            <div class="page-section-header">
+                <h2>Historial de documentos</h2>
+            </div>
+        
+            <div id="historialDocumentosTable">
+                <p>Preparando el historial de documentos...</p>
+            </div>
+        </div>
+
     `;
 
 
@@ -342,6 +376,41 @@ export function renderConstructionContratos() {
             }
 
         );
+
+
+    const tabContratos = document.getElementById("tabContratos");
+    const tabHistorial = document.getElementById("tabHistorial");
+    const vistaContratos = document.getElementById("vistaContratos");
+    const vistaHistorial = document.getElementById("vistaHistorial");
+    
+    function cambiarVistaDocumentos(vista) {
+        const mostrarContratos = vista === "contratos";
+    
+        vistaContratos.hidden = !mostrarContratos;
+        vistaHistorial.hidden = mostrarContratos;
+    
+        tabContratos.classList.toggle("active", mostrarContratos);
+        tabHistorial.classList.toggle("active", !mostrarContratos);
+    
+        tabContratos.setAttribute(
+            "aria-selected",
+            String(mostrarContratos)
+        );
+    
+        tabHistorial.setAttribute(
+            "aria-selected",
+            String(!mostrarContratos)
+        );
+    }
+    
+    tabContratos.addEventListener("click", () => {
+        cambiarVistaDocumentos("contratos");
+    });
+    
+    tabHistorial.addEventListener("click", () => {
+        cambiarVistaDocumentos("historial");
+    });
+    
 
     const btnLimpiarFiltros =
             document.getElementById(
