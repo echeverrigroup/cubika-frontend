@@ -66,6 +66,11 @@ import {
 } from "../services/estadosContratoService.js";
 
 
+import {
+    documentosGeneradosEventosService
+} from "../services/documentosGeneradosEventosService.js";
+
+
 import { supabase }
 from "../../js/supabaseClient.js";
 
@@ -409,6 +414,7 @@ export function renderConstructionContratos() {
     
     tabHistorial.addEventListener("click", () => {
         cambiarVistaDocumentos("historial");
+        cargarHistorialDocumentos();
     });
     
 
@@ -3062,6 +3068,147 @@ async function sincronizarEstadoContrato(contrato) {
 
     return contrato;
 
+}
+
+
+
+async function cargarHistorialDocumentos() {
+    const tabla = document.getElementById(
+        "historialDocumentosTable"
+    );
+
+    if (!tabla) return;
+
+    tabla.innerHTML = "<p>Cargando historial...</p>";
+
+    try {
+        const [documentos, eventos] = await Promise.all([
+            contratosGeneradosService.getAll(),
+            documentosGeneradosEventosService.getAll()
+        ]);
+
+        // Contratos y anexos que existen como registros persistidos.
+        const documentosPersistidos = documentos
+            .filter(documento =>
+                ["CONTRATO", "ANEXO"].includes(
+                    String(documento.tipo_documento || "").toUpperCase()
+                )
+            )
+            .map(documento => ({
+                id: documento.id,
+                fecha: documento.fecha_generacion || documento.created_at,
+                tipo: documento.tipo_documento,
+                nombre:
+                    documento.tipo_documento === "ANEXO"
+                        ? `Anexo de ${documento.contrato_madre_id || "contrato"}`
+                        : `Contrato ${documento.numero_contrato || ""}`.trim(),
+                trabajador: [
+                    documento.worker?.nombres,
+                    documento.worker?.apellido_paterno,
+                    documento.worker?.apellido_materno
+                ].filter(Boolean).join(" "),
+                rut: documento.worker?.rut || "—",
+                empresa: documento.empresa?.nombre || "—",
+                origen: "Persistido",
+                descargable: Boolean(
+                    documento.pdf_url || documento.docx_url
+                )
+            }));
+
+        // Solo los eventos GENERADO de complementos temporales.
+        // Los eventos de contratos no se vuelven a incorporar.
+        const complementos = eventos
+            .filter(evento =>
+                evento.evento === "GENERADO" &&
+                String(evento.tipo_documento || "").toUpperCase() === "COMPLEMENTO"
+            )
+            .map(evento => {
+                const documentoBase = documentos.find(
+                    documento => documento.id === evento.contrato_id
+                );
+
+                return {
+                    id: `complemento-${evento.id}`,
+                    fecha: evento.created_at,
+                    tipo: "COMPLEMENTO",
+                    nombre: evento.nombre_documento || "Complemento",
+                    trabajador: [
+                        documentoBase?.worker?.nombres,
+                        documentoBase?.worker?.apellido_paterno,
+                        documentoBase?.worker?.apellido_materno
+                    ].filter(Boolean).join(" "),
+                    rut: documentoBase?.worker?.rut || "—",
+                    empresa: documentoBase?.empresa?.nombre || "—",
+                    origen: "Generación temporal",
+                    descargable: false
+                };
+            });
+
+        const historial = [
+            ...documentosPersistidos,
+            ...complementos
+        ].sort(
+            (a, b) =>
+                new Date(b.fecha || 0) - new Date(a.fecha || 0)
+        );
+
+        if (!historial.length) {
+            tabla.innerHTML = `
+                <p>No hay documentos registrados en el historial.</p>
+            `;
+            return;
+        }
+
+        const escapar = valor =>
+            String(valor ?? "—").replace(/[&<>"']/g, caracter => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[caracter]);
+
+        tabla.innerHTML = `
+            <div class="table-container">
+                <table class="cubika-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha generación</th>
+                            <th>Documento</th>
+                            <th>Tipo</th>
+                            <th>RUT trabajador</th>
+                            <th>Trabajador</th>
+                            <th>Empresa mandante</th>
+                            <th>Origen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${historial.map(documento => `
+                            <tr>
+                                <td>${escapar(
+                                    documento.fecha
+                                        ? new Date(documento.fecha).toLocaleString("es-CL")
+                                        : "—"
+                                )}</td>
+                                <td>${escapar(documento.nombre)}</td>
+                                <td>${escapar(documento.tipo)}</td>
+                                <td>${escapar(documento.rut)}</td>
+                                <td>${escapar(documento.trabajador || "—")}</td>
+                                <td>${escapar(documento.empresa)}</td>
+                                <td>${escapar(documento.origen)}</td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    } catch (error) {
+        console.error("Error al cargar el historial documental:", error);
+
+        tabla.innerHTML = `
+            <p>No fue posible cargar el historial. Revisa la consola para ver el error.</p>
+        `;
+    }
 }
 
 
