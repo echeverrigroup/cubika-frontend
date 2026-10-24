@@ -3,6 +3,10 @@ import {
 } from "../services/obrasService.js";
 
 import {
+    workersService
+} from "../services/workersService.js";
+
+import {
     empresasService    
 } from "../services/empresasService.js";
 
