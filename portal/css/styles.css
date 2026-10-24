@@ -5533,3 +5533,695 @@ align-self: flex-start;
         gap: 3px;
     }
 }
+
+
+
+/* =========================================================
+   CUBIKA — RESPONSIVE REFINEMENT
+   Ajustes transversales para escritorio, tablet y móvil.
+   Se añade al final para corregir reglas heredadas sin
+   alterar los componentes ni la lógica de los módulos.
+   ========================================================= */
+
+/* Evita desbordamientos causados por textos largos y grids */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 88px;
+}
+
+body {
+    min-width: 320px;
+    overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+[role="button"],
+input[type="checkbox"],
+input[type="radio"],
+select {
+    touch-action: manipulation;
+}
+
+.content,
+.sidebar,
+.main-container,
+.page-header,
+.modal,
+.cubika-modal,
+.contrato-detalle-body,
+.historial-contractual-contenido {
+    min-width: 0;
+}
+
+.cubika-table {
+    max-width: 100%;
+}
+
+.table-responsive,
+.contratos-table-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.form-group input,
+.form-group-2 input,
+.cubika-input,
+.cubika-select,
+textarea {
+    max-width: 100%;
+}
+
+/* Estados de foco claros para teclado y accesibilidad */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+    outline: 2px solid #1769AA;
+    outline-offset: 2px;
+}
+
+/* Tablets y portátiles compactos */
+@media (min-width: 769px) and (max-width: 1100px) {
+    .sidebar {
+        width: 220px;
+        padding: 18px 14px;
+        flex-shrink: 0;
+    }
+
+    .content {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .contrato-grid,
+    .empresa-layout {
+        gap: 18px;
+    }
+
+    .form-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #formTrabajador .form-grid,
+    .form-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .construction-welcome-intro {
+        grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+        min-height: 0;
+        gap: 22px;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 300px;
+    }
+
+    .construction-welcome-module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .construction-welcome-panel {
+        padding: 24px;
+    }
+
+    .wizard-steps {
+        gap: 12px;
+    }
+
+    .wizard-step {
+        min-width: 0;
+        padding: 13px 14px;
+    }
+}
+
+/* Tablets verticales y móviles */
+@media (max-width: 768px) {
+    html {
+        scroll-padding-top: 72px;
+    }
+
+    .main-container {
+        height: calc(100vh - 64px);
+        height: calc(100dvh - 64px);
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .content {
+        flex: 1 1 auto;
+        width: 100%;
+        min-width: 0;
+        padding: 16px 14px max(24px, env(safe-area-inset-bottom));
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+    }
+
+    .sidebar {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+    }
+
+    .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 0;
+        margin-top: 0;
+        background: #f1f4f8;
+    }
+
+    .page-header h1 {
+        overflow-wrap: anywhere;
+    }
+
+    .page-header > * {
+        min-width: 0;
+    }
+
+    .page-header button,
+    .page-header .btn-primary,
+    .page-header .btn-secondary {
+        min-height: 42px;
+    }
+
+    /* Mantener tablas legibles mediante desplazamiento horizontal */
+    .table-responsive,
+    .contratos-table-scroll {
+        border-radius: 10px;
+        scrollbar-width: thin;
+    }
+
+    .cubika-table {
+        width: max-content;
+        min-width: 680px;
+    }
+
+    .cubika-table th,
+    .cubika-table td {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .cubika-table td button {
+        max-width: 100%;
+    }
+
+    .table-filters {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+    }
+
+    .table-filters > *,
+    .table-filters input,
+    .table-filters select,
+    #filtroEstado,
+    #filtroRubro,
+    #busquedaEmpresa {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .cubika-tabs {
+        max-width: 100%;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+    }
+
+    .cubika-tab {
+        scroll-snap-align: start;
+    }
+
+    .cubika-form,
+    .cubika-form-grid,
+    .form-grid,
+    .form-grid-3,
+    .form-grid-4,
+    #formTrabajador .form-grid {
+        min-width: 0;
+    }
+
+    .form-group,
+    .form-group-2 {
+        min-width: 0;
+    }
+
+    .form-group input,
+    .form-group-2 input,
+    .cubika-input,
+    .cubika-select,
+    textarea {
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        font-size: 16px; /* Evita zoom automático en iOS */
+    }
+
+    .modal-overlay,
+    .cubika-modal-overlay {
+        align-items: center;
+        justify-content: center;
+        padding: max(10px, env(safe-area-inset-top))
+                 10px
+                 max(10px, env(safe-area-inset-bottom));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .modal,
+    .modal.large {
+        width: 100%;
+        max-width: 640px;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+        padding: 22px 18px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        border-radius: 14px;
+    }
+
+    .cubika-modal {
+        width: 100%;
+        max-width: 640px;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 14px;
+    }
+
+    .cubika-modal-header {
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .cubika-modal-header h2,
+    .modal-header h2 {
+        font-size: 18px;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .contrato-detalle-modal {
+        width: 100%;
+        max-width: 640px;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+    }
+
+    .contrato-detalle-body {
+        padding: 16px;
+        overscroll-behavior: contain;
+    }
+
+    .cubika-modal-footer {
+        padding: 14px 18px;
+        padding-bottom: max(14px, env(safe-area-inset-bottom));
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .cubika-modal-footer button,
+    .modal-footer button {
+        min-height: 40px;
+    }
+
+    .historial-contractual-modal {
+        width: 100%;
+        max-width: 640px;
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 14px;
+    }
+
+    .historial-contractual-contenido {
+        min-height: 0;
+        padding: 16px;
+        overscroll-behavior: contain;
+    }
+
+    .historial-contractual-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .historial-contractual-evento {
+        grid-template-columns: 18px minmax(0, 1fr);
+        gap: 9px;
+    }
+
+    .construction-welcome {
+        padding-bottom: 20px;
+    }
+
+    .construction-welcome-panel {
+        padding: 22px;
+    }
+
+    .construction-welcome-intro {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+        min-height: 0;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 240px;
+    }
+
+    .construction-welcome-section {
+        min-height: 0;
+    }
+
+    .construction-welcome-module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .construction-welcome-two-columns,
+    .construction-welcome-security-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .construction-welcome-support {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .construction-welcome-support-types {
+        justify-content: flex-start;
+    }
+
+    .construction-welcome-steps {
+        gap: 6px;
+    }
+
+    .construction-welcome-step {
+        min-width: 0;
+        padding: 10px 12px;
+    }
+
+    .document-preview {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .distribucion-horaria-row {
+        align-items: stretch;
+    }
+}
+
+/* Teléfonos */
+@media (max-width: 480px) {
+    .navbar {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .mobile-menu-btn,
+    .user-menu-trigger {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+    }
+
+    .logo {
+        height: 46px;
+        max-width: 48vw;
+        object-fit: contain;
+    }
+
+    .content {
+        padding: 12px 10px max(22px, env(safe-area-inset-bottom));
+    }
+
+    .page-header h1 {
+        font-size: clamp(18px, 5vw, 21px);
+    }
+
+    .page-header {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .page-header button {
+        width: 100%;
+    }
+
+    .cubika-form-grid,
+    .form-grid,
+    .form-grid-3,
+    .form-grid-4,
+    #formTrabajador .form-grid,
+    .empresa-layout,
+    .contrato-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .empresa-layout {
+        gap: 14px;
+    }
+
+    .empresa-section {
+        padding: 12px;
+    }
+
+    .cubika-tabs {
+        gap: 6px;
+        margin: 12px 0;
+    }
+
+    .cubika-tab {
+        padding: 10px 13px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    .cubika-table {
+        min-width: 620px;
+    }
+
+    .cubika-table th,
+    .cubika-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-restore,
+    .btn-toggle-estado {
+        min-height: 34px;
+        margin-right: 3px;
+    }
+
+    .modal-overlay,
+    .cubika-modal-overlay {
+        align-items: flex-end;
+        padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+    }
+
+    .modal,
+    .modal.large,
+    .cubika-modal,
+    .contrato-detalle-modal,
+    .historial-contractual-modal {
+        width: 100%;
+        max-width: none;
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
+        border-radius: 16px 16px 12px 12px;
+    }
+
+    .modal,
+    .modal.large {
+        padding: 20px 14px;
+    }
+
+    .cubika-modal-header {
+        padding: 16px 14px;
+    }
+
+    .cubika-modal-header h2,
+    .modal-header h2 {
+        font-size: 17px;
+    }
+
+    .contrato-detalle-body {
+        padding: 14px;
+    }
+
+    .contrato-detalle-item {
+        padding: 12px;
+    }
+
+    .cubika-modal-footer {
+        justify-content: stretch;
+        padding: 12px 14px;
+    }
+
+    .cubika-modal-footer button,
+    .modal-footer button {
+        flex: 1 1 auto;
+    }
+
+    .historial-contractual-contenido {
+        padding: 14px;
+    }
+
+    .historial-contractual-resumen {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .historial-contractual-resumen > div {
+        padding: 10px 12px;
+    }
+
+    .historial-contractual-evento {
+        padding-bottom: 18px;
+    }
+
+    .construction-welcome-header h1 {
+        font-size: 22px;
+    }
+
+    .construction-welcome-intro-copy h2,
+    .construction-welcome-section-heading h2 {
+        font-size: 21px;
+    }
+
+    .construction-welcome-panel {
+        padding: 15px;
+        border-radius: 13px;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 200px;
+    }
+
+    .construction-welcome-cube {
+        width: 105px;
+        height: 105px;
+    }
+
+    .construction-welcome-cube-inner {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+    }
+
+    .construction-welcome-module-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .construction-welcome-module-card,
+    .construction-welcome-info-card,
+    .construction-welcome-security-card,
+    .construction-welcome-service-card {
+        padding: 14px;
+    }
+
+    .construction-welcome-responsibility {
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .construction-welcome-steps {
+        margin: 18px 0;
+    }
+
+    .construction-welcome-step-label {
+        font-size: 11px;
+        overflow-wrap: anywhere;
+    }
+
+    .wizard-buttons button {
+        width: 100%;
+    }
+
+    .document-preview {
+        min-height: 280px;
+        padding: 12px;
+        font-size: 13px;
+    }
+}
+
+/* Teléfonos muy estrechos y orientación horizontal */
+@media (max-width: 360px) {
+    .navbar {
+        padding-right: 7px;
+        padding-left: 7px;
+    }
+
+    .logo {
+        height: 40px;
+    }
+
+    .content {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .construction-welcome-panel {
+        padding: 12px;
+    }
+
+    .historial-contractual-evento-cabecera time {
+        white-space: normal;
+    }
+}
+
+@media (max-height: 520px) and (max-width: 900px) {
+    .modal,
+    .modal.large,
+    .cubika-modal,
+    .contrato-detalle-modal,
+    .historial-contractual-modal {
+        max-height: calc(100vh - 12px);
+        max-height: calc(100dvh - 12px);
+    }
+
+    .modal-overlay,
+    .cubika-modal-overlay {
+        align-items: flex-start;
+    }
+
+    .construction-welcome-intro-visual {
+        min-height: 180px;
+    }
+}
+
+/* Reduce animaciones cuando el dispositivo lo solicita */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
