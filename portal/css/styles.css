@@ -5286,3 +5286,18 @@ align-self: flex-start;
     }
 }
 
+
+
+/* La vista Contratos comparte la tipografía de la tabla Historial. */
+#contratosTable .historial-documentos-table {
+    font-family: inherit;
+}
+
+/* El contador utiliza la misma presentación que “Mostrando X de Y” en Historial. */
+#contratosTable .historial-resultados-resumen {
+    margin: 0 0 12px;
+    color: var(--text-secondary, #64748b);
+    font-size: 0.875rem;
+}
+
+
