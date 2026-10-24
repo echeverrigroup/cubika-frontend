@@ -5337,3 +5337,172 @@ align-self: flex-start;
 }
 
 
+
+
+/* Historial contractual: modal de trazabilidad asociado al contrato seleccionado */
+.btn-detalle-historial {
+    border: 1px solid rgba(35, 126, 164, 0.42);
+    background: rgba(35, 126, 164, 0.10);
+    color: #176b8b;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.btn-detalle-historial:hover {
+    background: rgba(35, 126, 164, 0.17);
+    border-color: rgba(35, 126, 164, 0.62);
+}
+.historial-contractual-overlay {
+    z-index: 10020;
+}
+.historial-contractual-modal {
+    width: min(900px, calc(100vw - 32px));
+    max-width: 900px;
+    max-height: min(88vh, 900px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.historial-contractual-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+.historial-contractual-header h2 {
+    margin: 0;
+}
+.historial-contractual-subtitulo {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+.historial-contractual-contenido {
+    padding: 20px 24px;
+    overflow-y: auto;
+    min-height: 140px;
+}
+.historial-contractual-resumen {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+}
+.historial-contractual-resumen > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+    background: #f9fafb;
+}
+.historial-contractual-resumen span {
+    color: #6b7280;
+    font-size: 12px;
+}
+.historial-contractual-resumen strong {
+    color: #1f2937;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+.historial-contractual-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 7px;
+}
+.historial-contractual-evento {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 12px;
+    padding: 0 0 22px;
+}
+.historial-contractual-evento:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 15px;
+    bottom: -1px;
+    width: 2px;
+    background: #e5e7eb;
+}
+.historial-contractual-punto {
+    position: relative;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    margin-top: 2px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: #267fa2;
+    box-shadow: 0 0 0 1px rgba(38, 127, 162, .35);
+}
+.historial-contractual-evento.anexo .historial-contractual-punto {
+    background: #15966b;
+    box-shadow: 0 0 0 1px rgba(21, 150, 107, .35);
+}
+.historial-contractual-evento.error .historial-contractual-punto {
+    background: #d94841;
+    box-shadow: 0 0 0 1px rgba(217, 72, 65, .35);
+}
+.historial-contractual-evento.descarga_iniciada .historial-contractual-punto {
+    background: #b7791f;
+    box-shadow: 0 0 0 1px rgba(183, 121, 31, .35);
+}
+.historial-contractual-evento-cuerpo {
+    min-width: 0;
+    padding: 0 0 2px;
+}
+.historial-contractual-evento-cabecera {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+}
+.historial-contractual-evento-cabecera strong {
+    color: #1f2937;
+    font-size: 14px;
+}
+.historial-contractual-evento-cabecera time {
+    color: #6b7280;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.historial-contractual-evento-cuerpo p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.historial-contractual-vacio,
+.historial-contractual-cargando {
+    margin: 10px 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+.historial-contractual-error {
+    color: #b42318;
+    font-size: 14px;
+}
+.historial-contractual-footer {
+    justify-content: flex-end;
+}
+@media (max-width: 640px) {
+    .historial-contractual-contenido {
+        padding: 16px;
+    }
+    .historial-contractual-resumen {
+        grid-template-columns: 1fr;
+    }
+    .historial-contractual-evento-cabecera {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+}
