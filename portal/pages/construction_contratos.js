@@ -1534,11 +1534,17 @@ async function abrirHistorialContractual(contratoId) {
         });
     };
 
+    // Las fechas de tipo DATE se formatean como fecha local para evitar desfases de zona horaria.
+    const fechaSimple = valor => {
+        if (!valor) return "No registrada";
+        const soloFecha = String(valor).slice(0, 10);
+        const partes = soloFecha.split("-");
+        if (partes.length !== 3) return "No registrada";
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    };
+
     try {
-        const [documentos, eventos] = await Promise.all([
-            contratosGeneradosService.getAll(),
-            documentosGeneradosEventosService.getAll()
-        ]);
+        const documentos = await contratosGeneradosService.getAll();
 
         const seleccionado = documentos.find(d => String(d.id) === String(contratoId));
         if (!seleccionado) {
@@ -1589,28 +1595,6 @@ async function abrirHistorialContractual(contratoId) {
             tipo: "documento"
         }));
 
-        eventos
-            .filter(e => idsRelacionados.has(String(e.contrato_id)))
-            .forEach(e => {
-                const fecha = e.created_at;
-                const etiquetas = {
-                    GENERADO: "Documento generado",
-                    DESCARGA_INICIADA: "Descarga iniciada",
-                    ERROR: "Error de generación"
-                };
-                entradas.push({
-                    fecha,
-                    titulo: etiquetas[e.evento] || e.evento || "Evento documental",
-                    detalle: [
-                        e.nombre_documento || "",
-                        e.tipo_documento || "",
-                        e.detalle || ""
-                    ].filter(Boolean).join(" · "),
-                    clase: String(e.evento || "evento").toLowerCase(),
-                    tipo: "evento"
-                });
-            });
-
         entradas.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
         const resumen = `
@@ -1618,7 +1602,7 @@ async function abrirHistorialContractual(contratoId) {
                 <div><span>Trabajador</span><strong>${escapar(nombreTrabajador(seleccionado))}</strong></div>
                 <div><span>RUT</span><strong>${escapar(seleccionado.worker?.rut || "—")}</strong></div>
                 <div><span>Empresa</span><strong>${escapar(seleccionado.empresa?.nombre || "—")}</strong></div>
-                <div><span>Documentos vinculados</span><strong>${documentosRelacionados.length}</strong></div>
+                <div><span>Inicio de Relación Laboral</span><strong>${escapar(fechaSimple(raiz.fecha_inicio))}</strong></div>
             </div>`;
 
         const lista = entradas.length ? `
@@ -1635,7 +1619,7 @@ async function abrirHistorialContractual(contratoId) {
                         </div>
                     </li>
                 `).join("")}
-            </ol>` : `<p class="historial-contractual-vacio">Todavía no hay eventos ni documentos registrados para este contrato.</p>`;
+            </ol>` : `<p class="historial-contractual-vacio">Todavía no hay hitos contractuales registrados para este contrato.</p>`;
 
         contenido.innerHTML = resumen + lista;
     } catch (error) {
