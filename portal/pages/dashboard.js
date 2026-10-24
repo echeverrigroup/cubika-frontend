@@ -1,3 +1,7 @@
+import {
+    solicitarAperturaContrato
+} from "./construction_contratos.js";
+
 
 import { constructionResumenService } from "../services/constructionResumenService.js";
 import { navigate } from "../router.js";
