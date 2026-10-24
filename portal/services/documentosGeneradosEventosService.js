@@ -5,6 +5,18 @@ const TABLE = "documentos_generados_eventos";
 
 export const documentosGeneradosEventosService = {
 
+    async getAll() {
+        const { data, error } = await supabase
+            .from(TABLE)
+            .select("*")
+            .order("created_at", { ascending: false });
+    
+        if (error) throw error;
+    
+        return data ?? [];
+    },
+    
+
     async registrar(evento) {
         const { data, error } = await supabase
             .from(TABLE)
