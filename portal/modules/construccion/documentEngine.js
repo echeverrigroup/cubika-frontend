@@ -615,6 +615,12 @@ export function construirVariables(
         );
 
 
+    variables.FECHA_VIGENCIA_TEXTO =
+        formatearFechaTexto(
+            datos.fechaVigencia
+        );
+
+
 
     variables.FECHA_TERMINO_TEXTO =
 
