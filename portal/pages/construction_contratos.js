@@ -32,6 +32,21 @@ from "../../js/supabaseClient.js";
 let contratosVisibles = [];
 
 
+let contratoPendienteDeApertura = null;
+
+export function solicitarAperturaContrato(contratoId) {
+    if (!contratoId) {
+        console.error("No se recibió el ID del contrato.");
+        return;
+    }
+
+    contratoPendienteDeApertura = String(contratoId);
+
+    navigate("construction_contratos");
+}
+
+
+
 export function renderConstructionContratos() {
 
     const content =
@@ -434,6 +449,27 @@ async function cargarContratosGenerados(cargarFiltros = false) {
         }
 
     contratosVisibles = contratosFiltrados;
+
+
+    if (contratoPendienteDeApertura) {
+        const contratoId = contratoPendienteDeApertura;
+    
+        const contratoExiste = contratosVisibles.some(
+            contrato => String(contrato.id) === contratoId
+        );
+    
+        if (contratoExiste) {
+            contratoPendienteDeApertura = null;
+            abrirDetalleContrato(contratoId);
+        } else {
+            console.warn(
+                "No se encontró el contrato solicitado:",
+                contratoId
+            );
+    
+            contratoPendienteDeApertura = null;
+        }
+    }
 
 
     if (!contratos.length) {
