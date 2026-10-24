@@ -4964,3 +4964,131 @@ align-self: flex-start;
         align-self: flex-start;
     }
 }
+
+
+
+
+/* =========================================================
+   MODAL DETALLE CONTRATO — ACCIONES
+   ========================================================= */
+
+.contrato-detalle-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 22px;
+    border-top: 1px solid #e5eaf0;
+    background: #f8fafc;
+    border-radius: 0 0 12px 12px;
+}
+
+.contrato-detalle-acciones-principales {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-detalle-anexo,
+.btn-detalle-finiquitar,
+.btn-detalle-cerrar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.btn-detalle-anexo {
+    color: #087f8c;
+    background: #e8f7f7;
+    border: 1px solid #b9e5e6;
+}
+
+.btn-detalle-anexo:hover {
+    color: #ffffff;
+    background: #087f8c;
+    border-color: #087f8c;
+    box-shadow: 0 3px 8px rgb(8 127 140 / 16%);
+}
+
+.btn-detalle-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    border: 1px solid currentColor;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.btn-detalle-finiquitar {
+    color: #a64242;
+    background: #fff5f5;
+    border: 1px solid #efcaca;
+}
+
+.btn-detalle-finiquitar:hover {
+    color: #ffffff;
+    background: #b94b4b;
+    border-color: #b94b4b;
+    box-shadow: 0 3px 8px rgb(185 75 75 / 16%);
+}
+
+.btn-detalle-cerrar {
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #d5dde7;
+}
+
+.btn-detalle-cerrar:hover {
+    color: #164e63;
+    background: #edf5f7;
+    border-color: #b8d5dd;
+}
+
+.btn-detalle-anexo:focus-visible,
+.btn-detalle-finiquitar:focus-visible,
+.btn-detalle-cerrar:focus-visible {
+    outline: 3px solid rgb(8 127 140 / 25%);
+    outline-offset: 2px;
+}
+
+.btn-detalle-anexo:active,
+.btn-detalle-finiquitar:active,
+.btn-detalle-cerrar:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 560px) {
+    .contrato-detalle-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .contrato-detalle-acciones-principales {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .btn-detalle-cerrar {
+        width: 100%;
+    }
+}
