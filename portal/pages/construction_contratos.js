@@ -462,9 +462,14 @@ async function cargarContratosGenerados(cargarFiltros = false) {
         return;
 
 
-    const contratos =
-        await contratosGeneradosService
-            .getAll();
+    const contratosTodos =
+        await contratosGeneradosService.getAll();
+    
+    const contratos = contratosTodos.filter(
+        documento =>
+            documento.tipo_documento === "CONTRATO"
+    );
+    
 
     if (cargarFiltros) {
 
