@@ -4803,3 +4803,164 @@ flex-direction: column;
 align-self: flex-start;
 }
 }
+
+
+
+
+/* =========================================================
+   RESUMEN - GESTOR DOCUMENTAL
+   ========================================================= */
+
+.resumen-subtitulo {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.resumen-filtros {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.resumen-filtros .form-group {
+    margin: 0;
+}
+
+.resumen-filtros-acciones {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.resumen-indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.resumen-indicador {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.resumen-indicador-titulo {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.resumen-indicador-valor {
+    color: #164e63;
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 650;
+}
+
+.resumen-indicador-detalle {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.resumen-alertas-card {
+    padding: 20px;
+}
+
+.resumen-alertas-card .page-header {
+    margin-top: 0;
+}
+
+.resumen-alertas-card h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.resumen-alertas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resumen-alerta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.resumen-alerta.advertencia {
+    border-left: 4px solid #d6a243;
+}
+
+.resumen-alerta.critica {
+    border-left: 4px solid #d66b6b;
+}
+
+.resumen-alerta-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.resumen-alerta-contenido strong {
+    font-size: 13px;
+}
+
+.resumen-alerta-contenido span {
+    font-size: 13px;
+}
+
+.resumen-alerta-contenido small {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.resumen-sin-alertas {
+    padding: 24px 12px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+}
+
+#resumenMensaje {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 1000px) {
+    .resumen-indicadores {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .resumen-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .resumen-indicadores,
+    .resumen-filtros {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .resumen-alerta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .resumen-alerta button {
+        align-self: flex-start;
+    }
+}
