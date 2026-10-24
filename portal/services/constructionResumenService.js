@@ -50,8 +50,12 @@ export function determinarEstadoContratoResumen(contrato, ahora = new Date()) {
 }
 
 function esDocumentoContrato(contrato) {
-    return String(contrato.tipo_documento ?? "CONTRATO")
-        .toUpperCase() !== "ANEXO";
+    const tipo = String(contrato.tipo_documento ?? "")
+        .trim()
+        .toUpperCase();
+
+    // Los registros históricos sin tipo se mantienen provisionalmente.
+    return !tipo || tipo === "CONTRATO";
 }
 
 function obtenerContratosConEstado(contratos) {
