@@ -354,6 +354,49 @@ export function renderConstructionContratos() {
                 <h2>Historial de documentos</h2>
             </div>
         
+            <details class="cubika-filters-panel historial-filters-panel">
+                <summary class="cubika-filters-header">
+                    <span>Filtros del historial</span>
+                    <div class="cubika-filters-actions">
+                        <button type="button" id="btnLimpiarFiltrosHistorial"
+                            class="btn-limpiar-filtros">Limpiar filtros</button>
+                        <span class="cubika-filters-chevron">
+                            <img src="/img/icons/filtros-desplegar.svg" alt="Desplegar filtros">
+                        </span>
+                    </div>
+                </summary>
+                <div class="cubika-filters historial-filters-grid">
+                    <div class="form-group">
+                        <label for="buscarHistorial">Buscar</label>
+                        <input id="buscarHistorial" type="text" class="cubika-input"
+                            placeholder="Documento, trabajador o RUT...">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroTipoHistorial">Tipo de documento</label>
+                        <select id="filtroTipoHistorial" class="cubika-select">
+                            <option value="">Todos los tipos</option>
+                            <option value="CONTRATO">Contrato</option>
+                            <option value="ANEXO">Anexo</option>
+                            <option value="COMPLEMENTO">Complemento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroEmpresaHistorial">Empresa mandante</label>
+                        <select id="filtroEmpresaHistorial" class="cubika-select">
+                            <option value="">Todas las empresas mandantes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="historialFechaDesde">Fecha desde</label>
+                        <input id="historialFechaDesde" type="date" class="cubika-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="historialFechaHasta">Fecha hasta</label>
+                        <input id="historialFechaHasta" type="date" class="cubika-input">
+                    </div>
+                </div>
+            </details>
+
             <div id="historialDocumentosTable">
                 <p>Preparando el historial de documentos...</p>
             </div>
@@ -3075,12 +3118,8 @@ async function sincronizarEstadoContrato(contrato) {
 
 
 async function cargarHistorialDocumentos() {
-    const tabla = document.getElementById(
-        "historialDocumentosTable"
-    );
-
+    const tabla = document.getElementById("historialDocumentosTable");
     if (!tabla) return;
-
     tabla.innerHTML = "<p>Cargando historial...</p>";
 
     try {
@@ -3089,151 +3128,150 @@ async function cargarHistorialDocumentos() {
             documentosGeneradosEventosService.getAll()
         ]);
 
-        // Contratos y anexos que existen como registros persistidos.
         const documentosPersistidos = documentos
-            .filter(documento =>
-                ["CONTRATO", "ANEXO"].includes(
-                    String(documento.tipo_documento || "").toUpperCase()
-                )
-            )
-            .map(documento => ({
-                id: documento.id,
-                fecha: documento.fecha_generacion || documento.created_at,
-                tipo: documento.tipo_documento,
-                nombre:
-                    documento.tipo_documento === "ANEXO"
-                        ? `Anexo de ${documento.contrato_madre_id || "contrato"}`
-                        : `Contrato ${documento.numero_contrato || ""}`.trim(),
-                trabajador: [
-                    documento.worker?.nombres,
-                    documento.worker?.apellido_paterno,
-                    documento.worker?.apellido_materno
-                ].filter(Boolean).join(" "),
-                rut: documento.worker?.rut || "—",
-                empresa: documento.empresa?.nombre || "—",
-                origen: "Persistido",
-                descargable: Boolean(
-                    documento.pdf_url || documento.docx_url
-                )
+            .filter(d => ["CONTRATO", "ANEXO"].includes(String(d.tipo_documento || "").toUpperCase()))
+            .map(d => ({
+                id: d.id,
+                fecha: d.fecha_generacion || d.created_at,
+                tipo: String(d.tipo_documento || "").toUpperCase(),
+                nombre: String(d.tipo_documento || "").toUpperCase() === "ANEXO"
+                    ? `Anexo de ${d.contrato_madre_id || "contrato"}`
+                    : `Contrato ${d.numero_contrato || ""}`.trim(),
+                trabajador: [d.worker?.nombres, d.worker?.apellido_paterno, d.worker?.apellido_materno].filter(Boolean).join(" "),
+                rut: d.worker?.rut || "—",
+                empresa: d.empresa?.nombre || "—",
+                empresaId: d.empresa_id || d.empresa?.id || "",
+                origen: "Persistido"
             }));
 
-        // Solo los eventos GENERADO de complementos temporales.
-        // Los eventos de contratos no se vuelven a incorporar.
         const complementos = eventos
-            .filter(evento =>
-                evento.evento === "GENERADO" &&
-                String(evento.tipo_documento || "").toUpperCase() === "COMPLEMENTO"
-            )
-            .map(evento => {
-                const documentoBase = documentos.find(
-                    documento => documento.id === evento.contrato_id
-                );
-
+            .filter(e => e.evento === "GENERADO" && String(e.tipo_documento || "").toUpperCase() === "COMPLEMENTO")
+            .map(e => {
+                const base = documentos.find(d => String(d.id) === String(e.contrato_id));
                 return {
-                    id: `complemento-${evento.id}`,
-                    fecha: evento.created_at,
+                    id: `complemento-${e.id}`,
+                    fecha: e.created_at,
                     tipo: "COMPLEMENTO",
-                    nombre: evento.nombre_documento || "Complemento",
-                    trabajador: [
-                        documentoBase?.worker?.nombres,
-                        documentoBase?.worker?.apellido_paterno,
-                        documentoBase?.worker?.apellido_materno
-                    ].filter(Boolean).join(" "),
-                    rut: documentoBase?.worker?.rut || "—",
-                    empresa: documentoBase?.empresa?.nombre || "—",
-                    origen: "Generación temporal",
-                    descargable: false
+                    nombre: e.nombre_documento || "Complemento",
+                    trabajador: [base?.worker?.nombres, base?.worker?.apellido_paterno, base?.worker?.apellido_materno].filter(Boolean).join(" "),
+                    rut: base?.worker?.rut || "—",
+                    empresa: base?.empresa?.nombre || "—",
+                    empresaId: base?.empresa_id || base?.empresa?.id || "",
+                    origen: "Generación temporal"
                 };
             });
 
-        const historial = [
-            ...documentosPersistidos,
-            ...complementos
-        ].sort(
-            (a, b) =>
-                new Date(b.fecha || 0) - new Date(a.fecha || 0)
-        );
+        const historial = [...documentosPersistidos, ...complementos]
+            .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
-        if (!historial.length) {
-            tabla.innerHTML = `
-                <p>No hay documentos registrados en el historial.</p>
-            `;
-            return;
-        }
-
-        const escapar = valor =>
-            String(valor ?? "—").replace(/[&<>"']/g, caracter => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;"
-            })[caracter]);
+        const escapar = valor => String(valor ?? "—").replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[c]);
 
         const etiquetaTipo = tipo => {
-            const tipoNormalizado = String(tipo || "").toUpperCase();
-            const clases = {
-                CONTRATO: "contrato",
-                ANEXO: "anexo",
-                COMPLEMENTO: "complemento"
-            };
-            const etiquetas = {
-                CONTRATO: "Contrato",
-                ANEXO: "Anexo",
-                COMPLEMENTO: "Complemento"
-            };
-
-            return `<span class="historial-tipo-badge ${clases[tipoNormalizado] || "otro"}">${etiquetas[tipoNormalizado] || escapar(tipoNormalizado || "Otro")}</span>`;
+            const t = String(tipo || "").toUpperCase();
+            const clases = { CONTRATO: "contrato", ANEXO: "anexo", COMPLEMENTO: "complemento" };
+            const nombres = { CONTRATO: "Contrato", ANEXO: "Anexo", COMPLEMENTO: "Complemento" };
+            return `<span class="historial-tipo-badge ${clases[t] || "otro"}">${nombres[t] || escapar(t || "Otro")}</span>`;
         };
 
         const etiquetaOrigen = origen => {
             const temporal = origen === "Generación temporal";
-            return `<span class="historial-origen-badge ${temporal ? "temporal" : "persistido"}">${escapar(temporal ? "Temporal" : "Persistido")}</span>`;
+            return `<span class="historial-origen-badge ${temporal ? "temporal" : "persistido"}">${temporal ? "Temporal" : "Persistido"}</span>`;
         };
 
+        const filtroEmpresa = document.getElementById("filtroEmpresaHistorial");
+        if (filtroEmpresa) {
+            const anterior = filtroEmpresa.value;
+            const empresas = [...new Map(historial.filter(d => d.empresaId).map(d => [
+                String(d.empresaId), { id: String(d.empresaId), nombre: d.empresa }
+            ])).values()].sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+            filtroEmpresa.innerHTML = `<option value="">Todas las empresas mandantes</option>` +
+                empresas.map(e => `<option value="${escapar(e.id)}" ${String(e.id) === anterior ? "selected" : ""}>${escapar(e.nombre)}</option>`).join("");
+        }
+
         tabla.innerHTML = `
+            <div class="historial-resultados-resumen" id="historialResultadosResumen"></div>
             <div class="historial-table-scroll">
                 <table class="cubika-table historial-documentos-table">
-                    <thead>
-                        <tr>
-                            <th>Fecha de generación</th>
-                            <th>Documento</th>
-                            <th>Tipo</th>
-                            <th>RUT trabajador</th>
-                            <th>Trabajador</th>
-                            <th>Empresa mandante</th>
-                            <th>Origen</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${historial.map(documento => `
-                            <tr>
-                                <td class="historial-fecha">${escapar(
-                                    documento.fecha
-                                        ? new Date(documento.fecha).toLocaleString("es-CL")
-                                        : "—"
-                                )}</td>
-                                <td class="historial-documento-nombre">${escapar(documento.nombre)}</td>
-                                <td>${etiquetaTipo(documento.tipo)}</td>
-                                <td class="historial-rut">${escapar(documento.rut)}</td>
-                                <td>${escapar(documento.trabajador || "—")}</td>
-                                <td>${escapar(documento.empresa)}</td>
-                                <td>${etiquetaOrigen(documento.origen)}</td>
-                            </tr>
-                        `).join("")}
-                    </tbody>
+                    <thead><tr>
+                        <th>Fecha de generación</th><th>Documento</th><th>Tipo</th>
+                        <th>RUT trabajador</th><th>Trabajador</th><th>Empresa mandante</th><th>Origen</th>
+                    </tr></thead>
+                    <tbody id="historialDocumentosTbody"></tbody>
                 </table>
             </div>
-        `;
+            <p class="historial-sin-resultados" id="historialSinResultados" hidden>
+                No hay documentos que coincidan con los filtros seleccionados.
+            </p>`;
+
+        const buscar = document.getElementById("buscarHistorial");
+        const tipo = document.getElementById("filtroTipoHistorial");
+        const desde = document.getElementById("historialFechaDesde");
+        const hasta = document.getElementById("historialFechaHasta");
+        const tbody = document.getElementById("historialDocumentosTbody");
+        const resumen = document.getElementById("historialResultadosResumen");
+        const vacio = document.getElementById("historialSinResultados");
+
+        const fechaISO = fecha => {
+            if (!fecha) return "";
+            const d = new Date(fecha);
+            if (Number.isNaN(d.getTime())) return "";
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        };
+
+        const renderizar = () => {
+            const q = (buscar?.value || "").trim().toLocaleLowerCase("es");
+            const t = tipo?.value || "";
+            const e = filtroEmpresa?.value || "";
+            const fDesde = desde?.value || "";
+            const fHasta = hasta?.value || "";
+
+            const resultados = historial.filter(d => {
+                const texto = [d.nombre, d.trabajador, d.rut, d.empresa].join(" ").toLocaleLowerCase("es");
+                const fecha = fechaISO(d.fecha);
+                return (!q || texto.includes(q))
+                    && (!t || d.tipo === t)
+                    && (!e || String(d.empresaId) === e)
+                    && (!fDesde || (fecha && fecha >= fDesde))
+                    && (!fHasta || (fecha && fecha <= fHasta));
+            });
+
+            tbody.innerHTML = resultados.map(d => `
+                <tr>
+                    <td class="historial-fecha">${escapar(d.fecha ? new Date(d.fecha).toLocaleString("es-CL") : "—")}</td>
+                    <td class="historial-documento-nombre">${escapar(d.nombre)}</td>
+                    <td>${etiquetaTipo(d.tipo)}</td>
+                    <td class="historial-rut">${escapar(d.rut)}</td>
+                    <td>${escapar(d.trabajador || "—")}</td>
+                    <td>${escapar(d.empresa)}</td>
+                    <td>${etiquetaOrigen(d.origen)}</td>
+                </tr>`).join("");
+
+            resumen.textContent = `Mostrando ${resultados.length} de ${historial.length} documentos`;
+            vacio.hidden = resultados.length > 0;
+            tbody.closest("table").hidden = resultados.length === 0;
+        };
+
+        [buscar, tipo, filtroEmpresa, desde, hasta].forEach(control => {
+            control?.addEventListener(control === buscar ? "input" : "change", renderizar);
+        });
+
+        document.getElementById("btnLimpiarFiltrosHistorial")?.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+            [buscar, tipo, filtroEmpresa, desde, hasta].forEach(control => {
+                if (control) control.value = "";
+            });
+            renderizar();
+        });
+
+        renderizar();
     } catch (error) {
         console.error("Error al cargar el historial documental:", error);
-
-        tabla.innerHTML = `
-            <p>No fue posible cargar el historial. Revisa la consola para ver el error.</p>
-        `;
+        tabla.innerHTML = `<p>No fue posible cargar el historial. Revisa la consola para ver el error.</p>`;
     }
 }
-
 
 
 function exportarContratosExcel(contratos) {
