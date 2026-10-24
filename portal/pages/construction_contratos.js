@@ -1,4 +1,9 @@
 import {
+    solicitarAperturaContrato
+} from "./construction_contratos.js";
+
+
+import {
     navigate
 }
 from "../router.js";
