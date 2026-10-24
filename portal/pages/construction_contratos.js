@@ -1759,13 +1759,107 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 contrato_madre_id: contrato.id
             };
 
-            await contratosGeneradosService.create(registroAnexo);
-
-            alert(`Anexo ${numeroAnexo} generado correctamente.`);
+            // 1. Crear el registro del anexo en Supabase.
+            const anexoCreado = await contratosGeneradosService.create(
+                registroAnexo
+            );
+            
+            if (!anexoCreado?.id) {
+                throw new Error(
+                    "El anexo se guardó, pero no se obtuvo su ID."
+                );
+            }
+            
+            // 2. Obtener la URL del logo de la empresa, si existe.
+            const logoUrl = empresa?.logo_path
+                ? await storageService.createSignedUrlLogo(
+                    empresa.logo_path
+                )
+                : null;
+            
+            // 3. Construir el HTML definitivo del documento.
+            const documentoPdfHtml = await construirDocumentoHtml(
+                contenidoHtml,
+                logoUrl,
+                variables.NOMBRE_EMPRESA ?? "",
+                "ANEXO DE CONTRATO DE TRABAJO"
+            );
+            
+            // 4. Solicitar la generación del PDF a la API.
+            const response = await fetch(
+                "https://api.cubika.cl/api/pdf",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        html: documentoPdfHtml
+                    })
+                }
+            );
+            
+            if (!response.ok) {
+                const detalle = await response.text();
+            
+                throw new Error(
+                    `Error generando PDF (${response.status}): ${detalle}`
+                );
+            }
+            
+            // 5. Obtener el PDF generado.
+            const pdfBlob = await response.blob();
+            
+            if (!pdfBlob.size) {
+                throw new Error(
+                    "La API devolvió un PDF vacío."
+                );
+            }
+            
+            // 6. Subir el PDF a Storage, con un nombre independiente.
+            const upload = await storageService.uploadContrato({
+                empresaId: anexoCreado.empresa_id,
+                workerId: anexoCreado.worker_id,
+                contratoId: anexoCreado.id,
+                pdfBlob,
+                nombreArchivo: "anexo.pdf"
+            });
+            
+            // 7. Crear la URL firmada.
+            const pdfUrl = await storageService.createSignedUrl(
+                upload.path
+            );
+            
+            // 8. Guardar la URL en el registro del anexo.
+            await contratosGeneradosService.update(
+                anexoCreado.id,
+                {
+                    pdf_url: pdfUrl
+                }
+            );
+            
+            // 9. Descargar el PDF.
+            const downloadUrl = URL.createObjectURL(pdfBlob);
+            const link = document.createElement("a");
+            
+            link.href = downloadUrl;
+            link.download = `anexo-${numeroAnexo}.pdf`;
+            
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            
+            setTimeout(() => {
+                URL.revokeObjectURL(downloadUrl);
+            }, 1000);
+            
+            // 10. Confirmar el éxito y actualizar el listado.
+            alert(`Anexo ${numeroAnexo} generado y guardado correctamente.`);
+            
             cerrar();
-
-            // Recargar el listado para mostrar el documento recién creado.
+            
             await cargarContratosGenerados(true);
+            
 
         } catch (error) {
             console.error("Error al generar el anexo:", error);
