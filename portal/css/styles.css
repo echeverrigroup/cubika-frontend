@@ -5339,21 +5339,46 @@ align-self: flex-start;
 
 
 
-/* Historial contractual: modal de trazabilidad asociado al contrato seleccionado */
+/* Historial contractual: botón iconográfico compacto alineado con Anexo y Finiquitar */
 .btn-detalle-historial {
-    border: 1px solid rgba(35, 126, 164, 0.42);
-    background: rgba(35, 126, 164, 0.10);
-    color: #176b8b;
-    border-radius: 8px;
-    padding: 9px 14px;
-    font: inherit;
-    font-weight: 600;
+    display: inline-flex;
+    flex: 0 0 38px;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
+    padding: 0;
+    border: 1px solid #1769aa;
+    border-radius: 7px;
+    background: #1769aa;
+    color: #ffffff;
     cursor: pointer;
-    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    box-shadow: 0 2px 5px rgb(23 105 170 / 16%);
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.btn-detalle-historial-svg {
+    display: block;
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 .btn-detalle-historial:hover {
-    background: rgba(35, 126, 164, 0.17);
-    border-color: rgba(35, 126, 164, 0.62);
+    background: #0f548c;
+    border-color: #0f548c;
+    box-shadow: 0 3px 8px rgb(23 105 170 / 25%);
+}
+.btn-detalle-historial:focus-visible {
+    outline: 3px solid rgb(23 105 170 / 28%);
+    outline-offset: 2px;
+}
+.btn-detalle-historial:active {
+    transform: translateY(1px);
 }
 .historial-contractual-overlay {
     z-index: 10020;
