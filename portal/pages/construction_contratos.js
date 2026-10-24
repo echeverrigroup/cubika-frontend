@@ -142,7 +142,7 @@ export function renderConstructionContratos() {
         </div>
 
 
-       <div id="vistaContratos" class="card contratos-card">
+       <div id="vistaContratos" class="contratos-card">
        
         <details class="cubika-filters-panel">
 
@@ -361,7 +361,7 @@ export function renderConstructionContratos() {
 
         </div> <!-- Cierre de vistaContratos -->
 
-    <div id="vistaHistorial" class="card contratos-card" hidden>
+    <div id="vistaHistorial" class="contratos-card" hidden>
             <div class="page-section-header">
                 <h2>Historial de documentos</h2>
             </div>
