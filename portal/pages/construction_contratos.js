@@ -347,6 +347,8 @@ export function renderConstructionContratos() {
 
         </div>
 
+        </div> <!-- Cierre de vistaContratos -->
+
     <div id="vistaHistorial" class="card contratos-card" hidden>
             <div class="page-section-header">
                 <h2>Historial de documentos</h2>
