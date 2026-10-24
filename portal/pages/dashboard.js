@@ -1,13 +1,252 @@
+
+import { constructionResumenService } from "../services/constructionResumenService.js";
+import { navigate } from "../router.js";
+
 export function renderDashboard() {
-
     return `
-        <h1>Dashboard Cubika</h1>
+        <div class="page-header">
+            <h1>Resumen</h1>
+            <span class="resumen-subtitulo">
+                Gestor Documental · Vista global
+            </span>
+        </div>
 
-        <p>
-            Bienvenido al Portal de Administración.
+        <section class="resumen-filtros card">
+            <div class="form-group">
+                <label for="resumenEmpresa">Empresa cliente</label>
+                <select id="resumenEmpresa" class="cubika-select">
+                    <option value="">Todas las empresas</option>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <label for="resumenObra">Obra</label>
+                <select id="resumenObra" class="cubika-select">
+                    <option value="">Todas las obras</option>
+                </select>
+            </div>
 
-  </p>
-      
+            <div class="resumen-filtros-acciones">
+                <button id="btnLimpiarResumen" class="btn-secondary" type="button">
+                    Limpiar filtros
+                </button>
+            </div>
+        </section>
+
+        <div id="resumenMensaje" role="status" aria-live="polite">
+            Cargando indicadores...
+        </div>
+
+        <section id="resumenIndicadores" class="resumen-indicadores">
+        </section>
+
+        <section class="card resumen-alertas-card">
+            <div class="page-header">
+                <h2>Alertas que requieren atención</h2>
+                <span id="resumenTotalAlertas"></span>
+            </div>
+            <div id="resumenAlertas">
+                Cargando alertas...
+            </div>
+        </section>
     `;
+}
+
+export async function initDashboard() {
+    const empresaSelect = document.getElementById("resumenEmpresa");
+    const obraSelect = document.getElementById("resumenObra");
+    const indicadores = document.getElementById("resumenIndicadores");
+    const alertas = document.getElementById("resumenAlertas");
+    const mensaje = document.getElementById("resumenMensaje");
+    const totalAlertas = document.getElementById("resumenTotalAlertas");
+
+    if (!empresaSelect || !obraSelect || !indicadores || !alertas) return;
+
+    let datos = null;
+
+    const escapar = valor => String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[caracter]);
+
+    function poblarEmpresas(empresas) {
+        const valorActual = empresaSelect.value;
+
+        empresaSelect.innerHTML = `
+            <option value="">Todas las empresas</option>
+            ${empresas.map(empresa => `
+                <option value="${escapar(empresa.id)}">
+                    ${escapar(empresa.nombre)}
+                </option>
+            `).join("")}
+        `;
+
+        if (empresas.some(e => String(e.id) === valorActual)) {
+            empresaSelect.value = valorActual;
+        }
+    }
+
+    function poblarObras(obras) {
+        const valorActual = obraSelect.value;
+
+        obraSelect.innerHTML = `
+            <option value="">Todas las obras</option>
+            ${obras.map(obra => `
+                <option value="${escapar(obra.id)}">
+                    ${escapar(obra.nombre)}
+                </option>
+            `).join("")}
+        `;
+
+        if (obras.some(o => String(o.id) === valorActual)) {
+            obraSelect.value = valorActual;
+        }
+    }
+
+    function pintarIndicadores(resumen) {
+        const tarjetas = [
+            {
+                titulo: "Trabajadores activos",
+                valor: resumen.trabajadoresActivos,
+                detalle: "Con contrato vigente"
+            },
+            {
+                titulo: "Contratos vigentes",
+                valor: resumen.contratosVigentes,
+                detalle: "Activos o próximos a vencer"
+            },
+            {
+                titulo: "Próximos a vencer",
+                valor: resumen.contratosProximosAVencer,
+                detalle: "Vencimiento en 15 días o menos"
+            },
+            {
+                titulo: "Contratos vencidos",
+                valor: resumen.contratosVencidos,
+                detalle: "Requieren revisión"
+            }
+        ];
+
+        indicadores.innerHTML = tarjetas.map(tarjeta => `
+            <article class="card resumen-indicador">
+                <span class="resumen-indicador-titulo">
+                    ${escapar(tarjeta.titulo)}
+                </span>
+                <strong class="resumen-indicador-valor">
+                    ${tarjeta.valor}
+                </strong>
+                <span class="resumen-indicador-detalle">
+                    ${escapar(tarjeta.detalle)}
+                </span>
+            </article>
+        `).join("");
+    }
+
+    function pintarAlertas(lista) {
+        totalAlertas.textContent = `${lista.length} alertas`;
+
+        if (!lista.length) {
+            alertas.innerHTML = `
+                <div class="resumen-sin-alertas">
+                    No hay contratos próximos a vencer ni vencidos
+                    dentro de los filtros seleccionados.
+                </div>
+            `;
+            return;
+        }
+
+        alertas.innerHTML = `
+            <div class="resumen-alertas-lista">
+                ${lista.map(alerta => {
+                    const contrato = alerta.contrato;
+                    const trabajador = contrato.worker
+                        ? [
+                            contrato.worker.nombres,
+                            contrato.worker.apellido_paterno,
+                            contrato.worker.apellido_materno
+                        ].filter(Boolean).join(" ")
+                        : "Trabajador no identificado";
+
+                    return `
+                        <article class="resumen-alerta ${alerta.prioridad}">
+                            <div class="resumen-alerta-contenido">
+                                <strong>${escapar(alerta.mensaje)}</strong>
+                                <span>${escapar(trabajador)}</span>
+                                <small>
+                                    ${escapar(contrato.empresa?.nombre ?? "Sin empresa")}
+                                    · ${escapar(contrato.obra?.nombre ?? "Sin obra")}
+                                </small>
+                                <small>
+                                    Vencimiento:
+                                    ${escapar(contrato.fecha_termino ?? "Sin fecha")}
+                                </small>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-secondary btn-ver-contrato"
+                                data-contrato-id="${escapar(contrato.id)}"
+                            >
+                                Ver contratos
+                            </button>
+                        </article>
+                    `;
+                }).join("")}
+            </div>
+        `;
+
+        alertas.querySelectorAll(".btn-ver-contrato").forEach(boton => {
+            boton.addEventListener("click", () => {
+                // Por ahora abre el CRUD de contratos.
+                // El acceso directo al detalle se integrará cuando
+                // el módulo exponga una acción pública para abrirlo.
+                navigate("construction_contratos");
+            });
+        });
+    }
+
+    async function actualizar() {
+        mensaje.textContent = "Actualizando indicadores...";
+        indicadores.innerHTML = "";
+        alertas.innerHTML = "Cargando alertas...";
+
+        try {
+            datos = await constructionResumenService.getResumen({
+                empresaId: empresaSelect.value,
+                obraId: obraSelect.value
+            });
+
+            poblarEmpresas(datos.empresas);
+            poblarObras(datos.obras);
+
+            pintarIndicadores(datos.indicadores);
+            pintarAlertas(datos.indicadores.alertas);
+
+            mensaje.textContent = "";
+        } catch (error) {
+            console.error("Error al cargar el Resumen:", error);
+            mensaje.textContent =
+                "No fue posible cargar los indicadores. Revisa la consola y los permisos de Supabase.";
+            indicadores.innerHTML = "";
+            alertas.innerHTML = "";
+        }
+    }
+
+    empresaSelect.addEventListener("change", async () => {
+        obraSelect.value = "";
+        await actualizar();
+    });
+
+    obraSelect.addEventListener("change", actualizar);
+
+    document.getElementById("btnLimpiarResumen")
+        ?.addEventListener("click", async () => {
+            empresaSelect.value = "";
+            obraSelect.value = "";
+            await actualizar();
+        });
+
+    await actualizar();
 }
