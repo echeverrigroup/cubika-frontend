@@ -647,7 +647,7 @@ function renderPaso2() {
                                 line-height: 1;
                             "
                         >
-                            Sueldo
+                            Sueldo base
                         </label>
                 
                         <label
