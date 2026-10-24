@@ -1,4 +1,7 @@
-import { renderDashboard } from "./pages/dashboard.js";
+import { renderDashboard,
+         initDashboard} from "./pages/dashboard.js";
+
+
 import { renderRubros } from "./pages/rubros.js";
 import {
     renderEmpresas
@@ -86,5 +89,6 @@ export function navigate(page, params = null) {
         default:
             content.innerHTML =
                 renderDashboard();
+                initDashboard();
     }
 }
