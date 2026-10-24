@@ -1105,17 +1105,46 @@ function abrirDetalleContrato(contratoId) {
             </div>
 
 
-            <div class="cubika-modal-footer">
-
+            
+            <div class="cubika-modal-footer contrato-detalle-footer">
+            
+                <div class="contrato-detalle-acciones-principales">
+            
+                    ${
+                        estado !== "FINIQUITADO"
+                            ? `
+                                <button
+                                    type="button"
+                                    class="btn-detalle-anexo"
+                                    data-accion-detalle="anexo"
+                                >
+                                    <span class="btn-detalle-icono">+</span>
+                                    Añadir Anexo
+                                </button>
+            
+                                <button
+                                    type="button"
+                                    class="btn-detalle-finiquitar"
+                                    data-accion-detalle="finiquitar"
+                                >
+                                    Finiquitar
+                                </button>
+                            `
+                            : ""
+                    }
+            
+                </div>
+            
                 <button
                     type="button"
-                    class="btn-cubika-secondary"
+                    class="btn-detalle-cerrar"
                     data-cerrar-detalle
                 >
                     Cerrar
                 </button>
-
+            
             </div>
+
 
         </div>
 
