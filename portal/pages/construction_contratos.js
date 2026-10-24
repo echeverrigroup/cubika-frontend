@@ -1544,7 +1544,10 @@ async function abrirHistorialContractual(contratoId) {
     };
 
     try {
-        const documentos = await contratosGeneradosService.getAll();
+        const [documentos, eventosDocumentales] = await Promise.all([
+            contratosGeneradosService.getAll(),
+            documentosGeneradosEventosService.getAll()
+        ]);
 
         const seleccionado = documentos.find(d => String(d.id) === String(contratoId));
         if (!seleccionado) {
@@ -1595,6 +1598,38 @@ async function abrirHistorialContractual(contratoId) {
             tipo: "documento"
         }));
 
+        // Los complementos pueden existir únicamente como eventos documentales.
+        // Solo se incorporan los registros GENERADO, que representan el documento;
+        // los logs de descarga y error no son hitos del roadmap.
+        const idsRelacionadosTexto = new Set([...idsRelacionados].map(String));
+        const complementosPersistidos = documentosRelacionados
+            .filter(d => String(d.tipo_documento || "").toUpperCase() === "COMPLEMENTO");
+
+        const complementosGenerados = eventosDocumentales
+            .filter(e =>
+                String(e.evento || "").toUpperCase() === "GENERADO" &&
+                String(e.tipo_documento || "").toUpperCase() === "COMPLEMENTO" &&
+                idsRelacionadosTexto.has(String(e.contrato_id))
+            )
+            .filter(e => {
+                // Evita duplicar un complemento si también existe como documento persistido.
+                const nombreEvento = String(e.nombre_documento || "").trim().toLocaleLowerCase("es");
+                return !complementosPersistidos.some(d => {
+                    const nombrePersistido = String(
+                        d.nombre_documento || d.plantilla?.nombre || ""
+                    ).trim().toLocaleLowerCase("es");
+                    return nombreEvento && nombrePersistido && nombreEvento === nombrePersistido;
+                });
+            })
+            .map(e => ({
+                fecha: e.created_at,
+                titulo: nombreTipo("COMPLEMENTO"),
+                detalle: String(e.nombre_documento || "Complemento generado"),
+                clase: "complemento",
+                tipo: "documento"
+            }));
+
+        entradas.push(...complementosGenerados);
         entradas.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
 
         const resumen = `
