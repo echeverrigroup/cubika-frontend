@@ -199,10 +199,9 @@ export async function initDashboard() {
 
         alertas.querySelectorAll(".btn-ver-contrato").forEach(boton => {
             boton.addEventListener("click", () => {
-                // Por ahora abre el CRUD de contratos.
-                // El acceso directo al detalle se integrará cuando
-                // el módulo exponga una acción pública para abrirlo.
-                navigate("construction_contratos");
+                solicitarAperturaContrato(
+                    boton.dataset.contratoId
+                );
             });
         });
     }
