@@ -6,48 +6,31 @@ const BUCKET = "contratos";
 export const storageService = {
 
     async uploadContrato({
-        empresaId,
-        workerId,
-        contratoId,
-        pdfBlob
-    }) {
+    empresaId,
+    workerId,
+    contratoId,
+    pdfBlob,
+    nombreArchivo = "contrato.pdf"
+}) {
+    if (!empresaId) throw new Error("Falta empresaId.");
+    if (!workerId) throw new Error("Falta workerId.");
+    if (!contratoId) throw new Error("Falta contratoId.");
+    if (!pdfBlob) throw new Error("Falta el PDF.");
 
-        if (!empresaId)
-            throw new Error("Falta empresaId.");
+    const path = `${empresaId}/${workerId}/${contratoId}/${nombreArchivo}`;
 
-        if (!workerId)
-            throw new Error("Falta workerId.");
+    const { data, error } = await supabase
+        .storage
+        .from(BUCKET)
+        .upload(path, pdfBlob, {
+            contentType: "application/pdf",
+            upsert: true
+        });
 
-        if (!contratoId)
-            throw new Error("Falta contratoId.");
+    if (error) throw error;
 
-        if (!pdfBlob)
-            throw new Error("Falta el PDF.");
-
-        const path =
-            `${empresaId}/${workerId}/${contratoId}/contrato.pdf`;
-
-        const { data, error } =
-            await supabase
-                .storage
-                .from(BUCKET)
-                .upload(
-                    path,
-                    pdfBlob,
-                    {
-                        contentType: "application/pdf",
-                        upsert: true
-                    }
-                );
-
-        if (error)
-            throw error;
-
-        return {
-            path: data.path
-        };
-    },
-
+    return { path: data.path };
+},
 
 
     
