@@ -767,6 +767,82 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
 
 
+
+async function descargarContratoPDF(contratoId) {
+    try {
+        const contrato = contratosVisibles.find(
+            item => String(item.id) === String(contratoId)
+        );
+
+        if (!contrato) {
+            throw new Error(
+                "No se encontró el contrato seleccionado."
+            );
+        }
+
+        if (!contrato.empresa_id || !contrato.worker_id) {
+            throw new Error(
+                "Faltan datos para localizar el PDF del contrato."
+            );
+        }
+
+        // El PDF original se guarda en esta ruta de Storage.
+        const rutaPDF =
+            `${contrato.empresa_id}/${contrato.worker_id}/${contrato.id}/contrato.pdf`;
+
+        // Generar una URL firmada nueva para evitar usar una URL vencida.
+        const pdfUrl = await storageService.createSignedUrl(
+            rutaPDF
+        );
+
+        // Recuperar el archivo almacenado.
+        const response = await fetch(pdfUrl);
+
+        if (!response.ok) {
+            throw new Error(
+                `No fue posible recuperar el PDF (${response.status}).`
+            );
+        }
+
+        const pdfBlob = await response.blob();
+
+        if (!pdfBlob.size) {
+            throw new Error("El PDF recuperado está vacío.");
+        }
+
+        // Descargar el archivo original.
+        const urlTemporal = URL.createObjectURL(pdfBlob);
+        const enlace = document.createElement("a");
+
+        enlace.href = urlTemporal;
+        enlace.download =
+            `contrato-${contrato.numero_contrato ?? contrato.id}.pdf`;
+
+        document.body.appendChild(enlace);
+        enlace.click();
+        enlace.remove();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(urlTemporal);
+        }, 1000);
+
+    } catch (error) {
+        console.error(
+            "Error al descargar el contrato:",
+            error
+        );
+
+        alert(
+            "No fue posible descargar el contrato. " +
+            (error.message ?? "Revisa la consola para más detalles.")
+        );
+    }
+}
+
+
+
+
+
 function configurarAccionesContratos() {
 
     const botones =
@@ -804,7 +880,14 @@ function configurarAccionesContratos() {
                         abrirDetalleContrato(contratoId);
                     
                     }
+
+                    if (accion === "descargar") {
+                        
+                        descargarContratoPDF(contratoId);
                     
+                    }
+                    
+                                        
                     if (accion === "anexo") {
                     
                         abrirSelectorPlantillaAnexo(contratoId);
