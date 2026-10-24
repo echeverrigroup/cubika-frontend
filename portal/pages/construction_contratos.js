@@ -1,4 +1,12 @@
 import {
+    construirVariables,
+    reemplazarVariables,
+    validarPlantilla,
+    obtenerVariablesPlantilla
+} from "../modules/construccion/documentEngine.js";
+
+
+import {
     constructorasService
 } from "../services/constructorasService.js";
 
