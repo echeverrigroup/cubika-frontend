@@ -362,9 +362,7 @@ export function renderConstructionContratos() {
         </div> <!-- Cierre de vistaContratos -->
 
     <div id="vistaHistorial" class="contratos-card" hidden>
-            <div class="page-section-header">
-                <h2>Historial de documentos</h2>
-            </div>
+           
         
             <details class="cubika-filters-panel historial-filters-panel">
                 <summary class="cubika-filters-header">
