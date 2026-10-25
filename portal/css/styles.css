@@ -1,3 +1,10 @@
+<div id="vistaContratos" class="contratos-card">
+       
+        <details class="cubika-filters-panel">
+
+   <summary class="cubika-filters-header">
+
+
 
 * {
     margin: 0;
@@ -5101,7 +5108,7 @@ align-self: flex-start;
    ========================================================= */
 #vistaHistorial.contratos-card {
     padding: 18px 18px 20px;
-    margin-top: 8px;
+    margin-top: 0;
 }
 
 #vistaHistorial .page-section-header {
