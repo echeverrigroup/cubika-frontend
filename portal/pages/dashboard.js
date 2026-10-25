@@ -16,45 +16,22 @@ export function renderDashboard() {
             </span>
         </div>
 
-        <section class="card resumen-filtros">
-            <button
-                type="button"
-                id="btnToggleFiltrosResumen"
-                class="resumen-filtros-toggle"
-                aria-expanded="false"
-                aria-controls="resumenFiltrosContenido"
-            >
-                <span class="resumen-filtros-toggle-info">
-                    <span class="resumen-filtros-icono" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 6h16M7 12h10m-7 6h4"/>
-                        </svg>
-                    </span>
-                    <span>
-                        <strong>Filtros</strong>
-                        <small>Personaliza los indicadores por empresa y obra</small>
-                    </span>
-                </span>
-
-                <svg
-                    class="resumen-filtros-chevron"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    aria-hidden="true"
+        
+        <section class="resumen-filtros card">
+            <div class="resumen-filtros-header">
+                <button
+                    type="button"
+                    id="btnToggleFiltrosResumen"
+                    class="resumen-filtros-toggle"
+                    aria-expanded="false"
+                    aria-controls="resumenFiltrosContenido"
                 >
-                    <path d="m6 9 6 6 6-6"/>
-                </svg>
-            </button>
-
-            <div
-                id="resumenFiltrosContenido"
-                class="resumen-filtros-contenido"
-                hidden
-            >
+                    <span>Filtros</span>
+                    <span class="resumen-filtros-flecha" aria-hidden="true">⌄</span>
+                </button>
+            </div>
+        
+            <div id="resumenFiltrosContenido" hidden>
                 <div class="resumen-filtros-grid">
                     <div class="form-group">
                         <label for="resumenEmpresa">Empresa cliente</label>
@@ -62,14 +39,14 @@ export function renderDashboard() {
                             <option value="">Todas las empresas</option>
                         </select>
                     </div>
-
+        
                     <div class="form-group">
                         <label for="resumenObra">Obra</label>
                         <select id="resumenObra" class="cubika-select">
                             <option value="">Todas las obras</option>
                         </select>
                     </div>
-
+        
                     <div class="resumen-filtros-acciones">
                         <button
                             id="btnLimpiarResumen"
@@ -82,6 +59,7 @@ export function renderDashboard() {
                 </div>
             </div>
         </section>
+
 
         <div id="resumenMensaje" role="status" aria-live="polite">
             Cargando indicadores...
