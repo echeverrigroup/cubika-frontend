@@ -6,6 +6,7 @@ import {
 import { constructionResumenService } from "../services/constructionResumenService.js";
 import { navigate } from "../router.js";
 
+
 export function renderDashboard() {
     return `
         <div class="page-header">
@@ -15,25 +16,70 @@ export function renderDashboard() {
             </span>
         </div>
 
-        <section class="resumen-filtros card">
-            <div class="form-group">
-                <label for="resumenEmpresa">Empresa cliente</label>
-                <select id="resumenEmpresa" class="cubika-select">
-                    <option value="">Todas las empresas</option>
-                </select>
-            </div>
+        <section class="card resumen-filtros">
+            <button
+                type="button"
+                id="btnToggleFiltrosResumen"
+                class="resumen-filtros-toggle"
+                aria-expanded="false"
+                aria-controls="resumenFiltrosContenido"
+            >
+                <span class="resumen-filtros-toggle-info">
+                    <span class="resumen-filtros-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M7 12h10m-7 6h4"/>
+                        </svg>
+                    </span>
+                    <span>
+                        <strong>Filtros</strong>
+                        <small>Personaliza los indicadores por empresa y obra</small>
+                    </span>
+                </span>
 
-            <div class="form-group">
-                <label for="resumenObra">Obra</label>
-                <select id="resumenObra" class="cubika-select">
-                    <option value="">Todas las obras</option>
-                </select>
-            </div>
+                <svg
+                    class="resumen-filtros-chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                >
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </button>
 
-            <div class="resumen-filtros-acciones">
-                <button id="btnLimpiarResumen" class="btn-secondary" type="button">
-                    Limpiar filtros
-                </button>
+            <div
+                id="resumenFiltrosContenido"
+                class="resumen-filtros-contenido"
+                hidden
+            >
+                <div class="resumen-filtros-grid">
+                    <div class="form-group">
+                        <label for="resumenEmpresa">Empresa cliente</label>
+                        <select id="resumenEmpresa" class="cubika-select">
+                            <option value="">Todas las empresas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resumenObra">Obra</label>
+                        <select id="resumenObra" class="cubika-select">
+                            <option value="">Todas las obras</option>
+                        </select>
+                    </div>
+
+                    <div class="resumen-filtros-acciones">
+                        <button
+                            id="btnLimpiarResumen"
+                            class="btn-secondary"
+                            type="button"
+                        >
+                            Limpiar filtros
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -41,20 +87,32 @@ export function renderDashboard() {
             Cargando indicadores...
         </div>
 
-        <section id="resumenIndicadores" class="resumen-indicadores">
-        </section>
+        <section
+            id="resumenIndicadores"
+            class="resumen-indicadores"
+            aria-label="Indicadores generales"
+        ></section>
 
         <section class="card resumen-alertas-card">
-            <div class="page-header">
-                <h2>Alertas que requieren atención</h2>
-                <span id="resumenTotalAlertas"></span>
+            <div class="resumen-alertas-header">
+                <div>
+                    <h2>Alertas que requieren atención</h2>
+                    <p>Contratos vencidos o próximos a vencer</p>
+                </div>
+                <span
+                    id="resumenTotalAlertas"
+                    class="resumen-alertas-contador"
+                ></span>
             </div>
+
             <div id="resumenAlertas">
                 Cargando alertas...
             </div>
         </section>
     `;
 }
+
+
 
 export async function initDashboard() {
     const empresaSelect = document.getElementById("resumenEmpresa");
@@ -64,7 +122,26 @@ export async function initDashboard() {
     const mensaje = document.getElementById("resumenMensaje");
     const totalAlertas = document.getElementById("resumenTotalAlertas");
 
+    const btnToggleFiltros = document.getElementById(
+        "btnToggleFiltrosResumen"
+    );
+    const filtrosContenido = document.getElementById(
+        "resumenFiltrosContenido"
+    );
+
     if (!empresaSelect || !obraSelect || !indicadores || !alertas) return;
+
+    btnToggleFiltros?.addEventListener("click", () => {
+        const estaAbierto =
+            btnToggleFiltros.getAttribute("aria-expanded") === "true";
+    
+        btnToggleFiltros.setAttribute(
+            "aria-expanded",
+            String(!estaAbierto)
+        );
+    
+        filtrosContenido.hidden = estaAbierto;
+    });
 
     let datos = null;
 
