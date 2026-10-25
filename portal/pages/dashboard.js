@@ -43,7 +43,7 @@ export function renderDashboard() {
             <div class="cubika-filters resumen-dashboard-filtros">
         
                 <div class="form-group">
-                    <label for="resumenEmpresa">Empresa cliente</label>
+                    <label for="resumenEmpresa">Empresa mandante</label>
         
                     <select id="resumenEmpresa" class="cubika-select">
                         <option value="">Todas las empresas</option>
@@ -250,7 +250,7 @@ export async function initDashboard() {
                                 class="btn-secondary btn-ver-contrato"
                                 data-contrato-id="${escapar(contrato.id)}"
                             >
-                                Ver contratos
+                                Ver contrato
                             </button>
                         </article>
                     `;
