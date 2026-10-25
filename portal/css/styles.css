@@ -5543,110 +5543,28 @@ align-self: flex-start;
 
 /* Contenedor de filtros */
 
-/* Filtros desplegables del dashboard */
-.resumen-filtros {
-    padding: 0;
-    margin-bottom: 22px;
-    overflow: hidden;
-    border: 1px solid rgba(70, 91, 112, 0.16);
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(25, 45, 65, 0.05);
-    background: #fff;
-}
 
-.resumen-filtros-header {
-    padding: 0 16px;
-}
-
-.resumen-filtros-toggle {
-    width: 100%;
-    min-height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 2px;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    font-size: 0.88rem;
-    font-weight: 600;
-    text-align: left;
-    cursor: pointer;
-}
-
-.resumen-filtros-toggle:hover {
-    color: #187f98;
-}
-
-.resumen-filtros-flecha {
-    color: #748091;
-    font-size: 1.15rem;
-    transition: transform 0.2s ease;
-}
-
-.resumen-filtros-toggle[aria-expanded="true"]
-.resumen-filtros-flecha {
-    transform: rotate(180deg);
-}
-
-#resumenFiltrosContenido {
-    padding: 18px 16px;
-    border-top: 1px solid rgba(70, 91, 112, 0.12);
-    background: #fff;
-}
-
-#resumenFiltrosContenido[hidden] {
-    display: none !important;
-}
-
-.resumen-filtros-grid {
+/* Dashboard: filtros con el mismo grid que el CRUD de contratos */
+.resumen-dashboard-filtros {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
 }
 
-.resumen-filtros-grid .form-group {
-    min-width: 0;
-    margin-bottom: 0;
-}
-
-.resumen-filtros-acciones {
-    display: flex;
-    align-items: end;
-}
-
-.resumen-filtros-acciones button {
-    min-height: 40px;
-    white-space: nowrap;
-}
-
-@media (max-width: 600px) {
-    .resumen-filtros-header {
-        padding: 0 13px;
+@media (max-width: 900px) {
+    .resumen-dashboard-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+}
 
-    #resumenFiltrosContenido {
-        padding: 14px 13px;
-    }
-
-    .resumen-filtros-grid {
+@media (max-width: 520px) {
+    .resumen-dashboard-filtros {
         grid-template-columns: minmax(0, 1fr);
-        gap: 14px;
-    }
-
-    .resumen-filtros-acciones button {
-        width: 100%;
+        gap: 12px;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .resumen-filtros-flecha {
-        transition: none;
-    }
-}
 
 
 /* Tarjetas de indicadores */
