@@ -16,49 +16,51 @@ export function renderDashboard() {
             </span>
         </div>
 
+         
+        <details class="cubika-filters-panel">
         
-        <section class="resumen-filtros card">
-            <div class="resumen-filtros-header">
-                <button
-                    type="button"
-                    id="btnToggleFiltrosResumen"
-                    class="resumen-filtros-toggle"
-                    aria-expanded="false"
-                    aria-controls="resumenFiltrosContenido"
-                >
-                    <span>Filtros</span>
-                    <span class="resumen-filtros-flecha" aria-hidden="true">⌄</span>
-                </button>
-            </div>
+            <summary class="cubika-filters-header">
+                <span>Filtros de búsqueda</span>
         
-            <div id="resumenFiltrosContenido" hidden>
-                <div class="resumen-filtros-grid">
-                    <div class="form-group">
-                        <label for="resumenEmpresa">Empresa cliente</label>
-                        <select id="resumenEmpresa" class="cubika-select">
-                            <option value="">Todas las empresas</option>
-                        </select>
-                    </div>
+                <div class="cubika-filters-actions">
+                    <button
+                        type="button"
+                        id="btnLimpiarResumen"
+                        class="btn-limpiar-filtros"
+                    >
+                        Limpiar filtros
+                    </button>
         
-                    <div class="form-group">
-                        <label for="resumenObra">Obra</label>
-                        <select id="resumenObra" class="cubika-select">
-                            <option value="">Todas las obras</option>
-                        </select>
-                    </div>
-        
-                    <div class="resumen-filtros-acciones">
-                        <button
-                            id="btnLimpiarResumen"
-                            class="btn-secondary"
-                            type="button"
+                    <span class="cubika-filters-chevron">
+                        <img
+                            src="/img/icons/filtros-desplegar.svg"
+                            alt="Desplegar filtros"
                         >
-                            Limpiar filtros
-                        </button>
-                    </div>
+                    </span>
                 </div>
+            </summary>
+        
+            <div class="cubika-filters resumen-dashboard-filtros">
+        
+                <div class="form-group">
+                    <label for="resumenEmpresa">Empresa cliente</label>
+        
+                    <select id="resumenEmpresa" class="cubika-select">
+                        <option value="">Todas las empresas</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="resumenObra">Obra</label>
+        
+                    <select id="resumenObra" class="cubika-select">
+                        <option value="">Todas las obras</option>
+                    </select>
+                </div>
+        
             </div>
-        </section>
+        </details>
+
 
 
         <div id="resumenMensaje" role="status" aria-live="polite">
