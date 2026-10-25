@@ -5105,6 +5105,11 @@ align-self: flex-start;
     margin-top: 0;
 }
 
+#vistaContratos.contratos-card {
+    padding: 18px 18px 20px;
+    margin-top: 0;
+}
+
 #vistaHistorial .page-section-header {
     display: flex;
     align-items: center;
