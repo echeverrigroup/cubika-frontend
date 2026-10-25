@@ -3503,6 +3503,8 @@ EDITOR DOCUMENTAL
     font-weight: 500;
     cursor: pointer;
     padding: 6px 8px 0 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     transition: opacity 0.2s ease;
 }
 
