@@ -3669,6 +3669,7 @@ async function mostrarModalSeleccionDocumentos(
                 await registrarEventoDocumentalSeguro(
                     "registrarGeneracion",
                     {
+                        cliente_id: contratoCreado.cliente_id,
                         lote_id: loteId,
                         contrato_id: contratoCreado.id,
                         plantilla_id: contratoCreado.plantilla_id,
@@ -3684,6 +3685,7 @@ async function mostrarModalSeleccionDocumentos(
                     await registrarEventoDocumentalSeguro(
                         "registrarGeneracion",
                         {
+                            cliente_id: contratoCreado.cliente_id,
                             lote_id: loteId,
                             contrato_id: contratoCreado.id,
                             plantilla_id: pdf.plantillaId,
@@ -3737,6 +3739,7 @@ async function mostrarModalSeleccionDocumentos(
                 await registrarEventoDocumentalSeguro(
                     "registrarDescarga",
                     {
+                        cliente_id: contratoCreado.cliente_id,
                         lote_id: loteId,
                         contrato_id: contratoCreado.id,
                         plantilla_id: contratoCreado.plantilla_id,
@@ -3759,6 +3762,7 @@ async function mostrarModalSeleccionDocumentos(
                     await registrarEventoDocumentalSeguro(
                         "registrarDescarga",
                         {
+                            cliente_id: contratoCreado.cliente_id,
                             lote_id: loteId,
                             contrato_id: contratoCreado.id,
                             plantilla_id: pdf.plantillaId,
