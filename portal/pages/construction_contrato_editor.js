@@ -2,6 +2,7 @@ import {
     documentosGeneradosEventosService
 } from "../services/documentosGeneradosEventosService.js";
 
+import { obtenerContexto } from "../contexto.js";
 
 import {
     constructorasService
@@ -3126,10 +3127,21 @@ async function aprobarYGenerarContrato() {
 
     try {
 
+        const contexto = obtenerContexto();
+
+            if (!contexto.cliente_id) {
+                throw new Error(
+                    "No hay un cliente seleccionado para generar el contrato."
+                );
+            }
+
         const contratoConstruido =
             await construirContrato();
 
         const contratoPreparado = {
+
+            cliente_id:
+                contexto.cliente_id,
 
             worker_id:
                 contratoActual.worker_id,
