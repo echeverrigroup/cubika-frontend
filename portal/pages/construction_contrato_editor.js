@@ -3137,6 +3137,12 @@ async function aprobarYGenerarContrato() {
         
         const clienteId = usuarioActual.empresa_id;
 
+        if (!clienteId) {
+            throw new Error(
+                "El usuario autenticado no tiene un cliente asociado."
+            );
+        }
+
         const contratoPreparado = {
             
 
