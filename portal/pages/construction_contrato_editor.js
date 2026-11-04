@@ -3129,13 +3129,6 @@ async function aprobarYGenerarContrato() {
 
     try {
 
-        const contexto = obtenerContexto();
-
-            if (!contexto.cliente_id) {
-                throw new Error(
-                    "No hay un cliente seleccionado para generar el contrato."
-                );
-            }
 
         const contratoConstruido =
             await construirContrato();
@@ -3632,7 +3625,10 @@ async function mostrarModalSeleccionDocumentos(
         
                 const numeroContrato =
                     await documentNumberService
-                        .generarNumeroDocumento(clienteId,"CON");
+                        .generarNumeroDocumento(
+                            contratoGenerado.cliente_id,
+                            "CON"
+                        );
         
                 const estadoGenerado =
                     await estadosContratoService
