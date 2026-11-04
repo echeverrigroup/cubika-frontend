@@ -3632,7 +3632,7 @@ async function mostrarModalSeleccionDocumentos(
         
                 const numeroContrato =
                     await documentNumberService
-                        .generarNumeroDocumento("CON");
+                        .generarNumeroDocumento(clienteId,"CON");
         
                 const estadoGenerado =
                     await estadosContratoService
