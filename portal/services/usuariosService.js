@@ -29,6 +29,39 @@ export const usuariosService = {
     },
 
 
+
+    // ==================================================
+    // OBTENER USUARIO AUTENTICADO
+    // ==================================================
+    
+    async getMiUsuario() {
+    
+        const {
+            data: { user },
+            error: authError
+        } = await supabase.auth.getUser();
+    
+        if (authError)
+            throw authError;
+    
+        if (!user)
+            throw new Error("No existe una sesión autenticada.");
+    
+        const { data, error } =
+            await supabase
+                .from(TABLE)
+                .select("*")
+                .eq("auth_user_id", user.id)
+                .single();
+    
+        if (error)
+            throw error;
+    
+        return data;
+    
+    },
+
+
     // ==================================================
     // OBTENER USUARIO POR ID
     // ==================================================
