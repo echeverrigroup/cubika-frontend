@@ -181,12 +181,20 @@ async getById(id) {
 },
 
 
-    async create(worker) {
+        async create(worker) {
+        const {
+            estado,
+            updated_at,
+            created_at,
+            id,
+            cliente_id,
+            ...datos
+        } = worker;
+
         const { data, error } = await supabase
-            .from(TABLE)
-            .insert(worker)
-            .select()
-            .single();
+            .rpc("crear_trabajador", {
+                p_datos: datos
+            });
 
         if (error) throw error;
 
@@ -195,12 +203,20 @@ async getById(id) {
 
 
     async update(id, worker) {
+        const {
+            estado,
+            updated_at,
+            created_at,
+            id: ignoredId,
+            cliente_id,
+            ...datos
+        } = worker;
+
         const { data, error } = await supabase
-            .from(TABLE)
-            .update(worker)
-            .eq("id", id)
-            .select()
-            .single();
+            .rpc("actualizar_trabajador", {
+                p_worker_id: id,
+                p_datos: datos
+            });
 
         if (error) throw error;
 
@@ -210,14 +226,10 @@ async getById(id) {
 
     async cambiarEstado(id, estado) {
         const { data, error } = await supabase
-            .from(TABLE)
-            .update({
-                estado,
-                updated_at: new Date().toISOString()
-            })
-            .eq("id", id)
-            .select()
-            .single();
+            .rpc("cambiar_estado_trabajador", {
+                p_worker_id: id,
+                p_estado: estado
+            });
 
         if (error) throw error;
 
