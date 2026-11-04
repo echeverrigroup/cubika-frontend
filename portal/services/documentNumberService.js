@@ -124,4 +124,6 @@ async generarNumeroDocumento(
 
     return data;
 
+}
+    
 },
