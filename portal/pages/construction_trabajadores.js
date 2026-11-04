@@ -1747,7 +1747,7 @@ async function actualizarTrabajador(id) {
 async function cambiarEstadoTrabajador(id) {
 
     const trabajador =
-        await workerservice.getById(id);
+        await workersService.getById(id);
 
     if (!trabajador)
         return;
@@ -1788,15 +1788,10 @@ async function cambiarEstadoTrabajador(id) {
 
             try {
 
-                await workersService.update(id, {
-
-                    estado: nuevoEstado,
-
-                    updated_at:
-                        new Date().toISOString()
-
-                });
-
+                await workersService.cambiarEstado(
+                    id,
+                    nuevoEstado
+                );
                 await cargarTrabajadores();
 
             }
