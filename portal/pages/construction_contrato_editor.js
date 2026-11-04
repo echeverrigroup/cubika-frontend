@@ -2,7 +2,9 @@ import {
     documentosGeneradosEventosService
 } from "../services/documentosGeneradosEventosService.js";
 
-import { obtenerContexto } from "../contexto.js";
+import {
+    usuariosService
+} from "../services/usuariosService.js";
 
 import {
     constructorasService
@@ -3138,10 +3140,15 @@ async function aprobarYGenerarContrato() {
         const contratoConstruido =
             await construirContrato();
 
-        const contratoPreparado = {
+        const usuarioActual = await usuariosService.getMiUsuario();
+        
+        const clienteId = usuarioActual.empresa_id;
 
-            cliente_id:
-                contexto.cliente_id,
+        const contratoPreparado = {
+            
+
+            cliente_id: clienteId,
+
 
             worker_id:
                 contratoActual.worker_id,
