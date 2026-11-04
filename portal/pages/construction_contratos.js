@@ -2154,6 +2154,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
 
             // 4. Guardar un registro independiente vinculado al contrato madre.
             const registroAnexo = {
+                cliente_id: contrato.cliente_id,
                 worker_id: contrato.worker_id,
                 empresa_id: contrato.empresa_id,
                 obra_id: obraId,
