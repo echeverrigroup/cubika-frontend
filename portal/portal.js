@@ -4,11 +4,39 @@ import { navigate } from "./router.js";
 import { showConfirmModal }
     from "./components/modal.js";
 
+import {
+    inicializarContexto,
+    obtenerContexto,
+    limpiarContexto
+} from "./contexto.js";
+
+
+
 async function init() {
 
     const user = await requireAuth();
 
-    if (!user) return;
+        if (!user) return;
+        
+        let contexto;
+        
+        try {
+        
+            contexto = await inicializarContexto(user);
+        
+        } catch (error) {
+        
+            console.error("Error al inicializar contexto:", error);
+        
+            await supabase.auth.signOut();
+        
+            limpiarContexto();
+        
+            window.location.href = "/login.html";
+        
+            return;
+        }
+    
 
     const logoutBtn =
     document.getElementById("logoutBtn");
@@ -26,6 +54,8 @@ async function init() {
 
             onConfirm: async () => {
 
+                limpiarContexto();
+
                 await supabase.auth.signOut();
 
                 window.location.href =
@@ -39,41 +69,36 @@ async function init() {
 );
 
     
-    const { data: perfil, error } = await supabase
-    .from("usuarios")
-    .select(`
-        nombre,
-        apellido,
-        cargo,
-        empresas (
-            nombre_fantasia
-        )
-    `)
-    .eq("auth_user_id", user.id)
-    .single();
-
-    if (error) {
-
-    console.error(error);
-
-    document.getElementById("user-name").textContent =
-        "Error de perfil";
-
-    return;
+    const userName =
+        document.getElementById("user-name");
+    
+    const userRole =
+        document.getElementById("user-role");
+    
+    const userEmpresa =
+        document.getElementById("user-empresa");
+    
+    
+    if (contexto.tipo === "SUPER_ADMIN") {
+    
+        userName.textContent = "Super Admin";
+    
+        userRole.textContent = "Administrador de plataforma";
+    
+        userEmpresa.textContent = "Cubika";
+    
+    } else {
+    
+        userName.textContent =
+            `${contexto.nombre} ${contexto.apellido ?? ""}`.trim();
+    
+        userRole.textContent =
+            contexto.cargo ?? "Usuario";
+    
+        userEmpresa.textContent =
+            contexto.empresa;
+    
     }
-
-
-    if (perfil) {
-
-        document.getElementById("user-name").textContent =
-            `${perfil.nombre} ${perfil.apellido ?? ""}`;
-
-       document.getElementById("user-role").textContent =
-            `${perfil.cargo ?? "Usuario "}`;
-
-        document.getElementById("user-empresa").textContent =
-            `${perfil.empresas?.nombre_fantasia ?? " "}`;
-        }
     
 
     const mobileMenuBtn =
