@@ -2142,7 +2142,10 @@ async function abrirFormularioAnexo(contrato, plantilla) {
 
             // 3. Obtener el estado y el número del nuevo anexo.
             const [numeroAnexo, estadoGenerado] = await Promise.all([
-                documentNumberService.generarNumeroDocumento(clienteId,"ANX"),
+                documentNumberService.generarNumeroDocumento(
+                    contrato.cliente_id,
+                    "ANX"
+                ),
                 estadosContratoService.getByCodigo("GENERADO")
             ]);
 
