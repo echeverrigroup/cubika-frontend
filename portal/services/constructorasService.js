@@ -1,8 +1,7 @@
 import { supabase }
 from "../../js/supabaseClient.js";
 
-const TABLE =
-    "constructoras";
+const TABLE = "constructoras";
 
 export const constructorasService = {
 
@@ -18,7 +17,6 @@ export const constructorasService = {
             throw error;
 
         return data;
-
     },
 
 
@@ -35,42 +33,59 @@ export const constructorasService = {
             throw error;
 
         return data;
-
     },
 
 
     async create(constructora) {
 
         const { data, error } =
-            await supabase
-                .from(TABLE)
-                .insert(constructora)
-                .select()
-                .single();
+            await supabase.rpc(
+                "crear_constructora",
+                {
+                    p_datos: constructora
+                }
+            );
 
         if (error)
             throw error;
 
         return data;
-
     },
 
 
     async update(id, constructora) {
 
         const { data, error } =
-            await supabase
-                .from(TABLE)
-                .update(constructora)
-                .eq("id", id)
-                .select()
-                .single();
+            await supabase.rpc(
+                "actualizar_constructora",
+                {
+                    p_constructora_id: id,
+                    p_datos: constructora
+                }
+            );
 
         if (error)
             throw error;
 
         return data;
+    },
 
+
+    async cambiarEstado(id, estado) {
+
+        const { data, error } =
+            await supabase.rpc(
+                "cambiar_estado_constructora",
+                {
+                    p_constructora_id: id,
+                    p_estado: estado
+                }
+            );
+
+        if (error)
+            throw error;
+
+        return data;
     }
 
 };
