@@ -838,10 +838,12 @@ async function actualizarObra(id) {
         
         });
 
-        await cargarObras();
-
+        if (document.getElementById("obrasTable")) {
+            await cargarObras();
+        }
+        
         setModalLoading(false);
-
+        
         return true;
 
     }
