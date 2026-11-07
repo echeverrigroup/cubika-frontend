@@ -178,7 +178,7 @@ export const empresasService = {
     
         return data;
     
-    }
+    },
 
 
     async delete(id) {
