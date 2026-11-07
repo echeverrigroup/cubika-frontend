@@ -293,15 +293,17 @@ export async function mostrarFormularioNuevaObra(
             size: "large",
     
             onSubmit: async () => {
-    
-                const nuevaObra = await crearObra();
-    
-                if (nuevaObra && onSuccess) {
+                return await crearObra();
+            },
+            
+            onSuccess: async (nuevaObra) => {
+            
+                await cargarObras();
+            
+                if (onSuccess) {
                     await onSuccess(nuevaObra);
                 }
-    
-                return nuevaObra;
-    
+            
             }
     
         });
@@ -640,10 +642,6 @@ async function crearObra() {
             estado: "Activa"
     
         });
-    
-        if (document.getElementById("obrasTable")) {
-            await cargarObras();
-        }
     
         setModalLoading(false);
     
