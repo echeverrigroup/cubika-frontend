@@ -106,35 +106,79 @@ export const empresasService = {
     },
 
 
-    async create(empresa) {
-        
-            const { data, error } =
-                await supabase
-                    .from("empresas_construccion")
-                    .insert(empresa)
-                    .select()
-                    .single();
-        
-            if (error)
-                throw error;
-        
-            return data;
-        
-        },
+    async create(mandante) {
+
+        const { data, error } =
+            await supabase.rpc(
+                "crear_mandante",
+                {
+                    p_datos: mandante
+                }
+            );
     
-
-    async update(id, empresa) {
-
-        const { error } =
-            await supabase
-                .from("empresas_construccion")
-                .update(empresa)
-                .eq("id", id);
-
         if (error)
             throw error;
-
+    
+        return data;
+    
     },
+    
+    
+    async update(id, mandante) {
+    
+        const { data, error } =
+            await supabase.rpc(
+                "actualizar_mandante",
+                {
+                    p_mandante_id: id,
+                    p_datos: mandante
+                }
+            );
+    
+        if (error)
+            throw error;
+    
+        return data;
+    
+    },
+    
+    
+    async cambiarEstado(id, estado) {
+    
+        const { data, error } =
+            await supabase.rpc(
+                "cambiar_estado_mandante",
+                {
+                    p_mandante_id: id,
+                    p_estado: estado
+                }
+            );
+    
+        if (error)
+            throw error;
+    
+        return data;
+    
+    },
+    
+    
+    async actualizarLogo(id, logoPath) {
+    
+        const { data, error } =
+            await supabase.rpc(
+                "actualizar_logo_mandante",
+                {
+                    p_mandante_id: id,
+                    p_logo_path: logoPath
+                }
+            );
+    
+        if (error)
+            throw error;
+    
+        return data;
+    
+    }
 
 
     async delete(id) {
