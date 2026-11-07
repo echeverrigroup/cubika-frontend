@@ -834,10 +834,7 @@ async function actualizarObra(id) {
         
             region_id,
         
-            comuna_id,
-        
-            updated_at:
-                new Date().toISOString()
+            comuna_id
         
         });
 
@@ -918,14 +915,10 @@ export async function cambiarEstadoObra(id, onSuccess = null) {
 
             try {
 
-                await obrasService.update(id, {
-
-                    estado: nuevoEstado,
-
-                    updated_at:
-                        new Date().toISOString()
-
-                });
+                await obrasService.cambiarEstado(
+                    id,
+                    nuevoEstado
+                );
 
                 if (onSuccess) {
                     await onSuccess();
