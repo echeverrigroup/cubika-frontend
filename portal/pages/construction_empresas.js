@@ -1261,9 +1261,10 @@ if (!rut) {
                 imagen: archivoLogo
             });
         
-            await empresasService.update(nuevaEmpresa.id, {
-                logo_path: resultadoLogo.path
-            });
+            await empresasService.actualizarLogo(
+                nuevaEmpresa.id,
+                resultadoLogo.path
+            );
         }
         
     
@@ -1532,58 +1533,47 @@ if (!rut) {
         const archivoLogo =
             document.getElementById("logoEmpresa")?.files?.[0];
         
-        let logoPathActualizado = null;
+        await empresasService.update(id, {
+        
+            nombre,
+            rut,
+            direccion,
+            email,
+        
+            region_id:
+                region_id || null,
+        
+            comuna_id:
+                comuna_id || null,
+        
+            representante_legal,
+            rut_representante,
+            direccion_representante,
+        
+            region_representante_id:
+                region_representante_id || null,
+        
+            comuna_representante_id:
+                comuna_representante_id || null,
+        
+            estado: "Activo"
+        
+        });
         
         if (archivoLogo) {
-            const resultadoLogo = await storageService.uploadLogoEmpresa({
-                empresaId: id,
-                imagen: archivoLogo
-            });
         
-            logoPathActualizado = resultadoLogo.path;
+            const resultadoLogo =
+                await storageService.uploadLogoEmpresa({
+                    empresaId: id,
+                    imagen: archivoLogo
+                });
+        
+            await empresasService.actualizarLogo(
+                id,
+                resultadoLogo.path
+            );
+        
         }
-
-      await servicioActivo.update(
-
-            id,
-        
-            {
-        
-                nombre,
-        
-                rut,
-        
-                direccion,
-
-                email,
-        
-                region_id:
-                    region_id || null,
-        
-                comuna_id:
-                    comuna_id || null,
-        
-                representante_legal,
-        
-                rut_representante,
-        
-                direccion_representante,
-        
-                region_representante_id:
-                    region_representante_id || null,
-        
-                comuna_representante_id:
-                    comuna_representante_id || null,
-        
-                estado:"Activo",
-
-                ...(logoPathActualizado
-                ? { logo_path: logoPathActualizado }
-                : {})
-        
-            }
-        
-        );
 
         await cargarEntidades();
 
@@ -1655,9 +1645,10 @@ async function cambiarEstadoEmpresa(id) {
                 
                 } else {
                 
-                    await servicioActivo.update(id, {
-                        estado: nuevoEstado
-                    });
+                    await empresasService.cambiarEstado(
+                            id,
+                            nuevoEstado
+                        );
                 
                 }
 
