@@ -678,19 +678,14 @@ export async function editarObra(id) {
         return;
 
     showFormModal({
-
         title: "Editar Obra",
-
-        content:
-            await obtenerFormularioObra(obra),
-
+        content: await obtenerFormularioObra(obra),
         submitText: "Actualizar",
-
         size: "large",
-
-        onSubmit: () =>
-            actualizarObra(id)
-
+        onSubmit: () => actualizarObra(id),
+        onSuccess: async () => {
+            await cargarObras();
+        }
     });
 
 
@@ -838,9 +833,6 @@ async function actualizarObra(id) {
         
         });
 
-        if (document.getElementById("obrasTable")) {
-            await cargarObras();
-        }
         
         setModalLoading(false);
         
