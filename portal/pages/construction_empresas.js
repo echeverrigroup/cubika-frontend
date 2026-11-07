@@ -1646,12 +1646,22 @@ async function cambiarEstadoEmpresa(id) {
 
             try {
 
-                await servicioActivo.update(id, {
+                if (tipoEntidadActivo === "constructora") {
 
-                    estado: nuevoEstado
+                    await constructorasService.cambiarEstado(
+                        id,
+                        nuevoEstado
+                    );
+                
+                } else {
+                
+                    await servicioActivo.update(id, {
+                        estado: nuevoEstado
+                    });
+                
+                }
 
-                });
-
+                
                 await cargarEntidades();
 
                 return true;
