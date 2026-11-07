@@ -1,8 +1,8 @@
+
 import { supabase }
 from "../../js/supabaseClient.js";
 
-const TABLE =
-    "obras";
+const TABLE = "obras";
 
 export const obrasService = {
 
@@ -32,12 +32,10 @@ export const obrasService = {
             throw error;
 
         return data;
-
     },
 
 
-
-async getById(id) {
+    async getById(id) {
 
         const { data, error } =
             await supabase
@@ -64,42 +62,59 @@ async getById(id) {
             throw error;
 
         return data;
+    },
 
-    },    
 
-    
     async create(obra) {
 
         const { data, error } =
-            await supabase
-                .from(TABLE)
-                .insert(obra)
-                .select()
-                .single();
+            await supabase.rpc(
+                "crear_obra",
+                {
+                    p_datos: obra
+                }
+            );
 
         if (error)
             throw error;
 
         return data;
-
     },
 
 
     async update(id, obra) {
 
         const { data, error } =
-            await supabase
-                .from(TABLE)
-                .update(obra)
-                .eq("id", id)
-                .select()
-                .single();
+            await supabase.rpc(
+                "actualizar_obra",
+                {
+                    p_obra_id: id,
+                    p_datos: obra
+                }
+            );
 
         if (error)
             throw error;
 
         return data;
+    },
 
+
+    async cambiarEstado(id, estado) {
+
+        const { data, error } =
+            await supabase.rpc(
+                "cambiar_estado_obra",
+                {
+                    p_obra_id: id,
+                    p_estado: estado
+                }
+            );
+
+        if (error)
+            throw error;
+
+        return data;
     }
 
 };
