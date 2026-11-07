@@ -285,14 +285,14 @@ export function showFormModal({
 
             if (result !== false) {
 
-                if (onSuccess) {
-
-                    await onSuccess(result);
-
-                }
-
                 closeModal();
-
+            
+                if (onSuccess) {
+            
+                    await onSuccess(result);
+            
+                }
+            
             }
 
         };
