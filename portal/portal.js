@@ -11,6 +11,13 @@ import {
 } from "./contexto.js";
 
 
+import {
+    inicializarTenantContext,
+    limpiarTenantContext
+} from "./tenantContextService.js";
+
+
+
 
 async function init() {
 
@@ -19,23 +26,31 @@ async function init() {
         if (!user) return;
         
         let contexto;
-        
-        try {
-        
-            contexto = await inicializarContexto(user);
-        
-        } catch (error) {
-        
-            console.error("Error al inicializar contexto:", error);
-        
-            await supabase.auth.signOut();
-        
-            limpiarContexto();
-        
-            window.location.href = "/login.html";
-        
-            return;
-        }
+
+            try {
+            
+                // 1. Inicializar identidad y rol del usuario
+                contexto = await inicializarContexto(user);
+            
+                // 2. Inicializar empresa cliente activa
+                await inicializarTenantContext(contexto);
+            
+            } catch (error) {
+            
+                console.error(
+                    "Error al inicializar contexto:",
+                    error
+                );
+            
+                limpiarTenantContext();
+                limpiarContexto();
+            
+                await supabase.auth.signOut();
+            
+                window.location.href = "/login.html";
+            
+                return;
+            }
     
 
     const logoutBtn =
@@ -52,11 +67,11 @@ async function init() {
             message:
                 "¿Deseas abandonar la sesión actual de Cubika?",
 
-            onConfirm: async () => {
+            limpiarTenantContext();
 
-                limpiarContexto();
-
-                await supabase.auth.signOut();
+            limpiarContexto();
+            
+            await supabase.auth.signOut();
 
                 window.location.href =
                     "/login.html";
