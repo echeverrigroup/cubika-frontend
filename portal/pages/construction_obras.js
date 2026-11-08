@@ -672,7 +672,10 @@ async function crearObra() {
 }
 
 
-export async function editarObra(id) {
+export async function editarObra(
+        id,
+        onSuccess = null
+    ) {
 
     const obra =
         await obrasService.getById(id);
@@ -685,8 +688,16 @@ export async function editarObra(id) {
         content: await obtenerFormularioObra(obra),
         submitText: "Actualizar",
         size: "large",
+    
         onSubmit: () => actualizarObra(id),
-        
+    
+        onSuccess: async () => {
+            if (onSuccess) {
+                await onSuccess();
+            } else {
+                await cargarObras();
+            }
+        }
     });
 
 
