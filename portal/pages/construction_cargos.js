@@ -434,9 +434,7 @@ async function crearCargo(
         
                 nombre,
         
-                descripcion,
-        
-                estado: "Activo"
+                descripcion
         
             });
 
@@ -517,10 +515,7 @@ async function actualizarCargo(id, container) {
 
             nombre,
 
-            descripcion,
-
-            updated_at:
-                new Date().toISOString()
+            descripcion
 
         });
 
@@ -585,14 +580,10 @@ async function cambiarEstadoCargo(id, container) {
 
             try {
 
-                await cargosService.update(id, {
-
-                    estado: nuevoEstado,
-
-                    updated_at:
-                        new Date().toISOString()
-
-                });
+                await cargosService.cambiarEstado(
+                    id,
+                    nuevoEstado
+                );
 
 
                 if (container)
