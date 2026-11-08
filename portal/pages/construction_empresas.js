@@ -144,8 +144,8 @@ export async function renderConstructionEmpresas() {
 
         if (tipoEntidadActivo === "obra") {
 
-            mostrarFormularioNuevaObra();
-
+            mostrarFormularioNuevaObra(cargarEntidades);
+        
             return;
         }
 
@@ -561,7 +561,8 @@ function cargarTablaObras(obras) {
             btn.addEventListener("click", () => {
 
                 editarObra(
-                    btn.dataset.id
+                    btn.dataset.id,
+                    cargarEntidades
                 );
 
             });
