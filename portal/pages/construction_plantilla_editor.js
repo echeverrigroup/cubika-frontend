@@ -1015,6 +1015,7 @@ function limpiarErrorEditor() {
 
 
 
+
 async function guardarPlantilla(id = null) {
 
     limpiarErrorEditor();
@@ -1046,7 +1047,10 @@ async function guardarPlantilla(id = null) {
         .getElementById("archivoDocx")
         ?.files?.[0] ?? null;
 
-    // Validaciones generales.
+    // =========================================
+    // VALIDACIONES GENERALES
+    // =========================================
+
     if (!tipo_documento) {
         mostrarErrorEditor(
             "Debe seleccionar el tipo de plantilla."
@@ -1061,7 +1065,10 @@ async function guardarPlantilla(id = null) {
         return false;
     }
 
-    // Validaciones exclusivas para HTML.
+    // =========================================
+    // VALIDACIONES HTML
+    // =========================================
+
     if (formato === "HTML") {
 
         const validacion = validarPlantilla(contenidoHTML);
@@ -1083,7 +1090,10 @@ async function guardarPlantilla(id = null) {
         }
     }
 
-    // Validaciones exclusivas para DOCX.
+    // =========================================
+    // VALIDACIONES DOCX
+    // =========================================
+
     const pathAnterior =
         id &&
         window.__plantillaDocxActual?.id === id
@@ -1117,7 +1127,10 @@ async function guardarPlantilla(id = null) {
         }
     }
 
-    // Asociaciones actuales.
+    // =========================================
+    // ASOCIACIONES
+    // =========================================
+
     const constructoraIds = Array.from(
         document.querySelectorAll(
             "#panelConstructoras .opcion-constructora:checked"
@@ -1132,34 +1145,49 @@ async function guardarPlantilla(id = null) {
         opcion => opcion.value
     );
 
+    // =========================================
+    // CONTROL DE OPERACIÓN
+    // =========================================
+
     let plantillaGuardada = null;
     let archivoSubidoPath = null;
+
     let registroGuardado = false;
+    let asociacionesGuardadas = false;
+
+    // Para nuevas plantillas, el UUID se genera
+    // antes de subir el DOCX.
+    const plantillaId = id || crypto.randomUUID();
 
     try {
 
-        // Preparar los datos según el formato elegido.
+        // =========================================
+        // PREPARAR DATOS
+        // =========================================
+
         const datos = {
             nombre,
             descripcion,
             tipo_documento,
             formato_contenido: formato,
+
             contenido: formato === "HTML"
                 ? contenidoHTML
                 : null,
+
             archivo_docx_path: formato === "HTML"
                 ? null
                 : pathAnterior
         };
 
+        // =========================================
+        // SUBIDA DOCX
+        // =========================================
+
         if (formato === "DOCX") {
 
-            // Para una plantilla nueva, generar primero su UUID.
-            const plantillaId = id || crypto.randomUUID();
-
-            // Subir el nuevo archivo antes de guardar la referencia.
-            // El servicio debe usar una ruta única por archivo.
             if (archivoDocx) {
+
                 archivoSubidoPath =
                     await plantillasDocumentoService.subirArchivoDocx(
                         plantillaId,
@@ -1174,67 +1202,59 @@ async function guardarPlantilla(id = null) {
                     "No se encontró el archivo DOCX de la plantilla."
                 );
             }
+        }
 
-            if (id) {
+        // =========================================
+        // CREAR PLANTILLA
+        // =========================================
 
-                datos.updated_at = new Date().toISOString();
+        if (!id) {
 
-                plantillaGuardada =
-                    await plantillasDocumentoService.update(
-                        id,
-                        datos
-                    );
+            plantillaGuardada =
+                await plantillasDocumentoService.create(
+                    plantillaId,
+                    datos,
+                    constructoraIds,
+                    cargoIds
+                );
 
-            } else {
-
-                datos.id = plantillaId;
-                datos.version = 1;
-                datos.estado = "Activo";
-
-                plantillaGuardada =
-                    await plantillasDocumentoService.create(
-                        datos
-                    );
-            }
-
+            // La RPC crea la plantilla y sus asociaciones
+            // dentro de una misma operación.
             registroGuardado = true;
+            asociacionesGuardadas = true;
 
         } else {
 
-            // Flujo HTML: mantiene la validación y el contenido actual.
-            if (id) {
+            // =====================================
+            // ACTUALIZAR PLANTILLA EXISTENTE
+            // =====================================
 
-                datos.updated_at = new Date().toISOString();
-
-                plantillaGuardada =
-                    await plantillasDocumentoService.update(
-                        id,
-                        datos
-                    );
-
-            } else {
-
-                datos.version = 1;
-                datos.estado = "Activo";
-
-                plantillaGuardada =
-                    await plantillasDocumentoService.create(
-                        datos
-                    );
-            }
+            plantillaGuardada =
+                await plantillasDocumentoService.update(
+                    id,
+                    datos
+                );
 
             registroGuardado = true;
+
+            // Las asociaciones se actualizan mediante
+            // su propia RPC.
+            await plantillasDocumentoService.guardarAsociaciones(
+                plantillaGuardada.id,
+                constructoraIds,
+                cargoIds
+            );
+
+            asociacionesGuardadas = true;
         }
 
-        // Mantener las asociaciones existentes.
-        await plantillasDocumentoService.guardarAsociaciones(
-            plantillaGuardada.id,
-            constructoraIds,
-            cargoIds
-        );
+        // =========================================
+        // ELIMINAR DOCX ANTERIOR
+        // =========================================
 
-        // Eliminar el DOCX anterior solo después de guardar
-        // correctamente el nuevo estado de la plantilla.
+        // Solo eliminar el archivo anterior después
+        // de guardar correctamente plantilla y asociaciones.
+
         if (
             pathAnterior &&
             (
@@ -1245,17 +1265,25 @@ async function guardarPlantilla(id = null) {
                 )
             )
         ) {
+
             try {
+
                 await plantillasDocumentoService.eliminarArchivoDocx(
                     pathAnterior
                 );
+
             } catch (errorLimpieza) {
+
                 console.error(
                     "La plantilla se guardó, pero no se pudo eliminar el DOCX anterior:",
                     errorLimpieza
                 );
             }
         }
+
+        // =========================================
+        // FINALIZAR
+        // =========================================
 
         navigate("construction_plantillas");
 
@@ -1268,14 +1296,18 @@ async function guardarPlantilla(id = null) {
             error
         );
 
-        // Si se subió un archivo, pero no se guardó el registro,
-        // intentar retirar el archivo recién subido.
+        // Si el archivo se subió pero la plantilla
+        // no llegó a guardarse, intentar eliminarlo.
         if (archivoSubidoPath && !registroGuardado) {
+
             try {
+
                 await plantillasDocumentoService.eliminarArchivoDocx(
                     archivoSubidoPath
                 );
+
             } catch (errorLimpieza) {
+
                 console.error(
                     "No se pudo limpiar el archivo DOCX temporal:",
                     errorLimpieza
@@ -1283,13 +1315,28 @@ async function guardarPlantilla(id = null) {
             }
         }
 
-        mostrarErrorEditor(
-            error?.message
-                ? `No fue posible guardar la plantilla: ${error.message}`
-                : "No fue posible guardar la plantilla y sus asociaciones."
-        );
+        // Diferenciar un error de guardado completo
+        // de un fallo posterior en las asociaciones.
+        if (registroGuardado && !asociacionesGuardadas) {
+
+            mostrarErrorEditor(
+                "La información de la plantilla se guardó, " +
+                "pero no fue posible actualizar sus asociaciones. " +
+                "No vuelvas a cargar el archivo DOCX. " +
+                "Puedes intentar guardar nuevamente las asociaciones."
+            );
+
+        } else {
+
+            mostrarErrorEditor(
+                error?.message
+                    ? `No fue posible guardar la plantilla: ${error.message}`
+                    : "No fue posible guardar la plantilla."
+            );
+        }
 
         return false;
     }
 }
+
 
