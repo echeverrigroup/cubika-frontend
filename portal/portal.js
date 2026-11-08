@@ -13,9 +13,11 @@ import {
 
 import {
     inicializarTenantContext,
-    limpiarTenantContext
+    limpiarTenantContext,
+    obtenerTenantActual,
+    obtenerEmpresasClientes,
+    seleccionarEmpresaCliente
 } from "./tenantContextService.js";
-
 
 
 
@@ -51,6 +53,72 @@ async function init() {
             
                 return;
             }
+
+
+    // =========================================================
+// SELECTOR GLOBAL DE EMPRESA CLIENTE
+// =========================================================
+
+const tenantContainer = document.getElementById(
+    "tenantSelectorContainer"
+);
+
+const tenantSelector = document.getElementById(
+    "tenantSelector"
+);
+
+if (contexto.tipo === "SUPER_ADMIN") {
+
+    const empresas = obtenerEmpresasClientes();
+    const tenantActual = obtenerTenantActual();
+
+    tenantSelector.innerHTML = "";
+
+    empresas.forEach(empresa => {
+
+        const option = document.createElement("option");
+
+        option.value = empresa.id;
+        option.textContent = empresa.nombre;
+
+        tenantSelector.appendChild(option);
+
+    });
+
+    tenantSelector.value = tenantActual.id;
+
+    tenantContainer.hidden = false;
+
+    tenantSelector.addEventListener("change", () => {
+
+        const nuevoTenantId = tenantSelector.value;
+
+        try {
+
+            seleccionarEmpresaCliente(nuevoTenantId);
+
+            // Recargar el portal para que los módulos
+            // vuelvan a consultar los datos del tenant activo.
+            window.location.reload();
+
+        } catch (error) {
+
+            console.error(
+                "Error al cambiar empresa cliente:",
+                error
+            );
+
+            tenantSelector.value = tenantActual.id;
+
+        }
+
+    });
+
+} else {
+
+    tenantContainer.hidden = true;
+
+}
     
 
     const logoutBtn =
