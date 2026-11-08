@@ -3719,16 +3719,9 @@ async function mostrarModalSeleccionDocumentos(
         
                     });
         
-                const pdfUrl =
-                    await storageService.createSignedUrl(
-                        upload.path
-                    );
-        
-                await contratosGeneradosService.update(
+                await contratosGeneradosService.actualizarPdf(
                     contratoCreado.id,
-                    {
-                        pdf_url: pdfUrl
-                    }
+                    upload.path
                 );
         
         
