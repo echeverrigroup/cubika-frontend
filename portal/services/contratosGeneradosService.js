@@ -213,22 +213,24 @@ async getAnexosByContrato(contratoMadreId) {
    
    
 
-    async create(contrato) {
+   async create(contrato) {
+       const { data, error } = await supabase.rpc(
+           "crear_contrato_generado",
+           {
+               p_datos: contrato
+           }
+       );
+   
+       if (error) {
+           console.error("Error al crear documento:", error);
+           throw error;
+       }
+   
+       return data;
+   },
 
-        const { data, error } =
-            await supabase
-                .from(TABLE)
-                .insert(contrato)
-                .select()
-                .single();
 
-        if (error) throw error;
-
-        return data;
-
-    },
-
-
+   
     async update(id, contrato) {
 
         const { data, error } =
