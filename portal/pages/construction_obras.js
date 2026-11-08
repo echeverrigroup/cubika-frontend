@@ -84,9 +84,6 @@ export async function renderConstructionObras() {
 
 async function cargarObras() {
 
-    const table =
-        document.getElementById("obrasTable");
-
 
     const filtro =
         document
@@ -243,10 +240,18 @@ async function cargarObras() {
 
     `;
 
+    const table = document.getElementById("obrasTable");
 
-    table.innerHTML =
-        html;
-
+        if (!table) {
+            console.warn(
+                "No se pudo actualizar la tabla: la vista de Obras ya no está disponible."
+            );
+            return;
+        }
+        
+        table.innerHTML = html;
+        
+        
 
     document
         .querySelectorAll(".btn-edit")
