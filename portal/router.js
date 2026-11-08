@@ -1,3 +1,6 @@
+import { renderConstructionObras }
+         from "./pages/construction_obras.js";
+
 import { renderDashboard,
          initDashboard} from "./pages/dashboard.js";
 
@@ -70,6 +73,11 @@ export function navigate(page, params = null) {
         case "construction_trabajadores":
         renderConstructionTrabajadores();
         break;
+
+        case "construction_obras":
+        renderConstructionObras();
+        break;
+                      
 
 
         case "construction_plantillas":
