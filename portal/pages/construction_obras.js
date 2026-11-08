@@ -686,26 +686,7 @@ export async function editarObra(id) {
         submitText: "Actualizar",
         size: "large",
         onSubmit: () => actualizarObra(id),
-        onSuccess: async () => {
-            
-                console.log("Diagnóstico de actualización:", {
-                    pagina: new URLSearchParams(
-                        window.location.search
-                    ).get("page"),
-            
-                    contentExiste:
-                        !!document.querySelector(".content"),
-            
-                    contenidoActual:
-                        document.querySelector(".content")?.innerHTML
-                            .slice(0, 300),
-            
-                    tablaExiste:
-                        !!document.getElementById("obrasTable")
-                });
-            
-                await cargarObras();
-            }
+        
     });
 
 
@@ -853,7 +834,8 @@ async function actualizarObra(id) {
         
         });
 
-        
+        await cargarObras();
+
         setModalLoading(false);
         
         return true;
