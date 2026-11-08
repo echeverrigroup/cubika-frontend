@@ -400,6 +400,7 @@ async function cargarPlantillas() {
 
 
 
+
 async function cambiarEstadoPlantilla(id) {
 
     try {
@@ -409,36 +410,29 @@ async function cambiarEstadoPlantilla(id) {
 
         if (!plantilla) return;
 
-
         const nuevoEstado =
             plantilla.estado === "Activo"
                 ? "Inactivo"
                 : "Activo";
-
 
         showConfirmModal({
 
             title: `${nuevoEstado} plantilla`,
 
             message: `
-
                 La plantilla
                 <strong>${plantilla.nombre}</strong>
                 será
                 ${nuevoEstado.toLowerCase()}.
-
             `,
 
             onConfirm: async () => {
 
                 try {
 
-                    await plantillasDocumentoService.update(
+                    await plantillasDocumentoService.cambiarEstado(
                         id,
-                        {
-                            estado: nuevoEstado,
-                            updated_at: new Date().toISOString()
-                        }
+                        nuevoEstado
                     );
 
                     await cargarPlantillas();
@@ -453,7 +447,6 @@ async function cambiarEstadoPlantilla(id) {
                     );
 
                     return false;
-
                 }
 
             }
@@ -472,6 +465,8 @@ async function cambiarEstadoPlantilla(id) {
     }
 
 }
+
+
 
 async function mostrarFormularioNuevaPlantilla() {
 
