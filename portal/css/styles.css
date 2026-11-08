@@ -1637,6 +1637,42 @@ EDITOR DOCUMENTAL
             transform .2s ease;
     }
 
+
+    /* SELECTOR DE EMPRESA EN MÓVIL */
+
+.navbar-left {
+    flex-shrink: 0;
+}
+
+.navbar .logo {
+    position: static;
+    transform: none;
+}
+
+.tenant-selector-container {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    margin: 0 8px;
+}
+
+.tenant-selector-container label {
+    display: none;
+}
+
+.tenant-selector {
+    width: 100%;
+    min-width: 0;
+    height: 34px;
+    padding-left: 8px;
+    padding-right: 24px;
+    font-size: 11px;
+}
+
+.navbar-right {
+    flex-shrink: 0;
+}
+
     .mobile-menu-btn:hover {
         background: #E2E8F0;
     }
@@ -5997,5 +6033,69 @@ align-self: flex-start;
     .resumen-indicador:hover {
         transform: none;
     }
+}
+
+
+
+/* =========================================================
+   SELECTOR GLOBAL DE EMPRESA CLIENTE
+   ========================================================= */
+
+.tenant-selector-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    flex: 1;
+    min-width: 0;
+    max-width: 340px;
+
+    margin: 0 auto;
+}
+
+.tenant-selector-container[hidden] {
+    display: none !important;
+}
+
+.tenant-selector-container label {
+    color: #64748B;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.tenant-selector {
+    width: 100%;
+    max-width: 280px;
+    height: 36px;
+
+    padding: 0 34px 0 12px;
+
+    border: 1px solid #DCE5EA;
+    border-radius: 9px;
+
+    background-color: #F8FAFC;
+    color: #0B2F5B;
+
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    outline: none;
+    transition: all .2s ease;
+}
+
+.tenant-selector:hover {
+    border-color: #36C5B8;
+    background-color: #FFFFFF;
+}
+
+.tenant-selector:focus {
+    border-color: #36C5B8;
+    box-shadow: 0 0 0 3px rgba(54,197,184,.12);
 }
 
