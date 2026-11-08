@@ -67,14 +67,16 @@ async function init() {
             message:
                 "¿Deseas abandonar la sesión actual de Cubika?",
 
-            limpiarTenantContext();
+            onConfirm: async () => {
 
-            limpiarContexto();
-            
-            await supabase.auth.signOut();
-
-                window.location.href =
-                    "/login.html";
+                limpiarTenantContext();
+    
+                limpiarContexto();
+                
+                await supabase.auth.signOut();
+    
+                    window.location.href =
+                        "/login.html";
 
             }
 
