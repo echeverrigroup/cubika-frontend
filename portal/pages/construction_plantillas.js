@@ -153,6 +153,7 @@ export async function renderConstructionPlantillas() {
 
 
 
+
 async function cargarPlantillas() {
 
     const table =
@@ -214,17 +215,13 @@ async function cargarPlantillas() {
             <table class="cubika-table">
 
                 <thead>
-
                     <tr>
-
                         <th>Nombre</th>
                         <th>Tipo</th>
                         <th>Versión</th>
                         <th>Estado</th>
                         <th>Acciones</th>
-
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -234,143 +231,142 @@ async function cargarPlantillas() {
 
         if (!plantillas.length) {
 
-        html += `
-            <tr>
-                <td
-                    colspan="5"
-                    style="
-                        text-align:center;
-                        padding:30px;
-                    ">
-    
-                    No existen plantillas
-                    para esta categoría.
-    
-                </td>
-            </tr>
-        `;
-    
-    } else {
-    
-        plantillas.forEach(plantilla => {
-    
-            const estadoActivo =
-                plantilla.estado === "Activo";
-    
             html += `
-    
                 <tr>
-    
-                    <td>
-                        ${plantilla.nombre ?? ""}
-                    </td>
-    
-                    <td>
-                        ${plantilla.tipo_documento ?? ""}
-                    </td>
-    
-                    <td>
-                        ${plantilla.version ?? 1}
-                    </td>
-    
-                    <td>
-    
-                        <span class="
-                            estado-badge
-                            ${estadoActivo
-                                ? "activo"
-                                : "inactivo"}
+                    <td
+                        colspan="5"
+                        style="
+                            text-align:center;
+                            padding:30px;
                         ">
-    
-                            ${plantilla.estado ?? "Sin estado"}
-    
-                        </span>
-    
-                    </td>
-    
-                    <td>
-    
-                        <button
-                            type="button"
-                            class="btn-edit"
-                            data-id="${plantilla.id}">
-    
-                            Editar
-    
-                        </button>
-    
-                        <button
-                            type="button"
-                            class="${
-                                estadoActivo
-                                    ? "btn-danger"
-                                    : "btn-primary"
-                            } btn-toggle-estado"
-                            data-id="${plantilla.id}">
-    
-                            ${estadoActivo
-                                ? "Desactivar"
-                                : "Activar"}
-    
-                        </button>
-    
-                    </td>
-    
-                </tr>
-    
-            `;
-    
-        });
-    
-    }
-    
-    
-    // Cerrar tabla y renderizar.
-    html += `
-    
-            </tbody>
-    
-        </table>
-    
-    `;
-    
-    table.innerHTML = html;
-    
-    
-    // Eventos para editar plantillas.
-    table
-        .querySelectorAll(".btn-edit")
-        .forEach(btn => {
-    
-            btn.addEventListener("click", () => {
-    
-                navigate(
-                    "construction_plantilla_editor",
-                    btn.dataset.id
-                );
-    
-            });
-    
-        });
-    
-    
-    // Eventos para activar o desactivar plantillas.
-    table
-        .querySelectorAll(".btn-toggle-estado")
-        .forEach(btn => {
-    
-            btn.addEventListener("click", () => {
-    
-                cambiarEstadoPlantilla(
-                    btn.dataset.id
-                );
-    
-            });
-    
-        });
 
-        
-    catch (error) {
+                        No existen plantillas
+                        para esta categoría.
+
+                    </td>
+                </tr>
+            `;
+
+        } else {
+
+            plantillas.forEach(plantilla => {
+
+                const estadoActivo =
+                    plantilla.estado === "Activo";
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${plantilla.nombre ?? ""}
+                        </td>
+
+                        <td>
+                            ${plantilla.tipo_documento ?? ""}
+                        </td>
+
+                        <td>
+                            ${plantilla.version ?? 1}
+                        </td>
+
+                        <td>
+
+                            <span class="
+                                estado-badge
+                                ${estadoActivo
+                                    ? "activo"
+                                    : "inactivo"}
+                            ">
+
+                                ${plantilla.estado ?? "Sin estado"}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn-edit"
+                                data-id="${plantilla.id}">
+
+                                Editar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="${
+                                    estadoActivo
+                                        ? "btn-danger"
+                                        : "btn-primary"
+                                } btn-toggle-estado"
+                                data-id="${plantilla.id}">
+
+                                ${estadoActivo
+                                    ? "Desactivar"
+                                    : "Activar"}
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            });
+
+        }
+
+
+        // Cerrar tabla y renderizar.
+        html += `
+
+                </tbody>
+
+            </table>
+
+        `;
+
+        table.innerHTML = html;
+
+
+        // Eventos para editar plantillas.
+        table
+            .querySelectorAll(".btn-edit")
+            .forEach(btn => {
+
+                btn.addEventListener("click", () => {
+
+                    navigate(
+                        "construction_plantilla_editor",
+                        btn.dataset.id
+                    );
+
+                });
+
+            });
+
+
+        // Eventos para activar o desactivar plantillas.
+        table
+            .querySelectorAll(".btn-toggle-estado")
+            .forEach(btn => {
+
+                btn.addEventListener("click", () => {
+
+                    cambiarEstadoPlantilla(
+                        btn.dataset.id
+                    );
+
+                });
+
+            });
+
+    } catch (error) {
 
         console.error(
             "Error al cargar las plantillas:",
