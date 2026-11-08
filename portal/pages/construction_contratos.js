@@ -2246,19 +2246,14 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 pdfBlob,
                 nombreArchivo: "anexo.pdf"
             });
+
             
-            // 7. Crear la URL firmada.
-            const pdfUrl = await storageService.createSignedUrl(
+            await contratosGeneradosService.actualizarPdf(
+                anexoCreado.id,
                 upload.path
             );
+
             
-            // 8. Guardar la URL en el registro del anexo.
-            await contratosGeneradosService.update(
-                anexoCreado.id,
-                {
-                    pdf_url: pdfUrl
-                }
-            );
             
             // 9. Descargar el PDF.
             const downloadUrl = URL.createObjectURL(pdfBlob);
