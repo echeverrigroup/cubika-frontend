@@ -551,7 +551,7 @@ async function cargarTrabajadores() {
                         data-id="${trabajador.id}">
 
                         ${trabajador.estado === "Activo"
-                            ? "Historial"
+                            ? "Desactivar"
                             : "Activar"}
 
                     </button>
