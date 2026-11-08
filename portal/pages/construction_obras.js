@@ -845,8 +845,6 @@ async function actualizarObra(id) {
         
         });
 
-        await cargarObras();
-
         setModalLoading(false);
         
         return true;
