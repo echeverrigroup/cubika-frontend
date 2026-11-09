@@ -613,16 +613,9 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     const contratosFiltrados =
         filtrarContratos(contratos);
 
-        for (
-            const contrato
-            of contratos
-        ) {
-        
-            await sincronizarEstadoContrato(
-                contrato
-            );
-        
-        }
+       // La sincronización persistente de estados se realizará
+        // mediante una RPC específica.
+        // La carga de la lista no debe depender de escrituras.
 
     contratosVisibles = contratosFiltrados;
 
