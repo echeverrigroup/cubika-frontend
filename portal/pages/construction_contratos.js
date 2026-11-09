@@ -613,9 +613,11 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     const contratosFiltrados =
         filtrarContratos(contratos);
 
-       // La sincronización persistente de estados se realizará
-        // mediante una RPC específica.
-        // La carga de la lista no debe depender de escrituras.
+       for (const contrato of contratos) {
+
+            await sincronizarEstadoContrato(contrato);
+        
+        }
 
     contratosVisibles = contratosFiltrados;
 
@@ -3260,55 +3262,22 @@ function determinarEstadoContrato(contrato) {
 
 async function sincronizarEstadoContrato(contrato) {
 
-    const codigoEstado =
-        determinarEstadoContrato(
-            contrato
-        );
-
-
     const estadoActual =
         contrato.estado?.codigo;
 
+    // Un contrato finiquitado nunca se reactiva
+    // mediante sincronización automática.
 
-    if (
-        codigoEstado === estadoActual
-    ) {
-
+    if (estadoActual === "FINIQUITADO") {
         return contrato;
-
     }
 
+    const nuevoEstado =
+        await contratosGeneradosService.sincronizarEstado(
+            contrato.id
+        );
 
-    const { data: nuevoEstado, error } =
-        await supabase
-            .from("estados_contrato")
-            .select("id, codigo, nombre, simbolo")
-            .eq(
-                "codigo",
-                codigoEstado
-            )
-            .single();
-
-
-    if (error)
-        throw error;
-
-
-    await contratosGeneradosService.update(
-
-        contrato.id,
-
-        {
-            estado_id:
-                nuevoEstado.id
-        }
-
-    );
-
-
-    contrato.estado =
-        nuevoEstado;
-
+    contrato.estado = nuevoEstado;
 
     return contrato;
 
