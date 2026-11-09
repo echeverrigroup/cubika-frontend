@@ -33,7 +33,38 @@ async function init() {
             
                 // 1. Inicializar identidad y rol del usuario
                 contexto = await inicializarContexto(user);
-            
+                
+                // =========================================================
+                // VISIBILIDAD DEL SIDEBAR SEGÚN ROL
+                // =========================================================
+                
+                const esSuperAdmin = contexto.tipo === "SUPER_ADMIN";
+                
+                document.querySelectorAll(".sidebar > h3").forEach(seccion => {
+                
+                    const nombreSeccion = seccion.textContent.trim();
+                
+                    const esConstruccion = nombreSeccion === "Construcción";
+                    const esAdministracion = nombreSeccion === "Administración";
+                
+                    const mantenerVisible =
+                        esConstruccion ||
+                        (esAdministracion && esSuperAdmin);
+                
+                    if (!mantenerVisible) {
+                
+                        seccion.style.display = "none";
+                
+                        const menu = seccion.nextElementSibling;
+                
+                        if (menu && menu.classList.contains("sidebar-menu")) {
+                            menu.style.display = "none";
+                        }
+                
+                    }
+                
+                });
+                
                 // 2. Inicializar empresa cliente activa
                 await inicializarTenantContext(contexto);
             
@@ -532,31 +563,3 @@ if (userMenu) {
 }
 
 
-// PRUEBA: mostrar solamente Construcción
-const esSuperAdmin = contexto?.tipo === "SUPER_ADMIN";
-
-document.querySelectorAll(".sidebar > h3").forEach(seccion => {
-
-    const nombreSeccion = seccion.textContent.trim();
-
-    const esConstruccion = nombreSeccion === "Construcción";
-    const esAdministracion = nombreSeccion === "Administración";
-
-    // Construcción siempre visible.
-    // Administración visible solamente para SUPER_ADMIN.
-    const mantenerVisible = esConstruccion ||
-                            (esAdministracion && esSuperAdmin);
-
-    if (!mantenerVisible) {
-
-        seccion.style.display = "none";
-
-        const menu = seccion.nextElementSibling;
-
-        if (menu && menu.classList.contains("sidebar-menu")) {
-            menu.style.display = "none";
-        }
-
-    }
-
-});
