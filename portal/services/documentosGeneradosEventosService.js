@@ -1,4 +1,3 @@
-
 import { supabase } from "../../js/supabaseClient.js";
 
 const TABLE = "documentos_generados_eventos";
@@ -10,26 +9,20 @@ export const documentosGeneradosEventosService = {
     // =====================================================
 
     async getAll() {
-
         const { data, error } = await supabase
             .from(TABLE)
             .select("*")
             .order("created_at", { ascending: false });
 
         if (error) {
-            console.error(
-                "Error al obtener eventos documentales:",
-                error
-            );
+            console.error("Error al obtener eventos documentales:", error);
             throw error;
         }
 
         return data || [];
     },
 
-
     async getByLote(loteId) {
-
         const { data, error } = await supabase
             .from(TABLE)
             .select("*")
@@ -37,19 +30,14 @@ export const documentosGeneradosEventosService = {
             .order("created_at", { ascending: true });
 
         if (error) {
-            console.error(
-                "Error al obtener eventos del lote:",
-                error
-            );
+            console.error("Error al obtener eventos del lote:", error);
             throw error;
         }
 
         return data || [];
     },
 
-
     async getByContrato(contratoId) {
-
         const { data, error } = await supabase
             .from(TABLE)
             .select("*")
@@ -57,19 +45,15 @@ export const documentosGeneradosEventosService = {
             .order("created_at", { ascending: true });
 
         if (error) {
-            console.error(
-                "Error al obtener eventos del contrato:",
-                error
-            );
+            console.error("Error al obtener eventos del contrato:", error);
             throw error;
         }
 
         return data || [];
     },
 
-
     // =====================================================
-    // REGISTRO CENTRALIZADO MEDIANTE RPC
+    // REGISTRO MEDIANTE RPC
     // =====================================================
 
     async registrar(evento) {
@@ -82,44 +66,28 @@ export const documentosGeneradosEventosService = {
         );
 
         if (error) {
-            console.error(
-                "Error al registrar evento documental:",
-                error
-            );
-
+            console.error("Error al registrar evento documental:", error);
             throw error;
         }
 
         return data;
     },
 
-
-    // =====================================================
-    // TIPOS DE EVENTOS
-    // =====================================================
-
     async registrarGeneracion(documento) {
-
         return this.registrar({
             ...documento,
             evento: "GENERADO"
         });
-
     },
 
-
     async registrarDescarga(documento) {
-
         return this.registrar({
             ...documento,
             evento: "DESCARGA_INICIADA"
         });
-
     },
 
-
     async registrarError(documento, detalle) {
-
         return this.registrar({
             ...documento,
             evento: "ERROR",
@@ -129,7 +97,5 @@ export const documentosGeneradosEventosService = {
                 "Error desconocido"
             )
         });
-
     }
-
 };
