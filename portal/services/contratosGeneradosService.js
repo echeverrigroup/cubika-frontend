@@ -211,6 +211,30 @@ async getAnexosByContrato(contratoMadreId) {
 
 },
    
+
+
+async sincronizarEstado(id) {
+
+    const { data, error } = await supabase.rpc(
+        "sincronizar_estado_contrato",
+        {
+            p_contrato_id: id
+        }
+    );
+
+    if (error) {
+        console.error(
+            "Error al sincronizar estado del contrato:",
+            error
+        );
+
+        throw error;
+    }
+
+    return data;
+},
+
+
    
 
    async create(contrato) {
