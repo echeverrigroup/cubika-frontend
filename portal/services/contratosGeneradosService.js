@@ -210,7 +210,30 @@ async getAnexosByContrato(contratoMadreId) {
     return data;
 
 },
-   
+
+
+
+async sincronizarEstadosMasivamente(clienteId = null) {
+
+    const { data, error } = await supabase.rpc(
+        "sincronizar_estados_contratos",
+        {
+            p_cliente_id: clienteId
+        }
+    );
+
+    if (error) {
+        console.error(
+            "Error en sincronización masiva de contratos:",
+            error
+        );
+
+        throw error;
+    }
+
+    return data;
+},
+
 
 
 async sincronizarEstado(id) {
