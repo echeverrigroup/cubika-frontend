@@ -533,9 +533,22 @@ if (userMenu) {
 
 
 // PRUEBA: mostrar solamente Construcción
+const esSuperAdmin = contexto?.tipo === "SUPER_ADMIN";
+
 document.querySelectorAll(".sidebar > h3").forEach(seccion => {
 
-    if (seccion.textContent.trim() !== "Construcción") {
+    const nombreSeccion = seccion.textContent.trim();
+
+    const esConstruccion = nombreSeccion === "Construcción";
+    const esAdministracion = nombreSeccion === "Administración";
+
+    // Construcción siempre visible.
+    // Administración visible solamente para SUPER_ADMIN.
+    const mantenerVisible = esConstruccion ||
+                            (esAdministracion && esSuperAdmin);
+
+    if (!mantenerVisible) {
+
         seccion.style.display = "none";
 
         const menu = seccion.nextElementSibling;
@@ -543,6 +556,7 @@ document.querySelectorAll(".sidebar > h3").forEach(seccion => {
         if (menu && menu.classList.contains("sidebar-menu")) {
             menu.style.display = "none";
         }
+
     }
 
 });
