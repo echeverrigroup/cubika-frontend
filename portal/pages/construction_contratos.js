@@ -2277,6 +2277,37 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 upload.path
             );
 
+
+            // 8. Registrar la generación del anexo en el historial documental.
+            try {
+                await documentosGeneradosEventosService.registrarGeneracion({
+                    cliente_id: contrato.cliente_id,
+                    lote_id: crypto.randomUUID(),
+            
+                    // Los eventos siempre apuntan al contrato original.
+                    contrato_id: contrato.id,
+            
+                    plantilla_id: plantilla.id,
+                    empresa_id: contrato.empresa_id,
+                    worker_id: contrato.worker_id,
+            
+                    tipo_documento: "ANEXO",
+                    nombre_documento: `Anexo ${numeroAnexo} - ${plantilla.nombre}`
+                });
+            
+                console.info(
+                    "Evento de generación del anexo registrado:",
+                    numeroAnexo
+                );
+            
+            } catch (error) {
+                // El fallo del historial no debe invalidar un PDF ya generado y guardado.
+                console.error(
+                    "No fue posible registrar el evento de generación del anexo:",
+                    error
+                );
+            }
+
             
             
             // 9. Descargar el PDF.
