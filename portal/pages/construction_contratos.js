@@ -80,6 +80,10 @@ let contratosVisibles = [];
 
 let contratoPendienteDeApertura = null;
 
+let sincronizacionEstadosIniciada = false;
+
+
+
 export function solicitarAperturaContrato(contratoId) {
     if (!contratoId) {
         console.error("No se recibió el ID del contrato.");
@@ -94,6 +98,8 @@ export function solicitarAperturaContrato(contratoId) {
 
 
 export function renderConstructionContratos() {
+
+    sincronizacionEstadosIniciada = false;
 
     const content =
         document.querySelector(".content");
@@ -613,11 +619,6 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     const contratosFiltrados =
         filtrarContratos(contratos);
 
-       for (const contrato of contratos) {
-
-            await sincronizarEstadoContrato(contrato);
-        
-        }
 
     contratosVisibles = contratosFiltrados;
 
@@ -891,6 +892,34 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     `;
 
     configurarAccionesContratos();
+
+    // Sincronización masiva en segundo plano.
+    // No bloquea la carga ni la interacción con el listado.
+    
+    if (!sincronizacionEstadosIniciada) {
+    
+        sincronizacionEstadosIniciada = true;
+    
+        contratosGeneradosService
+            .sincronizarEstadosMasivamente()
+            .then(resultado => {
+    
+                console.info(
+                    "Sincronización de contratos completada:",
+                    resultado
+                );
+    
+            })
+            .catch(error => {
+    
+                console.error(
+                    "No fue posible sincronizar los estados:",
+                    error
+                );
+    
+            });
+    
+    }
 
 }
 
