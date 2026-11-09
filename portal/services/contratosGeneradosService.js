@@ -213,6 +213,27 @@ async getAnexosByContrato(contratoMadreId) {
 
 
 
+async actualizarPdf(anexoId, pdfUrl, clienteId = null) {
+
+    const { data, error } = await supabase.rpc(
+        "actualizar_pdf_anexo",
+        {
+            p_anexo_id: anexoId,
+            p_pdf_url: pdfUrl,
+            p_cliente_id: clienteId
+        }
+    );
+
+    if (error) {
+        console.error("Error al actualizar PDF del anexo:", error);
+        throw error;
+    }
+
+    return data;
+},
+
+   
+
 async sincronizarEstadosMasivamente(clienteId = null) {
 
     const { data, error } = await supabase.rpc(
