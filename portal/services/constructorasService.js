@@ -2,9 +2,9 @@
 import { supabase } from "../../js/supabaseClient.js";
 import { obtenerTenantIdActual } from "../tenantContextService.js";
 
-const TABLE = "obras";
+const TABLE = "constructoras";
 
-export const obrasService = {
+export const constructorasService = {
 
     obtenerClienteId() {
         const clienteId = obtenerTenantIdActual();
@@ -22,17 +22,12 @@ export const obrasService = {
 
         const { data, error } = await supabase
             .from(TABLE)
-            .select(`
-                *,
-                constructora:constructoras(id,nombre),
-                region:regiones(id,nombre),
-                comuna:comunas(id,nombre)
-            `)
+            .select("*")
             .eq("cliente_id", clienteId)
             .order("nombre");
 
         if (error) {
-            console.error("Error al obtener obras:", error);
+            console.error("Error al obtener constructoras:", error);
             return [];
         }
 
@@ -45,32 +40,27 @@ export const obrasService = {
 
         const { data, error } = await supabase
             .from(TABLE)
-            .select(`
-                *,
-                constructora:constructoras(id,nombre),
-                region:regiones(id,nombre),
-                comuna:comunas(id,nombre)
-            `)
+            .select("*")
             .eq("id", id)
             .eq("cliente_id", clienteId)
             .single();
 
         if (error) {
-            console.error("Error al obtener obra:", error);
+            console.error("Error al obtener constructora:", error);
             return null;
         }
 
         return data;
     },
 
-    async create(obra) {
+    async create(constructora) {
 
         const clienteId = this.obtenerClienteId();
 
         const { data, error } = await supabase.rpc(
-            "crear_obra",
+            "crear_constructora",
             {
-                p_datos: obra,
+                p_datos: constructora,
                 p_cliente_id: clienteId
             }
         );
@@ -80,15 +70,15 @@ export const obrasService = {
         return data;
     },
 
-    async update(id, obra) {
+    async update(id, constructora) {
 
         const clienteId = this.obtenerClienteId();
 
         const { data, error } = await supabase.rpc(
-            "actualizar_obra",
+            "actualizar_constructora",
             {
-                p_obra_id: id,
-                p_datos: obra,
+                p_constructora_id: id,
+                p_datos: constructora,
                 p_cliente_id: clienteId
             }
         );
@@ -103,9 +93,9 @@ export const obrasService = {
         const clienteId = this.obtenerClienteId();
 
         const { data, error } = await supabase.rpc(
-            "cambiar_estado_obra",
+            "cambiar_estado_constructora",
             {
-                p_obra_id: id,
+                p_constructora_id: id,
                 p_estado: estado,
                 p_cliente_id: clienteId
             }
