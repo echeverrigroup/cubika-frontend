@@ -239,7 +239,15 @@ async actualizarPdf(anexoId, pdfUrl, clienteId = null) {
 
    
 
-async sincronizarEstadosMasivamente(clienteId = null) {
+async sincronizarEstadosMasivamente() {
+
+    const clienteId = obtenerTenantIdActual();
+
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
 
     const { data, error } = await supabase.rpc(
         "sincronizar_estados_contratos",
@@ -260,6 +268,7 @@ async sincronizarEstadosMasivamente(clienteId = null) {
     return data;
 },
 
+    
 
 async sincronizarEstado(id) {
     const clienteId = obtenerTenantIdActual();
