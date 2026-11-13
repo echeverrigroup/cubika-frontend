@@ -9,11 +9,11 @@ const TABLE = "contratos_generados";
 
 export const contratosGeneradosService = {
 
-   async getAll() {
 
+    async getAll() {
 
-    const clienteId = obtenerTenantIdActual();
-
+        const clienteId = obtenerTenantIdActual();
+    
         if (clienteId == null) {
             throw new Error(
                 "No se pudo determinar la empresa activa."
@@ -22,7 +22,7 @@ export const contratosGeneradosService = {
     
         const { data, error } =
             await supabase
-                .from(TABLE)}
+                .from(TABLE)
     
             .select(`
                 *,
