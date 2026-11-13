@@ -11,9 +11,19 @@ export const contratosGeneradosService = {
 
    async getAll() {
 
-    const { data, error } =
-        await supabase
-            .from(TABLE)
+
+    const clienteId = obtenerTenantIdActual();
+
+        if (clienteId == null) {
+            throw new Error(
+                "No se pudo determinar la empresa activa."
+            );
+        }
+    
+        const { data, error } =
+            await supabase
+                .from(TABLE)}
+    
             .select(`
                 *,
 
@@ -62,6 +72,9 @@ export const contratosGeneradosService = {
                     simbolo
                 )
             `)
+
+            .eq("cliente_id", clienteId)
+    
             .order(
                 "fecha_generacion",
                 {
@@ -78,6 +91,15 @@ export const contratosGeneradosService = {
 
    
 async getById(id) {
+
+
+    const clienteId = obtenerTenantIdActual();
+
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
 
     const { data, error } =
         await supabase
@@ -131,6 +153,7 @@ async getById(id) {
                 )
             `)
             .eq("id", id)
+            .eq("cliente_id", clienteId)
             .single();
 
     if (error)
@@ -202,6 +225,9 @@ async getAnexosByContrato(contratoMadreId) {
                 "tipo_documento",
                 "ANEXO"
             )
+
+            .eq("cliente_id", clienteId)
+        
             .order(
                 "fecha_generacion",
                 {
