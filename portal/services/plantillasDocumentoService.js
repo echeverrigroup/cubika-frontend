@@ -184,61 +184,79 @@ export const plantillasDocumentoService = {
         return data;
     },
 
+    
+
+    generarRutaArchivoDocx(plantillaId, archivo) {
+
+    if (!plantillaId) {
+        throw new Error("Falta el identificador de la plantilla.");
+    }
+
+    if (!archivo || !(archivo instanceof File)) {
+        throw new Error("Debes seleccionar un archivo DOCX.");
+    }
+
+    const clienteId = this.obtenerClienteId();
+
+    const nombreSeguro = archivo.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+    );
+
+    return `${clienteId}/${plantillaId}/${Date.now()}-${nombreSeguro}`;
+},
+
 
     // =========================================
     // ARCHIVOS DOCX - SUPABASE STORAGE
     // =========================================
 
-    async subirArchivoDocx(plantillaId, archivo) {
+    async subirArchivoDocx(plantillaId, archivo, rutaDestino = null) {
 
         if (!plantillaId) {
-            throw new Error(
-                "Falta el identificador de la plantilla."
-            );
+            throw new Error("Falta el identificador de la plantilla.");
         }
-
+    
         if (!archivo || !(archivo instanceof File)) {
-            throw new Error(
-                "Debes seleccionar un archivo DOCX."
-            );
+            throw new Error("Debes seleccionar un archivo DOCX.");
         }
-
+    
         if (!archivo.name.toLowerCase().endsWith(".docx")) {
-            throw new Error(
-                "El archivo debe tener extensión .docx."
-            );
+            throw new Error("El archivo debe tener extensión .docx.");
         }
-
+    
         if (archivo.size === 0) {
-            throw new Error(
-                "El archivo seleccionado está vacío."
-            );
+            throw new Error("El archivo seleccionado está vacío.");
         }
-
-        // Tenant operativo, incluyendo Super Admin.
+    
         const clienteId = this.obtenerClienteId();
-
-        const nombreSeguro = archivo.name.replace(
-            /[^a-zA-Z0-9._-]/g,
-            "_"
-        );
-
-        // Estructura:
-        // cliente_id / plantilla_id / archivo
-        const path =
-            `${clienteId}/${plantillaId}/${Date.now()}-${nombreSeguro}`;
-
+    
+        const path = rutaDestino ||
+            this.generarRutaArchivoDocx(plantillaId, archivo);
+    
+        // Comprobar que la ruta corresponda al tenant y plantilla.
+        const prefijoEsperado = `${clienteId}/${plantillaId}/`;
+    
+        if (
+            !path.startsWith(prefijoEsperado) ||
+            path.split("/").length !== 3 ||
+            !path.split("/")[2]
+        ) {
+            throw new Error("La ruta del archivo DOCX no es válida.");
+        }
+    
         const { error } = await supabase.storage
             .from(BUCKET)
             .upload(path, archivo, {
                 contentType: DOCX_MIME,
                 upsert: false
             });
-
+    
         if (error) throw error;
-
+    
         return path;
     },
+        
 
 
     async descargarArchivoDocx(path) {
