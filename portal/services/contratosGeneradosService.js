@@ -302,15 +302,27 @@ async sincronizarEstadosMasivamente() {
     
 
 async sincronizarEstado(id) {
+
     const clienteId = obtenerTenantIdActual();
 
-    return supabase.rpc("sincronizar_estado_contrato", {
-        p_contrato_id: id,
-        p_cliente_id: clienteId
-    });
-    
-},
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
 
+    const { data, error } = await supabase.rpc(
+        "sincronizar_estado_contrato",
+        {
+            p_contrato_id: id,
+            p_cliente_id: clienteId
+        }
+    );
+
+    if (error) throw error;
+
+    return data;
+},
 
    
 
