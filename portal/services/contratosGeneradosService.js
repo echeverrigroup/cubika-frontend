@@ -166,6 +166,14 @@ async getById(id) {
 
 async getAnexosByContrato(contratoMadreId) {
 
+    const clienteId = obtenerTenantIdActual();
+
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
+
     const { data, error } =
         await supabase
             .from(TABLE)
@@ -188,7 +196,6 @@ async getAnexosByContrato(contratoMadreId) {
                 obra:obras(
                     id,
                     nombre,
-
                     constructora:constructoras(
                         id,
                         nombre
@@ -217,34 +224,29 @@ async getAnexosByContrato(contratoMadreId) {
                     simbolo
                 )
             `)
-            .eq(
-                "contrato_madre_id",
-                contratoMadreId
-            )
-            .eq(
-                "tipo_documento",
-                "ANEXO"
-            )
-
+            .eq("contrato_madre_id", contratoMadreId)
+            .eq("tipo_documento", "ANEXO")
             .eq("cliente_id", clienteId)
-        
-            .order(
-                "fecha_generacion",
-                {
-                    ascending: false
-                }
-            );
+            .order("fecha_generacion", {
+                ascending: false
+            });
 
-    if (error)
-        throw error;
+    if (error) throw error;
 
     return data;
-
 },
 
 
 
-async actualizarPdf(anexoId, pdfUrl, clienteId = null) {
+async actualizarPdf(anexoId, pdfUrl) {
+
+    const clienteId = obtenerTenantIdActual();
+
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
 
     const { data, error } = await supabase.rpc(
         "actualizar_pdf_anexo",
@@ -256,7 +258,10 @@ async actualizarPdf(anexoId, pdfUrl, clienteId = null) {
     );
 
     if (error) {
-        console.error("Error al actualizar PDF del anexo:", error);
+        console.error(
+            "Error al actualizar PDF del anexo:",
+            error
+        );
         throw error;
     }
 
