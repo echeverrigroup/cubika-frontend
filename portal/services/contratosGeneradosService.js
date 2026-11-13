@@ -268,17 +268,7 @@ async sincronizarEstado(id) {
         p_contrato_id: id,
         p_cliente_id: clienteId
     });
-
-    if (error) {
-        console.error(
-            "Error al sincronizar estado del contrato:",
-            error
-        );
-
-        throw error;
-    }
-
-    return data;
+    
 },
 
 
