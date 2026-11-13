@@ -1145,6 +1145,7 @@ async function guardarPlantilla(id = null) {
         opcion => opcion.value
     );
 
+   
     // =========================================
     // CONTROL DE OPERACIÓN
     // =========================================
@@ -1156,7 +1157,7 @@ async function guardarPlantilla(id = null) {
     let asociacionesGuardadas = false;
 
     // Para nuevas plantillas, el UUID se genera
-    // antes de subir el DOCX.
+    // antes de crear el registro.
     const plantillaId = id || crypto.randomUUID();
 
     try {
@@ -1181,12 +1182,63 @@ async function guardarPlantilla(id = null) {
         };
 
         // =========================================
-        // SUBIDA DOCX
+        // NUEVA PLANTILLA
         // =========================================
 
-        if (formato === "DOCX") {
+        if (!id) {
 
-            if (archivoDocx) {
+            let rutaDocxNueva = null;
+
+            // Generar la ruta antes de crear el registro.
+            if (formato === "DOCX") {
+
+                rutaDocxNueva =
+                    plantillasDocumentoService.generarRutaArchivoDocx(
+                        plantillaId,
+                        archivoDocx
+                    );
+
+                // La ruta definitiva queda registrada
+                // antes de intentar subir el archivo.
+                datos.archivo_docx_path = rutaDocxNueva;
+            }
+
+            // Crear plantilla y asociaciones.
+            plantillaGuardada =
+                await plantillasDocumentoService.create(
+                    plantillaId,
+                    datos,
+                    constructoraIds,
+                    cargoIds
+                );
+
+            registroGuardado = true;
+            asociacionesGuardadas = true;
+
+            // =====================================
+            // SUBIR DOCX DESPUÉS DE CREAR REGISTRO
+            // =====================================
+
+            if (formato === "DOCX") {
+
+                archivoSubidoPath =
+                    await plantillasDocumentoService.subirArchivoDocx(
+                        plantillaId,
+                        archivoDocx,
+                        rutaDocxNueva
+                    );
+            }
+
+        } else {
+
+            // =========================================
+            // EDICIÓN DE PLANTILLA EXISTENTE
+            // =========================================
+
+            // La plantilla ya existe, por lo que podemos
+            // subir primero el nuevo documento.
+
+            if (formato === "DOCX" && archivoDocx) {
 
                 archivoSubidoPath =
                     await plantillasDocumentoService.subirArchivoDocx(
@@ -1197,38 +1249,6 @@ async function guardarPlantilla(id = null) {
                 datos.archivo_docx_path = archivoSubidoPath;
             }
 
-            if (!datos.archivo_docx_path) {
-                throw new Error(
-                    "No se encontró el archivo DOCX de la plantilla."
-                );
-            }
-        }
-
-        // =========================================
-        // CREAR PLANTILLA
-        // =========================================
-
-        if (!id) {
-
-            plantillaGuardada =
-                await plantillasDocumentoService.create(
-                    plantillaId,
-                    datos,
-                    constructoraIds,
-                    cargoIds
-                );
-
-            // La RPC crea la plantilla y sus asociaciones
-            // dentro de una misma operación.
-            registroGuardado = true;
-            asociacionesGuardadas = true;
-
-        } else {
-
-            // =====================================
-            // ACTUALIZAR PLANTILLA EXISTENTE
-            // =====================================
-
             plantillaGuardada =
                 await plantillasDocumentoService.update(
                     id,
@@ -1237,8 +1257,7 @@ async function guardarPlantilla(id = null) {
 
             registroGuardado = true;
 
-            // Las asociaciones se actualizan mediante
-            // su propia RPC.
+            // Actualizar asociaciones.
             await plantillasDocumentoService.guardarAsociaciones(
                 plantillaGuardada.id,
                 constructoraIds,
@@ -1252,8 +1271,8 @@ async function guardarPlantilla(id = null) {
         // ELIMINAR DOCX ANTERIOR
         // =========================================
 
-        // Solo eliminar el archivo anterior después
-        // de guardar correctamente plantilla y asociaciones.
+        // Solo eliminar después de guardar correctamente
+        // la plantilla y sus asociaciones.
 
         if (
             pathAnterior &&
@@ -1296,33 +1315,22 @@ async function guardarPlantilla(id = null) {
             error
         );
 
-        // Si el archivo se subió pero la plantilla
-        // no llegó a guardarse, intentar eliminarlo.
-        if (archivoSubidoPath && !registroGuardado) {
+        // Si la subida falló después de crear el registro,
+        // este conserva la ruta prevista para permitir
+        // reintentar cargando un nuevo archivo.
 
-            try {
+        if (registroGuardado && formato === "DOCX" && !archivoSubidoPath) {
 
-                await plantillasDocumentoService.eliminarArchivoDocx(
-                    archivoSubidoPath
-                );
+            mostrarErrorEditor(
+                "La plantilla fue creada, pero no se pudo subir el documento Word. " +
+                "Puedes volver a editarla y seleccionar nuevamente el archivo DOCX."
+            );
 
-            } catch (errorLimpieza) {
-
-                console.error(
-                    "No se pudo limpiar el archivo DOCX temporal:",
-                    errorLimpieza
-                );
-            }
-        }
-
-        // Diferenciar un error de guardado completo
-        // de un fallo posterior en las asociaciones.
-        if (registroGuardado && !asociacionesGuardadas) {
+        } else if (registroGuardado && !asociacionesGuardadas) {
 
             mostrarErrorEditor(
                 "La información de la plantilla se guardó, " +
                 "pero no fue posible actualizar sus asociaciones. " +
-                "No vuelvas a cargar el archivo DOCX. " +
                 "Puedes intentar guardar nuevamente las asociaciones."
             );
 
