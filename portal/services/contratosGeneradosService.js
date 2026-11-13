@@ -1,5 +1,10 @@
 import { supabase } from "../../js/supabaseClient.js";
 
+import {
+    obtenerTenantIdActual
+} from "../tenantContextService.js";
+
+
 const TABLE = "contratos_generados";
 
 export const contratosGeneradosService = {
@@ -256,15 +261,13 @@ async sincronizarEstadosMasivamente(clienteId = null) {
 },
 
 
-
 async sincronizarEstado(id) {
+    const clienteId = obtenerTenantIdActual();
 
-    const { data, error } = await supabase.rpc(
-        "sincronizar_estado_contrato",
-        {
-            p_contrato_id: id
-        }
-    );
+    return supabase.rpc("sincronizar_estado_contrato", {
+        p_contrato_id: id,
+        p_cliente_id: clienteId
+    });
 
     if (error) {
         console.error(
