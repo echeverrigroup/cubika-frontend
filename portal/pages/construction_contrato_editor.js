@@ -3135,7 +3135,6 @@ async function aprobarYGenerarContrato() {
         const contratoConstruido =
             await construirContrato();
 
-        const usuarioActual = await usuariosService.getMiUsuario();
         
         const clienteId = obtenerTenantIdActual();
             
