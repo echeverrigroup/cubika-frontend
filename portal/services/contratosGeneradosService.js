@@ -327,20 +327,38 @@ async sincronizarEstado(id) {
    
 
    async create(contrato) {
-       const { data, error } = await supabase.rpc(
-           "crear_contrato_generado",
-           {
-               p_datos: contrato
-           }
-       );
-   
-       if (error) {
-           console.error("Error al crear documento:", error);
-           throw error;
-       }
-   
-       return data;
-   },
+
+        const clienteId = obtenerTenantIdActual();
+    
+        if (clienteId == null) {
+            throw new Error(
+                "No se pudo determinar la empresa activa."
+            );
+        }
+    
+        const datosContrato = {
+            ...contrato,
+            cliente_id: clienteId
+        };
+    
+        const { data, error } = await supabase.rpc(
+            "crear_contrato_generado",
+            {
+                p_datos: datosContrato
+            }
+        );
+    
+        if (error) {
+            console.error(
+                "Error al crear documento:",
+                error
+            );
+    
+            throw error;
+        }
+    
+        return data;
+    },
 
 
    
