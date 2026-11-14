@@ -395,36 +395,3 @@ async sincronizarEstado(id) {
     },
 
 
-   
-    async update(id, contrato) {
-
-        const { data, error } =
-            await supabase
-                .from(TABLE)
-                .update(contrato)
-                .eq("id", id)
-                .select()
-                .single();
-
-        if (error) throw error;
-
-        return data;
-
-    },
-
-
-    async delete(id) {
-
-        const { error } =
-            await supabase
-                .from(TABLE)
-                .delete()
-                .eq("id", id);
-
-        if (error) throw error;
-
-        return true;
-
-    }
-
-};
