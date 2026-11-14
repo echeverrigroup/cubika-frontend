@@ -394,4 +394,4 @@ async sincronizarEstado(id) {
         return data;
     },
 
-
+}
