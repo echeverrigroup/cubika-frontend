@@ -1,10 +1,12 @@
 import {
+    obtenerTenantIdActual
+} from "../tenantContextService.js";
+
+
+import {
     documentosGeneradosEventosService
 } from "../services/documentosGeneradosEventosService.js";
 
-import {
-    usuariosService
-} from "../services/usuariosService.js";
 
 import {
     constructorasService
@@ -3135,14 +3137,15 @@ async function aprobarYGenerarContrato() {
 
         const usuarioActual = await usuariosService.getMiUsuario();
         
-        const clienteId = usuarioActual.empresa_id;
+        const clienteId = obtenerTenantIdActual();
+            
+            if (clienteId == null) {
+                throw new Error(
+                    "No se pudo determinar la empresa activa."
+                );
+            }
 
-        if (!clienteId) {
-            throw new Error(
-                "El usuario autenticado no tiene un cliente asociado."
-            );
-        }
-
+        
         const contratoPreparado = {
             
 
