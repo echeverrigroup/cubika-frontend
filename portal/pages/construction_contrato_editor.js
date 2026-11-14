@@ -3721,7 +3721,7 @@ async function mostrarModalSeleccionDocumentos(
         
                     });
         
-                await contratosGeneradosService.actualizarPdf(
+                await contratosGeneradosService.actualizarPdfContrato(
                     contratoCreado.id,
                     upload.path
                 );
