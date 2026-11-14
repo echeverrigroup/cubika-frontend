@@ -657,8 +657,8 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 
         tabla.innerHTML = `
             <div class="card">
-                 <p class="historial-sin-resultados" id="historialSinResultados" hidden>
-                    No hay documentos que coincidan con los filtros seleccionados.
+                 <p class="historial-sin-resultados">
+                    No hay Contratos generados aún.
                 </p>
             </div>
         `;
