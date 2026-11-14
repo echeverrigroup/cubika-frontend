@@ -268,6 +268,40 @@ async actualizarPdf(anexoId, pdfUrl) {
     return data;
 },
 
+
+
+
+async actualizarPdfContrato(contratoId, pdfUrl) {
+
+    const clienteId = obtenerTenantIdActual();
+
+    if (clienteId == null) {
+        throw new Error(
+            "No se pudo determinar la empresa activa."
+        );
+    }
+
+    const { data, error } = await supabase.rpc(
+        "actualizar_pdf_contrato",
+        {
+            p_contrato_id: contratoId,
+            p_pdf_url: pdfUrl,
+            p_cliente_id: clienteId
+        }
+    );
+
+    if (error) {
+        console.error(
+            "Error al actualizar PDF del contrato:",
+            error
+        );
+        throw error;
+    }
+
+    return data;
+},
+
+
    
 
 async sincronizarEstadosMasivamente() {
