@@ -612,7 +612,15 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     );
     
     console.log("CONTRATO ORIGINAL:", contratoPrueba);
-    console.log("ANEXOS RELACIONADOS:", anexosPrueba);    
+    console.log("ANEXOS RELACIONADOS:", anexosPrueba);
+
+    const resultadoEvolucion =
+        evolucionContractualService.calcularCondicionesVigentes(
+            contratoPrueba,
+            anexosPrueba
+        );
+    
+    console.log("EVOLUCIÓN CONTRACTUAL:", resultadoEvolucion);
     
     const contratos = contratosTodos.filter(
         documento =>
