@@ -31,6 +31,48 @@ from "../router.js";
 
 
 
+// =========================================
+// CATÁLOGO DE TIPOS DE ANEXO
+// =========================================
+
+const TIPOS_ANEXO = {
+    TRASLADO: {
+        nombre: "Traslado",
+        campos: ["obra_id"],
+        descripcion: "Modifica la obra asignada al trabajador."
+    },
+
+    CAMBIO_CARGO: {
+        nombre: "Cambio de cargo",
+        campos: ["cargo_id"],
+        descripcion: "Modifica el cargo contractual del trabajador."
+    },
+
+    CAMBIO_SUELDO: {
+        nombre: "Cambio de sueldo",
+        campos: ["sueldo"],
+        descripcion: "Modifica la remuneración pactada."
+    },
+
+    RENOVACION: {
+        nombre: "Renovación",
+        campos: ["fecha_termino"],
+        descripcion: "Modifica la fecha de término del contrato."
+    },
+
+    CAMBIO_JORNADA: {
+        nombre: "Cambio de jornada",
+        campos: [
+            "jornada_id",
+            "jornada",
+            "distribucion_horaria"
+        ],
+        descripcion: "Modifica el tipo y la distribución de la jornada laboral."
+    }
+};
+
+
+
 
 function inicializarSelectorConChecks({
     containerId,
@@ -275,6 +317,76 @@ export async function renderConstructionPlantillaEditor(id = null) {
         </div>
 
     </div>
+
+
+
+    <!-- CONFIGURACIÓN DE ANEXOS -->
+
+    <div
+        id="configuracionAnexo"
+        class="form-group"
+        style="
+            margin-top:16px;
+            display:${
+                String(plantilla?.tipo_documento ?? "").toUpperCase() === "ANEXO"
+                    ? "block"
+                    : "none"
+            };
+        "
+    >
+    
+        <label style="margin-top:10px;">
+            Tipo de Anexo
+        </label>
+    
+        <select
+            id="tipo_anexo"
+            class="cubika-select"
+        >
+    
+            <option value="">
+                Seleccionar tipo de anexo
+            </option>
+    
+            ${Object.entries(TIPOS_ANEXO).map(([codigo, config]) => `
+                <option
+                    value="${codigo}"
+                    ${plantilla?.tipo_anexo === codigo ? "selected" : ""}
+                >
+                    ${config.nombre}
+                </option>
+            `).join("")}
+    
+        </select>
+    
+        <div
+            id="detalleTipoAnexo"
+            style="
+                margin-top:12px;
+                padding:12px 14px;
+                border-radius:8px;
+                background:rgba(0,120,160,0.06);
+                display:none;
+            "
+        >
+    
+            <strong id="descripcionTipoAnexo"></strong>
+    
+            <p style="margin:8px 0 4px;">
+                Condiciones contractuales que modificará:
+            </p>
+    
+            <ul
+                id="camposTipoAnexo"
+                style="margin:0; padding-left:20px;"
+            ></ul>
+    
+        </div>
+    
+    </div>
+
+    
+
 
     <!-- FILA 2: Constructoras y Cargos -->
     <div class="form-grid plantilla-fila">
@@ -653,6 +765,8 @@ export async function renderConstructionPlantillaEditor(id = null) {
     renderBibliotecaVariables();
     
     inicializarVariables();
+
+    inicializarConfiguracionAnexo();
     
     inicializarTabsFormato(
         plantilla?.formato_contenido === "DOCX"
@@ -742,6 +856,88 @@ export async function renderConstructionPlantillaEditor(id = null) {
 
         );
 
+}
+
+
+
+function inicializarConfiguracionAnexo() {
+
+    const tipoDocumento = document.getElementById(
+        "tipo_documento"
+    );
+
+    const tipoAnexo = document.getElementById(
+        "tipo_anexo"
+    );
+
+    const configuracion = document.getElementById(
+        "configuracionAnexo"
+    );
+
+    const detalle = document.getElementById(
+        "detalleTipoAnexo"
+    );
+
+    const descripcion = document.getElementById(
+        "descripcionTipoAnexo"
+    );
+
+    const listaCampos = document.getElementById(
+        "camposTipoAnexo"
+    );
+
+    if (
+        !tipoDocumento ||
+        !tipoAnexo ||
+        !configuracion ||
+        !detalle ||
+        !descripcion ||
+        !listaCampos
+    ) {
+        return;
+    }
+
+    function actualizarConfiguracion() {
+
+        const esAnexo = tipoDocumento.value === "ANEXO";
+
+        configuracion.style.display = esAnexo
+            ? "block"
+            : "none";
+
+        if (!esAnexo) {
+            return;
+        }
+
+        const tipo = tipoAnexo.value;
+        const config = TIPOS_ANEXO[tipo];
+
+        if (!config) {
+            detalle.style.display = "none";
+            listaCampos.innerHTML = "";
+            return;
+        }
+
+        descripcion.textContent = config.descripcion;
+
+        listaCampos.innerHTML = config.campos
+            .map(campo => `<li>${campo}</li>`)
+            .join("");
+
+        detalle.style.display = "block";
+    }
+
+    tipoDocumento.addEventListener(
+        "change",
+        actualizarConfiguracion
+    );
+
+    tipoAnexo.addEventListener(
+        "change",
+        actualizarConfiguracion
+    );
+
+    actualizarConfiguracion();
 }
 
 
@@ -1034,6 +1230,16 @@ async function guardarPlantilla(id = null) {
         .getElementById("tipo_documento")
         .value;
 
+    const tipo_anexo = tipo_documento === "ANEXO"
+        ? document.getElementById("tipo_anexo")?.value || null
+        : null;
+    
+    const campos_modificables = tipo_anexo &&
+        TIPOS_ANEXO[tipo_anexo]
+            ? TIPOS_ANEXO[tipo_anexo].campos
+            : [];
+    
+
     const formato = document
         .getElementById("formato_contenido")
         .value;
@@ -1055,6 +1261,15 @@ async function guardarPlantilla(id = null) {
         mostrarErrorEditor(
             "Debe seleccionar el tipo de plantilla."
         );
+        return false;
+    }
+
+    if (tipo_documento === "ANEXO" && !tipo_anexo) {
+
+        mostrarErrorEditor(
+            "Debe seleccionar el tipo de anexo."
+        );
+    
         return false;
     }
 
@@ -1171,6 +1386,9 @@ async function guardarPlantilla(id = null) {
             descripcion,
             tipo_documento,
             formato_contenido: formato,
+
+            tipo_anexo,
+            campos_modificables,
 
             contenido: formato === "HTML"
                 ? contenidoHTML
