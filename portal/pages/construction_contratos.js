@@ -859,9 +859,9 @@ contratosTodos
                                         
 
                                          <td>
-                                            ${contrato.cargo?.nombre ?? "-"}
+                                            ${contrato.cargo_actual?.nombre ?? contrato.cargo?.nombre ?? "-"}
                                         </td>
-                                        
+                                                                                
 
                                         <td>
                                             ${contrato.tipo_contrato?.nombre ?? "-"}
@@ -875,11 +875,11 @@ contratosTodos
 
 
                                         <td>
-                                            ${contrato.obra?.constructora?.nombre ?? "-"}
+                                            ${contrato.constructora_actual?.nombre ?? contrato.obra?.constructora?.nombre ?? "-"}
                                         </td>
 
                                         <td>
-                                            ${contrato.obra?.nombre ?? "-"}
+                                            ${contrato.obra_actual?.nombre ?? contrato.obra?.nombre ?? "-"}
                                         </td>
 
                                         
