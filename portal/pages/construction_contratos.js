@@ -1219,6 +1219,34 @@ function abrirDetalleContrato(contratoId) {
         Number(contrato.sueldo) !==
             Number(condicionesActuales.sueldo);
 
+    // Detectar cambios respecto del contrato madre.
+
+    const cargoOriginalDifiere =
+        contrato.cargo_id != null &&
+        condicionesActuales.cargo_id != null &&
+        String(contrato.cargo_id) !==
+            String(condicionesActuales.cargo_id);
+    
+    
+    const obraOriginalDifiere =
+        contrato.obra_id != null &&
+        condicionesActuales.obra_id != null &&
+        String(contrato.obra_id) !==
+            String(condicionesActuales.obra_id);
+    
+    
+    const constructoraOriginalId =
+        contrato.obra?.constructora?.id;
+    
+    const constructoraActualId =
+        contrato.constructora_actual?.id;
+    
+    const constructoraOriginalDifiere =
+        constructoraOriginalId != null &&
+        constructoraActualId != null &&
+        String(constructoraOriginalId) !==
+            String(constructoraActualId);
+
 
     const modal =
         document.createElement(
@@ -1347,42 +1375,67 @@ function abrirDetalleContrato(contratoId) {
 
                         <div class="contrato-detalle-item">
 
-                            <span>
-                                Constructora
-                            </span>
-
+                            <span>Constructora</span>
+                        
                             <strong>
                                 ${contrato.constructora_actual?.nombre ??
                                   contrato.obra?.constructora?.nombre ?? "-"}
                             </strong>
-
+                        
+                            ${
+                                constructoraOriginalDifiere
+                                    ? `
+                                        <small class="contrato-detalle-original">
+                                            Contrato original: ${contrato.obra?.constructora?.nombre ?? "-"}
+                                        </small>
+                                    `
+                                    : ""
+                            }
+                        
                         </div>
-
+                        
 
                         <div class="contrato-detalle-item">
 
-                            <span>
-                                Obra
-                            </span>
-
+                            <span>Obra</span>
+                        
                             <strong>
                                 ${contrato.obra_actual?.nombre ??
                                   contrato.obra?.nombre ?? "-"}
                             </strong>
-
+                        
+                            ${
+                                obraOriginalDifiere
+                                    ? `
+                                        <small class="contrato-detalle-original">
+                                            Contrato original: ${contrato.obra?.nombre ?? "-"}
+                                        </small>
+                                    `
+                                    : ""
+                            }
+                        
                         </div>
 
 
                         <div class="contrato-detalle-item">
 
-                            <span>
-                                Cargo
-                            </span>
-
+                            <span>Cargo</span>
+                        
                             <strong>
-                                ${contrato.cargo_actual?.nombre ?? contrato.cargo?.nombre ?? "-"}
+                                ${contrato.cargo_actual?.nombre ??
+                                  contrato.cargo?.nombre ?? "-"}
                             </strong>
-
+                        
+                            ${
+                                cargoOriginalDifiere
+                                    ? `
+                                        <small class="contrato-detalle-original">
+                                            Contrato original: ${contrato.cargo?.nombre ?? "-"}
+                                        </small>
+                                    `
+                                    : ""
+                            }
+                        
                         </div>
 
                     </div>
