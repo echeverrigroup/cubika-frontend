@@ -600,8 +600,19 @@ async function cargarContratosGenerados(cargarFiltros = false) {
         return;
 
 
-    const contratosTodos =
-        await contratosGeneradosService.getAll();
+    const contratosTodos = await contratosGeneradosService.getAll();
+
+    const contratoPrueba = contratosTodos.find(c =>
+        c.numero_contrato === "CON2026-000054"
+    );
+    
+    const anexosPrueba = contratosTodos.filter(c =>
+        String(c.contrato_madre_id) === String(contratoPrueba?.id) &&
+        c.tipo_documento === "ANEXO"
+    );
+    
+    console.log("CONTRATO ORIGINAL:", contratoPrueba);
+    console.log("ANEXOS RELACIONADOS:", anexosPrueba);    
     
     const contratos = contratosTodos.filter(
         documento =>
