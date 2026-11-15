@@ -603,6 +603,18 @@ async function cargarContratosGenerados(cargarFiltros = false) {
     
 const contratosTodos = await contratosGeneradosService.getAll();
 
+
+    // Cargar catálogo de cargos del tenant activo.
+const cargos = await cargosService.getAll();
+
+const cargosPorId = new Map(
+    cargos.map(cargo => [
+        String(cargo.id),
+        cargo
+    ])
+);
+    
+
 // Agrupar los anexos por contrato madre.
 // Se aprovecha la información ya recuperada por getAll().
 const anexosPorContrato = new Map();
@@ -640,9 +652,14 @@ contratosTodos
                     anexos
                 );
     
+            const cargoActual = cargosPorId.get(
+                String(evolucion.condiciones_actuales.cargo_id)
+            ) ?? null;
+            
             return {
                 ...contrato,
                 condiciones_actuales: evolucion.condiciones_actuales,
+                cargo_actual: cargoActual,
                 evolucion_contractual: evolucion
             };
     
