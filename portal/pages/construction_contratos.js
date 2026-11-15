@@ -1160,6 +1160,9 @@ function abrirDetalleContrato(contratoId) {
         contrato.estado?.nombre ??
         estado;
 
+    const condicionesActuales =
+        contrato.condiciones_actuales ?? contrato;
+
 
     const modal =
         document.createElement(
@@ -1401,15 +1404,15 @@ function abrirDetalleContrato(contratoId) {
                         <div class="contrato-detalle-item">
 
                             <span>
-                                Sueldo base
+                                Sueldo base vigente
                             </span>
-
+                        
                             <strong>
                                 ${formatearSueldo(
-                                    contrato.sueldo
+                                    condicionesActuales.sueldo
                                 )}
                             </strong>
-
+                        
                         </div>
 
 
