@@ -600,32 +600,54 @@ async function cargarContratosGenerados(cargarFiltros = false) {
         return;
 
 
-    const contratosTodos = await contratosGeneradosService.getAll();
+    
+const contratosTodos = await contratosGeneradosService.getAll();
 
-    const contratoPrueba = contratosTodos.find(c =>
-        c.numero_contrato === "CON2026-000054"
-    );
-    
-    const anexosPrueba = contratosTodos.filter(c =>
-        String(c.contrato_madre_id) === String(contratoPrueba?.id) &&
-        c.tipo_documento === "ANEXO"
-    );
-    
-    console.log("CONTRATO ORIGINAL:", contratoPrueba);
-    console.log("ANEXOS RELACIONADOS:", anexosPrueba);
+// Agrupar los anexos por contrato madre.
+// Se aprovecha la información ya recuperada por getAll().
+const anexosPorContrato = new Map();
 
-    const resultadoEvolucion =
-        evolucionContractualService.calcularCondicionesVigentes(
-            contratoPrueba,
-            anexosPrueba
-        );
-    
-    console.log("EVOLUCIÓN CONTRACTUAL:", resultadoEvolucion);
-    
-    const contratos = contratosTodos.filter(
-        documento =>
+contratosTodos
+    .filter(documento =>
+        documento.tipo_documento === "ANEXO" &&
+        documento.contrato_madre_id
+    )
+    .forEach(anexo => {
+
+        const contratoId = String(anexo.contrato_madre_id);
+
+        if (!anexosPorContrato.has(contratoId)) {
+            anexosPorContrato.set(contratoId, []);
+        }
+
+        anexosPorContrato.get(contratoId).push(anexo);
+
+    });
+
+// Calcular las condiciones vigentes de cada contrato.
+    const contratos = contratosTodos
+        .filter(documento =>
             documento.tipo_documento === "CONTRATO"
-    );
+        )
+        .map(contrato => {
+    
+            const anexos =
+                anexosPorContrato.get(String(contrato.id)) ?? [];
+    
+            const evolucion =
+                evolucionContractualService.calcularCondicionesVigentes(
+                    contrato,
+                    anexos
+                );
+    
+            return {
+                ...contrato,
+                condiciones_actuales: evolucion.condiciones_actuales,
+                evolucion_contractual: evolucion
+            };
+    
+        });
+
     
 
     if (cargarFiltros) {
