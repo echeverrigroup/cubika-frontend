@@ -1339,7 +1339,7 @@ function abrirDetalleContrato(contratoId) {
                             </span>
 
                             <strong>
-                                ${contrato.cargo?.nombre ?? "-"}
+                                ${contrato.cargo_actual?.nombre ?? contrato.cargo?.nombre ?? "-"}
                             </strong>
 
                         </div>
