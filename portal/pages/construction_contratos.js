@@ -613,6 +613,17 @@ const cargosPorId = new Map(
         cargo
     ])
 );
+
+
+// Cargar catálogo de obras y sus constructoras.
+const obras = await obrasService.getAll();
+
+const obrasPorId = new Map(
+    obras.map(obra => [
+        String(obra.id),
+        obra
+    ])
+);
     
 
 // Agrupar los anexos por contrato madre.
@@ -655,11 +666,17 @@ contratosTodos
             const cargoActual = cargosPorId.get(
                 String(evolucion.condiciones_actuales.cargo_id)
             ) ?? null;
+
+            const obraActual = obrasPorId.get(
+                String(evolucion.condiciones_actuales.obra_id)
+            ) ?? null;
             
             return {
                 ...contrato,
                 condiciones_actuales: evolucion.condiciones_actuales,
                 cargo_actual: cargoActual,
+                obra_actual: obraActual,
+                constructora_actual: obraActual?.constructora ?? null,
                 evolucion_contractual: evolucion
             };
     
