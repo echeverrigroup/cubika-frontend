@@ -2174,6 +2174,74 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         botonGenerar.textContent = "Generando...";
 
         try {
+
+            // 0. Preparar la evolución contractual del sueldo.
+            let sueldoAnterior = null;
+            let sueldoNuevo = null;
+
+            if (esCambioSueldo) {
+                sueldoNuevo = Number(
+                    overlay.querySelector("#anexoSueldo")?.value
+                );
+
+                if (!Number.isFinite(sueldoNuevo) || sueldoNuevo <= 0) {
+                    throw new Error(
+                        "Debes ingresar un sueldo nuevo válido."
+                    );
+                }
+
+                const sueldoOriginal = Number(contrato.sueldo);
+
+                if (!Number.isFinite(sueldoOriginal) || sueldoOriginal <= 0) {
+                    throw new Error(
+                        "El contrato original no tiene un sueldo válido."
+                    );
+                }
+
+                // Recuperar los anexos asociados al contrato madre.
+                const anexosExistentes =
+                    await contratosGeneradosService.getAnexosByContrato(
+                        contrato.id
+                    );
+
+                // Extraer los cambios de sueldo que ya tienen fecha de vigencia.
+                const cambiosSueldo = (anexosExistentes ?? [])
+                    .map(anexo => ({
+                        fecha: anexo.variables?._evolucion_contractual?.fecha_vigencia,
+                        nuevo: anexo.variables?._evolucion_contractual?.modificaciones?.sueldo?.nuevo
+                    }))
+                    .filter(cambio =>
+                        cambio.fecha &&
+                        Number.isFinite(Number(cambio.nuevo)) &&
+                        Number(cambio.nuevo) > 0
+                    );
+
+                // No permitir dos cambios de sueldo en la misma fecha.
+                const existeMismoDia = cambiosSueldo.some(
+                    cambio => cambio.fecha === fechaVigencia
+                );
+
+                if (existeMismoDia) {
+                    throw new Error(
+                        "Ya existe un cambio de sueldo con esa fecha de vigencia. Revisa el historial contractual."
+                    );
+                }
+
+                // Considerar exclusivamente los cambios vigentes
+                // antes de la fecha del nuevo anexo.
+                const cambiosAnteriores = cambiosSueldo
+                    .filter(cambio => cambio.fecha < fechaVigencia)
+                    .sort((a, b) => a.fecha.localeCompare(b.fecha));
+
+                // Reconstruir el sueldo vigente a la fecha indicada.
+                sueldoAnterior = sueldoOriginal;
+
+                for (const cambio of cambiosAnteriores) {
+                    sueldoAnterior = Number(cambio.nuevo);
+                }
+            }
+
+            
             // 1. Recuperar los datos completos del contrato original.
             const [
                 empresa,
@@ -2197,7 +2265,8 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             // 2. Construir las variables sin alterar el contrato original.
             const contratoParaDocumento = {
                 ...contrato,
-                observaciones
+                observaciones,
+                ...(esCambioSueldo ? { sueldo: sueldoNuevo } : {})
             };
 
             const datosDocumento = {
@@ -2213,6 +2282,23 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             const variables = construirVariables(datosDocumento);
 
             variables.NUMERO_CONTRATO = contrato.numero_contrato ?? "";
+
+            if (esCambioSueldo) {
+                variables.SUELDO_ANTERIOR = sueldoAnterior;
+                variables.SUELDO_NUEVO = sueldoNuevo;
+
+                // Metadatos para reconstruir la evolución contractual.
+                variables._evolucion_contractual = {
+                    tipo_anexo: "CAMBIO_SUELDO",
+                    fecha_vigencia: fechaVigencia,
+                    modificaciones: {
+                        sueldo: {
+                            anterior: sueldoAnterior,
+                            nuevo: sueldoNuevo
+                        }
+                    }
+                };
+            }
 
             const contenidoHtml = reemplazarVariables(
                 plantillaCompleta.contenido,
