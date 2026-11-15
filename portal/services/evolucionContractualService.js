@@ -151,49 +151,65 @@ export const evolucionContractualService = {
             });
 
 
-        // 5. Detectar modificaciones del mismo campo
+       // 5. Detectar modificaciones del mismo campo
         //    con idéntica fecha de vigencia.
-
+        
         const fechasSueldo = new Set();
-
+        const fechasObra = new Set();
+        
         for (const modificacion of modificacionesVigentes) {
-
-            const cambioSueldo =
-                modificacion.modificaciones?.sueldo;
-
-            if (!cambioSueldo) {
-                continue;
-            }
-
+        
+            const cambios = modificacion.modificaciones;
             const fecha = modificacion.fecha_vigencia;
-
-            if (fechasSueldo.has(fecha)) {
-                throw new Error(
-                    `Existe más de un cambio de sueldo con fecha de vigencia ${fecha}. Revisa el historial contractual.`
-                );
+        
+            // Detectar cambios de sueldo duplicados.
+            if (cambios.sueldo) {
+        
+                if (fechasSueldo.has(fecha)) {
+                    throw new Error(
+                        `Existe más de un cambio de sueldo con fecha de vigencia ${fecha}. Revisa el historial contractual.`
+                    );
+                }
+        
+                fechasSueldo.add(fecha);
             }
-
-            fechasSueldo.add(fecha);
-
+        
+            // Detectar traslados duplicados.
+            if (cambios.obra_id) {
+        
+                if (fechasObra.has(fecha)) {
+                    throw new Error(
+                        `Existe más de un traslado con fecha de vigencia ${fecha}. Revisa el historial contractual.`
+                    );
+                }
+        
+                fechasObra.add(fecha);
+            }
+        
         }
 
 
         // 6. Aplicar las modificaciones en orden cronológico.
-        //    Primera versión: CAMBIO_SUELDO.
-
+        //    Cada modificación se valida contra la condición anterior.
+        
         for (const modificacion of modificacionesVigentes) {
-
+        
             const cambios = modificacion.modificaciones;
-
-
+        
+            const numeroDocumento =
+                modificacion.numero_documento ?? modificacion.anexo_id;
+        
+        
+            // CAMBIO DE SUELDO
+        
             if (cambios.sueldo) {
-
+        
                 const sueldoAnterior =
                     Number(cambios.sueldo.anterior);
-
+        
                 const sueldoNuevo =
                     Number(cambios.sueldo.nuevo);
-
+        
                 if (
                     !Number.isFinite(sueldoAnterior) ||
                     !Number.isFinite(sueldoNuevo) ||
@@ -201,23 +217,54 @@ export const evolucionContractualService = {
                     sueldoNuevo <= 0
                 ) {
                     throw new Error(
-                        `El anexo ${modificacion.numero_documento ?? modificacion.anexo_id} contiene valores de sueldo inválidos.`
+                        `El anexo ${numeroDocumento} contiene valores de sueldo inválidos.`
                     );
                 }
-
-                // Comprobar que la secuencia histórica sea coherente.
+        
+                // Comprobar coherencia histórica.
                 if (Number(condiciones.sueldo) !== sueldoAnterior) {
-
+        
                     throw new Error(
-                        `Existe una inconsistencia en la evolución del sueldo del anexo ${modificacion.numero_documento ?? modificacion.anexo_id}. El sueldo anterior registrado no coincide con el sueldo reconstruido.`
+                        `Existe una inconsistencia en la evolución del sueldo del anexo ${numeroDocumento}. El sueldo anterior registrado no coincide con el sueldo reconstruido.`
                     );
-
+        
                 }
-
+        
                 condiciones.sueldo = sueldoNuevo;
-
+        
             }
-
+        
+        
+            // TRASLADO DE OBRA
+        
+            if (cambios.obra_id) {
+        
+                const obraAnterior = cambios.obra_id.anterior;
+                const obraNueva = cambios.obra_id.nuevo;
+        
+                if (!obraAnterior || !obraNueva) {
+        
+                    throw new Error(
+                        `El anexo ${numeroDocumento} contiene identificadores de obra inválidos.`
+                    );
+        
+                }
+        
+                // Comprobar coherencia histórica.
+                if (
+                    String(condiciones.obra_id) !== String(obraAnterior)
+                ) {
+        
+                    throw new Error(
+                        `Existe una inconsistencia en la evolución de la obra del anexo ${numeroDocumento}. La obra anterior registrada no coincide con la obra reconstruida.`
+                    );
+        
+                }
+        
+                condiciones.obra_id = obraNueva;
+        
+            }
+        
         }
 
 
