@@ -1213,6 +1213,12 @@ function abrirDetalleContrato(contratoId) {
     const condicionesActuales =
         contrato.condiciones_actuales ?? contrato;
 
+    const sueldoOriginalDifiere =
+        contrato.sueldo != null &&
+        condicionesActuales.sueldo != null &&
+        Number(contrato.sueldo) !==
+            Number(condicionesActuales.sueldo);
+
 
     const modal =
         document.createElement(
@@ -1464,6 +1470,16 @@ function abrirDetalleContrato(contratoId) {
                                     condicionesActuales.sueldo
                                 )}
                             </strong>
+                        
+                            ${
+                                sueldoOriginalDifiere
+                                    ? `
+                                        <small class="contrato-detalle-original">
+                                            Contrato original: ${formatearSueldo(contrato.sueldo)}
+                                        </small>
+                                    `
+                                    : ""
+                            }
                         
                         </div>
 
