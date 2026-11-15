@@ -1330,7 +1330,8 @@ function abrirDetalleContrato(contratoId) {
                             </span>
 
                             <strong>
-                                ${contrato.obra?.constructora?.nombre ?? "-"}
+                                ${contrato.constructora_actual?.nombre ??
+                                  contrato.obra?.constructora?.nombre ?? "-"}
                             </strong>
 
                         </div>
@@ -1343,7 +1344,8 @@ function abrirDetalleContrato(contratoId) {
                             </span>
 
                             <strong>
-                                ${contrato.obra?.nombre ?? "-"}
+                                ${contrato.obra_actual?.nombre ??
+                                  contrato.obra?.nombre ?? "-"}
                             </strong>
 
                         </div>
