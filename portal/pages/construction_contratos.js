@@ -604,6 +604,22 @@ async function cargarContratosGenerados(cargarFiltros = false) {
 const contratosTodos = await contratosGeneradosService.getAll();
 
 
+const anexosContrato = contratosTodos.filter(documento =>
+    String(documento.contrato_madre_id) ===
+        "948d4df3-767e-495a-b427-3696c0d9e2bd" &&
+    documento.tipo_documento === "ANEXO"
+);
+
+console.log(
+    "EVOLUCIÓN DE LOS ANEXOS:",
+    anexosContrato.map(anexo => ({
+        numero: anexo.numero_contrato,
+        obra_id_documento: anexo.obra_id,
+        evolucion: anexo.variables?._evolucion_contractual
+    }))
+);
+
+
     // Cargar catálogo de cargos del tenant activo.
 const cargos = await cargosService.getAll();
 
