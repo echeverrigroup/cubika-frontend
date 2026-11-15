@@ -1,6 +1,8 @@
 import { storageService } from "../js/services/storageService.js";
 import { construirDocumentoHtml } from "./construction_contrato_editor.js";
 
+import { evolucionContractualService } from "../services/evolucionContractualService.js";
+
 import {
     construirVariables,
     reemplazarVariables,
