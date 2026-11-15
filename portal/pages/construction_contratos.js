@@ -2273,9 +2273,78 @@ async function abrirFormularioAnexo(contrato, plantilla) {
 
         try {
 
-            // 0. Preparar la evolución contractual del sueldo.
-            let sueldoAnterior = null;
-            let sueldoNuevo = null;
+            // 0. Preparar la evolución contractual.
+        let sueldoAnterior = null;
+        let sueldoNuevo = null;
+        let obraAnteriorId = null;
+        
+        
+        // Reconstruir la obra vigente para la fecha del nuevo traslado.
+        if (esTraslado) {
+        
+            if (!contrato.obra_id) {
+                throw new Error(
+                    "El contrato original no tiene una obra asociada."
+                );
+            }
+        
+            const anexosExistentes =
+                await contratosGeneradosService.getAnexosByContrato(
+                    contrato.id
+                );
+        
+            const cambiosTraslado = (anexosExistentes ?? [])
+                .map(anexo => ({
+                    fecha: anexo.variables?._evolucion_contractual?.fecha_vigencia,
+                    anterior: anexo.variables?._evolucion_contractual?.modificaciones?.obra_id?.anterior,
+                    nuevo: anexo.variables?._evolucion_contractual?.modificaciones?.obra_id?.nuevo
+                }))
+                .filter(cambio =>
+                    cambio.fecha &&
+                    cambio.nuevo
+                );
+        
+            // No permitir dos traslados en la misma fecha.
+            const existeMismoDia = cambiosTraslado.some(
+                cambio => cambio.fecha === fechaVigencia
+            );
+        
+            if (existeMismoDia) {
+                throw new Error(
+                    "Ya existe un traslado con esa fecha de vigencia. Revisa el historial contractual."
+                );
+            }
+        
+            // Considerar únicamente los traslados anteriores
+            // a la fecha de vigencia del nuevo anexo.
+            const cambiosAnteriores = cambiosTraslado
+                .filter(cambio => cambio.fecha < fechaVigencia)
+                .sort((a, b) => a.fecha.localeCompare(b.fecha));
+        
+            // Partir desde la obra del contrato original.
+            obraAnteriorId = contrato.obra_id;
+        
+            for (const cambio of cambiosAnteriores) {
+        
+                // Detectar inconsistencias en la secuencia de traslados.
+                if (
+                    cambio.anterior &&
+                    String(cambio.anterior) !== String(obraAnteriorId)
+                ) {
+                    throw new Error(
+                        "Se detectó una inconsistencia en el historial de traslados."
+                    );
+                }
+        
+                obraAnteriorId = cambio.nuevo;
+            }
+        
+            if (String(obraAnteriorId) === String(obraId)) {
+                throw new Error(
+                    "La obra seleccionada ya corresponde a la obra vigente del contrato."
+                );
+            }
+        }
 
             if (esCambioSueldo) {
                 sueldoNuevo = Number(
@@ -2381,21 +2450,46 @@ async function abrirFormularioAnexo(contrato, plantilla) {
 
             variables.NUMERO_CONTRATO = contrato.numero_contrato ?? "";
 
+            // Construir las modificaciones contractuales del anexo.
+            const modificaciones = {};
+            
+            
             if (esCambioSueldo) {
+            
                 variables.SUELDO_ANTERIOR = sueldoAnterior;
                 variables.SUELDO_NUEVO = sueldoNuevo;
-
-                // Metadatos para reconstruir la evolución contractual.
-                variables._evolucion_contractual = {
-                    tipo_anexo: "CAMBIO_SUELDO",
-                    fecha_vigencia: fechaVigencia,
-                    modificaciones: {
-                        sueldo: {
-                            anterior: sueldoAnterior,
-                            nuevo: sueldoNuevo
-                        }
-                    }
+            
+                modificaciones.sueldo = {
+                    anterior: sueldoAnterior,
+                    nuevo: sueldoNuevo
                 };
+            
+            }
+            
+            
+            if (esTraslado) {
+            
+                modificaciones.obra_id = {
+                    anterior: obraAnteriorId,
+                    nuevo: obraId
+                };
+            
+            }
+            
+            
+            // Guardar metadatos de evolución contractual.
+            if (Object.keys(modificaciones).length > 0) {
+            
+                variables._evolucion_contractual = {
+                    tipo_anexo: String(
+                        plantilla.tipo_anexo ?? ""
+                    ).trim().toUpperCase(),
+            
+                    fecha_vigencia: fechaVigencia,
+            
+                    modificaciones
+                };
+            
             }
 
             const contenidoHtml = reemplazarVariables(
