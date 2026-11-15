@@ -105,6 +105,9 @@ export const DOCUMENT_VARIABLES = {
         "SUELDO_FORMATO",
         "SUELDO_TEXTO",
 
+        "SUELDO_ANTERIOR",
+        "SUELDO_NUEVO",
+
         "JORNADA",
 
         "DISTRIBUCION_HORARIA",
@@ -148,7 +151,13 @@ export const DOCUMENT_VARIABLE_DESCRIPTIONS = {
     "Sueldo con separador de miles.",
 
     SUELDO_TEXTO:
-        "Sueldo expresado en palabras"
+        "Sueldo expresado en palabras",
+
+    SUELDO_ANTERIOR:
+        "Sueldo vigente antes de la modificación contractual",
+    
+    SUELDO_NUEVO:
+        "Nuevo sueldo establecido mediante el anexo"
 
 };
 
