@@ -1961,8 +1961,75 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             contrato.worker.apellido_materno
         ].filter(Boolean).join(" ")
         : "-";
+    
 
-    const esTraslado = plantilla.tipo_anexo === "TRASLADO";
+    const tipoAnexo = String(
+        plantilla.tipo_anexo ?? ""
+    ).trim().toUpperCase();
+    
+    const camposModificables = Array.isArray(
+        plantilla.campos_modificables
+    )
+        ? plantilla.campos_modificables
+        : [];
+    
+    const esTraslado = camposModificables.includes("obra_id");
+    const esCambioSueldo = camposModificables.includes("sueldo");
+
+
+    const camposHtml = [];
+
+    if (esTraslado) {
+        camposHtml.push(`
+            <div class="form-group">
+                <label for="anexoObra">Nueva obra</label>
+                <select
+                    id="anexoObra"
+                    class="cubika-input"
+                    required
+                >
+                    <option value="">Cargando obras...</option>
+                </select>
+            </div>
+        `);
+    }
+    
+    if (esCambioSueldo) {
+        camposHtml.push(`
+            <div class="form-group">
+                <label for="anexoSueldo">Nuevo sueldo</label>
+                <input
+                    type="number"
+                    id="anexoSueldo"
+                    class="cubika-input"
+                    min="0"
+                    step="1"
+                    placeholder="Ingresa el nuevo sueldo"
+                    required
+                >
+            </div>
+        `);
+    }
+
+    if (!camposModificables.length) {
+        alert(
+            "Esta plantilla no tiene condiciones contractuales configuradas."
+        );
+        return;
+    }
+    
+    const camposNoSoportados = camposModificables.filter(
+        campo => !["obra_id", "sueldo"].includes(campo)
+    );
+    
+    if (camposNoSoportados.length) {
+        alert(
+            "Esta plantilla contiene campos que todavía no están implementados: " +
+            camposNoSoportados.join(", ")
+        );
+        return;
+    }
+        
 
     const overlay = document.createElement("div");
     overlay.className = "cubika-modal-overlay";
@@ -2001,19 +2068,11 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                     </div>
 
                     <div class="anexo-form-grid">
-                        ${
-                            esTraslado
-                                ? `
-                                    <div class="form-group">
-                                        <label for="anexoObra">Nueva obra</label>
-                                        <select id="anexoObra" class="cubika-input" required>
-                                            <option value="">Cargando obras...</option>
-                                        </select>
-                                    </div>
-                                `
-                                : ""
-                        }
 
+                    
+                        ${camposHtml.join("")}
+
+                        
                         <div class="form-group">
                             <label for="anexoFechaVigencia">Fecha de vigencia</label>
                             <input type="date" id="anexoFechaVigencia"
