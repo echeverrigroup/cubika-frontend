@@ -2142,6 +2142,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
     
     const esTraslado = camposModificables.includes("obra_id");
     const esCambioSueldo = camposModificables.includes("sueldo");
+    const esCambioCargo = camposModificables.includes("cargo_id");
 
 
     const camposHtml = [];
@@ -2178,6 +2179,22 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         `);
     }
 
+    if (esCambioCargo) {
+        camposHtml.push(`
+            <div class="form-group">
+                <label for="anexoCargo">Nuevo cargo</label>
+                <select
+                    id="anexoCargo"
+                    class="cubika-input"
+                    required
+                >
+                    <option value="">Cargando cargos...</option>
+                </select>
+            </div>
+        `);
+    }
+    
+
     if (!camposModificables.length) {
         alert(
             "Esta plantilla no tiene condiciones contractuales configuradas."
@@ -2186,7 +2203,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
     }
     
     const camposNoSoportados = camposModificables.filter(
-        campo => !["obra_id", "sueldo"].includes(campo)
+        campo => !["obra_id", "sueldo", "cargo_id"].includes(campo)
     );
     
     if (camposNoSoportados.length) {
@@ -2310,6 +2327,45 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             console.error("Error al cargar obras:", error);
             selectObra.innerHTML = `
                 <option value="">Error al cargar las obras</option>
+            `;
+        }
+    }
+
+
+    if (esCambioCargo) {
+        const selectCargo = overlay.querySelector("#anexoCargo");
+    
+        try {
+            const cargos = await cargosService.getAll();
+    
+            const cargosActivos = cargos.filter(
+                cargo => cargo.estado?.trim().toLowerCase() === "activa"
+            );
+    
+            selectCargo.innerHTML = `
+                <option value="">Selecciona un cargo</option>
+            `;
+    
+            cargosActivos.forEach(cargo => {
+                const option = document.createElement("option");
+    
+                option.value = cargo.id;
+                option.textContent = cargo.nombre;
+    
+                selectCargo.appendChild(option);
+            });
+    
+            if (!cargosActivos.length) {
+                selectCargo.innerHTML = `
+                    <option value="">No hay cargos activos disponibles</option>
+                `;
+            }
+    
+        } catch (error) {
+            console.error("Error al cargar cargos:", error);
+    
+            selectCargo.innerHTML = `
+                <option value="">Error al cargar los cargos</option>
             `;
         }
     }
