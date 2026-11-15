@@ -6099,3 +6099,13 @@ align-self: flex-start;
     box-shadow: 0 0 0 3px rgba(54,197,184,.12);
 }
 
+
+.contrato-detalle-original {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 400;
+    color: #89939d;
+    line-height: 1.4;
+}
+
