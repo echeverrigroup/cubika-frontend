@@ -2336,11 +2336,25 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         const selectCargo = overlay.querySelector("#anexoCargo");
     
         try {
-            const cargos = await cargosService.getAll();
-    
-            const cargosActivos = cargos.filter(
-                cargo => cargo.estado?.trim().toLowerCase() === "activa"
+           const cargos = await cargosService.getAll();
+                
+                console.log("Cargos recibidos:", cargos);
+                
+                console.table(
+                    cargos.map(cargo => ({
+                        id: cargo.id,
+                        nombre: cargo.nombre,
+                        estado: cargo.estado
+                    }))
+                );
+                
+                const cargosActivos = cargos.filter(
+                    cargo => cargo.estado?.trim().toLowerCase() === "activa"
+                );
+                
+                console.log("Cargos activos:", cargosActivos);
             );
+            
     
             selectCargo.innerHTML = `
                 <option value="">Selecciona un cargo</option>
