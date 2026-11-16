@@ -2353,7 +2353,6 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 );
                 
                 console.log("Cargos activos:", cargosActivos);
-            );
             
     
             selectCargo.innerHTML = `
