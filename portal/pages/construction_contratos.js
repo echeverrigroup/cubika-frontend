@@ -2299,7 +2299,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             const obras = await obrasService.getAll();
 
             const obrasActivas = obras.filter(
-                obra => obra.estado?.toLowerCase() === "activa"
+                obra => obra.estado?.toLowerCase() === "activo"
             );
 
             selectObra.innerHTML = `
