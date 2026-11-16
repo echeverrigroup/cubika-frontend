@@ -2393,6 +2393,11 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             return;
         }
 
+        if (esCambioCargo && !cargoId) {
+            alert("Debes seleccionar el nuevo cargo.");
+            return;
+        }
+
         botonGenerar.disabled = true;
         botonGenerar.textContent = "Generando...";
 
@@ -2402,6 +2407,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         let sueldoAnterior = null;
         let sueldoNuevo = null;
         let obraAnteriorId = null;
+        let cargoAnteriorId = null;
         
         
         // Reconstruir la obra vigente para la fecha del nuevo traslado.
@@ -2533,6 +2539,76 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 }
             }
 
+
+            // Reconstruir el cargo vigente para la fecha del nuevo anexo.
+            if (esCambioCargo) {
+            
+                if (!contrato.cargo_id) {
+                    throw new Error(
+                        "El contrato original no tiene un cargo asociado."
+                    );
+                }
+            
+                // Recuperar los anexos asociados al contrato madre.
+                const anexosExistentes =
+                    await contratosGeneradosService.getAnexosByContrato(
+                        contrato.id
+                    );
+            
+                // Extraer los cambios de cargo registrados.
+                const cambiosCargo = (anexosExistentes ?? [])
+                    .map(anexo => ({
+                        fecha: anexo.variables?._evolucion_contractual?.fecha_vigencia,
+                        anterior: anexo.variables?._evolucion_contractual?.modificaciones?.cargo_id?.anterior,
+                        nuevo: anexo.variables?._evolucion_contractual?.modificaciones?.cargo_id?.nuevo
+                    }))
+                    .filter(cambio =>
+                        cambio.fecha &&
+                        cambio.nuevo
+                    );
+            
+                // No permitir dos cambios de cargo en la misma fecha.
+                const existeMismoDia = cambiosCargo.some(
+                    cambio => cambio.fecha === fechaVigencia
+                );
+            
+                if (existeMismoDia) {
+                    throw new Error(
+                        "Ya existe un cambio de cargo con esa fecha de vigencia. Revisa el historial contractual."
+                    );
+                }
+            
+                // Considerar únicamente cambios anteriores a la fecha indicada.
+                const cambiosAnteriores = cambiosCargo
+                    .filter(cambio => cambio.fecha < fechaVigencia)
+                    .sort((a, b) => a.fecha.localeCompare(b.fecha));
+            
+                // Partir desde el cargo original.
+                cargoAnteriorId = contrato.cargo_id;
+            
+                for (const cambio of cambiosAnteriores) {
+            
+                    // Detectar inconsistencias en la secuencia de cambios.
+                    if (
+                        cambio.anterior &&
+                        String(cambio.anterior) !== String(cargoAnteriorId)
+                    ) {
+                        throw new Error(
+                            "Se detectó una inconsistencia en el historial de cambios de cargo."
+                        );
+                    }
+            
+                    cargoAnteriorId = cambio.nuevo;
+                }
+            
+                // El nuevo cargo debe ser diferente del cargo vigente.
+                if (String(cargoAnteriorId) === String(cargoId)) {
+                    throw new Error(
+                        "El cargo seleccionado ya corresponde al cargo vigente del contrato."
+                    );
+                }
+            }
+
             
             // 1. Recuperar los datos completos del contrato original.
             const [
@@ -2545,7 +2621,9 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 empresasService.getById(contrato.empresa_id),
                 workersService.getByIdForDocument(contrato.worker_id),
                 obrasService.getById(obraId),
-                cargosService.getById(contrato.cargo_id),
+                cargosService.getById(
+                    esCambioCargo ? cargoId : contrato.cargo_id
+                ),
                 plantillasDocumentoService.getById(plantilla.id)
             ]);
 
@@ -2574,6 +2652,18 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             const variables = construirVariables(datosDocumento);
 
             variables.NUMERO_CONTRATO = contrato.numero_contrato ?? "";
+            
+            // Variables específicas para cambio de cargo.
+            if (esCambioCargo) {
+            
+                const cargoAnterior = await cargosService.getById(
+                    cargoAnteriorId
+                );
+            
+                variables.CARGO_ANTERIOR = cargoAnterior.nombre;
+                variables.CARGO_NUEVO = cargo.nombre;
+            
+            }
 
             // Construir las modificaciones contractuales del anexo.
             const modificaciones = {};
@@ -2587,6 +2677,16 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 modificaciones.sueldo = {
                     anterior: sueldoAnterior,
                     nuevo: sueldoNuevo
+                };
+            
+            }
+
+            
+            if (esCambioCargo) {
+            
+                modificaciones.cargo_id = {
+                    anterior: cargoAnteriorId,
+                    nuevo: cargoId
                 };
             
             }
