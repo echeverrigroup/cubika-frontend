@@ -84,8 +84,11 @@ export const DOCUMENT_VARIABLES = {
     CARGO: [
 
         "CARGO",
-        "DESCRIPCION_CARGO"
-
+        "DESCRIPCION_CARGO",
+    
+        "CARGO_ANTERIOR",
+        "CARGO_NUEVO"
+    
     ],
 
     CONTRATO: [
@@ -157,7 +160,13 @@ export const DOCUMENT_VARIABLE_DESCRIPTIONS = {
         "Sueldo vigente antes de la modificación contractual",
     
     SUELDO_NUEVO:
-        "Nuevo sueldo establecido mediante el anexo"
+        "Nuevo sueldo establecido mediante el anexo",
+    
+    CARGO_ANTERIOR:
+        "Cargo vigente antes de la modificación contractual",
+    
+    CARGO_NUEVO:
+        "Nuevo cargo establecido mediante el anexo"
 
 };
 
