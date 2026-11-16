@@ -2299,7 +2299,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             const obras = await obrasService.getAll();
 
             const obrasActivas = obras.filter(
-                obra => obra.estado?.toLowerCase() === "activo"
+                obra => obra.estado?.toLowerCase() === "activa"
             );
 
             selectObra.innerHTML = `
@@ -2349,7 +2349,7 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 );
                 
                 const cargosActivos = cargos.filter(
-                    cargo => cargo.estado?.trim().toLowerCase() === "activa"
+                    cargo => cargo.estado?.trim().toLowerCase() === "activo"
                 );
                 
                 console.log("Cargos activos:", cargosActivos);
