@@ -156,6 +156,7 @@ export const evolucionContractualService = {
         
         const fechasSueldo = new Set();
         const fechasObra = new Set();
+        const fechasCargo = new Set();
         
         for (const modificacion of modificacionesVigentes) {
         
@@ -185,6 +186,18 @@ export const evolucionContractualService = {
         
                 fechasObra.add(fecha);
             }
+
+            // Detectar cambios de cargo duplicados.
+                if (cambios.cargo_id) {
+                
+                    if (fechasCargo.has(fecha)) {
+                        throw new Error(
+                            `Existe más de un cambio de cargo con fecha de vigencia ${fecha}. Revisa el historial contractual.`
+                        );
+                    }
+                
+                    fechasCargo.add(fecha);
+                }
         
         }
 
@@ -232,6 +245,37 @@ export const evolucionContractualService = {
         
                 condiciones.sueldo = sueldoNuevo;
         
+            }
+
+
+            // CAMBIO DE CARGO
+
+            if (cambios.cargo_id) {
+            
+                const cargoAnterior = cambios.cargo_id.anterior;
+                const cargoNuevo = cambios.cargo_id.nuevo;
+            
+                if (!cargoAnterior || !cargoNuevo) {
+            
+                    throw new Error(
+                        `El anexo ${numeroDocumento} contiene identificadores de cargo inválidos.`
+                    );
+            
+                }
+            
+                // Comprobar coherencia histórica.
+                if (
+                    String(condiciones.cargo_id) !== String(cargoAnterior)
+                ) {
+            
+                    throw new Error(
+                        `Existe una inconsistencia en la evolución del cargo del anexo ${numeroDocumento}. El cargo anterior registrado no coincide con el cargo reconstruido.`
+                    );
+            
+                }
+            
+                condiciones.cargo_id = cargoNuevo;
+            
             }
         
         
