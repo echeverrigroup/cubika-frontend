@@ -2392,9 +2392,14 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         const observaciones =
             overlay.querySelector("#anexoObservaciones")?.value.trim() ?? "";
 
+
         const obraId = esTraslado
             ? overlay.querySelector("#anexoObra")?.value
             : contrato.obra_id;
+        
+        const cargoId = esCambioCargo
+            ? overlay.querySelector("#anexoCargo")?.value
+            : contrato.cargo_id;
 
         if (!fechaVigencia) {
             alert("Debes indicar la fecha de vigencia del anexo.");
