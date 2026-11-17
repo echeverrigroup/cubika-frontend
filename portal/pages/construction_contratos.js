@@ -2363,7 +2363,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                         <h2>Añadir complemento</h2>
 
                         <span class="contrato-detalle-numero">
-                            ${escapar(contrato.numero_contrato ?? "Sin número")}
+                            ${contrato.numero_contrato ?? "Sin número"}
                         </span>
 
                     </div>
@@ -2396,7 +2396,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                             <div class="anexo-plantilla-option">
 
                                                 <span>
-                                                    ${escapar(plantilla.nombre)}
+                                                    ${plantilla.nombre}
                                                 </span>
 
                                             </div>
