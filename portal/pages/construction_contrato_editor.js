@@ -3890,20 +3890,23 @@ async function mostrarModalSeleccionDocumentos(
                     }
                 );
                 
-                for (const pdf of pdfComplementarios) {
+                
+                for (const documento of documentosComplementarios) {
+                
                     await registrarEventoDocumentalSeguro(
                         "registrarGeneracion",
                         {
                             cliente_id: contratoCreado.cliente_id,
                             lote_id: loteId,
                             contrato_id: contratoCreado.id,
-                            plantilla_id: pdf.plantillaId,
+                            plantilla_id: documento.plantillaId,
                             empresa_id: contratoCreado.empresa_id,
                             worker_id: contratoCreado.worker_id,
                             tipo_documento: "COMPLEMENTO",
-                            nombre_documento: pdf.nombre
+                            nombre_documento: documento.nombre
                         }
                     );
+                
                 }
 
         
@@ -3959,7 +3962,8 @@ async function mostrarModalSeleccionDocumentos(
                 );
         
                 
-                for (const pdf of pdfComplementarios) {
+                
+                for (const documento of documentosComplementarios) {
                 
                     await registrarEventoDocumentalSeguro(
                         "registrarDescarga",
@@ -3967,19 +3971,21 @@ async function mostrarModalSeleccionDocumentos(
                             cliente_id: contratoCreado.cliente_id,
                             lote_id: loteId,
                             contrato_id: contratoCreado.id,
-                            plantilla_id: pdf.plantillaId,
+                            plantilla_id: documento.plantillaId,
                             empresa_id: contratoCreado.empresa_id,
                             worker_id: contratoCreado.worker_id,
                             tipo_documento: "COMPLEMENTO",
-                            nombre_documento: pdf.nombre
+                            nombre_documento: documento.nombre
                         }
                     );
                 
-                    descargarPDF(
-                        pdf.blob,
-                        `${pdf.nombre}.pdf`
+                    descargarDocumento(
+                        documento.blob,
+                        `${documento.nombre}.${documento.formato.toLowerCase()}`
                     );
+                
                 }
+
 
         
                 setModalLoading(false);
@@ -4114,9 +4120,7 @@ async function registrarEventoDocumentalSeguro(
 
 
 
-
-
-function descargarPDF(blob, nombreArchivo) {
+function descargarDocumento(blob, nombreArchivo) {
 
     const url =
         URL.createObjectURL(blob);
@@ -4134,6 +4138,13 @@ function descargarPDF(blob, nombreArchivo) {
     setTimeout(() => {
         URL.revokeObjectURL(url);
     }, 1000);
+
+}
+
+
+function descargarPDF(blob, nombreArchivo) {
+
+    descargarDocumento(blob, nombreArchivo);
 
 }
 
