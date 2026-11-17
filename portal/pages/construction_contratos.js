@@ -3938,6 +3938,13 @@ async function cargarHistorialDocumentos() {
             documentosGeneradosEventosService.getAll()
         ]);
 
+        const documentosPorId = new Map(
+            documentos.map(d => [
+                String(d.id),
+                d
+            ])
+        );
+
         const documentosPersistidos = documentos
             .filter(d => ["CONTRATO", "ANEXO"].includes(String(d.tipo_documento || "").toUpperCase()))
             .map(d => ({
@@ -3946,7 +3953,7 @@ async function cargarHistorialDocumentos() {
                 tipo: String(d.tipo_documento || "").toUpperCase(),
                 nombre: String(d.tipo_documento || "").toUpperCase() === "ANEXO"
                     ? `Anexo ${d.numero_contrato || ""} para ${
-                        d.contrato_madre?.numero_contrato || ""
+                        documentosPorId.get(String(d.contrato_madre_id))?.numero_contrato || "contrato"
                       }`
                     : `Contrato ${d.numero_contrato || ""}`.trim(),
                 trabajador: [d.worker?.nombres, d.worker?.apellido_paterno, d.worker?.apellido_materno].filter(Boolean).join(" "),
