@@ -77,6 +77,23 @@ export const storageService = {
         return data.signedUrl;
     },
 
+
+    async downloadArchivo(path) {
+
+        if (!path)
+            throw new Error("Falta la ruta del archivo.");
+    
+        const { data, error } =
+            await supabase
+                .storage
+                .from(BUCKET)
+                .download(path);
+    
+        if (error)
+            throw error;
+    
+        return data;
+    },
     
 
     async createSignedUrl(path, expiresIn = 3600) {
