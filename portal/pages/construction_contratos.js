@@ -3971,7 +3971,9 @@ async function cargarHistorialDocumentos() {
                     id: `complemento-${e.id}`,
                     fecha: e.created_at,
                     tipo: "COMPLEMENTO",
-                    nombre: e.nombre_documento || "Complemento",
+                    nombre: `${e.nombre_documento || "Complemento"} para ${
+                            base?.numero_contrato || "contrato"
+                        }`,
                     trabajador: [base?.worker?.nombres, base?.worker?.apellido_paterno, base?.worker?.apellido_materno].filter(Boolean).join(" "),
                     rut: base?.worker?.rut || "—",
                     empresa: base?.empresa?.nombre || "—",
