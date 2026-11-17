@@ -3367,11 +3367,11 @@ async function generarDocxComplementario(
     }
 
     // 1. Descargar la plantilla original desde Supabase.
-    const archivoOriginal =
-        await storageService.downloadArchivo(
+   const archivoOriginal = await plantillasDocumentoService.descargarArchivoDocx(
             complemento.archivo_docx_path
         );
 
+    
     // 2. Convertir el archivo a Base64.
     const docxBase64 =
         await convertirBlobABase64(
