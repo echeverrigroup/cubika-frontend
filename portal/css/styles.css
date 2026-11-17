@@ -5234,8 +5234,8 @@ align-self: flex-start;
 }
 
 #vistaHistorial .historial-documentos-table .historial-documento-nombre {
-    min-width: 220px;
-    max-width: 360px;
+    min-width: 200px;
+    max-width: 300px;
     overflow-wrap: anywhere;
     color: #0B2F5B;
     font-weight: 550;
