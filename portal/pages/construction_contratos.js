@@ -942,19 +942,48 @@ contratosTodos
                                     
                                     
                                             <!-- MÁS ACCIONES -->
-                                            <button
-                                                type="button"
-                                                class="cubika-action"
-                                                data-action="mas"
-                                                data-contrato-id="${contrato.id}"
-                                                title="Más acciones"
-                                                aria-label="Más acciones"
-                                            >
-                                                <img
-                                                    src="/img/icons/mas.svg"
-                                                    alt=""
+                                            <div class="cubika-more-wrapper">
+                                            
+                                                <button
+                                                    type="button"
+                                                    class="cubika-action"
+                                                    data-action="mas"
+                                                    data-contrato-id="${contrato.id}"
+                                                    title="Más acciones"
+                                                    aria-label="Más acciones"
+                                                    aria-expanded="false"
                                                 >
-                                            </button>
+                                                    <img
+                                                        src="/img/icons/mas.svg"
+                                                        alt=""
+                                                    >
+                                                </button>
+                                            
+                                                <div class="cubika-more-menu" hidden>
+                                            
+                                                    <button
+                                                        type="button"
+                                                        class="cubika-more-item"
+                                                        data-action="complemento"
+                                                        data-contrato-id="${contrato.id}"
+                                                    >
+                                                        Añadir Complemento
+                                                    </button>
+                                            
+                                                    <div class="cubika-more-divider"></div>
+                                            
+                                                    <button
+                                                        type="button"
+                                                        class="cubika-more-item"
+                                                        disabled
+                                                        title="Próximamente"
+                                                    >
+                                                        Otro
+                                                    </button>
+                                            
+                                                </div>
+                                            
+                                            </div>
                                     
                                         </div>
                                     
@@ -1101,62 +1130,156 @@ async function descargarContratoPDF(contratoId) {
 
 function configurarAccionesContratos() {
 
-    const botones =
-        document.querySelectorAll(
-            "#contratosTable .cubika-action"
-        );
+    const contenedor = document.querySelector("#contratosTable");
 
-    botones.forEach(
-        boton => {
+    if (!contenedor) return;
 
-            boton.addEventListener(
-                "click",
-                event => {
+    const botones = contenedor.querySelectorAll(".cubika-action");
 
-                    event.preventDefault();
-                    event.stopPropagation();
+    botones.forEach(boton => {
 
-                    const accion =
-                        boton.dataset.action;
+        boton.addEventListener("click", event => {
 
-                    const contratoId =
-                        boton.dataset.contratoId;
+            event.preventDefault();
+            event.stopPropagation();
 
+            const accion = boton.dataset.action;
+            const contratoId = boton.dataset.contratoId;
 
-                    console.log(
-                        "Acción Gestor Documental:",
-                        accion,
-                        "Contrato:",
-                        contratoId
-                    );
-
-
-                    if (accion === "ver") {
-
-                        abrirDetalleContrato(contratoId);
-                    
-                    }
-
-                    if (accion === "descargar") {
-                        
-                        descargarContratoPDF(contratoId);
-                    
-                    }
-                    
-                                        
-                    if (accion === "anexo") {
-                    
-                        abrirSelectorPlantillaAnexo(contratoId);
-                    
-                    }
-                }
+            console.log(
+                "Acción Gestor Documental:",
+                accion,
+                "Contrato:",
+                contratoId
             );
 
-        }
-    );
+            if (accion === "ver") {
+                abrirDetalleContrato(contratoId);
+                return;
+            }
+
+            if (accion === "descargar") {
+                descargarContratoPDF(contratoId);
+                return;
+            }
+
+            if (accion === "anexo") {
+                abrirSelectorPlantillaAnexo(contratoId);
+                return;
+            }
+
+            if (accion === "mas") {
+
+                const wrapper = boton.closest(".cubika-more-wrapper");
+                const menu = wrapper?.querySelector(".cubika-more-menu");
+
+                if (!menu) return;
+
+                // Cerrar otros menús abiertos
+                contenedor.querySelectorAll(".cubika-more-menu").forEach(otroMenu => {
+                    if (otroMenu !== menu) {
+                        otroMenu.hidden = true;
+
+                        const otroBoton = otroMenu
+                            .closest(".cubika-more-wrapper")
+                            ?.querySelector('[data-action="mas"]');
+
+                        otroBoton?.setAttribute("aria-expanded", "false");
+                    }
+                });
+
+                // Alternar menú actual
+                menu.hidden = !menu.hidden;
+
+                boton.setAttribute(
+                    "aria-expanded",
+                    String(!menu.hidden)
+                );
+
+                if (!menu.hidden) {
+
+                    // Posicionar el menú respecto al botón
+                    const rect = boton.getBoundingClientRect();
+
+                    menu.style.position = "fixed";
+                    menu.style.zIndex = "2000";
+
+                    const ancho = menu.offsetWidth;
+                    const alto = menu.offsetHeight;
+
+                    let izquierda = rect.right - ancho;
+                    let arriba = rect.bottom + 6;
+
+                    if (izquierda < 8) {
+                        izquierda = 8;
+                    }
+
+                    if (izquierda + ancho > window.innerWidth - 8) {
+                        izquierda = window.innerWidth - ancho - 8;
+                    }
+
+                    if (arriba + alto > window.innerHeight - 8) {
+                        arriba = rect.top - alto - 6;
+                    }
+
+                    menu.style.left = `${izquierda}px`;
+                    menu.style.top = `${Math.max(8, arriba)}px`;
+                }
+
+            }
+
+        });
+
+    });
+
+
+    // Acciones internas del menú
+    contenedor.querySelectorAll(".cubika-more-item").forEach(boton => {
+
+        boton.addEventListener("click", event => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (boton.disabled) return;
+
+            const accion = boton.dataset.action;
+            const contratoId = boton.dataset.contratoId;
+
+            if (accion === "complemento") {
+
+                contenedor.querySelectorAll(".cubika-more-menu").forEach(menu => {
+                    menu.hidden = true;
+                });
+
+                contenedor.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
+                    botonMas.setAttribute("aria-expanded", "false");
+                });
+
+                abrirSelectorPlantillaComplemento(contratoId);
+            }
+
+        });
+
+    });
+
+
+    // Cerrar menús al hacer clic fuera de ellos
+    document.addEventListener("click", event => {
+
+        if (event.target.closest(".cubika-more-wrapper")) return;
+
+        contenedor.querySelectorAll(".cubika-more-menu").forEach(menu => {
+            menu.hidden = true;
+        });
+
+        contenedor.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
+            botonMas.setAttribute("aria-expanded", "false");
+        });
+
+    });
 
 }
-
 
 
 
@@ -2117,6 +2240,231 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 
 }
 
+
+
+async function abrirSelectorPlantillaComplemento(contratoId) {
+
+    const contrato = contratosVisibles.find(
+        contrato =>
+            String(contrato.id) === String(contratoId)
+    );
+
+    if (!contrato) {
+        console.error(
+            "No se encontró el contrato para añadir el complemento:",
+            contratoId
+        );
+        return;
+    }
+
+    try {
+
+        const [
+            plantillas,
+            asociacionesConstructoras,
+            asociacionesCargos
+        ] = await Promise.all([
+
+            plantillasDocumentoService.getComplementos(),
+
+            plantillasDocumentoService.getTodasLasAsociacionesConstructoras(),
+
+            plantillasDocumentoService.getTodasLasAsociacionesCargos()
+
+        ]);
+
+
+        // Identificar constructora y cargo del contrato
+        const constructoraId =
+            contrato.constructora_actual?.id ??
+            contrato.obra_actual?.constructora?.id ??
+            contrato.obra?.constructora?.id ??
+            null;
+
+        const cargoId =
+            contrato.cargo_actual?.id ??
+            contrato.condiciones_actuales?.cargo_id ??
+            contrato.cargo?.id ??
+            contrato.cargo_id ??
+            null;
+
+
+        // Aplicar restricciones de disponibilidad
+        const complementosDisponibles = plantillas.filter(plantilla => {
+
+            const asociacionesDeConstructora =
+                asociacionesConstructoras.filter(
+                    asociacion =>
+                        String(asociacion.plantilla_id) ===
+                        String(plantilla.id)
+                );
+
+            const asociacionesDeCargo =
+                asociacionesCargos.filter(
+                    asociacion =>
+                        String(asociacion.plantilla_id) ===
+                        String(plantilla.id)
+                );
+
+
+            // Sin asociaciones: disponible para todas las constructoras
+            const constructoraPermitida =
+                asociacionesDeConstructora.length === 0 ||
+                (
+                    constructoraId !== null &&
+                    asociacionesDeConstructora.some(
+                        asociacion =>
+                            String(asociacion.constructora_id) ===
+                            String(constructoraId)
+                    )
+                );
+
+
+            // Sin asociaciones: disponible para todos los cargos
+            const cargoPermitido =
+                asociacionesDeCargo.length === 0 ||
+                (
+                    cargoId !== null &&
+                    asociacionesDeCargo.some(
+                        asociacion =>
+                            String(asociacion.cargo_id) ===
+                            String(cargoId)
+                    )
+                );
+
+
+            return constructoraPermitida && cargoPermitido;
+
+        });
+
+
+        // Crear modal
+        const modal = document.createElement("div");
+
+        modal.className = "cubika-modal-overlay";
+
+        modal.innerHTML = `
+
+            <div class="cubika-modal contrato-detalle-modal">
+
+                <div class="cubika-modal-header">
+
+                    <div>
+
+                        <h2>Añadir complemento</h2>
+
+                        <span class="contrato-detalle-numero">
+                            ${escapar(contrato.numero_contrato ?? "Sin número")}
+                        </span>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="cubika-modal-close"
+                        aria-label="Cerrar"
+                        title="Cerrar"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="contrato-detalle-body">
+
+                    <section class="contrato-detalle-seccion">
+
+                        <h3>Selecciona una plantilla</h3>
+
+                        ${
+                            complementosDisponibles.length
+                                ? `
+                                    <div class="anexo-plantillas-lista">
+
+                                        ${complementosDisponibles.map(plantilla => `
+
+                                            <div class="anexo-plantilla-option">
+
+                                                <span>
+                                                    ${escapar(plantilla.nombre)}
+                                                </span>
+
+                                            </div>
+
+                                        `).join("")}
+
+                                    </div>
+                                `
+                                : `
+                                    <p class="historial-contractual-vacio">
+                                        No existen plantillas de Complemento
+                                        activas disponibles para este contrato.
+                                    </p>
+                                `
+                        }
+
+                    </section>
+
+                </div>
+
+
+                <div class="cubika-modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn-cubika-secondary"
+                        data-cerrar-complemento
+                    >
+                        Cerrar
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(modal);
+
+
+        const cerrar = () => {
+            modal.remove();
+        };
+
+
+        modal.querySelector(".cubika-modal-close")
+            .addEventListener("click", cerrar);
+
+
+        modal.querySelector("[data-cerrar-complemento]")
+            .addEventListener("click", cerrar);
+
+
+        modal.addEventListener("click", event => {
+
+            if (event.target === modal) {
+                cerrar();
+            }
+
+        });
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error al cargar plantillas de Complemento:",
+            error
+        );
+
+        alert(
+            "No fue posible cargar las plantillas de Complemento."
+        );
+
+    }
+
+}
 
 
 
