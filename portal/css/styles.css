@@ -5219,7 +5219,11 @@ align-self: flex-start;
     background: #F8FAFC;
 }
 
-#vistaHistorial .historial-documentos-table .historial-fecha,
+#vistaHistorial .historial-documentos-table .historial-fecha {
+    white-space: normal;
+    font-variant-numeric: tabular-nums;
+}
+
 #vistaHistorial .historial-documentos-table .historial-rut {
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
