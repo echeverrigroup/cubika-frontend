@@ -5222,6 +5222,7 @@ align-self: flex-start;
 #vistaHistorial .historial-documentos-table .historial-fecha {
     white-space: normal;
     font-variant-numeric: tabular-nums;
+    max-width: 90px
 }
 
 #vistaHistorial .historial-documentos-table .historial-rut {
