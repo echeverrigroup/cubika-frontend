@@ -1264,20 +1264,29 @@ function configurarAccionesContratos() {
     });
 
 
-    // Cerrar menús al hacer clic fuera de ellos
-    document.addEventListener("click", event => {
-
-        if (event.target.closest(".cubika-more-wrapper")) return;
-
-        contenedor.querySelectorAll(".cubika-more-menu").forEach(menu => {
-            menu.hidden = true;
-        });
-
-        contenedor.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
-            botonMas.setAttribute("aria-expanded", "false");
-        });
-
-    });
+    // Registrar una sola vez el cierre de menús al hacer clic fuera
+    if (!document._cubikaCerrarMenusListener) {
+    
+        document._cubikaCerrarMenusListener = event => {
+    
+            if (event.target.closest(".cubika-more-wrapper")) return;
+    
+            document.querySelectorAll(".cubika-more-menu").forEach(menu => {
+                menu.hidden = true;
+            });
+    
+            document.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
+                botonMas.setAttribute("aria-expanded", "false");
+            });
+    
+        };
+    
+        document.addEventListener(
+            "click",
+            document._cubikaCerrarMenusListener
+        );
+    
+    }
 
 }
 
