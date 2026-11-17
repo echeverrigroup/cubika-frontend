@@ -67,7 +67,9 @@ export const plantillasDocumentoService = {
                 id,
                 nombre,
                 descripcion,
-                contenido
+                contenido,
+                formato_contenido,
+                archivo_docx_path
             `)
             .eq("cliente_id", clienteId)
             .eq("tipo_documento", "COMPLEMENTO")
