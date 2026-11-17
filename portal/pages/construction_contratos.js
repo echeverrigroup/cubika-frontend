@@ -3945,7 +3945,7 @@ async function cargarHistorialDocumentos() {
                 fecha: d.fecha_generacion || d.created_at,
                 tipo: String(d.tipo_documento || "").toUpperCase(),
                 nombre: String(d.tipo_documento || "").toUpperCase() === "ANEXO"
-                    ? `Anexo de ${d.contrato_madre_id || "contrato"}`
+                    ? `Anexo de ${d.numero_contrato || "contrato"}`
                     : `Contrato ${d.numero_contrato || ""}`.trim(),
                 trabajador: [d.worker?.nombres, d.worker?.apellido_paterno, d.worker?.apellido_materno].filter(Boolean).join(" "),
                 rut: d.worker?.rut || "—",
