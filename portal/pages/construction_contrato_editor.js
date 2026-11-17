@@ -3286,6 +3286,172 @@ async function construirDocumentoComplementario(
 
 
 
+
+function convertirHtmlATextoPlano(valor) {
+
+    if (typeof valor !== "string" || !valor)
+        return valor ?? "";
+
+    const documento =
+        new DOMParser().parseFromString(
+            valor,
+            "text/html"
+        );
+
+    return (documento.body.textContent || "")
+        .replace(/\u00a0/g, " ")
+        .replace(/[ \t]+\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+}
+
+
+
+function prepararVariablesDocx(variables = {}) {
+
+    const variablesDocx = {
+        ...variables
+    };
+
+    variablesDocx.DISTRIBUCION_HORARIA =
+        convertirHtmlATextoPlano(
+            variablesDocx.DISTRIBUCION_HORARIA
+        );
+
+    return variablesDocx;
+}
+
+
+
+
+async function convertirBlobABase64(blob) {
+
+    const bytes = new Uint8Array(
+        await blob.arrayBuffer()
+    );
+
+    let binario = "";
+
+    const TAMANO_BLOQUE = 0x8000;
+
+    for (
+        let i = 0;
+        i < bytes.length;
+        i += TAMANO_BLOQUE
+    ) {
+
+        const bloque = bytes.subarray(
+            i,
+            i + TAMANO_BLOQUE
+        );
+
+        binario += String.fromCharCode(...bloque);
+
+    }
+
+    return btoa(binario);
+}
+
+
+async function generarDocxComplementario(
+    complemento,
+    variables
+) {
+
+    if (!complemento.archivo_docx_path) {
+
+        throw new Error(
+            `La plantilla "${complemento.nombre}" no tiene un archivo DOCX asociado.`
+        );
+
+    }
+
+    // 1. Descargar la plantilla original desde Supabase.
+    const archivoOriginal =
+        await storageService.downloadArchivo(
+            complemento.archivo_docx_path
+        );
+
+    // 2. Convertir el archivo a Base64.
+    const docxBase64 =
+        await convertirBlobABase64(
+            archivoOriginal
+        );
+
+    // 3. Preparar las variables para Word.
+    const variablesDocx =
+        prepararVariablesDocx(variables);
+
+    // 4. Enviar el documento y sus variables al backend.
+    const response = await fetch(
+        "https://api.cubika.cl/api/docx",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                docxBase64,
+                variables: variablesDocx
+            })
+        }
+    );
+
+    if (!response.ok) {
+
+        const errorData =
+            await response.json().catch(() => null);
+
+        throw new Error(
+            errorData?.error ||
+            errorData?.message ||
+            `Error generando DOCX (${response.status}).`
+        );
+
+    }
+
+    // 5. Recuperar el documento Word generado.
+    const documentoGenerado =
+        await response.blob();
+
+    // 6. Recuperar el diagnóstico del motor.
+    const diagnosticoHeader =
+        response.headers.get(
+            "X-Cubika-Docx-Diagnostic"
+        );
+
+    if (diagnosticoHeader) {
+
+        try {
+
+            const diagnostico =
+                JSON.parse(diagnosticoHeader);
+
+            console.info(
+                `Diagnóstico DOCX: ${complemento.nombre}`,
+                diagnostico
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "No fue posible interpretar el diagnóstico DOCX.",
+                error
+            );
+
+        }
+
+    }
+
+    return documentoGenerado;
+
+}
+
+
+
+
 async function mostrarModalSeleccionDocumentos(
     contratoGenerado
 ) {
@@ -3563,66 +3729,107 @@ async function mostrarModalSeleccionDocumentos(
                     await responseContrato.blob();
         
         
+               
                 /*
-                 * 2. Preparar los PDF complementarios seleccionados.
-                 * Estos se descargan, pero no se guardan en Storage.
+                 * 2. Preparar los documentos complementarios seleccionados.
+                 * Cada documento se procesa según su formato original.
                  */
-        
-                const pdfComplementarios = [];
-        
+                
+                const documentosComplementarios = [];
+                
                 for (const complementoId of seleccionados) {
-        
+                
                     const complemento =
                         complementos.find(
                             item => item.id === complementoId
                         );
-        
+                
                     if (!complemento) {
                         throw new Error(
                             "No se encontró uno de los documentos seleccionados."
                         );
                     }
-        
-                    const documentoComplementario =
-                        await construirDocumentoComplementario(
-                            complemento,
-                            contratoGenerado
-                        );
-        
-                    const htmlComplementario =
-                        await construirDocumentoHtml(
-                            documentoComplementario.contenidoHtml
-                        );
-        
-                    const responseComplementario =
-                        await fetch(
-                            "https://api.cubika.cl/api/pdf",
-                            {
-                                method: "POST",
-        
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-        
-                                body: JSON.stringify({
-                                    html: htmlComplementario
-                                })
-                            }
-                        );
-        
-                    if (!responseComplementario.ok) {
-                        throw new Error(
-                            `No fue posible generar el PDF de "${complemento.nombre}".`
-                        );
+                
+                    const formato =
+                        String(
+                            complemento.formato_contenido || "HTML"
+                        ).toUpperCase();
+                
+                
+                    // DOCUMENTO DOCX
+                    if (formato === "DOCX") {
+                
+                        const docxGenerado =
+                            await generarDocxComplementario(
+                                complemento,
+                                contratoGenerado.variables || {}
+                            );
+                
+                        documentosComplementarios.push({
+                            plantillaId: complemento.id,
+                            nombre: complemento.nombre,
+                            formato: "DOCX",
+                            blob: docxGenerado
+                        });
+                
                     }
-        
-                    pdfComplementarios.push({
-                        plantillaId: complemento.id,
-                        nombre: complemento.nombre,
-                        blob:
-                            await responseComplementario.blob()
-                    });
+                
+                
+                    // DOCUMENTO HTML → PDF
+                    else if (formato === "HTML") {
+                
+                        const documentoComplementario =
+                            await construirDocumentoComplementario(
+                                complemento,
+                                contratoGenerado
+                            );
+                
+                        const htmlComplementario =
+                            await construirDocumentoHtml(
+                                documentoComplementario.contenidoHtml
+                            );
+                
+                        const responseComplementario =
+                            await fetch(
+                                "https://api.cubika.cl/api/pdf",
+                                {
+                                    method: "POST",
+                
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                
+                                    body: JSON.stringify({
+                                        html: htmlComplementario
+                                    })
+                                }
+                            );
+                
+                        if (!responseComplementario.ok) {
+                            throw new Error(
+                                `No fue posible generar el PDF de "${complemento.nombre}".`
+                            );
+                        }
+                
+                        documentosComplementarios.push({
+                            plantillaId: complemento.id,
+                            nombre: complemento.nombre,
+                            formato: "PDF",
+                            blob: await responseComplementario.blob()
+                        });
+                
+                    }
+                
+                
+                    // FORMATO NO SOPORTADO
+                    else {
+                
+                        throw new Error(
+                            `El formato "${formato}" de "${complemento.nombre}" no está soportado.`
+                        );
+                
+                    }
+                
                 }
         
         
