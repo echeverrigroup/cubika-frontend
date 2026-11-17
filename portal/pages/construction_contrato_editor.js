@@ -3353,7 +3353,7 @@ async function convertirBlobABase64(blob) {
 }
 
 
-async function generarDocxComplementario(
+export async function generarDocxComplementario(
     complemento,
     variables
 ) {
