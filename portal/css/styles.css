@@ -6117,3 +6117,68 @@ align-self: flex-start;
     line-height: 1.4;
 }
 
+
+/* =========================================
+   MENÚ DE MÁS ACCIONES
+========================================= */
+
+.cubika-more-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.cubika-more-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 1000;
+
+    min-width: 190px;
+    padding: 5px;
+
+    background: #FFFFFF;
+    border: 1px solid #E5EAF0;
+    border-radius: 9px;
+
+    box-shadow: 0 5px 18px rgba(11, 47, 91, 0.13);
+}
+
+.cubika-more-menu[hidden] {
+    display: none;
+}
+
+.cubika-more-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+
+    color: #0B2F5B;
+    font-family: inherit;
+    font-size: 13px;
+    text-align: left;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.cubika-more-item:hover {
+    background: #EEF5FB;
+}
+
+.cubika-more-item:focus-visible {
+    outline: 2px solid #57C221;
+    outline-offset: -2px;
+}
+
+.cubika-more-divider {
+    height: 1px;
+    margin: 4px 5px;
+    background: #EAEFF4;
+}
