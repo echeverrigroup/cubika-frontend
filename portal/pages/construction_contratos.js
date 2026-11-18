@@ -1,5 +1,10 @@
 import { storageService } from "../js/services/storageService.js";
-import { construirDocumentoHtml } from "./construction_contrato_editor.js";
+
+import {
+    construirDocumentoHtml,
+    generarDocxComplementario
+} from "./construction_contrato_editor.js";
+
 
 import { evolucionContractualService } from "../services/evolucionContractualService.js";
 
@@ -2392,17 +2397,25 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                     <div class="anexo-plantillas-lista">
 
                                         ${complementosDisponibles.map(plantilla => `
-
-                                            <div class="anexo-plantilla-option">
-
+                                    
+                                            <button
+                                                type="button"
+                                                class="anexo-plantilla-option"
+                                                data-plantilla-id="${plantilla.id}"
+                                            >
+                                    
                                                 <span>
                                                     ${plantilla.nombre}
                                                 </span>
-
-                                            </div>
-
+                                    
+                                                <span>
+                                                    →
+                                                </span>
+                                    
+                                            </button>
+                                    
                                         `).join("")}
-
+                                    
                                     </div>
                                 `
                                 : `
@@ -2458,6 +2471,40 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
             }
 
         });
+
+
+        modal
+            .querySelectorAll(".anexo-plantilla-option")
+            .forEach(boton => {
+        
+                boton.addEventListener("click", () => {
+        
+                    const plantillaId = boton.dataset.plantillaId;
+        
+                    const plantillaSeleccionada =
+                        complementosDisponibles.find(
+                            plantilla =>
+                                String(plantilla.id) ===
+                                String(plantillaId)
+                        );
+        
+                    if (!plantillaSeleccionada) {
+                        alert(
+                            "No fue posible identificar la plantilla seleccionada."
+                        );
+                        return;
+                    }
+        
+                    cerrar();
+        
+                    generarComplementoDesdeContrato(
+                        contrato,
+                        plantillaSeleccionada
+                    );
+        
+                });
+        
+            });
 
     }
     catch (error) {
