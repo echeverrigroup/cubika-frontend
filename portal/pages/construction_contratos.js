@@ -2524,6 +2524,127 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
 
 
+
+async function generarComplementoDesdeContrato(contrato, plantilla) {
+
+    try {
+
+        // 1. Validar que el contrato tenga sus variables disponibles.
+        const variables = contrato.variables;
+
+        if (
+            !variables ||
+            typeof variables !== "object" ||
+            !Object.keys(variables).length
+        ) {
+            throw new Error(
+                "El contrato no contiene las variables necesarias para generar el complemento."
+            );
+        }
+
+        // 2. Generar el documento DOCX utilizando el motor existente.
+        const docxBlob = await generarDocxComplementario(
+            plantilla,
+            variables
+        );
+
+        if (!docxBlob || !docxBlob.size) {
+            throw new Error(
+                "El documento generado está vacío."
+            );
+        }
+
+        // 3. Preparar los datos de trazabilidad.
+        const loteId = crypto.randomUUID();
+
+        const datosEvento = {
+            cliente_id: contrato.cliente_id,
+            lote_id: loteId,
+            contrato_id: contrato.id,
+            plantilla_id: plantilla.id,
+            empresa_id: contrato.empresa_id,
+            worker_id: contrato.worker_id,
+            tipo_documento: "COMPLEMENTO",
+            nombre_documento: plantilla.nombre
+        };
+
+        // 4. Registrar la generación.
+        try {
+
+            await documentosGeneradosEventosService.registrarGeneracion(
+                datosEvento
+            );
+
+        } catch (error) {
+
+            console.error(
+                "No fue posible registrar la generación del complemento:",
+                error
+            );
+
+        }
+
+        // 5. Descargar el DOCX.
+        const urlTemporal = URL.createObjectURL(docxBlob);
+
+        const enlace = document.createElement("a");
+
+        const nombreArchivo = String(
+            plantilla.nombre || "complemento"
+        )
+            .trim()
+            .replace(/[\\/:*?"<>|]/g, "-");
+
+        enlace.href = urlTemporal;
+        enlace.download = `${nombreArchivo}.docx`;
+
+        document.body.appendChild(enlace);
+        enlace.click();
+        enlace.remove();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(urlTemporal);
+        }, 1000);
+
+        // 6. Registrar la descarga.
+        try {
+
+            await documentosGeneradosEventosService.registrarDescarga(
+                datosEvento
+            );
+
+        } catch (error) {
+
+            console.error(
+                "No fue posible registrar la descarga del complemento:",
+                error
+            );
+
+        }
+
+        alert(
+            `El complemento "${plantilla.nombre}" fue generado correctamente.`
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error al generar el complemento:",
+            error
+        );
+
+        alert(
+            "No fue posible generar el complemento. " +
+            (error.message ?? "Revisa la consola para más detalles.")
+        );
+
+    }
+
+}
+
+
+
+
 async function abrirFormularioAnexo(contrato, plantilla) {
     const trabajadorNombre = contrato.worker
         ? [
