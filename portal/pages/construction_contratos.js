@@ -1273,18 +1273,25 @@ function configurarAccionesContratos() {
             const accion = boton.dataset.action;
             const contratoId = boton.dataset.contratoId;
 
+            
             if (accion === "complemento") {
-
-                contenedor.querySelectorAll(".cubika-more-menu").forEach(menu => {
+            
+                const menu = boton.closest(".cubika-more-menu");
+            
+                if (menu) {
+            
                     menu.hidden = true;
-                });
-
-                contenedor.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
-                    botonMas.setAttribute("aria-expanded", "false");
-                });
-
+            
+                    menu._cubikaBoton?.setAttribute("aria-expanded", "false");
+            
+                    if (menu._cubikaWrapper) {
+                        menu._cubikaWrapper.appendChild(menu);
+                    }
+                }
+            
                 abrirSelectorPlantillaComplemento(contratoId);
             }
+
 
         });
 
