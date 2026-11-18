@@ -2571,7 +2571,8 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
         // 4. Registrar la generación.
         try {
 
-            await documentosGeneradosEventosService.registrarGeneracion(
+            await registrarEventoDocumentalSeguro(
+                "registrarGeneracion",
                 datosEvento
             );
 
@@ -2609,7 +2610,8 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
         // 6. Registrar la descarga.
         try {
 
-            await documentosGeneradosEventosService.registrarDescarga(
+            await registrarEventoDocumentalSeguro(
+                "registrarDescarga",
                 datosEvento
             );
 
