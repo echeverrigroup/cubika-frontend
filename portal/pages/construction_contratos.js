@@ -1298,19 +1298,29 @@ function configurarAccionesContratos() {
     });
 
 
+
     // Registrar una sola vez el cierre de menús al hacer clic fuera
     if (!document._cubikaCerrarMenusListener) {
     
         document._cubikaCerrarMenusListener = event => {
     
-            if (event.target.closest(".cubika-more-wrapper")) return;
+            // Si el clic fue dentro de un menú, no cerrarlo
+            if (event.target.closest(".cubika-more-menu")) return;
+    
+            // Si el clic fue sobre un botón Más, no interferir
+            if (event.target.closest('[data-action="mas"]')) return;
     
             document.querySelectorAll(".cubika-more-menu").forEach(menu => {
-                menu.hidden = true;
-            });
     
-            document.querySelectorAll('[data-action="mas"]').forEach(botonMas => {
-                botonMas.setAttribute("aria-expanded", "false");
+                menu.hidden = true;
+    
+                menu._cubikaBoton?.setAttribute("aria-expanded", "false");
+    
+                // Devolver el menú a su ubicación original
+                if (menu._cubikaWrapper) {
+                    menu._cubikaWrapper.appendChild(menu);
+                }
+    
             });
     
         };
@@ -1321,6 +1331,7 @@ function configurarAccionesContratos() {
         );
     
     }
+
 
 }
 
