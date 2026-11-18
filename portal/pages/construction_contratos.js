@@ -1173,65 +1173,87 @@ function configurarAccionesContratos() {
                 return;
             }
 
-            if (accion === "mas") {
-
-                const wrapper = boton.closest(".cubika-more-wrapper");
-                const menu = wrapper?.querySelector(".cubika-more-menu");
-
-                if (!menu) return;
-
-                // Cerrar otros menús abiertos
-                contenedor.querySelectorAll(".cubika-more-menu").forEach(otroMenu => {
-                    if (otroMenu !== menu) {
-                        otroMenu.hidden = true;
-
-                        const otroBoton = otroMenu
-                            .closest(".cubika-more-wrapper")
-                            ?.querySelector('[data-action="mas"]');
-
-                        otroBoton?.setAttribute("aria-expanded", "false");
+            
+        if (accion === "mas") {
+        
+            const wrapper = boton.closest(".cubika-more-wrapper");
+            const menu = wrapper?.querySelector(".cubika-more-menu");
+        
+            if (!menu) return;
+        
+            // Cerrar otros menús abiertos
+            document.querySelectorAll(".cubika-more-menu").forEach(otroMenu => {
+        
+                if (otroMenu !== menu) {
+        
+                    otroMenu.hidden = true;
+        
+                    const otroBoton = otroMenu._cubikaBoton;
+        
+                    otroBoton?.setAttribute("aria-expanded", "false");
+        
+                    // Devolver el menú a su ubicación original
+                    if (otroMenu._cubikaWrapper) {
+                        otroMenu._cubikaWrapper.appendChild(otroMenu);
                     }
-                });
-
-                // Alternar menú actual
-                menu.hidden = !menu.hidden;
-
-                boton.setAttribute(
-                    "aria-expanded",
-                    String(!menu.hidden)
-                );
-
-                if (!menu.hidden) {
-
-                    // Posicionar el menú respecto al botón
-                    const rect = boton.getBoundingClientRect();
-
-                    menu.style.position = "fixed";
-                    menu.style.zIndex = "2000";
-
-                    const ancho = menu.offsetWidth;
-                    const alto = menu.offsetHeight;
-
-                    let izquierda = rect.right - ancho;
-                    let arriba = rect.bottom + 6;
-
-                    if (izquierda < 8) {
-                        izquierda = 8;
-                    }
-
-                    if (izquierda + ancho > window.innerWidth - 8) {
-                        izquierda = window.innerWidth - ancho - 8;
-                    }
-
-                    if (arriba + alto > window.innerHeight - 8) {
-                        arriba = rect.top - alto - 6;
-                    }
-
-                    menu.style.left = `${izquierda}px`;
-                    menu.style.top = `${Math.max(8, arriba)}px`;
                 }
-
+        
+            });
+        
+            // Alternar menú actual
+            const estabaAbierto = !menu.hidden;
+        
+            if (estabaAbierto) {
+        
+                menu.hidden = true;
+                boton.setAttribute("aria-expanded", "false");
+        
+                if (menu._cubikaWrapper) {
+                    menu._cubikaWrapper.appendChild(menu);
+                }
+        
+                return;
             }
+        
+            // Guardar referencias originales
+            menu._cubikaWrapper = wrapper;
+            menu._cubikaBoton = boton;
+        
+            // Mover el menú fuera de la tabla
+            document.body.appendChild(menu);
+        
+            menu.hidden = false;
+        
+            boton.setAttribute("aria-expanded", "true");
+        
+            // Posicionar el menú respecto al botón
+            const rect = boton.getBoundingClientRect();
+        
+            menu.style.position = "fixed";
+            menu.style.zIndex = "99999";
+        
+            const ancho = menu.offsetWidth;
+            const alto = menu.offsetHeight;
+        
+            let izquierda = rect.right - ancho;
+            let arriba = rect.bottom + 6;
+        
+            if (izquierda < 8) {
+                izquierda = 8;
+            }
+        
+            if (izquierda + ancho > window.innerWidth - 8) {
+                izquierda = window.innerWidth - ancho - 8;
+            }
+        
+            if (arriba + alto > window.innerHeight - 8) {
+                arriba = rect.top - alto - 6;
+            }
+        
+            menu.style.left = `${izquierda}px`;
+            menu.style.top = `${Math.max(8, arriba)}px`;
+        }
+
 
         });
 
