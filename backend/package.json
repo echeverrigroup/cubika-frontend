@@ -13,6 +13,7 @@
   "type": "module",
   "dependencies": {
     "@sparticuz/chromium": "^153.0.0",
+    "pizzip": "^3.3.0",
     "puppeteer-core": "^25.12.0"
   }
 }
