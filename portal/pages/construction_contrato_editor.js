@@ -4094,7 +4094,7 @@ async function cargarObrasPorConstructora(
 
 
 
-async function registrarEventoDocumentalSeguro(
+export async function registrarEventoDocumentalSeguro(
     metodo,
     datos,
     detalle = null
