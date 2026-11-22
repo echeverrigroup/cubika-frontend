@@ -2,7 +2,8 @@ import { storageService } from "../js/services/storageService.js";
 
 import {
     construirDocumentoHtml,
-    generarDocxComplementario
+    generarDocxComplementario,
+    registrarEventoDocumentalSeguro
 } from "./construction_contrato_editor.js";
 
 
