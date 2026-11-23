@@ -6178,3 +6178,22 @@ align-self: flex-start;
     margin: 4px 5px;
     background: #EAEFF4;
 }
+
+
+
+.anexo-selectores-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.anexo-selectores-grid .form-group {
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .anexo-selectores-grid {
+        grid-template-columns: 1fr;
+    }
+}
