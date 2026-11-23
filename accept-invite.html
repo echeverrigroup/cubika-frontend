@@ -1688,6 +1688,13 @@
     );
 
 
+    /*
+     * Permite reintentar la activación si la contraseña ya se guardó,
+     * pero la llamada a la Edge Function falló temporalmente.
+     */
+    let passwordActualizada = false;
+
+
     /* ==================================================
        CARGAR INFORMACIÓN DE LA INVITACIÓN
        ================================================== */
@@ -1766,38 +1773,47 @@
         
         /*
          * ------------------------------------------------
-         * 3. Activar cuenta mediante Edge Function
+         * 3. Obtener perfil del usuario invitado
          * ------------------------------------------------
          */
-        
+
         const {
-            data: activationData,
-            error: activationError
-        } = await supabase.functions.invoke(
-            "activate-user",
-            {
-                method: "POST"
-            }
-        );
-        
-        if (activationError) {
-            console.error(
-                "Error en Edge Function:",
-                activationError
-            );
-        
-            throw new Error(
-                "No fue posible completar la activación de tu cuenta."
-            );
-        }
-        
-        if (!activationData?.success) {
-            throw new Error(
-                activationData?.error ||
-                "No fue posible activar la cuenta."
-            );
+          data: usuario,
+          error: usuarioError
+        } = await supabase
+          .from("usuarios")
+          .select(`
+            id,
+            empresa_id,
+            nombre,
+            apellido,
+            email,
+            cargo,
+            nivel,
+            estado
+          `)
+          .eq("auth_user_id", authUser.id)
+          .single();
+
+        if (usuarioError) {
+          console.error(
+            "Error consultando perfil de usuario:",
+            usuarioError
+          );
+          throw usuarioError;
         }
 
+        if (!usuario) {
+          throw new Error(
+            "No se encontró el perfil asociado a esta invitación."
+          );
+        }
+
+        if (usuario.estado !== "PENDIENTE") {
+          throw new Error(
+            "Esta cuenta no tiene una invitación pendiente de activación."
+          );
+        }
 
 
         /*
@@ -2001,72 +2017,62 @@
            * ------------------------------------------------
            * 1. Establecer contraseña en Supabase Auth
            * ------------------------------------------------
+           *
+           * Si la contraseña ya se guardó en un intento anterior
+           * y falló la activación, no repetimos esta operación.
            */
 
-          const {
-            error: passwordError
-          } =
-            await supabase.auth.updateUser({
+          if (!passwordActualizada) {
 
-              password:
-                pass
-
+            const {
+              error: passwordError
+            } = await supabase.auth.updateUser({
+              password: pass
             });
 
+            if (passwordError)
+              throw passwordError;
 
-          if (passwordError)
-            throw passwordError;
-
-
-          /*
-           * ------------------------------------------------
-           * 2. Obtener usuario autenticado
-           * ------------------------------------------------
-           */
-
-          const {
-            data: userData,
-            error: userError
-          } =
-            await supabase.auth.getUser();
-
-
-          if (userError)
-            throw userError;
-
-
-          const authUser =
-            userData.user;
+            passwordActualizada = true;
+          }
 
 
           /*
            * ------------------------------------------------
-           * 3. Actualizar estado en Cubika
+           * 2. Activar cuenta en Cubika mediante Edge Function
            * ------------------------------------------------
+           *
+           * La Edge Function utiliza service_role en el servidor.
+           * No hacemos UPDATE directo desde el navegador.
            */
 
           const {
-            error: updateError
-          } =
-            await supabase
-              .from("usuarios")
-              .update({
+            data: activationData,
+            error: activationError
+          } = await supabase.functions.invoke(
+            "activate-user",
+            {
+              method: "POST"
+            }
+          );
 
-                estado:
-                  "ACTIVO",
+          if (activationError) {
+            console.error(
+              "Error en Edge Function activate-user:",
+              activationError
+            );
 
-                updated_at:
-                  new Date().toISOString()
+            throw new Error(
+              "La contraseña se guardó, pero no fue posible activar la cuenta. Puedes volver a intentar."
+            );
+          }
 
-              })
-              .eq(
-                "auth_user_id",
-                authUser.id
-              );
-
-
-          if (updateError)
-            throw updateError;
+          if (!activationData?.success) {
+            throw new Error(
+              activationData?.error ||
+              "La contraseña se guardó, pero no fue posible activar la cuenta. Puedes volver a intentar."
+            );
+          }
 
 
           /*
