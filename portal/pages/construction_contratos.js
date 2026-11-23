@@ -779,19 +779,15 @@ contratosTodos
 
                             <th>Trabajador</th>
 
-
-
-                            <th>Cargo</th>
+                            <th>Fecha inicio</th>
 
                             <th>Tipo contrato</th>
 
-                            <th>Fecha inicio</th>
+                            <th>Cargo</th>
 
-
+                            <th>Obra</th>                  
 
                             <th>Constructora</th>
-
-                            <th>Obra</th>
 
                             <th>Acciones</th>
 
@@ -854,16 +850,7 @@ contratosTodos
                                         <td>
                                             ${trabajador}
                                         </td>
-                                        
 
-                                         <td>
-                                            ${contrato.cargo_actual?.nombre ?? contrato.cargo?.nombre ?? "-"}
-                                        </td>
-                                                                                
-
-                                        <td>
-                                            ${contrato.tipo_contrato?.nombre ?? "-"}
-                                        </td>
 
                                         <td>
                                             ${formatearFecha(
@@ -873,12 +860,25 @@ contratosTodos
 
 
                                         <td>
+                                            ${contrato.tipo_contrato?.nombre ?? "-"}
+                                        </td>
+                                        
+
+                                         <td>
+                                            ${contrato.cargo_actual?.nombre ?? contrato.cargo?.nombre ?? "-"}
+                                        </td>
+                                                                                
+
+                                       <td>
+                                            ${contrato.obra_actual?.nombre ?? contrato.obra?.nombre ?? "-"}
+                                        </td>                                        
+
+
+                                        <td>
                                             ${contrato.constructora_actual?.nombre ?? contrato.obra?.constructora?.nombre ?? "-"}
                                         </td>
 
-                                        <td>
-                                            ${contrato.obra_actual?.nombre ?? contrato.obra?.nombre ?? "-"}
-                                        </td>
+                                        
 
                                         
                                       <td class="acciones-cell">
