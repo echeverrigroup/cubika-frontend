@@ -545,6 +545,39 @@ init();
 
 
 // =========================================================
+// CONFIRMAR SALIDA AL PRESIONAR ATRÁS DEL NAVEGADOR
+// =========================================================
+
+history.pushState(
+    { cubika: true },
+    "",
+    location.href
+);
+
+window.addEventListener("popstate", () => {
+
+    const abandonar = window.confirm(
+        "¿Deseas abandonar la sesión actual de Cubika?"
+    );
+
+    if (abandonar) {
+
+        window.location.href = "/login.html";
+
+    } else {
+
+        history.pushState(
+            { cubika: true },
+            "",
+            location.href
+        );
+
+    }
+
+});
+
+
+// =========================================================
 // MENÚ DE USUARIO RESPONSIVE
 // =========================================================
 
