@@ -286,20 +286,16 @@ logoutBtn.addEventListener(
     );
 
 
-    document
+
+document
     .querySelectorAll("[data-page]")
     .forEach(item => {
 
-        item.addEventListener("click", async () => {
+        item.addEventListener("click", () => {
 
             const pagina = item.dataset.page;
 
-            const navegacionExitosa =
-                await navigate(pagina);
-
-            if (!navegacionExitosa) {
-                return;
-            }
+            navigate(pagina);
 
             document
                 .querySelectorAll("[data-page]")
@@ -326,6 +322,7 @@ logoutBtn.addEventListener(
         });
 
     });
+
 
     
     // =========================================================
