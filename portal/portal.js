@@ -539,9 +539,6 @@ if (contexto.tipo === "SUPER_ADMIN") {
         // Cargar la página
         navigate(pagina);
 }
-   
-
-init();
 
 
 // =========================================================
@@ -575,6 +572,11 @@ window.addEventListener("popstate", () => {
     }
 
 });
+
+   
+
+init();
+
 
 
 // =========================================================
