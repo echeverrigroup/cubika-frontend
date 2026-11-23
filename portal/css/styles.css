@@ -6197,3 +6197,18 @@ align-self: flex-start;
         grid-template-columns: 1fr;
     }
 }
+
+
+
+.contrato-anexo-modal .cubika-modal-body {
+    padding: 24px 30px;
+    box-sizing: border-box;
+}
+
+.contrato-anexo-modal .cubika-modal-header {
+    padding: 22px 30px;
+}
+
+.contrato-anexo-modal .cubika-modal-footer {
+    padding: 18px 30px;
+}
