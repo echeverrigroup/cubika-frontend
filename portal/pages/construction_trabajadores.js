@@ -70,7 +70,6 @@ export async function renderConstructionTrabajadores() {
 
     
 const testGlobal = await workersService.getTiposDocumento();
-console.log("TIPOS DOCUMENTO:", testGlobal);
 
 
     const content =
