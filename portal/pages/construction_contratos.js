@@ -2965,63 +2965,136 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                     id="cerrarFormularioAnexo" aria-label="Cerrar">×</button>
             </div>
 
+            
             <div class="cubika-modal-body">
-                <div class="anexo-contexto">
-                    <div>
-                        <span>Contrato</span>
-                        <strong>${contrato.numero_contrato ?? "-"}</strong>
+            
+                <!-- ETAPA 1: FORMULARIO -->
+                <div id="anexoFormularioContenido">
+            
+                    <div class="anexo-contexto">
+                        <div>
+                            <span>Contrato</span>
+                            <strong>${contrato.numero_contrato ?? "-"}</strong>
+                        </div>
+                        <div>
+                            <span>Trabajador</span>
+                            <strong>${trabajadorNombre}</strong>
+                        </div>
+                        <div>
+                            <span>Plantilla</span>
+                            <strong>${plantilla.nombre}</strong>
+                        </div>
                     </div>
-                    <div>
-                        <span>Trabajador</span>
-                        <strong>${trabajadorNombre}</strong>
+            
+                    <div class="anexo-seccion">
+                        <div class="anexo-seccion-header">
+                            <h3>Datos del anexo</h3>
+                            <p>Completa los antecedentes necesarios para preparar el documento.</p>
+                        </div>
+            
+                        <div class="anexo-form-grid">
+                            ${camposHtml.join("")}
+            
+                            <div class="form-group">
+                                <label for="anexoFechaVigencia">Fecha de vigencia</label>
+                                <input
+                                    type="date"
+                                    id="anexoFechaVigencia"
+                                    class="cubika-input"
+                                    required
+                                >
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="anexoObservaciones">Observaciones</label>
+                                <input
+                                    type="text"
+                                    id="anexoObservaciones"
+                                    class="cubika-input"
+                                    placeholder="Observaciones del anexo"
+                                >
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span>Plantilla</span>
-                        <strong>${plantilla.nombre}</strong>
-                    </div>
+            
                 </div>
-
-                <div class="anexo-seccion">
+            
+                <!-- ETAPA 2: VISTA PREVIA PDF -->
+                <div id="anexoVistaPrevia" hidden>
+            
                     <div class="anexo-seccion-header">
-                        <h3>Datos del anexo</h3>
-                        <p>Estos antecedentes serán utilizados al generar el documento.</p>
+                        <h3>Revisión del documento</h3>
+                        <p>
+                            Revisa el contenido del anexo antes de confirmar su generación.
+                        </p>
                     </div>
-
-                    <div class="anexo-form-grid">
-
-                    
-                        ${camposHtml.join("")}
-
-                        
-                        <div class="form-group">
-                            <label for="anexoFechaVigencia">Fecha de vigencia</label>
-                            <input type="date" id="anexoFechaVigencia"
-                                class="cubika-input" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="anexoObservaciones">Observaciones</label>
-                            <input type="text" id="anexoObservaciones"
-                                class="cubika-input"
-                                placeholder="Observaciones del anexo">
-                        </div>
+            
+                    <div class="anexo-pdf-contenedor">
+                        <iframe
+                            id="anexoPdfPreview"
+                            title="Vista previa del anexo"
+                            width="100%"
+                            height="650"
+                        ></iframe>
                     </div>
+            
                 </div>
+            
+            </div>
+            
+            <div class="cubika-modal-footer">
+            
+                <button
+                    type="button"
+                    class="btn-cubika-secondary"
+                    id="cancelarFormularioAnexo"
+                >
+                    Cancelar
+                </button>
+            
+                <button
+                    type="button"
+                    class="btn-cubika-secondary"
+                    id="volverFormularioAnexo"
+                    hidden
+                >
+                    Volver a editar
+                </button>
+            
+                <button
+                    type="button"
+                    class="btn-cubika-green"
+                    id="continuarFormularioAnexo"
+                >
+                    Vista previa del anexo
+                </button>
+            
+                <button
+                    type="button"
+                    class="btn-cubika-green"
+                    id="confirmarGeneracionAnexo"
+                    hidden
+                >
+                    Generar anexo
+                </button>
+            
             </div>
 
-            <div class="cubika-modal-footer">
-                <button type="button" class="btn-cubika-secondary"
-                    id="cancelarFormularioAnexo">Cancelar</button>
-                <button type="button" class="btn-cubika-green"
-                    id="continuarFormularioAnexo">Generar anexo</button>
-            </div>
         </div>
     `;
 
     document.body.appendChild(overlay);
 
-    const cerrar = () => overlay.remove();
+    const cerrar = () => {
+        if (pdfPreviewUrl) {
+            URL.revokeObjectURL(pdfPreviewUrl);
+            pdfPreviewUrl = null;
+        }
+    
+        overlay.remove();
+    };
 
+    
     overlay.querySelector("#cerrarFormularioAnexo")
         ?.addEventListener("click", cerrar);
 
@@ -3120,6 +3193,15 @@ async function abrirFormularioAnexo(contrato, plantilla) {
     }
 
     const botonGenerar = overlay.querySelector("#continuarFormularioAnexo");
+    const botonConfirmar = overlay.querySelector("#confirmarGeneracionAnexo");
+    const botonVolver = overlay.querySelector("#volverFormularioAnexo");
+    
+    const formularioContenido = overlay.querySelector("#anexoFormularioContenido");
+    const vistaPrevia = overlay.querySelector("#anexoVistaPrevia");
+    const visorPdf = overlay.querySelector("#anexoPdfPreview");
+    
+    let anexoPendiente = null;
+    let pdfPreviewUrl = null;
 
     botonGenerar.addEventListener("click", async () => {
         const fechaVigencia =
@@ -3482,6 +3564,82 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                 );
             }
 
+            // Preparar el PDF para revisión, sin guardar todavía el anexo.
+
+            // Obtener el logo de la empresa.
+            const logoUrl = empresa?.logo_path
+                ? await storageService.createSignedUrlLogo(
+                    empresa.logo_path
+                )
+                : null;
+            
+            // Construir el HTML definitivo.
+            const documentoPdfHtml = await construirDocumentoHtml(
+                contenidoHtml,
+                logoUrl,
+                variables.NOMBRE_EMPRESA ?? "",
+                "ANEXO DE CONTRATO DE TRABAJO"
+            );
+            
+            // Solicitar el PDF a la API.
+            const response = await fetch(
+                "https://api.cubika.cl/api/pdf",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        html: documentoPdfHtml
+                    })
+                }
+            );
+            
+            if (!response.ok) {
+                const detalle = await response.text();
+            
+                throw new Error(
+                    `Error generando PDF (${response.status}): ${detalle}`
+                );
+            }
+            
+            const pdfBlob = await response.blob();
+            
+            if (!pdfBlob.size) {
+                throw new Error("La API devolvió un PDF vacío.");
+            }
+            
+            // Conservar todos los datos para la confirmación posterior.
+            anexoPendiente = {
+                empresa,
+                obraId,
+                observaciones,
+                contenidoHtml,
+                variables,
+                pdfBlob
+            };
+            
+            // Mostrar el PDF en el visor.
+            if (pdfPreviewUrl) {
+                URL.revokeObjectURL(pdfPreviewUrl);
+            }
+            
+            pdfPreviewUrl = URL.createObjectURL(pdfBlob);
+            visorPdf.src = pdfPreviewUrl;
+            
+            // Cambiar a la segunda etapa.
+            formularioContenido.hidden = true;
+            vistaPrevia.hidden = false;
+            
+            botonGenerar.hidden = true;
+            botonVolver.hidden = false;
+            botonConfirmar.hidden = false;
+            
+            overlay.querySelector(".cubika-modal-header p").textContent =
+                "Revisa el documento antes de confirmar su generación.";
+            
+            return;
+
             // 3. Obtener el estado y el número del nuevo anexo.
             const [numeroAnexo, estadoGenerado] = await Promise.all([
                 documentNumberService.generarNumeroDocumento(
@@ -3652,17 +3810,245 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             
 
         } catch (error) {
-            console.error("Error al generar el anexo:", error);
-
+            console.error("Error al preparar la vista previa del anexo:", error);
+        
             alert(
-                "No fue posible generar el anexo. " +
+                "No fue posible preparar el documento. " +
                 (error.message ?? "Revisa la consola para más detalles.")
             );
-
+        
             botonGenerar.disabled = false;
-            botonGenerar.textContent = "Generar anexo";
+            botonGenerar.textContent = "Vista previa del anexo";
         }
     });
+
+        
+            botonVolver.addEventListener("click", () => {
+        
+            vistaPrevia.hidden = true;
+            formularioContenido.hidden = false;
+        
+            botonVolver.hidden = true;
+            botonConfirmar.hidden = true;
+        
+            botonGenerar.hidden = false;
+            botonGenerar.disabled = false;
+            botonGenerar.textContent = "Actualizar vista previa";
+        
+            overlay.querySelector(".cubika-modal-header p").textContent =
+                "Completa los antecedentes necesarios para generar el documento.";
+        
+        });
+
+
+    botonConfirmar.addEventListener("click", async () => {
+
+        if (!anexoPendiente) {
+            alert("No existe un documento preparado para generar.");
+            return;
+        }
+    
+        botonConfirmar.disabled = true;
+        botonConfirmar.textContent = "Guardando anexo...";
+    
+        try {
+    
+            const {
+                empresa,
+                obraId,
+                observaciones,
+                contenidoHtml,
+                variables,
+                pdfBlob
+            } = anexoPendiente;
+    
+            // 1. Obtener número y estado definitivo.
+            const [numeroAnexo, estadoGenerado] = await Promise.all([
+                documentNumberService.generarNumeroDocumento(
+                    contrato.cliente_id,
+                    "ANX"
+                ),
+                estadosContratoService.getByCodigo("GENERADO")
+            ]);
+    
+            if (!estadoGenerado?.id) {
+                throw new Error(
+                    "No se encontró el estado GENERADO en estados_contrato."
+                );
+            }
+    
+            // 2. Construir el registro del anexo.
+            const registroAnexo = {
+                cliente_id: contrato.cliente_id,
+                worker_id: contrato.worker_id,
+                empresa_id: contrato.empresa_id,
+                obra_id: obraId,
+                cargo_id: contrato.cargo_id,
+                plantilla_id: plantilla.id,
+                numero_contrato: numeroAnexo,
+    
+                fecha_inicio: contrato.fecha_inicio,
+                fecha_termino: contrato.fecha_termino,
+                sueldo: contrato.sueldo,
+                jornada_id: contrato.jornada_id,
+                distribucion_horaria: contrato.distribucion_horaria,
+                causal_termino: contrato.causal_termino,
+    
+                observaciones,
+                contenido_html: contenidoHtml,
+                variables,
+    
+                estado_id: estadoGenerado.id,
+                tipo_documento: "ANEXO",
+                contrato_madre_id: contrato.id
+            };
+    
+            // 3. Crear el registro en Supabase.
+            const anexoCreado = await contratosGeneradosService.create(
+                registroAnexo
+            );
+    
+            if (!anexoCreado?.id) {
+                throw new Error(
+                    "El anexo se guardó, pero no se obtuvo su ID."
+                );
+            }
+    
+            // 4. Subir exactamente el PDF que el usuario revisó.
+            const upload = await storageService.uploadContrato({
+                empresaId: anexoCreado.empresa_id,
+                workerId: anexoCreado.worker_id,
+                contratoId: anexoCreado.id,
+                pdfBlob,
+                nombreArchivo: "anexo.pdf"
+            });
+    
+            await contratosGeneradosService.actualizarPdf(
+                anexoCreado.id,
+                upload.path
+            );
+    
+            // 5. Registrar el evento documental.
+            try {
+    
+                await documentosGeneradosEventosService.registrarGeneracion({
+                    cliente_id: contrato.cliente_id,
+                    lote_id: crypto.randomUUID(),
+    
+                    // El evento apunta al contrato original.
+                    contrato_id: contrato.id,
+    
+                    plantilla_id: plantilla.id,
+                    empresa_id: contrato.empresa_id,
+                    worker_id: contrato.worker_id,
+    
+                    tipo_documento: "ANEXO",
+                    nombre_documento: `Anexo ${numeroAnexo} - ${plantilla.nombre}`
+                });
+    
+            } catch (error) {
+    
+                console.error(
+                    "No fue posible registrar el evento documental:",
+                    error
+                );
+    
+            }
+    
+            // 6. Descargar el PDF aprobado.
+            const downloadUrl = URL.createObjectURL(pdfBlob);
+            const link = document.createElement("a");
+    
+            link.href = downloadUrl;
+            link.download = `anexo-${numeroAnexo}.pdf`;
+    
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+    
+            setTimeout(() => {
+                URL.revokeObjectURL(downloadUrl);
+            }, 1000);
+    
+            // 7. Cerrar el modal de generación.
+            cerrar();
+    
+            // 8. Mostrar confirmación.
+            mostrarConfirmacionAnexo(numeroAnexo);
+    
+            // 9. Actualizar el listado.
+            await cargarContratosGenerados(true);
+    
+        } catch (error) {
+    
+            console.error("Error al generar el anexo:", error);
+    
+            alert(
+                "No fue posible completar la generación del anexo. " +
+                (error.message ?? "Revisa la consola para más detalles.")
+            );
+    
+            botonConfirmar.disabled = false;
+            botonConfirmar.textContent = "Generar anexo";
+    
+        }
+    
+    });
+            
+    
+}
+
+
+
+function mostrarConfirmacionAnexo(numeroAnexo) {
+
+    const modal = document.createElement("div");
+
+    modal.className = "cubika-modal-overlay";
+
+    modal.innerHTML = `
+        <div class="cubika-modal anexo-confirmacion-modal">
+
+            <div class="cubika-modal-body">
+
+                <div class="anexo-confirmacion-icono">
+                    <span>✓</span>
+                </div>
+
+                <h2>Anexo generado exitosamente</h2>
+
+                <p>
+                    El documento ha sido generado y añadido
+                    correctamente a la relación contractual.
+                </p>
+
+                <div class="anexo-confirmacion-numero">
+                    <span>Número de anexo</span>
+                    <strong>${numeroAnexo}</strong>
+                </div>
+
+            </div>
+
+            <div class="cubika-modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-cubika-green"
+                    id="cerrarConfirmacionAnexo"
+                >
+                    Entendido
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector("#cerrarConfirmacionAnexo")
+        .addEventListener("click", () => modal.remove());
+
 }
 
 
