@@ -2042,61 +2042,158 @@ async function abrirHistorialContractual(contratoId) {
 
 
 
+
 async function abrirSelectorPlantillaAnexo(contratoId) {
 
-    const contrato =
-        contratosVisibles.find(
-            contrato =>
-                String(contrato.id) ===
-                String(contratoId)
-        );
+    const contrato = contratosVisibles.find(
+        contrato =>
+            String(contrato.id) === String(contratoId)
+    );
 
     if (!contrato) {
-
         console.error(
             "No se encontró el contrato para crear el anexo:",
             contratoId
         );
-
         return;
     }
 
-
     try {
 
-        const plantillas =
-            await plantillasDocumentoService.getAll();
+        const [
+            plantillas,
+            asociacionesConstructoras,
+            asociacionesCargos
+        ] = await Promise.all([
+
+            plantillasDocumentoService.getAll(),
+
+            plantillasDocumentoService.getTodasLasAsociacionesConstructoras(),
+
+            plantillasDocumentoService.getTodasLasAsociacionesCargos()
+
+        ]);
+
+        // 1. Identificar constructora y cargo vigentes.
+        const constructoraId =
+            contrato.constructora_actual?.id ??
+            contrato.obra_actual?.constructora?.id ??
+            contrato.obra?.constructora?.id ??
+            null;
+
+        const cargoId =
+            contrato.cargo_actual?.id ??
+            contrato.condiciones_actuales?.cargo_id ??
+            contrato.cargo?.id ??
+            contrato.cargo_id ??
+            null;
 
 
-        const plantillasAnexo =
-            plantillas.filter(
-                plantilla =>
-                    plantilla.tipo_documento
-                        ?.toLowerCase() === "anexo"
-                    &&
-                    plantilla.estado
-                        ?.toLowerCase() === "activo"
+        // 2. Filtrar plantillas activas de tipo ANEXO.
+        const plantillasAnexo = plantillas.filter(plantilla => {
+
+            return (
+                String(plantilla.tipo_documento ?? "")
+                    .trim()
+                    .toUpperCase() === "ANEXO" &&
+
+                String(plantilla.estado ?? "")
+                    .trim()
+                    .toUpperCase() === "ACTIVO" &&
+
+                String(plantilla.tipo_anexo ?? "").trim() !== ""
             );
 
+        });
 
-        if (!plantillasAnexo.length) {
+
+        // 3. Aplicar restricciones por constructora y cargo.
+        const plantillasDisponibles = plantillasAnexo.filter(plantilla => {
+
+            const asociacionesDeConstructora =
+                asociacionesConstructoras.filter(
+                    asociacion =>
+                        String(asociacion.plantilla_id) ===
+                        String(plantilla.id)
+                );
+
+            const asociacionesDeCargo =
+                asociacionesCargos.filter(
+                    asociacion =>
+                        String(asociacion.plantilla_id) ===
+                        String(plantilla.id)
+                );
+
+
+            // Sin asociaciones: disponible para todas las constructoras.
+            const constructoraPermitida =
+                asociacionesDeConstructora.length === 0 ||
+                (
+                    constructoraId !== null &&
+                    asociacionesDeConstructora.some(
+                        asociacion =>
+                            String(asociacion.constructora_id) ===
+                            String(constructoraId)
+                    )
+                );
+
+
+            // Sin asociaciones: disponible para todos los cargos.
+            const cargoPermitido =
+                asociacionesDeCargo.length === 0 ||
+                (
+                    cargoId !== null &&
+                    asociacionesDeCargo.some(
+                        asociacion =>
+                            String(asociacion.cargo_id) ===
+                            String(cargoId)
+                    )
+                );
+
+
+            return constructoraPermitida && cargoPermitido;
+
+        });
+
+
+        if (!plantillasDisponibles.length) {
 
             alert(
-                "No existen plantillas de Anexo activas."
+                "No existen plantillas de Anexo activas disponibles para este contrato."
             );
 
             return;
         }
 
 
-        const modal =
-            document.createElement(
-                "div"
-            );
+        // 4. Obtener los tipos de anexo disponibles.
+        const tiposAnexo = [
+            ...new Set(
+                plantillasDisponibles.map(
+                    plantilla =>
+                        String(plantilla.tipo_anexo)
+                            .trim()
+                            .toUpperCase()
+                )
+            )
+        ].sort();
 
-        modal.className =
-            "cubika-modal-overlay";
 
+        // Presentación de los tipos en el selector.
+        const formatearTipoAnexo = tipo => {
+
+            return tipo
+                .replace(/_/g, " ")
+                .toLocaleLowerCase("es")
+                .replace(/^./, letra => letra.toLocaleUpperCase("es"));
+
+        };
+
+
+        // 5. Crear modal.
+        const modal = document.createElement("div");
+
+        modal.className = "cubika-modal-overlay";
 
         modal.innerHTML = `
 
@@ -2106,18 +2203,13 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 
                     <div>
 
-                        <h2>
-                            Añadir anexo
-                        </h2>
+                        <h2>Añadir anexo</h2>
 
                         <span class="contrato-detalle-numero">
-
                             ${contrato.numero_contrato ?? "Sin número"}
-
                         </span>
 
                     </div>
-
 
                     <button
                         type="button"
@@ -2135,36 +2227,64 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 
                     <section class="contrato-detalle-seccion">
 
-                        <h3>
-                            Selecciona una plantilla
-                        </h3>
+                        <h3>Configuración del anexo</h3>
+
+                        <p class="anexo-selector-descripcion">
+                            Selecciona el tipo de modificación contractual
+                            y luego la plantilla que deseas utilizar.
+                        </p>
 
 
-                        <div
-                            class="anexo-plantillas-lista"
-                        >
+                        <div class="form-group">
 
-                            ${plantillasAnexo.map(
-                                plantilla => `
+                            <label for="selectorTipoAnexo">
+                                ¿Qué tipo de anexo deseas generar?
+                            </label>
 
-                                    <button
-                                        type="button"
-                                        class="anexo-plantilla-option"
-                                        data-plantilla-id="${plantilla.id}"
-                                    >
+                            <select
+                                id="selectorTipoAnexo"
+                                class="cubika-select"
+                            >
 
-                                        <span>
-                                            ${plantilla.nombre}
-                                        </span>
+                                <option value="">
+                                    Selecciona un tipo de anexo
+                                </option>
 
-                                        <span>
-                                            →
-                                        </span>
+                                ${tiposAnexo.map(tipo => `
+                                    <option value="${tipo}">
+                                        ${formatearTipoAnexo(tipo)}
+                                    </option>
+                                `).join("")}
 
-                                    </button>
+                            </select>
 
-                                `
-                            ).join("")}
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="selectorPlantillaAnexo">
+                                Plantilla disponible
+                            </label>
+
+                            <select
+                                id="selectorPlantillaAnexo"
+                                class="cubika-select"
+                                disabled
+                            >
+
+                                <option value="">
+                                    Primero selecciona un tipo de anexo
+                                </option>
+
+                            </select>
+
+                            <small
+                                id="anexoSelectorAyuda"
+                                class="anexo-selector-ayuda"
+                            >
+                                Las plantillas se mostrarán según el tipo seleccionado.
+                            </small>
 
                         </div>
 
@@ -2183,6 +2303,15 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                         Cancelar
                     </button>
 
+                    <button
+                        type="button"
+                        class="btn-cubika-green"
+                        id="btnContinuarAnexo"
+                        disabled
+                    >
+                        Continuar
+                    </button>
+
                 </div>
 
             </div>
@@ -2190,94 +2319,137 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
         `;
 
 
-        document.body.appendChild(
-            modal
-        );
+        document.body.appendChild(modal);
 
 
-        const cerrar = () => {
+        // 6. Referencias a los controles.
+        const selectTipo =
+            modal.querySelector("#selectorTipoAnexo");
 
-            modal.remove();
+        const selectPlantilla =
+            modal.querySelector("#selectorPlantillaAnexo");
 
-        };
+        const btnContinuar =
+            modal.querySelector("#btnContinuarAnexo");
 
-
-        modal
-            .querySelector(
-                ".cubika-modal-close"
-            )
-            .addEventListener(
-                "click",
-                cerrar
-            );
+        const ayuda =
+            modal.querySelector("#anexoSelectorAyuda");
 
 
-        modal
-            .querySelector(
-                "[data-cerrar-anexo]"
-            )
-            .addEventListener(
-                "click",
-                cerrar
-            );
+        // 7. Cierre del modal.
+        const cerrar = () => modal.remove();
 
+        modal.querySelector(".cubika-modal-close")
+            .addEventListener("click", cerrar);
 
-        modal.addEventListener(
-            "click",
-            event => {
+        modal.querySelector("[data-cerrar-anexo]")
+            .addEventListener("click", cerrar);
 
-                if (
-                    event.target === modal
-                ) {
+        modal.addEventListener("click", event => {
 
-                    cerrar();
-
-                }
-
+            if (event.target === modal) {
+                cerrar();
             }
-        );
+
+        });
 
 
-        modal
-            .querySelectorAll(
-                ".anexo-plantilla-option"
-            )
-            .forEach(
-                boton => {
+        // 8. Al seleccionar el tipo, actualizar las plantillas.
+        selectTipo.addEventListener("change", () => {
 
-                    boton.addEventListener(
-                        "click",
-                        () => {
+            const tipoSeleccionado = selectTipo.value;
 
-                            const plantillaId =
-                                boton.dataset.plantillaId;
-                        
-                            const plantillaSeleccionada =
-                                plantillas.find(
-                                    plantilla =>
-                                        String(plantilla.id) ===
-                                        String(plantillaId)
-                                );
-                        
-                            if (!plantillaSeleccionada) {
-                                alert(
-                                    "No fue posible identificar la plantilla seleccionada."
-                                );
-                                return;
-                            }
-                        
-                            modal.remove();
-                        
-                            abrirFormularioAnexo(
-                                contrato,
-                                plantillaSeleccionada
-                            );
+            selectPlantilla.innerHTML = "";
+            btnContinuar.disabled = true;
 
-                        }
-                    );
+            if (!tipoSeleccionado) {
 
-                }
+                selectPlantilla.disabled = true;
+
+                selectPlantilla.innerHTML = `
+                    <option value="">
+                        Primero selecciona un tipo de anexo
+                    </option>
+                `;
+
+                ayuda.textContent =
+                    "Las plantillas se mostrarán según el tipo seleccionado.";
+
+                return;
+            }
+
+
+            const plantillasFiltradas =
+                plantillasDisponibles.filter(
+                    plantilla =>
+                        String(plantilla.tipo_anexo)
+                            .trim()
+                            .toUpperCase() === tipoSeleccionado
+                );
+
+
+            selectPlantilla.disabled = false;
+
+            selectPlantilla.innerHTML = `
+                <option value="">
+                    Selecciona una plantilla
+                </option>
+            `;
+
+
+            plantillasFiltradas.forEach(plantilla => {
+
+                const option = document.createElement("option");
+
+                option.value = plantilla.id;
+                option.textContent = plantilla.nombre;
+
+                selectPlantilla.appendChild(option);
+
+            });
+
+
+            ayuda.textContent =
+                `${plantillasFiltradas.length} plantilla(s) disponible(s) para este tipo de anexo.`;
+
+        });
+
+
+        // 9. Habilitar continuar cuando exista una plantilla seleccionada.
+        selectPlantilla.addEventListener("change", () => {
+
+            btnContinuar.disabled = !selectPlantilla.value;
+
+        });
+
+
+        // 10. Continuar con el formulario de generación.
+        btnContinuar.addEventListener("click", () => {
+
+            const plantillaSeleccionada =
+                plantillasDisponibles.find(
+                    plantilla =>
+                        String(plantilla.id) ===
+                        String(selectPlantilla.value)
+                );
+
+            if (!plantillaSeleccionada) {
+
+                alert(
+                    "No fue posible identificar la plantilla seleccionada."
+                );
+
+                return;
+            }
+
+            cerrar();
+
+            abrirFormularioAnexo(
+                contrato,
+                plantillaSeleccionada
             );
+
+        });
 
     }
     catch (error) {
