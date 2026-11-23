@@ -892,7 +892,7 @@ contratosTodos
                                                 data-action="ver"
                                                 data-contrato-id="${contrato.id}"
                                                 title="Ver contrato"
-                                                aria-label="Ver contrato"
+                                                aria-label="Ver detalle"
                                             >
                                                 <img
                                                     src="/img/icons/ver.svg"
