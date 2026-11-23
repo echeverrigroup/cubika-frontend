@@ -2207,6 +2207,12 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
 
                         <span class="contrato-detalle-numero">
                             ${contrato.numero_contrato ?? "Sin número"}
+                            ·
+                            ${[
+                                contrato.worker?.nombres,
+                                contrato.worker?.apellido_paterno,
+                                contrato.worker?.apellido_materno
+                            ].filter(Boolean).join(" ") || "Sin trabajador"}
                         </span>
 
                     </div>
@@ -2228,11 +2234,6 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                     <section class="contrato-detalle-seccion">
 
                         <h3>Configuración del anexo</h3>
-
-                        <p class="anexo-selector-descripcion">
-                            Selecciona el tipo de modificación contractual
-                            y luego la plantilla que deseas utilizar.
-                        </p>
 
 
                         <div class="anexo-selectores-grid">
