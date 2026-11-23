@@ -1,3 +1,7 @@
+import {
+    confirmarSalida
+} from "./services/unsavedChangesGuard.js";
+
 import { supabase } from "../js/supabaseClient.js";
 import { requireAuth } from "./auth.js";
 import { navigate } from "./router.js";
@@ -155,34 +159,44 @@ if (contexto.tipo === "SUPER_ADMIN") {
     const logoutBtn =
     document.getElementById("logoutBtn");
 
+
     logoutBtn.addEventListener(
-    "click",
-    () => {
-
-        showConfirmModal({
-
-            title: "Cerrar sesión",
-
-            message:
-                "¿Deseas abandonar la sesión actual de Cubika?",
-
-            onConfirm: async () => {
-
-                limpiarTenantContext();
+        "click",
+        () => {
     
-                limpiarContexto();
-                
-                await supabase.auth.signOut();
+            showConfirmModal({
+    
+                title: "Cerrar sesión",
+    
+                message:
+                    "¿Deseas abandonar la sesión actual de Cubika?",
+    
+                onConfirm: async () => {
+    
+                    // Verificar si existen cambios sin guardar
+                    const puedeSalir = await confirmarSalida();
+    
+                    if (!puedeSalir) {
+                        return false;
+                    }
+    
+                    // Continuar con el cierre de sesión
+                    limpiarTenantContext();
+    
+                    limpiarContexto();
+    
+                    await supabase.auth.signOut();
     
                     window.location.href =
                         "/login.html";
+    
+                }
+    
+            });
+    
+        }
+    );
 
-            }
-
-        });
-
-    }
-);
 
     
     const userName =
