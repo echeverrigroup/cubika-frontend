@@ -6271,3 +6271,29 @@ align-self: flex-start;
 .anexo-confirmacion-numero strong {
     font-size: 17px;
 }
+
+
+/* =========================================================
+   MODAL ANEXO — ESTRUCTURA Y SCROLL
+   ========================================================= */
+
+.contrato-anexo-modal {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.contrato-anexo-modal .cubika-modal-header {
+    flex-shrink: 0;
+}
+
+.contrato-anexo-modal .cubika-modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.contrato-anexo-modal .cubika-modal-footer {
+    flex-shrink: 0;
+}
