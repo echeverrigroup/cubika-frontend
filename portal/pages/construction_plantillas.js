@@ -174,11 +174,7 @@ async function cargarPlantillas() {
 
         let plantillas =
             await plantillasDocumentoService.getAll();
-
-        console.log(
-            "[PLANTILLAS CRUD]",
-            plantillas
-        );
+        
 
 
         // Filtrar por la pestaña seleccionada.
