@@ -891,8 +891,8 @@ contratosTodos
                                                 class="cubika-action"
                                                 data-action="ver"
                                                 data-contrato-id="${contrato.id}"
-                                                title="Ver contrato"
-                                                aria-label="Ver detalle"
+                                                title="Ver detalle"
+                                                aria-label="Ver contrato"
                                             >
                                                 <img
                                                     src="/img/icons/ver.svg"
