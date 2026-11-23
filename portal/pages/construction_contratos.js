@@ -2043,7 +2043,11 @@ async function abrirHistorialContractual(contratoId) {
 
 
 
-async function abrirSelectorPlantillaAnexo(contratoId) {
+async function abrirSelectorPlantillaAnexo(
+    contratoId,
+    tipoAnexoInicial = null,
+    plantillaInicialId = null
+) {
 
     const contrato = contratosVisibles.find(
         contrato =>
@@ -2296,7 +2300,7 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                         class="btn-cubika-secondary"
                         data-cerrar-anexo
                     >
-                        Cancelar
+                        Atrás
                     </button>
 
                     <button
@@ -2417,6 +2421,26 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
             btnContinuar.disabled = !selectPlantilla.value;
 
         });
+
+
+        // Recuperar selección anterior cuando se regresa desde el formulario.
+        if (tipoAnexoInicial) {
+        
+            selectTipo.value = tipoAnexoInicial;
+        
+            selectTipo.dispatchEvent(
+                new Event("change")
+            );
+        
+            if (plantillaInicialId) {
+        
+                selectPlantilla.value = plantillaInicialId;
+        
+                btnContinuar.disabled = !selectPlantilla.value;
+        
+            }
+        
+        }
 
 
         // 10. Continuar con el formulario de generación.
@@ -3044,12 +3068,12 @@ async function abrirFormularioAnexo(contrato, plantilla) {
             
             <div class="cubika-modal-footer">
             
-                <button
+               <button
                     type="button"
                     class="btn-cubika-secondary"
-                    id="cancelarFormularioAnexo"
+                    id="volverSelectorAnexo"
                 >
-                    Cancelar
+                    Atrás
                 </button>
             
                 <button
@@ -3098,8 +3122,6 @@ async function abrirFormularioAnexo(contrato, plantilla) {
     overlay.querySelector("#cerrarFormularioAnexo")
         ?.addEventListener("click", cerrar);
 
-    overlay.querySelector("#cancelarFormularioAnexo")
-        ?.addEventListener("click", cerrar);
 
     if (esTraslado) {
         const selectObra = overlay.querySelector("#anexoObra");
@@ -3203,6 +3225,22 @@ async function abrirFormularioAnexo(contrato, plantilla) {
     let anexoPendiente = null;
     let pdfPreviewUrl = null;
 
+
+    // Regresar al selector de tipo y plantilla.
+    overlay.querySelector("#volverSelectorAnexo")
+        ?.addEventListener("click", () => {
+    
+            cerrar();
+    
+            abrirSelectorPlantillaAnexo(
+                contrato.id,
+                tipoAnexo,
+                plantilla.id
+            );
+    
+        });
+
+    
     botonGenerar.addEventListener("click", async () => {
         const fechaVigencia =
             overlay.querySelector("#anexoFechaVigencia")?.value;
