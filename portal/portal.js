@@ -160,42 +160,36 @@ if (contexto.tipo === "SUPER_ADMIN") {
     document.getElementById("logoutBtn");
 
 
-    logoutBtn.addEventListener(
-        "click",
-        () => {
-    
-            showConfirmModal({
-    
-                title: "Cerrar sesión",
-    
-                message:
-                    "¿Deseas abandonar la sesión actual de Cubika?",
-    
-                onConfirm: async () => {
-    
-                    // Verificar si existen cambios sin guardar
-                    const puedeSalir = await confirmarSalida();
-    
-                    if (!puedeSalir) {
-                        return false;
-                    }
-    
-                    // Continuar con el cierre de sesión
-                    limpiarTenantContext();
-    
-                    limpiarContexto();
-    
-                    await supabase.auth.signOut();
-    
+logoutBtn.addEventListener(
+    "click",
+    () => {
+
+        showConfirmModal({
+
+            title: "Cerrar sesión",
+
+            message:
+                "¿Deseas abandonar la sesión actual de Cubika?",
+
+            onConfirm: async () => {
+
+                limpiarTenantContext();
+
+                limpiarContexto();
+                
+                await supabase.auth.signOut();
+
+
                     window.location.href =
                         "/login.html";
-    
-                }
-    
-            });
-    
-        }
-    );
+
+
+            }
+
+        });
+
+    }
+);
 
 
     
