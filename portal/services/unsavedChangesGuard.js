@@ -1,40 +1,37 @@
 
-let cambiosPendientes = false;
+const estados = new Map();
+
 let proteccionNavegadorActiva = false;
 
-/**
- * Indica si la pantalla actual contiene cambios sin guardar.
- */
-export function hayCambiosPendientes() {
-    return cambiosPendientes;
+export function marcarCambiosPendientes(
+    scope = "pagina",
+    pendiente = true
+) {
+    if (pendiente) {
+        estados.set(scope, true);
+    } else {
+        estados.delete(scope);
+    }
 }
 
-/**
- * Marca la pantalla actual como modificada.
- */
-export function marcarCambiosPendientes() {
-    cambiosPendientes = true;
+export function hayCambiosPendientes(scope = null) {
+    if (scope) {
+        return estados.get(scope) === true;
+    }
+
+    return estados.size > 0;
 }
 
-/**
- * Limpia el estado cuando los cambios se guardan
- * o cuando se abandona la pantalla.
- */
-export function limpiarCambiosPendientes() {
-    cambiosPendientes = false;
+export function limpiarCambiosPendientes(scope = null) {
+    if (scope) {
+        estados.delete(scope);
+    } else {
+        estados.clear();
+    }
 }
 
-/**
- * Solicita confirmación antes de abandonar
- * una pantalla con cambios pendientes.
- *
- * Retorna:
- * true  -> se puede continuar.
- * false -> se debe permanecer.
- */
 export async function confirmarSalida() {
-
-    if (!cambiosPendientes) {
+    if (!hayCambiosPendientes()) {
         return true;
     }
 
@@ -45,22 +42,19 @@ export async function confirmarSalida() {
     );
 }
 
-/**
- * Protección nativa del navegador:
- * cerrar pestaña, recargar o abandonar el sitio.
- */
 export function activarProteccionNavegador() {
-
     if (proteccionNavegadorActiva) return;
 
-    window.addEventListener("beforeunload", protegerSalida);
+    window.addEventListener(
+        "beforeunload",
+        protegerSalida
+    );
 
     proteccionNavegadorActiva = true;
 }
 
 function protegerSalida(event) {
-
-    if (!cambiosPendientes) return;
+    if (!hayCambiosPendientes()) return;
 
     event.preventDefault();
     event.returnValue = "";
