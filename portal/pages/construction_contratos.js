@@ -615,15 +615,7 @@ const anexosContrato = contratosTodos.filter(documento =>
         "948d4df3-767e-495a-b427-3696c0d9e2bd" &&
     documento.tipo_documento === "ANEXO"
 );
-
-console.log(
-    "EVOLUCIÓN DE LOS ANEXOS:",
-    anexosContrato.map(anexo => ({
-        numero: anexo.numero_contrato,
-        obra_id_documento: anexo.obra_id,
-        evolucion: anexo.variables?._evolucion_contractual
-    }))
-);
+    
 
 
     // Cargar catálogo de cargos del tenant activo.
@@ -1078,8 +1070,6 @@ async function descargarContratoPDF(contratoId) {
         const rutaPDF =
             `${contrato.empresa_id}/${contrato.worker_id}/${contrato.id}/contrato.pdf`;
 
-            console.log("Contrato seleccionado:", contrato);
-            console.log("Ruta PDF que se intentará descargar:", rutaPDF);
 
         // Generar una URL firmada nueva para evitar usar una URL vencida.
         const pdfUrl = await storageService.createSignedUrl(
@@ -1152,12 +1142,6 @@ function configurarAccionesContratos() {
             const accion = boton.dataset.action;
             const contratoId = boton.dataset.contratoId;
 
-            console.log(
-                "Acción Gestor Documental:",
-                accion,
-                "Contrato:",
-                contratoId
-            );
 
             if (accion === "ver") {
                 abrirDetalleContrato(contratoId);
@@ -1358,12 +1342,6 @@ function abrirDetalleContrato(contratoId) {
         return;
 
     }
-
-
-    console.log(
-        "Contrato seleccionado:",
-        contrato
-    );
 
 
     const trabajador =
@@ -3169,7 +3147,6 @@ async function abrirFormularioAnexo(contrato, plantilla) {
         try {
            const cargos = await cargosService.getAll();
                 
-                console.log("Cargos recibidos:", cargos);
                 
                 console.table(
                     cargos.map(cargo => ({
@@ -3183,8 +3160,6 @@ async function abrirFormularioAnexo(contrato, plantilla) {
                     cargo => cargo.estado?.trim().toLowerCase() === "activo"
                 );
                 
-                console.log("Cargos activos:", cargosActivos);
-            
     
             selectCargo.innerHTML = `
                 <option value="">Selecciona un cargo</option>
