@@ -1,3 +1,10 @@
+import {
+    marcarCambiosPendientes,
+    hayCambiosPendientes,
+    limpiarCambiosPendientes
+} from "../services/unsavedChangesGuard.js";
+
+
 let currentOnConfirm = null;
 
 
@@ -29,33 +36,140 @@ function getModalElements() {
 }
 
 
+let estadoInicialModal = null;
 
-export function closeModal() {
+function obtenerEstadoFormulario() {
+
+    const body = document.getElementById("modalBody");
+
+    if (!body) return "";
+
+    const controles = body.querySelectorAll(
+        "input, select, textarea, [contenteditable='true']"
+    );
+
+    return JSON.stringify(
+        Array.from(controles).map(control => {
+
+            if (control.type === "checkbox" || control.type === "radio") {
+                return {
+                    type: control.type,
+                    checked: control.checked
+                };
+            }
+
+            if (control.type === "file") {
+                return {
+                    type: "file",
+                    files: Array.from(control.files || []).map(file => ({
+                        name: file.name,
+                        size: file.size,
+                        lastModified: file.lastModified
+                    }))
+                };
+            }
+
+            if (control.tagName === "SELECT" && control.multiple) {
+                return {
+                    type: "select-multiple",
+                    values: Array.from(control.selectedOptions).map(option => option.value)
+                };
+            }
+
+            if (control.isContentEditable) {
+                return {
+                    type: "contenteditable",
+                    value: control.innerHTML
+                };
+            }
+
+            return {
+                type: control.type || control.tagName,
+                value: control.value
+            };
+
+        })
+    );
+}
+
+
+function actualizarEstadoModal() {
+
+    if (estadoInicialModal === null) return;
+
+    const estadoActual =
+        obtenerEstadoFormulario();
+
+    marcarCambiosPendientes(
+        "modal",
+        estadoActual !== estadoInicialModal
+    );
+}
+
+
+function observarCambiosModal() {
+
+    const body =
+        document.getElementById("modalBody");
+
+    if (!body) return;
+
+    estadoInicialModal =
+        obtenerEstadoFormulario();
+
+    limpiarCambiosPendientes("modal");
+
+    body.addEventListener(
+        "input",
+        actualizarEstadoModal
+    );
+
+    body.addEventListener(
+        "change",
+        actualizarEstadoModal
+    );
+}
+
+
+
+export async function closeModal() {
+
+    if (hayCambiosPendientes("modal")) {
+
+        const confirmar = window.confirm(
+            "Tienes cambios sin guardar en este formulario.\n\n" +
+            "¿Deseas cerrar y perder la información ingresada?"
+        );
+
+        if (!confirmar) return false;
+
+    }
+
+    cerrarModalForzado();
+
+    return true;
+}
+
+
+function cerrarModalForzado() {
 
     const {
-
         overlay,
         body,
         confirm
-
     } = getModalElements();
 
-
-    overlay.style.display =
-        "none";
-
+    overlay.style.display = "none";
 
     body.innerHTML = "";
 
+    confirm.disabled = false;
+    confirm.textContent = "Confirmar";
 
-    confirm.disabled =
-        false;
+    estadoInicialModal = null;
 
-    confirm.textContent =
-        "Confirmar";
-
+    limpiarCambiosPendientes("modal");
 }
-
 
 export function showConfirmModal({
 
@@ -76,6 +190,9 @@ export function showConfirmModal({
         confirm
 
     } = getModalElements();
+
+    estadoInicialModal = null;
+    limpiarCambiosPendientes("modal");
 
 
     currentOnConfirm =
@@ -114,8 +231,9 @@ export function showConfirmModal({
         "flex";
 
 
-    cancel.onclick =
-        closeModal;
+    cancel.onclick = () => {
+        cerrarModalForzado();
+    };
 
 
     confirm.onclick =
@@ -132,7 +250,7 @@ export function showConfirmModal({
 
             if (ok !== false) {
 
-                closeModal();
+                cerrarModalForzado();
 
             }
 
@@ -161,6 +279,10 @@ export function showResultModal({
         confirm
 
     } = getModalElements();
+
+
+    estadoInicialModal = null;
+    limpiarCambiosPendientes("modal");
 
 
     modal.classList.remove(
@@ -196,8 +318,9 @@ export function showResultModal({
         "flex";
 
 
-    cancel.onclick =
-        closeModal;
+    cancel.onclick = () => {
+        cerrarModalForzado();
+    };
 
 
     confirm.onclick =
@@ -258,6 +381,8 @@ export function showFormModal({
     body.innerHTML =
         content;
 
+    observarCambiosModal();
+
     setModalError("");
 
     confirm.textContent =
@@ -267,8 +392,9 @@ export function showFormModal({
         "flex";
 
 
-    cancel.onclick =
-        closeModal;
+    cancel.onclick = () => {
+        closeModal();
+    };
 
 
     confirm.onclick =
@@ -285,7 +411,7 @@ export function showFormModal({
 
             if (result !== false) {
 
-                closeModal();
+                 cerrarModalForzado();
             
                 if (onSuccess) {
             
