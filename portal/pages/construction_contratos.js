@@ -2235,57 +2235,52 @@ async function abrirSelectorPlantillaAnexo(contratoId) {
                         </p>
 
 
-                        <div class="form-group">
-
-                            <label for="selectorTipoAnexo">
-                                ¿Qué tipo de anexo deseas generar?
-                            </label>
-
-                            <select
-                                id="selectorTipoAnexo"
-                                class="cubika-select"
-                            >
-
-                                <option value="">
-                                    Selecciona un tipo de anexo
-                                </option>
-
-                                ${tiposAnexo.map(tipo => `
-                                    <option value="${tipo}">
-                                        ${formatearTipoAnexo(tipo)}
+                        <div class="anexo-selectores-grid">
+                        
+                            <div class="form-group">
+                                <label for="selectorTipoAnexo">
+                                    ¿Qué tipo de anexo deseas generar?
+                                </label>
+                        
+                                <select
+                                    id="selectorTipoAnexo"
+                                    class="cubika-select"
+                                >
+                                    <option value="">
+                                        Selecciona un tipo de anexo
                                     </option>
-                                `).join("")}
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="selectorPlantillaAnexo">
-                                Plantilla disponible
-                            </label>
-
-                            <select
-                                id="selectorPlantillaAnexo"
-                                class="cubika-select"
-                                disabled
-                            >
-
-                                <option value="">
-                                    Primero selecciona un tipo de anexo
-                                </option>
-
-                            </select>
-
-                            <small
-                                id="anexoSelectorAyuda"
-                                class="anexo-selector-ayuda"
-                            >
-                                Las plantillas se mostrarán según el tipo seleccionado.
-                            </small>
-
+                        
+                                    ${tiposAnexo.map(tipo => `
+                                        <option value="${tipo}">
+                                            ${formatearTipoAnexo(tipo)}
+                                        </option>
+                                    `).join("")}
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="selectorPlantillaAnexo">
+                                    Plantilla disponible
+                                </label>
+                        
+                                <select
+                                    id="selectorPlantillaAnexo"
+                                    class="cubika-select"
+                                    disabled
+                                >
+                                    <option value="">
+                                        Primero selecciona un tipo de anexo
+                                    </option>
+                                </select>
+                        
+                                <small
+                                    id="anexoSelectorAyuda"
+                                    class="anexo-selector-ayuda"
+                                >
+                                    Las plantillas se mostrarán según el tipo seleccionado.
+                                </small>
+                            </div>
+                        
                         </div>
 
                     </section>
