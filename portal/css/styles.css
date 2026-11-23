@@ -379,6 +379,22 @@ body {
 }
 
 
+.btn-cubika-secondary {
+
+    background: #F4F8FA;
+
+    color: #475569;
+
+    border: none;
+
+    padding: 5px 5px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+
 
 
 
