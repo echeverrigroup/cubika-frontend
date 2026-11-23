@@ -282,44 +282,44 @@ if (contexto.tipo === "SUPER_ADMIN") {
     .querySelectorAll("[data-page]")
     .forEach(item => {
 
-        item.addEventListener("click", () => {
+        item.addEventListener("click", async () => {
+
+            const pagina = item.dataset.page;
+
+            const navegacionExitosa =
+                await navigate(pagina);
+
+            if (!navegacionExitosa) {
+                return;
+            }
 
             document
                 .querySelectorAll("[data-page]")
                 .forEach(i =>
                     i.classList.remove("active")
                 );
-            const pagina =
-            item.dataset.page;
-        
-        
-        if (
-            pagina === "construction_empresas" ||
-            pagina === "construction_trabajadores" ||
-            pagina === "construction_plantillas"
-        ) {
-        
-            abrirConfiguracion();
-        
-        }
-
-        if (
-            pagina === "construction_welcome"
-        ) {
-        
-            abrirAyuda();
-        
-        }
 
             item.classList.add("active");
 
-            navigate(item.dataset.page);
+            if (
+                pagina === "construction_empresas" ||
+                pagina === "construction_trabajadores" ||
+                pagina === "construction_plantillas"
+            ) {
+                abrirConfiguracion();
+            }
+
+            if (pagina === "construction_welcome") {
+                abrirAyuda();
+            }
 
             closeMobileMenu();
+
         });
 
     });
 
+    
     // =========================================================
     // CONFIGURACIÓN - DESPLEGABLE
     // =========================================================
