@@ -1435,6 +1435,16 @@ function abrirDetalleContrato(contratoId) {
                         ${contrato.numero_contrato ?? "Sin número"}
                     </span>
 
+
+                    <span class="contrato-detalle-numero">
+                        ${[
+                            contrato.worker?.nombres,
+                            contrato.worker?.apellido_paterno,
+                            contrato.worker?.apellido_materno
+                        ].filter(Boolean).join(" ") || "Trabajador sin nombre"}
+                    </span>
+                    
+
                 </div>
 
 
@@ -2597,6 +2607,14 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
                         <span class="contrato-detalle-numero">
                             ${contrato.numero_contrato ?? "Sin número"}
+                        </span>
+
+                        <span class="contrato-detalle-numero">
+                            ${[
+                                contrato.worker?.nombres,
+                                contrato.worker?.apellido_paterno,
+                                contrato.worker?.apellido_materno
+                            ].filter(Boolean).join(" ") || "Trabajador sin nombre"}
                         </span>
 
                     </div>
