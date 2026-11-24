@@ -28,13 +28,17 @@ export function createChartManager(container, onChartClick) {
     wickDownColor: "#e45f70",
     priceLineVisible: false
   });
+ 
   const trendlineSeries = chart.addSeries(LineSeries, {
     color: "#e6bd67",
     lineWidth: 2,
     lineStyle: 0,
     lastValueVisible: false,
     priceLineVisible: false,
-    crosshairMarkerVisible: false
+    crosshairMarkerVisible: false,
+  
+    // La línea de tendencia no debe modificar la escala vertical.
+    autoscaleInfoProvider: () => null
   });
 
   const resizeObserver = new ResizeObserver(entries => {
