@@ -3035,9 +3035,11 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
 
         }
 
-        alert(
-            `El complemento "${plantilla.nombre}" fue generado correctamente.`
-        );
+        mostrarConfirmacionExito({
+            titulo: "Complemento generado exitosamente",
+            mensaje: `El complemento "${plantilla.nombre}" fue generado correctamente.`,
+            botonTexto: "Entendido"
+        });
 
     } catch (error) {
 
