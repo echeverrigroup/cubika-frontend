@@ -2679,7 +2679,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                                     border: 1px solid #e5e7eb;
                                                     border-radius: 8px;
                                                     cursor: pointer;
-                                                    margin-bottom: 8px;
+                                                    margin-bottom: 0;
                                                     background: #fff;
                                                     font: inherit;
                                                     color: #64748b;
