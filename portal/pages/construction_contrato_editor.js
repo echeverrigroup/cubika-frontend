@@ -1,4 +1,9 @@
 import {
+    mostrarConfirmacionExito
+} from "../components/confirmacionExito.js";
+
+
+import {
     obtenerTenantIdActual
 } from "../tenantContextService.js";
 
@@ -3989,9 +3994,17 @@ async function mostrarModalSeleccionDocumentos(
 
         
                 setModalLoading(false);
-        
+
                 navigate("construction_contratos");
-        
+                
+                mostrarConfirmacionExito({
+                    titulo: "Contrato generado exitosamente",
+                    mensaje: "El contrato y los documentos seleccionados fueron generados y descargados correctamente.",
+                    detalleEtiqueta: "Número de contrato",
+                    detalleValor: contratoCreado.numero_contrato,
+                    botonTexto: "Entendido"
+                });
+                
                 return true;
         
             }
