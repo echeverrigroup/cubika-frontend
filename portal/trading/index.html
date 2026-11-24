@@ -24,7 +24,7 @@
         <h1>Trendline workspace</h1>
         <p class="subtitle">Visualización, selección de anclas y proyección geométrica.</p>
       </div>
-      <div class="market-badge"><span class="status-dot"></span> DATOS SIMULADOS</div>
+      <div class="market-badge" id="marketBadge"><span class="status-dot"></span> CONECTANDO BINANCE</div>
     </section>
 
     <section class="toolbar panel">
@@ -39,6 +39,7 @@
       <label class="control-group">
         <span>TIMEFRAME</span>
         <select id="timeframeSelect">
+          <option value="5m">5 minutos</option>
           <option value="15m" selected>15 minutos</option>
           <option value="30m">30 minutos</option>
           <option value="1h">1 hora</option>
@@ -58,7 +59,7 @@
         <div class="chart-header">
           <div>
             <div class="chart-symbol" id="chartSymbol">SOLUSDT <span>·</span> 15m</div>
-            <div class="chart-description">Mercado spot simulado · velas históricas de demostración</div>
+            <div class="chart-description" id="chartDescription">Binance USDⓈ-M Futures · datos reales de mercado</div>
           </div>
           <div class="chart-instructions" id="chartInstructions">Selecciona «Seleccionar anclas» para comenzar.</div>
         </div>
