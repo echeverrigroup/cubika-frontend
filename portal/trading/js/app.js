@@ -1,5 +1,6 @@
 import { AnchorManager } from "./anchorManager.js";
-import { createChartManager, makeDemoCandles, timeframeToSeconds } from "./chartManager.js";
+import { createChartManager } from "./chartManager.js";
+import { createBinanceMarketData } from "./binanceMarketData.js";
 import { createTrendline, projectTrendline } from "./trendlineEngine.js";
 
 const $ = selector => document.querySelector(selector);
@@ -12,6 +13,8 @@ const elements = {
   instructions: $("#chartInstructions"),
   chartSymbol: $("#chartSymbol"),
   chartState: $("#chartState"),
+  chartDescription: $("#chartDescription"),
+  marketBadge: $("#marketBadge"),
   anchorCount: $("#anchorCount"),
   anchorOne: $("#anchorOne"),
   anchorTwo: $("#anchorTwo"),
@@ -24,7 +27,18 @@ const elements = {
 let candles = [];
 let currentLine = null;
 let chartManager;
+let marketData = null;
+let loadSequence = 0;
 const activity = [];
+
+const TIMEFRAME_SECONDS = {
+  "5m": 300,
+  "15m": 900,
+  "30m": 1800,
+  "1h": 3600,
+  "2h": 7200,
+  "4h": 14400
+};
 
 function formatPrice(value) {
   return new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(value);
@@ -37,12 +51,18 @@ function formatTime(unixSeconds) {
 function log(message) {
   activity.unshift({ message, time: new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) });
   activity.splice(8);
+  elements.activityLog.className = "activity-list";
   elements.activityLog.innerHTML = activity.map(item => `<div class="activity-item"><strong>${item.time}</strong> · ${item.message}</div>`).join("");
 }
 
 function setMessage(message) {
   elements.instructions.textContent = message;
   elements.chartState.textContent = message;
+}
+
+function setMarketBadge(state, message) {
+  const color = state === "connected" ? "#29c58a" : state === "error" ? "#ef6674" : "#e7b45b";
+  elements.marketBadge.innerHTML = `<span class="status-dot" style="background:${color};box-shadow:0 0 10px ${color}66"></span> ${message}`;
 }
 
 function updateAnchorDisplay(anchors) {
@@ -57,19 +77,19 @@ function updateAnchorDisplay(anchors) {
   });
 }
 
-function drawLine(anchors) {
+function resetLineDisplay() {
   currentLine = null;
   chartManager.clearTrendline();
-  if (anchors.length !== 2) {
-    elements.lineSummary.innerHTML = '<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small>';
-    return;
-  }
+  elements.lineSummary.innerHTML = '<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small>';
+}
+
+function drawLine(anchors) {
+  resetLineDisplay();
+  if (anchors.length !== 2) return;
 
   try {
     currentLine = createTrendline(anchors[0], anchors[1]);
-    const lastTime = candles[candles.length - 1].time;
-    const futureTime = lastTime + timeframeToSeconds(elements.timeframe.value) * 40;
-    chartManager.setTrendline(projectTrendline(currentLine, futureTime));
+    updateTrendlineProjection();
     elements.lineSummary.innerHTML = `<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>${currentLine.direction}</strong><small>Pendiente: ${currentLine.slopePerSecond.toExponential(4)} precio/segundo<br>Proyección: 40 velas hacia adelante</small>`;
     log(`Línea ${currentLine.direction.toLowerCase()} creada con dos anclas.`);
   } catch (error) {
@@ -78,18 +98,98 @@ function drawLine(anchors) {
   }
 }
 
-function refreshChart() {
-  candles = makeDemoCandles(elements.symbol.value, elements.timeframe.value);
-  chartManager.setCandles(candles);
-  chartManager.clearTrendline();
-  currentLine = null;
+function updateTrendlineProjection() {
+  if (!currentLine || candles.length === 0) return;
+  const lastTime = candles[candles.length - 1].time;
+  const intervalSeconds = TIMEFRAME_SECONDS[elements.timeframe.value] || 900;
+  const futureTime = lastTime + intervalSeconds * 40;
+  chartManager.setTrendline(projectTrendline(currentLine, futureTime));
+}
+
+function onSnapshot(nextCandles, preserveRange = false) {
+  candles = nextCandles;
+  chartManager.setCandles(candles, 150, preserveRange);
+  updateTrendlineProjection();
+}
+
+function onCandle(candle, meta) {
+  const index = candles.findIndex(item => item.time === candle.time);
+  if (index >= 0) candles[index] = candle;
+  else {
+    candles.push(candle);
+    candles = candles.slice(-1500);
+  }
+  chartManager.updateCandle(candle);
+  updateTrendlineProjection();
+
+  if (candle.isClosed) {
+    log(`Vela ${elements.symbol.value} ${elements.timeframe.value} cerrada · ${formatTime(candle.time)} · C: ${formatPrice(candle.close)}.`);
+    setMessage("Última vela cerrada confirmada. El gráfico continúa en tiempo real.");
+  }
+}
+
+async function refreshChart() {
+  const sequence = ++loadSequence;
+  if (marketData) marketData.stop();
+  marketData = null;
+  candles = [];
   anchors.reset();
-  elements.chartSymbol.innerHTML = `${elements.symbol.value} <span>·</span> ${elements.timeframe.value}`;
-  elements.lineSummary.innerHTML = '<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small>';
+  anchors.setEnabled(false);
+  resetLineDisplay();
   elements.anchorButton.classList.remove("is-active");
   elements.anchorButton.textContent = "Seleccionar anclas";
-  anchors.setEnabled(false);
-  setMessage("Datos simulados cargados. Selecciona dos puntos ancla.");
+
+  const symbol = elements.symbol.value;
+  const interval = elements.timeframe.value;
+  elements.chartSymbol.innerHTML = `${symbol} <span>·</span> ${interval}`;
+  elements.chartDescription.textContent = "Binance USDⓈ-M Futures · datos reales de mercado";
+  setMarketBadge("loading", "CARGANDO BINANCE FUTURES");
+  setMessage(`Conectando con Binance para cargar ${symbol} ${interval}…`);
+
+  let hasInitialSnapshot = false;
+  const service = createBinanceMarketData({
+    symbol,
+    interval,
+    onSnapshot: nextCandles => {
+      if (sequence !== loadSequence) return;
+      onSnapshot(nextCandles, hasInitialSnapshot);
+      hasInitialSnapshot = true;
+    },
+    onCandle: (candle, meta) => {
+      if (sequence !== loadSequence) return;
+      onCandle(candle, meta);
+    },
+    onStatus: ({ status, message }) => {
+      if (sequence !== loadSequence) return;
+      const badgeState = status === "connected" ? "connected" : status === "error" ? "error" : "loading";
+      const badgeText = status === "connected"
+        ? "BINANCE FUTURES · EN VIVO"
+        : status === "reconnecting"
+          ? "RECONECTANDO"
+          : status === "error"
+            ? "ERROR DE CONEXIÓN"
+            : status === "connected-warning"
+              ? "BINANCE CONECTADO · AVISO"
+              : status === "warning"
+                ? "AVISO DE DATOS"
+                : "CONECTANDO BINANCE";
+      setMarketBadge(badgeState, badgeText);
+      elements.chartState.textContent = message;
+      if (status === "error" || status === "connected-warning" || status === "warning") log(message);
+    }
+  });
+  marketData = service;
+
+  try {
+    await service.start();
+    if (sequence !== loadSequence) service.stop();
+    else log(`${symbol} ${interval}: historial real cargado (${candles.length} velas solicitadas hasta 1.000).`);
+  } catch (error) {
+    if (sequence !== loadSequence || error.name === "AbortError") return;
+    setMarketBadge("error", "BINANCE NO DISPONIBLE");
+    setMessage(`No se pudieron cargar los datos de Binance: ${error.message}`);
+    log(`Error al cargar mercado: ${error.message}`);
+  }
 }
 
 chartManager = createChartManager(elements.chart, param => anchors.handleClick(param));
@@ -127,8 +227,7 @@ elements.resetButton.addEventListener("click", () => {
   anchors.setEnabled(false);
   elements.anchorButton.classList.remove("is-active");
   elements.anchorButton.textContent = "Seleccionar anclas";
-  chartManager.clearTrendline();
-  currentLine = null;
+  resetLineDisplay();
   setMessage("Línea reiniciada. Puedes seleccionar dos anclas nuevas.");
   log("Anclas y línea reiniciadas manualmente.");
 });
@@ -148,4 +247,8 @@ for (const input of [elements.contactTolerance, elements.breakoutThreshold]) {
   });
 }
 
-window.addEventListener("beforeunload", () => chartManager.destroy());
+window.addEventListener("beforeunload", () => {
+  loadSequence += 1;
+  marketData?.stop();
+  chartManager.destroy();
+});

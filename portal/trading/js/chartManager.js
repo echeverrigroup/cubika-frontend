@@ -1,47 +1,3 @@
-const TIMEFRAME_SECONDS = {
-  "15m": 15 * 60,
-  "30m": 30 * 60,
-  "1h": 60 * 60,
-  "2h": 2 * 60 * 60,
-  "4h": 4 * 60 * 60
-};
-
-export function timeframeToSeconds(timeframe) {
-  return TIMEFRAME_SECONDS[timeframe] ?? TIMEFRAME_SECONDS["15m"];
-}
-
-function seededRandom(seed) {
-  let value = seed >>> 0;
-  return () => {
-    value = (value * 1664525 + 1013904223) >>> 0;
-    return value / 4294967296;
-  };
-}
-
-export function makeDemoCandles(symbol, timeframe, count = 850) {
-  const seconds = timeframeToSeconds(timeframe);
-  const end = Math.floor(Date.now() / seconds) * seconds - seconds;
-  const seed = [...`${symbol}${timeframe}`].reduce((sum, char) => sum + char.charCodeAt(0), 0);
-  const random = seededRandom(seed);
-  const base = symbol === "BTCUSDT" ? 67000 : symbol === "ETHUSDT" ? 3500 : 175;
-  let previous = base;
-  const candles = [];
-
-  for (let index = count - 1; index >= 0; index -= 1) {
-    const time = end - index * seconds;
-    const drift = Math.sin((count - index) / 18) * base * 0.00065;
-    const movement = (random() - 0.49) * base * 0.004 + drift;
-    const open = previous;
-    const close = Math.max(base * 0.2, open + movement);
-    const wick = random() * base * 0.0018;
-    const high = Math.max(open, close) + wick;
-    const low = Math.min(open, close) - random() * base * 0.0018;
-    candles.push({ time, open, high, low, close });
-    previous = close;
-  }
-  return candles;
-}
-
 export function createChartManager(container, onChartClick) {
   if (!window.LightweightCharts) throw new Error("No se pudo cargar Lightweight Charts desde CDN.");
   const { createChart, CandlestickSeries, LineSeries, ColorType } = window.LightweightCharts;
@@ -92,9 +48,24 @@ export function createChartManager(container, onChartClick) {
     chart,
     candleSeries,
     trendlineSeries,
-    setCandles(candles) {
-      candleSeries.setData(candles);
-      chart.timeScale().fitContent();
+    setCandles(candles, initialVisibleCount = 150, preserveRange = false) {
+      const previousRange = preserveRange ? chart.timeScale().getVisibleLogicalRange() : null;
+      candleSeries.setData(candles.map(({ time, open, high, low, close }) => ({ time, open, high, low, close })));
+      if (previousRange) {
+        chart.timeScale().setVisibleLogicalRange(previousRange);
+      } else {
+        const firstVisible = Math.max(0, candles.length - initialVisibleCount);
+        chart.timeScale().setVisibleLogicalRange({ from: firstVisible, to: Math.max(0, candles.length - 1) + 8 });
+      }
+    },
+    updateCandle(candle) {
+      candleSeries.update({
+        time: candle.time,
+        open: candle.open,
+        high: candle.high,
+        low: candle.low,
+        close: candle.close
+      });
     },
     setTrendline(points) {
       trendlineSeries.setData(points);

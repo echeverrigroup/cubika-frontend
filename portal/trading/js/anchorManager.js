@@ -27,8 +27,8 @@ export class AnchorManager {
     }
 
     const candle = this.getCandles().find(item => item.time === param.time);
-    if (!candle) {
-      this.onMessage("No se encontró una vela cerrada en esa coordenada.");
+    if (!candle || candle.isClosed !== true) {
+      this.onMessage("Solo puedes seleccionar puntos sobre velas cerradas.");
       return;
     }
     if (price < candle.low || price > candle.high) {
