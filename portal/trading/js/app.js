@@ -98,13 +98,28 @@ function drawLine(anchors) {
   }
 }
 
+
 function updateTrendlineProjection() {
   if (!currentLine || candles.length === 0) return;
+
   const lastTime = candles[candles.length - 1].time;
-  const intervalSeconds = TIMEFRAME_SECONDS[elements.timeframe.value] || 900;
+
+  const intervalSeconds =
+    TIMEFRAME_SECONDS[elements.timeframe.value] || 900;
+
   const futureTime = lastTime + intervalSeconds * 40;
-  chartManager.setTrendline(projectTrendline(currentLine, futureTime));
+
+  const projectedPoints = projectTrendline(
+    currentLine,
+    futureTime,
+    intervalSeconds,
+    lastTime
+  );
+
+  chartManager.setTrendline(projectedPoints);
 }
+
+
 
 function onSnapshot(nextCandles, preserveRange = false) {
   candles = nextCandles;
