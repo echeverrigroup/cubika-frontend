@@ -2207,7 +2207,10 @@ async function abrirSelectorPlantillaAnexo(
                         <span class="contrato-detalle-numero"
                             style="display: block;">
                             ${contrato.numero_contrato ?? "Sin número"}
-                            ·
+                        </span>
+
+                        <span class="contrato-detalle-numero"
+                            style="display: block;">
                             ${[
                                 contrato.worker?.nombres,
                                 contrato.worker?.apellido_paterno,
