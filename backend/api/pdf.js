@@ -35,7 +35,11 @@ export default async function handler(req, res) {
             });
         }
 
-        const { html } = req.body || {};
+        const {
+            html,
+            nombreArchivo = "Documento Cubika"
+        } = req.body || {};}
+    
 
         if (!html || typeof html !== "string") {
             return res.status(400).json({
@@ -55,6 +59,11 @@ export default async function handler(req, res) {
         await page.setContent(html, {
             waitUntil: "networkidle0",
         });
+
+
+            await page.evaluate((titulo) => {
+                document.title = titulo;
+            }, nombreArchivo.replace(/\.pdf$/i, ""));
 
         await page.evaluate(async () => {
             if (document.fonts?.ready) {
