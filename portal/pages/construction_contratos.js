@@ -1,5 +1,8 @@
 import { storageService } from "../js/services/storageService.js";
 
+import { mostrarConfirmacionExito }
+    from "../components/confirmacionExito.js";
+
 
 import {
     construirDocumentoHtml,
@@ -4044,55 +4047,15 @@ async function abrirFormularioAnexo(contrato, plantilla) {
 
 function mostrarConfirmacionAnexo(numeroAnexo) {
 
-    const modal = document.createElement("div");
-
-    modal.className = "cubika-modal-overlay";
-
-    modal.innerHTML = `
-        <div class="cubika-modal anexo-confirmacion-modal">
-
-            <div class="cubika-modal-body">
-
-                <div class="anexo-confirmacion-icono">
-                    <span>✓</span>
-                </div>
-
-                <h2>Anexo generado exitosamente</h2>
-
-                <p>
-                    El documento ha sido generado y añadido
-                    correctamente a la relación contractual.
-                </p>
-
-                <div class="anexo-confirmacion-numero">
-                    <span>Número de anexo</span>
-                    <strong>${numeroAnexo}</strong>
-                </div>
-
-            </div>
-
-            <div class="cubika-modal-footer">
-
-                <button
-                    type="button"
-                    class="btn-cubika-green"
-                    id="cerrarConfirmacionAnexo"
-                >
-                    Entendido
-                </button>
-
-            </div>
-
-        </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    modal.querySelector("#cerrarConfirmacionAnexo")
-        .addEventListener("click", () => modal.remove());
+    mostrarConfirmacionExito({
+        titulo: "Anexo generado exitosamente",
+        mensaje: "El documento ha sido generado y añadido correctamente a la relación contractual.",
+        detalleEtiqueta: "Número de anexo",
+        detalleValor: numeroAnexo,
+        botonTexto: "Entendido"
+    });
 
 }
-
 
 
 
