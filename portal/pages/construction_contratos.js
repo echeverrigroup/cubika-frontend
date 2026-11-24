@@ -2563,6 +2563,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
         });
 
 
+        
         // Crear modal
         const modal = document.createElement("div");
 
@@ -2570,18 +2571,26 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
         modal.innerHTML = `
 
-            <div class="cubika-modal contrato-detalle-modal">
+            <div
+                class="cubika-modal contrato-detalle-modal"
+                style="
+                    width: min(700px, calc(100vw - 32px));
+                    max-width: 700px;
+                    max-height: 90vh;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                "
+            >
 
-                <div class="cubika-modal-header">
+                <div class="cubika-modal-header" style="flex-shrink: 0;">
 
                     <div>
-
                         <h2>Añadir complemento</h2>
 
                         <span class="contrato-detalle-numero">
                             ${contrato.numero_contrato ?? "Sin número"}
                         </span>
-
                     </div>
 
                     <button
@@ -2596,38 +2605,120 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                 </div>
 
 
-                <div class="contrato-detalle-body">
+                <div
+                    class="contrato-detalle-body"
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1;
+                        min-height: 0;
+                        overflow: hidden;
+                    "
+                >
 
-                    <section class="contrato-detalle-seccion">
+                    <section
+                        class="contrato-detalle-seccion"
+                        style="
+                            display: flex;
+                            flex-direction: column;
+                            flex: 1;
+                            min-height: 0;
+                        "
+                    >
 
-                        <h3>Selecciona una plantilla</h3>
+                        <h3 style="margin-bottom: 14px;">
+                            Selecciona una plantilla
+                        </h3>
+
 
                         ${
                             complementosDisponibles.length
                                 ? `
-                                    <div class="anexo-plantillas-lista">
+
+                                    <div style="margin-bottom: 12px;">
+
+                                        <input
+                                            type="search"
+                                            class="cubika-input"
+                                            data-buscar-complemento
+                                            placeholder="Buscar plantilla..."
+                                            style="width: 100%;"
+                                        >
+
+                                    </div>
+
+
+                                    <div
+                                        class="anexo-plantillas-lista"
+                                        style="
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 9px;
+                                            overflow-y: auto;
+                                            max-height: 350px;
+                                            min-height: 0;
+                                            padding: 2px 5px 2px 0;
+                                        "
+                                    >
 
                                         ${complementosDisponibles.map(plantilla => `
-                                    
+
                                             <button
                                                 type="button"
                                                 class="anexo-plantilla-option"
                                                 data-plantilla-id="${plantilla.id}"
+                                                style="
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: space-between;
+                                                    width: 100%;
+                                                    min-height: 48px;
+                                                    padding: 12px 16px;
+                                                    border: 1px solid #dce2ea;
+                                                    border-radius: 9px;
+                                                    background: #fff;
+                                                    color: #526987;
+                                                    text-align: left;
+                                                    cursor: pointer;
+                                                    transition: background 0.2s, border-color 0.2s;
+                                                    flex-shrink: 0;
+                                                "
                                             >
-                                    
-                                                <span>
+
+                                                <span style="font-weight: 600;">
                                                     ${plantilla.nombre}
                                                 </span>
-                                    
-                                                <span>
+
+                                                <span
+                                                    aria-hidden="true"
+                                                    style="
+                                                        font-size: 18px;
+                                                        color: #7890aa;
+                                                        margin-left: 12px;
+                                                    "
+                                                >
                                                     →
                                                 </span>
-                                    
+
                                             </button>
-                                    
+
                                         `).join("")}
-                                    
+
                                     </div>
+
+
+                                    <p
+                                        data-complementos-sin-resultados
+                                        style="
+                                            display: none;
+                                            color: #718096;
+                                            text-align: center;
+                                            padding: 20px 10px;
+                                        "
+                                    >
+                                        No se encontraron plantillas.
+                                    </p>
+
                                 `
                                 : `
                                     <p class="historial-contractual-vacio">
@@ -2642,7 +2733,10 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                 </div>
 
 
-                <div class="cubika-modal-footer">
+                <div
+                    class="cubika-modal-footer"
+                    style="flex-shrink: 0;"
+                >
 
                     <button
                         type="button"
@@ -2662,6 +2756,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
         document.body.appendChild(modal);
 
 
+        // Cerrar modal
         const cerrar = () => {
             modal.remove();
         };
@@ -2684,37 +2779,95 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
         });
 
 
+        // Búsqueda de plantillas
+        const buscador = modal.querySelector(
+            "[data-buscar-complemento]"
+        );
+
+        if (buscador) {
+
+            const opciones = [
+                ...modal.querySelectorAll(".anexo-plantilla-option")
+            ];
+
+            const mensajeSinResultados = modal.querySelector(
+                "[data-complementos-sin-resultados]"
+            );
+
+            buscador.addEventListener("input", () => {
+
+                const termino = buscador.value
+                    .trim()
+                    .toLocaleLowerCase("es");
+
+                let resultadosVisibles = 0;
+
+                opciones.forEach(opcion => {
+
+                    const nombre = opcion.textContent
+                        .trim()
+                        .toLocaleLowerCase("es");
+
+                    const coincide = nombre.includes(termino);
+
+                    opcion.hidden = !coincide;
+
+                    if (coincide) {
+                        resultadosVisibles++;
+                    }
+
+                });
+
+                mensajeSinResultados.style.display =
+                    resultadosVisibles === 0 ? "block" : "none";
+
+            });
+
+        }
+
+
+        // Selección de plantilla
         modal
             .querySelectorAll(".anexo-plantilla-option")
             .forEach(boton => {
-        
+
+                boton.addEventListener("mouseenter", () => {
+                    boton.style.background = "#f3f7fb";
+                    boton.style.borderColor = "#9db5ce";
+                });
+
+                boton.addEventListener("mouseleave", () => {
+                    boton.style.background = "#fff";
+                    boton.style.borderColor = "#dce2ea";
+                });
+
                 boton.addEventListener("click", () => {
-        
+
                     const plantillaId = boton.dataset.plantillaId;
-        
+
                     const plantillaSeleccionada =
                         complementosDisponibles.find(
                             plantilla =>
                                 String(plantilla.id) ===
                                 String(plantillaId)
                         );
-        
+
                     if (!plantillaSeleccionada) {
                         alert(
                             "No fue posible identificar la plantilla seleccionada."
                         );
                         return;
                     }
-        
+
                     cerrar();
-        
+
                     generarComplementoDesdeContrato(
                         contrato,
                         plantillaSeleccionada
                     );
-        
+
                 });
-        
+
             });
 
     }
