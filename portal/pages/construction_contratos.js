@@ -1,7 +1,9 @@
 import { storageService } from "../js/services/storageService.js";
 
+
 import {
     construirDocumentoHtml,
+    construirDocumentoComplementario,
     generarDocxComplementario,
     registrarEventoDocumentalSeguro
 } from "./construction_contrato_editor.js";
@@ -2874,6 +2876,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
 
 
+
 async function generarComplementoDesdeContrato(contrato, plantilla) {
 
     try {
@@ -2891,19 +2894,75 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
             );
         }
 
-        // 2. Generar el documento DOCX utilizando el motor existente.
-        const docxBlob = await generarDocxComplementario(
-            plantilla,
-            variables
-        );
+        // 2. Determinar el formato de la plantilla.
+        const formato = String(
+            plantilla.formato_contenido || "HTML"
+        ).toUpperCase();
 
-        if (!docxBlob || !docxBlob.size) {
+        let documentoBlob;
+        let extension;
+
+        // 3. Generar según el formato.
+        if (formato === "DOCX") {
+
+            documentoBlob = await generarDocxComplementario(
+                plantilla,
+                variables
+            );
+
+            extension = "docx";
+
+        } else if (formato === "HTML") {
+
+            const documentoComplementario =
+                await construirDocumentoComplementario(
+                    plantilla,
+                    contrato
+                );
+
+            const htmlComplementario =
+                await construirDocumentoHtml(
+                    documentoComplementario.contenidoHtml
+                );
+
+            const response = await fetch(
+                "https://api.cubika.cl/api/pdf",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        html: htmlComplementario
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "No fue posible convertir el complemento a PDF."
+                );
+            }
+
+            documentoBlob = await response.blob();
+            extension = "pdf";
+
+        } else {
+
+            throw new Error(
+                `El formato "${formato}" no está soportado para complementos.`
+            );
+
+        }
+
+        // 4. Validar el documento generado.
+        if (!documentoBlob || !documentoBlob.size) {
             throw new Error(
                 "El documento generado está vacío."
             );
         }
 
-        // 3. Preparar los datos de trazabilidad.
+        // 5. Preparar los datos de trazabilidad.
         const loteId = crypto.randomUUID();
 
         const datosEvento = {
@@ -2917,7 +2976,7 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
             nombre_documento: plantilla.nombre
         };
 
-        // 4. Registrar la generación.
+        // 6. Registrar la generación.
         try {
 
             await registrarEventoDocumentalSeguro(
@@ -2934,8 +2993,8 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
 
         }
 
-        // 5. Descargar el DOCX.
-        const urlTemporal = URL.createObjectURL(docxBlob);
+        // 7. Descargar el documento.
+        const urlTemporal = URL.createObjectURL(documentoBlob);
 
         const enlace = document.createElement("a");
 
@@ -2946,7 +3005,7 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
             .replace(/[\\/:*?"<>|]/g, "-");
 
         enlace.href = urlTemporal;
-        enlace.download = `${nombreArchivo}.docx`;
+        enlace.download = `${nombreArchivo}.${extension}`;
 
         document.body.appendChild(enlace);
         enlace.click();
@@ -2956,7 +3015,7 @@ async function generarComplementoDesdeContrato(contrato, plantilla) {
             URL.revokeObjectURL(urlTemporal);
         }, 1000);
 
-        // 6. Registrar la descarga.
+        // 8. Registrar la descarga.
         try {
 
             await registrarEventoDocumentalSeguro(
