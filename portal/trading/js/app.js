@@ -24,6 +24,10 @@ const elements = {
   breakoutThreshold: $("#breakoutThreshold")
 };
 
+
+const TRENDLINE_PROJECTION_CANDLES = 20;
+
+
 let candles = [];
 let currentLine = null;
 let chartManager;
@@ -107,7 +111,7 @@ function updateTrendlineProjection() {
   const intervalSeconds =
     TIMEFRAME_SECONDS[elements.timeframe.value] || 900;
 
-  const futureTime = lastTime + intervalSeconds * 40;
+  const futureTime = lastTime + intervalSeconds * TRENDLINE_PROJECTION_CANDLES;
 
   const projectedPoints = projectTrendline(
     currentLine,
