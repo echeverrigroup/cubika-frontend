@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Trading | Trendline Engine</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+  <script src="https://unpkg.com/lightweight-charts@5.0.8/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Trading home">
+        <span class="brand-mark">T</span>
+        <span>TRADING<span class="brand-muted"> / TRENDLINE ENGINE</span></span>
+      </a>
+      <div class="topbar-status"><span class="status-dot"></span> ENTORNO DE DESARROLLO</div>
+    </header>
+
+    <section class="workspace-heading">
+      <div>
+        <p class="eyebrow">FASE 1 · MOTOR DE LÍNEAS DE TENDENCIA</p>
+        <h1>Trendline workspace</h1>
+        <p class="subtitle">Visualización, selección de anclas y proyección geométrica.</p>
+      </div>
+      <div class="market-badge"><span class="status-dot"></span> DATOS SIMULADOS</div>
+    </section>
+
+    <section class="toolbar panel">
+      <label class="control-group">
+        <span>ACTIVO</span>
+        <select id="symbolSelect">
+          <option value="SOLUSDT">SOLUSDT</option>
+          <option value="BTCUSDT">BTCUSDT</option>
+          <option value="ETHUSDT">ETHUSDT</option>
+        </select>
+      </label>
+      <label class="control-group">
+        <span>TIMEFRAME</span>
+        <select id="timeframeSelect">
+          <option value="15m" selected>15 minutos</option>
+          <option value="30m">30 minutos</option>
+          <option value="1h">1 hora</option>
+          <option value="2h">2 horas</option>
+          <option value="4h">4 horas</option>
+        </select>
+      </label>
+      <div class="toolbar-divider"></div>
+      <button id="anchorModeButton" class="button button-primary" type="button">Seleccionar anclas</button>
+      <button id="resetButton" class="button button-quiet" type="button">Reiniciar línea</button>
+      <div class="toolbar-spacer"></div>
+      <span class="live-label"><span class="status-dot"></span> MOTOR LOCAL</span>
+    </section>
+
+    <section class="main-grid">
+      <div class="chart-panel panel">
+        <div class="chart-header">
+          <div>
+            <div class="chart-symbol" id="chartSymbol">SOLUSDT <span>·</span> 15m</div>
+            <div class="chart-description">Mercado spot simulado · velas históricas de demostración</div>
+          </div>
+          <div class="chart-instructions" id="chartInstructions">Selecciona «Seleccionar anclas» para comenzar.</div>
+        </div>
+        <div id="chart" class="chart-container"></div>
+        <div class="chart-footer">
+          <span>Desplaza para navegar · rueda para zoom</span>
+          <span id="chartState">Esperando configuración</span>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <section class="panel side-panel">
+          <div class="panel-title-row">
+            <div><p class="eyebrow">CONFIGURACIÓN</p><h2>Parámetros</h2></div>
+            <span class="tag">EDITABLE</span>
+          </div>
+          <label class="field-label" for="contactTolerance">Tolerancia de contacto (%)</label>
+          <div class="input-with-suffix"><input id="contactTolerance" type="number" min="0" max="10" step="0.01" value="0.10" /><span>%</span></div>
+          <p class="field-help">Distancia máxima entre la línea y el rango High–Low para registrar proximidad.</p>
+          <label class="field-label" for="breakoutThreshold">Umbral de ruptura (%)</label>
+          <div class="input-with-suffix"><input id="breakoutThreshold" type="number" min="0" max="10" step="0.01" value="0.30" /><span>%</span></div>
+          <p class="field-help">Valor inicial acordado. Se utilizará en una etapa posterior para clasificar rupturas.</p>
+          <div class="settings-note"><span class="note-icon">i</span><span>Los parámetros se muestran en la interfaz. La detección de eventos todavía no está activada.</span></div>
+        </section>
+
+        <section class="panel side-panel anchor-panel">
+          <div class="panel-title-row"><div><p class="eyebrow">GEOMETRÍA</p><h2>Puntos ancla</h2></div><span id="anchorCount" class="count-pill">0 / 2</span></div>
+          <div class="anchor-row" id="anchorOne"><span class="anchor-index">P1</span><div><strong>Primer punto</strong><small>Sin seleccionar</small></div><span class="anchor-state">—</span></div>
+          <div class="anchor-row" id="anchorTwo"><span class="anchor-index">P2</span><div><strong>Segundo punto</strong><small>Sin seleccionar</small></div><span class="anchor-state">—</span></div>
+          <p class="field-help">Haz clic dentro del rango de una vela cerrada. Se conservará el precio exacto seleccionado.</p>
+          <div class="line-summary" id="lineSummary"><span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small></div>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="panel-title-row"><div><p class="eyebrow">SESIÓN</p><h2>Actividad</h2></div><span class="tag tag-muted">LOCAL</span></div>
+          <div class="activity-empty" id="activityLog">Todavía no hay eventos registrados.</div>
+        </section>
+      </aside>
+    </section>
+    <footer class="app-footer">TRADING ENGINE <span>·</span> FASE 1 <span>·</span> PROTOTIPO VISUAL INDEPENDIENTE</footer>
+  </main>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
