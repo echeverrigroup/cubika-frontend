@@ -3222,7 +3222,7 @@ async function aprobarYGenerarContrato() {
 
 
 
-async function construirDocumentoComplementario(
+export async function construirDocumentoComplementario(
     complemento,
     contratoGenerado
 ) {
