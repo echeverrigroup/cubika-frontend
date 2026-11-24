@@ -2696,10 +2696,6 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                                     ${plantilla.nombre}
                                                 </span>
 
-                                                <span aria-hidden="true">
-                                                    →
-                                                </span>
-
                                             </button>
 
                                         `).join("")}
