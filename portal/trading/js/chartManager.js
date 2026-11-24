@@ -18,7 +18,7 @@ function seededRandom(seed) {
   };
 }
 
-export function makeDemoCandles(symbol, timeframe, count = 240) {
+export function makeDemoCandles(symbol, timeframe, count = 850) {
   const seconds = timeframeToSeconds(timeframe);
   const end = Math.floor(Date.now() / seconds) * seconds - seconds;
   const seed = [...`${symbol}${timeframe}`].reduce((sum, char) => sum + char.charCodeAt(0), 0);
