@@ -6290,6 +6290,63 @@ align-self: flex-start;
 
 
 /* =========================================================
+   CUBIKA — CONFIRMACIÓN DE GENERACIÓN EXITOSA
+   COMPONENTE TRANSVERSAL
+   ========================================================= */
+
+.cubika-confirmacion-modal {
+    max-width: 440px;
+    text-align: center;
+}
+
+.cubika-confirmacion-modal .cubika-modal-body {
+    padding: 36px 30px 24px;
+}
+
+.cubika-confirmacion-icono {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #e8f7ef;
+    color: #239b62;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.cubika-confirmacion-modal h2 {
+    margin-bottom: 12px;
+}
+
+.cubika-confirmacion-modal p {
+    color: #687385;
+    line-height: 1.6;
+}
+
+.cubika-confirmacion-detalle {
+    margin-top: 22px;
+    padding: 14px;
+    background: #f5f7f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cubika-confirmacion-detalle span {
+    color: #687385;
+    font-size: 12px;
+}
+
+.cubika-confirmacion-detalle strong {
+    font-size: 17px;
+}
+
+
+/* =========================================================
    MODAL ANEXO — ESTRUCTURA Y SCROLL
    ========================================================= */
 
