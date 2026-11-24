@@ -2805,7 +2805,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
     
                 const coincide = nombre.includes(termino);
     
-                opcion.hidden = !coincide;
+                opcion.style.display = coincide ? "flex" : "none";
     
                 if (coincide) {
                     resultadosVisibles++;
