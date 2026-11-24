@@ -196,7 +196,7 @@ export function renderConstructionContratos() {
             display:grid;
             grid-template-columns:repeat(4, minmax(0, 1fr));
             gap:16px;
-            margin-top: 0;
+            margin-top: 5px;
         "
     >
 
