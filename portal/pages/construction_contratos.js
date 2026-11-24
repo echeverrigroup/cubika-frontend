@@ -2685,9 +2685,9 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                                     border-radius: 8px;
                                                     cursor: pointer;
                                                     margin-bottom: 0;
-                                                    background: #fff;
+                                                    
                                                     font: inherit;
-                                                    color: #64748b;
+                                                   
                                                     text-align: left;
                                                 "
                                             >
@@ -2772,51 +2772,57 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
 
         // Buscar plantillas
-        const buscador = modal.querySelector(
-            "[data-buscar-complemento]"
+    const buscador = modal.querySelector(
+        "[data-buscar-complemento]"
+    );
+    
+    if (buscador) {
+    
+        const opciones = [
+            ...modal.querySelectorAll(".anexo-plantilla-option")
+        ];
+    
+        const mensajeSinResultados = modal.querySelector(
+            "[data-complementos-sin-resultados]"
         );
-
-        if (buscador) {
-
-            const opciones = [
-                ...modal.querySelectorAll(".anexo-plantilla-option")
-            ];
-
-            const mensajeSinResultados = modal.querySelector(
-                "[data-complementos-sin-resultados]"
-            );
-
-            buscador.addEventListener("input", () => {
-
-                const termino = buscador.value
-                    .trim()
-                    .toLocaleLowerCase("es");
-
-                let resultadosVisibles = 0;
-
-                opciones.forEach(opcion => {
-
-                    const nombre = opcion.textContent
-                        .trim()
-                        .toLocaleLowerCase("es");
-
-                    const coincide = nombre.includes(termino);
-
-                    opcion.hidden = !coincide;
-
-                    if (coincide) {
-                        resultadosVisibles++;
-                    }
-
-                });
-
+    
+        const normalizarTexto = texto =>
+            texto
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLocaleLowerCase("es")
+                .trim();
+    
+        buscador.addEventListener("input", () => {
+    
+            const termino = normalizarTexto(buscador.value);
+    
+            let resultadosVisibles = 0;
+    
+            opciones.forEach(opcion => {
+    
+                const nombre = normalizarTexto(opcion.textContent);
+    
+                const coincide = nombre.includes(termino);
+    
+                opcion.hidden = !coincide;
+    
+                if (coincide) {
+                    resultadosVisibles++;
+                }
+    
+            });
+    
+            if (mensajeSinResultados) {
                 mensajeSinResultados.style.display =
                     resultadosVisibles === 0 ? "block" : "none";
+            }
+    
+        });
+    
+    }
 
-            });
-
-        }
-
+        
 
         // Seleccionar plantilla
         modal
