@@ -2652,10 +2652,14 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                     <div
                                         data-lista-complementos
                                         style="
+                                            display: grid;
+                                            grid-template-columns: repeat(2, minmax(0, 1fr));
+                                            gap: 8px 12px;
                                             overflow-y: auto;
                                             max-height: 350px;
                                             min-height: 0;
                                             padding-right: 5px;
+                                            align-content: start;
                                         "
                                     >
 
