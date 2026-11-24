@@ -1431,12 +1431,14 @@ function abrirDetalleContrato(contratoId) {
                         Detalle del contrato
                     </h2>
 
-                    <span class="contrato-detalle-numero">
+                    <span class="contrato-detalle-numero"
+                        style="display: block;">
                         ${contrato.numero_contrato ?? "Sin número"}
                     </span>
 
 
-                    <span class="contrato-detalle-numero">
+                    <span class="contrato-detalle-numero"
+                        style="display: block;">
                         ${[
                             contrato.worker?.nombres,
                             contrato.worker?.apellido_paterno,
@@ -2202,7 +2204,8 @@ async function abrirSelectorPlantillaAnexo(
 
                         <h2>Añadir anexo</h2>
 
-                        <span class="contrato-detalle-numero">
+                        <span class="contrato-detalle-numero"
+                            style="display: block;">
                             ${contrato.numero_contrato ?? "Sin número"}
                             ·
                             ${[
@@ -2605,11 +2608,13 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
                         <h2>Añadir complemento</h2>
 
-                        <span class="contrato-detalle-numero">
+                        <span class="contrato-detalle-numero"
+                            style="display: block;">
                             ${contrato.numero_contrato ?? "Sin número"}
                         </span>
 
-                        <span class="contrato-detalle-numero">
+                        <span class="contrato-detalle-numero"
+                            style="display: block;">
                             ${[
                                 contrato.worker?.nombres,
                                 contrato.worker?.apellido_paterno,
