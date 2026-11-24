@@ -2564,6 +2564,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
 
         
+        
         // Crear modal
         const modal = document.createElement("div");
 
@@ -2586,11 +2587,13 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                 <div class="cubika-modal-header" style="flex-shrink: 0;">
 
                     <div>
+
                         <h2>Añadir complemento</h2>
 
                         <span class="contrato-detalle-numero">
                             ${contrato.numero_contrato ?? "Sin número"}
                         </span>
+
                     </div>
 
                     <button
@@ -2626,16 +2629,14 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                         "
                     >
 
-                        <h3 style="margin-bottom: 14px;">
-                            Selecciona una plantilla
-                        </h3>
+                        <h3>Selecciona una plantilla</h3>
 
 
                         ${
                             complementosDisponibles.length
                                 ? `
 
-                                    <div style="margin-bottom: 12px;">
+                                    <div style="margin-bottom: 14px;">
 
                                         <input
                                             type="search"
@@ -2649,15 +2650,12 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
 
                                     <div
-                                        class="anexo-plantillas-lista"
+                                        data-lista-complementos
                                         style="
-                                            display: flex;
-                                            flex-direction: column;
-                                            gap: 9px;
                                             overflow-y: auto;
                                             max-height: 350px;
                                             min-height: 0;
-                                            padding: 2px 5px 2px 0;
+                                            padding-right: 5px;
                                         "
                                     >
 
@@ -2671,17 +2669,17 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                                     display: flex;
                                                     align-items: center;
                                                     justify-content: space-between;
+                                                    gap: 10px;
                                                     width: 100%;
-                                                    min-height: 48px;
-                                                    padding: 12px 16px;
-                                                    border: 1px solid #dce2ea;
-                                                    border-radius: 9px;
-                                                    background: #fff;
-                                                    color: #526987;
-                                                    text-align: left;
+                                                    padding: 12px;
+                                                    border: 1px solid #e5e7eb;
+                                                    border-radius: 8px;
                                                     cursor: pointer;
-                                                    transition: background 0.2s, border-color 0.2s;
-                                                    flex-shrink: 0;
+                                                    margin-bottom: 8px;
+                                                    background: #fff;
+                                                    font: inherit;
+                                                    color: #64748b;
+                                                    text-align: left;
                                                 "
                                             >
 
@@ -2689,14 +2687,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                                                     ${plantilla.nombre}
                                                 </span>
 
-                                                <span
-                                                    aria-hidden="true"
-                                                    style="
-                                                        font-size: 18px;
-                                                        color: #7890aa;
-                                                        margin-left: 12px;
-                                                    "
-                                                >
+                                                <span aria-hidden="true">
                                                     →
                                                 </span>
 
@@ -2709,12 +2700,8 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
 
                                     <p
                                         data-complementos-sin-resultados
-                                        style="
-                                            display: none;
-                                            color: #718096;
-                                            text-align: center;
-                                            padding: 20px 10px;
-                                        "
+                                        class="historial-contractual-vacio"
+                                        style="display: none;"
                                     >
                                         No se encontraron plantillas.
                                     </p>
@@ -2779,7 +2766,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
         });
 
 
-        // Búsqueda de plantillas
+        // Buscar plantillas
         const buscador = modal.querySelector(
             "[data-buscar-complemento]"
         );
@@ -2826,20 +2813,10 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
         }
 
 
-        // Selección de plantilla
+        // Seleccionar plantilla
         modal
             .querySelectorAll(".anexo-plantilla-option")
             .forEach(boton => {
-
-                boton.addEventListener("mouseenter", () => {
-                    boton.style.background = "#f3f7fb";
-                    boton.style.borderColor = "#9db5ce";
-                });
-
-                boton.addEventListener("mouseleave", () => {
-                    boton.style.background = "#fff";
-                    boton.style.borderColor = "#dce2ea";
-                });
 
                 boton.addEventListener("click", () => {
 
@@ -2853,10 +2830,13 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                         );
 
                     if (!plantillaSeleccionada) {
+
                         alert(
                             "No fue posible identificar la plantilla seleccionada."
                         );
+
                         return;
+
                     }
 
                     cerrar();
@@ -2869,6 +2849,7 @@ async function abrirSelectorPlantillaComplemento(contratoId) {
                 });
 
             });
+
 
     }
     catch (error) {
