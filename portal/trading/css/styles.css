@@ -285,12 +285,12 @@ body {
     min-height: 0;
     width: 100%;
 
-    padding: 4px;
+    padding: 6px;
 
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 9px;
 
     margin: 0;
 }
