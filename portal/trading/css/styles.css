@@ -895,3 +895,10 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+.chart-container {
+    position: relative;
+    height: clamp(320px, calc(100vh - 300px), 590px);
+    width: 100%;
+}
