@@ -29,7 +29,9 @@ const elements = {
 
   breakoutStatus: $("#breakoutStatus"),
   breakoutDirection: $("#breakoutDirection"),
-  breakoutDetails: $("#breakoutDetails")
+  breakoutDetails: $("#breakoutDetails"),
+
+  rulerButton: $("#rulerButton")
   
 };
 
@@ -41,6 +43,9 @@ let candles = [];
 let currentLine = null;
 
 let breakoutDetector = null;
+
+let rulerMode = false;
+let rulerStart = null;
 
 let chartManager;
 let marketData = null;
@@ -75,6 +80,99 @@ function setMessage(message) {
   elements.instructions.textContent = message;
   elements.chartState.textContent = message;
 }
+
+
+
+function formatDuration(seconds) {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  return `${minutes}m`;
+}
+
+function setRulerMode(enabled) {
+  rulerMode = enabled;
+  rulerStart = null;
+
+  elements.rulerButton.classList.toggle("is-active", enabled);
+  elements.rulerButton.textContent = enabled ? "Salir de regla" : "Regla";
+
+  if (enabled) {
+    anchors.setEnabled(false);
+    elements.anchorButton.classList.remove("is-active");
+    elements.anchorButton.textContent = "Seleccionar anclas";
+    setMessage("Regla activa. Haz clic en el primer punto de medición.");
+  } else {
+    setMessage("Modo regla desactivado.");
+  }
+}
+
+function handleRulerClick(param) {
+  if (!param.point || param.time === undefined) return;
+
+  const price = chartManager.candleSeries.coordinateToPrice(
+    param.point.y
+  );
+
+  if (!Number.isFinite(price) || price <= 0) return;
+
+  const point = {
+    time: param.time,
+    price
+  };
+
+  if (!rulerStart) {
+    rulerStart = point;
+
+    setMessage(
+      `Primer punto registrado: ${formatPrice(price)}. Selecciona el segundo punto.`
+    );
+
+    return;
+  }
+
+  const start = rulerStart;
+  const end = point;
+
+  const priceDifference = end.price - start.price;
+  const percentage = (priceDifference / start.price) * 100;
+  const timeDifference = Math.abs(end.time - start.time);
+
+  const intervalSeconds =
+    TIMEFRAME_SECONDS[elements.timeframe.value] || 900;
+
+  const candleCount = Math.round(timeDifference / intervalSeconds);
+
+  const direction = priceDifference > 0
+    ? "ALCISTA"
+    : priceDifference < 0
+      ? "BAJISTA"
+      : "SIN VARIACIÓN";
+
+  const sign = priceDifference > 0 ? "+" : "";
+
+  const label =
+    `${sign}${formatPrice(priceDifference)} (${sign}${percentage.toFixed(2)}%) · ` +
+    `${candleCount} velas · ${formatDuration(timeDifference)}`;
+
+  chartManager.setRuler(start, end, label);
+
+  log(
+    `Regla ${direction} · ${label}.`
+  );
+
+  setMessage(
+    `Medición completada: ${direction} · ${label}.`
+  );
+
+  rulerStart = null;
+}
+
+
+
 
 function setMarketBadge(state, message) {
   const color = state === "connected" ? "#29c58a" : state === "error" ? "#ef6674" : "#e7b45b";
@@ -333,6 +431,10 @@ async function refreshChart() {
   if (marketData) marketData.stop();
   marketData = null;
   candles = [];
+
+  setRulerMode(false);
+  chartManager.clearRuler();
+  
   anchors.reset();
   anchors.setEnabled(false);
   resetLineDisplay();
@@ -392,7 +494,7 @@ async function refreshChart() {
   }
 }
 
-chartManager = createChartManager(elements.chart, param => anchors.handleClick(param));
+chartManager = createChartManager(elements.chart);
 const anchors = new AnchorManager({
   chart: chartManager.chart,
   candleSeries: chartManager.candleSeries,
@@ -407,10 +509,26 @@ const anchors = new AnchorManager({
   }
 });
 
+
+chartManager.setClickHandler(param => {
+  if (rulerMode) {
+    handleRulerClick(param);
+    return;
+  }
+
+  anchors.handleClick(param);
+});
+
+
 refreshChart();
 
 elements.anchorButton.addEventListener("click", () => {
+  if (rulerMode) {
+    setRulerMode(false);
+  }
+
   const hasTwoAnchors = anchors.anchors.length === 2;
+        
   if (hasTwoAnchors) {
     setMessage("Ya hay dos anclas. Reinicia la línea para crear otra.");
     return;
@@ -430,6 +548,10 @@ elements.resetButton.addEventListener("click", () => {
   resetLineDisplay();
   setMessage("Línea reiniciada. Puedes seleccionar dos anclas nuevas.");
   log("Anclas y línea reiniciadas manualmente.");
+});
+
+elements.rulerButton.addEventListener("click", () => {
+  setRulerMode(!rulerMode);
 });
 
 elements.symbol.addEventListener("change", refreshChart);
