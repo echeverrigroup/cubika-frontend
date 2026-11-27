@@ -1,4 +1,4 @@
-import { AnchorManager } from "anchorManager.js";
+import { AnchorManager } from "/js/anchorManager.js";
 import { createChartManager } from "/chartManager.js";
 import { createBinanceMarketData } from "/binanceMarketData.js";
 import { createTrendline, projectTrendline } from "/trendlineEngine.js";
