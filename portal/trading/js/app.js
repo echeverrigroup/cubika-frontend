@@ -1,7 +1,7 @@
-import { AnchorManager } from "/js/anchorManager.js";
-import { createChartManager } from "/chartManager.js";
-import { createBinanceMarketData } from "/binanceMarketData.js";
-import { createTrendline, projectTrendline } from "/trendlineEngine.js";
+import { AnchorManager } from "/portal/trading/js/anchorManager.js";
+import { createChartManager } from "/portal/trading/js/chartManager.js";
+import { createBinanceMarketData } from "/portal/trading/js/binanceMarketData.js";
+import { createTrendline, projectTrendline } from "/portal/trading/js/trendlineEngine.js";
 
 const $ = selector => document.querySelector(selector);
 const elements = {
