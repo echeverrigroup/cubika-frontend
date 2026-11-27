@@ -1,7 +1,11 @@
 import { AnchorManager } from "/portal/trading/js/anchorManager.js";
 import { createChartManager } from "/portal/trading/js/chartManager.js";
 import { createBinanceMarketData } from "/portal/trading/js/binanceMarketData.js";
-import { createTrendline, projectTrendline } from "/portal/trading/js/trendlineEngine.js";
+import {
+        createTrendline,
+        projectTrendline,
+        detectBreakout
+      } from "/portal/trading/js/trendlineEngine.js";
 
 const $ = selector => document.querySelector(selector);
 const elements = {
@@ -21,7 +25,12 @@ const elements = {
   lineSummary: $("#lineSummary"),
   activityLog: $("#activityLog"),
   contactTolerance: $("#contactTolerance"),
-  breakoutThreshold: $("#breakoutThreshold")
+  breakoutThreshold: $("#breakoutThreshold"),
+
+  breakoutStatus: $("#breakoutStatus"),
+  breakoutDirection: $("#breakoutDirection"),
+  breakoutDetails: $("#breakoutDetails")
+  
 };
 
 
@@ -30,6 +39,9 @@ const TRENDLINE_PROJECTION_CANDLES = 20;
 
 let candles = [];
 let currentLine = null;
+
+let breakoutDetector = null;
+
 let chartManager;
 let marketData = null;
 let loadSequence = 0;
@@ -83,9 +95,22 @@ function updateAnchorDisplay(anchors) {
 
 function resetLineDisplay() {
   currentLine = null;
+  breakoutDetector = null;
+
   chartManager.clearTrendline();
-  elements.lineSummary.innerHTML = '<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small>';
+
+  elements.lineSummary.innerHTML =
+    '<span class="summary-label">ESTADO DE LA LÍNEA</span>' +
+    '<strong>Sin definir</strong>' +
+    '<small>Selecciona dos puntos cronológicos distintos.</small>';
+
+  updateBreakoutDisplay(
+    "SIN_RUPTURA",
+    null,
+    "La detección se activará cuando registres los dos puntos ancla."
+  );
 }
+
 
 function drawLine(anchors) {
   resetLineDisplay();
@@ -93,7 +118,12 @@ function drawLine(anchors) {
 
   try {
     currentLine = createTrendline(anchors[0], anchors[1]);
+
+    activateBreakoutDetector();
+    
     updateTrendlineProjection();
+
+    
     elements.lineSummary.innerHTML = `<span class="summary-label">ESTADO DE LA LÍNEA</span><strong>${currentLine.direction}</strong><small>Pendiente: ${currentLine.slopePerSecond.toExponential(4)} precio/segundo<br>Proyección: 40 velas hacia adelante</small>`;
     log(`Línea ${currentLine.direction.toLowerCase()} creada con dos anclas.`);
   } catch (error) {
@@ -124,6 +154,154 @@ function updateTrendlineProjection() {
 }
 
 
+function updateBreakoutDisplay(state, direction = null, details = "") {
+  const labels = {
+    SIN_RUPTURA: "SIN RUPTURA",
+    RUPTURA_POTENCIAL: "RUPTURA POTENCIAL",
+    RUPTURA_CONFIRMADA: "RUPTURA CONFIRMADA"
+  };
+
+  elements.breakoutStatus.querySelector("strong").textContent =
+    labels[state];
+
+  elements.breakoutDirection.textContent = direction || "—";
+
+  elements.breakoutDetails.textContent = details;
+}
+
+function activateBreakoutDetector() {
+  breakoutDetector = {
+    activatedAt: Date.now(),
+    triggered: false,
+    potentialCandleTime: null,
+    potentialDirection: null,
+    confirmedCandleTime: null
+  };
+
+  updateBreakoutDisplay(
+    "SIN_RUPTURA",
+    null,
+    "Detector activo. Esperando una ruptura del umbral configurado."
+  );
+
+  log("Detector de rupturas activado.");
+}
+
+function evaluateBreakout(candle) {
+  if (!currentLine || !breakoutDetector) return;
+  if (breakoutDetector.triggered) return;
+
+  // Solo se evalúan velas cuyo cierre ocurre después
+  // de la activación del setup.
+  if (
+    !Number.isFinite(candle.closeTime) ||
+    candle.closeTime <= breakoutDetector.activatedAt
+  ) {
+    return;
+  }
+
+  const thresholdPct = Number(elements.breakoutThreshold.value);
+
+  if (
+    !Number.isFinite(thresholdPct) ||
+    thresholdPct < 0 ||
+    thresholdPct > 10
+  ) {
+    return;
+  }
+
+  // Para velas abiertas se utiliza el instante actual.
+  // Para velas cerradas se utiliza su timestamp de cierre.
+  const evaluationTime = candle.isClosed
+    ? Math.floor(candle.closeTime / 1000)
+    : Math.floor(Date.now() / 1000);
+
+  const linePrice = currentLine.priceAt(evaluationTime);
+
+  const result = detectBreakout(
+    candle,
+    linePrice,
+    thresholdPct
+  );
+
+  // VELA ABIERTA: solamente ruptura potencial.
+  if (!candle.isClosed) {
+    const direction = result.potentialDirection;
+
+    if (!direction) {
+      breakoutDetector.potentialCandleTime = null;
+      breakoutDetector.potentialDirection = null;
+
+      updateBreakoutDisplay(
+        "SIN_RUPTURA",
+        null,
+        "Esperando una ruptura del umbral configurado."
+      );
+
+      return;
+    }
+
+    const isNewPotential =
+      breakoutDetector.potentialCandleTime !== candle.time ||
+      breakoutDetector.potentialDirection !== direction;
+
+    breakoutDetector.potentialCandleTime = candle.time;
+    breakoutDetector.potentialDirection = direction;
+
+    updateBreakoutDisplay(
+      "RUPTURA_POTENCIAL",
+      direction,
+      `La vela actual ha atravesado el umbral del ${thresholdPct.toFixed(2)} %. Esperando cierre.`
+    );
+
+    if (isNewPotential) {
+      log(`Ruptura potencial ${direction} detectada.`);
+    }
+
+    return;
+  }
+
+  // VELA CERRADA: confirmar o descartar.
+  const confirmedDirection = result.confirmedDirection;
+
+  breakoutDetector.potentialCandleTime = null;
+  breakoutDetector.potentialDirection = null;
+
+  if (!confirmedDirection) {
+    updateBreakoutDisplay(
+      "SIN_RUPTURA",
+      null,
+      "La vela cerró sin superar el umbral. Ruptura potencial descartada."
+    );
+
+    log("Ruptura potencial descartada tras el cierre de la vela.");
+    return;
+  }
+
+  // Evitar duplicar una confirmación.
+  if (breakoutDetector.confirmedCandleTime === candle.time) return;
+
+  breakoutDetector.confirmedCandleTime = candle.time;
+  breakoutDetector.triggered = true;
+
+  updateBreakoutDisplay(
+    "RUPTURA_CONFIRMADA",
+    confirmedDirection,
+    `Cierre confirmado. Señal ${confirmedDirection} generada. No se enviaron órdenes.`
+  );
+
+  log(
+    `RUPTURA ${confirmedDirection} CONFIRMADA · ` +
+    `Cierre: ${formatPrice(candle.close)} · ` +
+    `Línea: ${formatPrice(linePrice)} · ` +
+    `Umbral: ${thresholdPct.toFixed(2)} %.`
+  );
+
+  setMessage(
+    `Ruptura ${confirmedDirection} confirmada. Señal registrada; ejecución desactivada.`
+  );
+}
+
 
 function onSnapshot(nextCandles, preserveRange = false) {
   candles = nextCandles;
@@ -140,6 +318,9 @@ function onCandle(candle, meta) {
   }
   chartManager.updateCandle(candle);
   updateTrendlineProjection();
+
+  evaluateBreakout(candle);
+  
 
   if (candle.isClosed) {
     log(`Vela ${elements.symbol.value} ${elements.timeframe.value} cerrada · ${formatTime(candle.time)} · C: ${formatPrice(candle.close)}.`);
