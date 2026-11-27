@@ -149,3 +149,78 @@ export function isCandleContact(candle, linePrice, tolerancePct) {
     distanceFromCandleRangePct(candle, linePrice) <= tolerancePct
   );
 }
+
+
+
+/**
+ * Calcula los límites superior e inferior de ruptura.
+ *
+ * thresholdPct se expresa en porcentaje:
+ * 0.30 significa 0.30%.
+ */
+export function calculateBreakoutLevels(linePrice, thresholdPct) {
+  if (
+    !Number.isFinite(linePrice) ||
+    linePrice <= 0 ||
+    !Number.isFinite(thresholdPct) ||
+    thresholdPct < 0
+  ) {
+    throw new Error("Parámetros de ruptura no válidos.");
+  }
+
+  const distance = thresholdPct / 100;
+
+  return {
+    upper: linePrice * (1 + distance),
+    lower: linePrice * (1 - distance)
+  };
+}
+
+/**
+ * Evalúa una vela respecto a la línea y su umbral.
+ *
+ * La mecha detecta una ruptura potencial.
+ * El cierre confirma o descarta la ruptura.
+ */
+export function detectBreakout(candle, linePrice, thresholdPct) {
+  if (
+    !candle ||
+    !Number.isFinite(candle.high) ||
+    !Number.isFinite(candle.low) ||
+    !Number.isFinite(candle.close)
+  ) {
+    return {
+      potentialDirection: null,
+      confirmedDirection: null
+    };
+  }
+
+  const levels = calculateBreakoutLevels(linePrice, thresholdPct);
+
+  const potentialShort = candle.low <= levels.lower;
+  const potentialLong = candle.high >= levels.upper;
+
+  let potentialDirection = null;
+
+  if (potentialShort && potentialLong) {
+    potentialDirection = "AMBIGUA";
+  } else if (potentialShort) {
+    potentialDirection = "SHORT";
+  } else if (potentialLong) {
+    potentialDirection = "LONG";
+  }
+
+  let confirmedDirection = null;
+
+  if (candle.close <= levels.lower) {
+    confirmedDirection = "SHORT";
+  } else if (candle.close >= levels.upper) {
+    confirmedDirection = "LONG";
+  }
+
+  return {
+    potentialDirection,
+    confirmedDirection,
+    levels
+  };
+}
