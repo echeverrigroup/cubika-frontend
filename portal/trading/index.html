@@ -81,8 +81,11 @@
           <p class="field-help">Distancia máxima entre la línea y el rango High–Low para registrar proximidad.</p>
           <label class="field-label" for="breakoutThreshold">Umbral de ruptura (%)</label>
           <div class="input-with-suffix"><input id="breakoutThreshold" type="number" min="0" max="10" step="0.01" value="0.30" /><span>%</span></div>
-          <p class="field-help">Valor inicial acordado. Se utilizará en una etapa posterior para clasificar rupturas.</p>
-          <div class="settings-note"><span class="note-icon">i</span><span>Los parámetros se muestran en la interfaz. La detección de eventos todavía no está activada.</span></div>
+          <p class="field-help">Distancia porcentual que debe superar el cierre de una vela para confirmar una ruptura.</p>
+          <div class="settings-note">
+            <span class="note-icon">i</span>
+            <span>La detección utiliza velas cerradas. No se ejecutan órdenes reales.</span>
+          </div>
         </section>
 
         <section class="panel side-panel anchor-panel">
@@ -91,6 +94,26 @@
           <div class="anchor-row" id="anchorTwo"><span class="anchor-index">P2</span><div><strong>Segundo punto</strong><small>Sin seleccionar</small></div><span class="anchor-state">—</span></div>
           <p class="field-help">Haz clic dentro del rango de una vela cerrada. Se conservará el precio exacto seleccionado.</p>
           <div class="line-summary" id="lineSummary"><span class="summary-label">ESTADO DE LA LÍNEA</span><strong>Sin definir</strong><small>Selecciona dos puntos cronológicos distintos.</small></div>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="panel-title-row">
+            <div>
+              <p class="eyebrow">DETECCIÓN</p>
+              <h2>Ruptura de tendencia</h2>
+            </div>
+            <span class="tag tag-muted" id="breakoutDirection">—</span>
+          </div>
+        
+          <div class="line-summary" id="breakoutStatus">
+            <span class="summary-label">ESTADO DEL DETECTOR</span>
+            <strong>SIN RUPTURA</strong>
+            <small>Esperando una ruptura del umbral configurado.</small>
+          </div>
+        
+          <p class="field-help" id="breakoutDetails">
+            La detección se activará cuando registres los dos puntos ancla.
+          </p>
         </section>
 
         <section class="panel side-panel">
