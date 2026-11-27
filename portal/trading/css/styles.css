@@ -163,6 +163,106 @@ body {
     color: #aab8c7;
 }
 
+
+/* ==============================
+   HEADER WIDGETS
+============================== */
+
+.workspace-heading {
+    align-items: center;
+    gap: 25px;
+}
+
+.workspace-heading-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.workspace-heading-side {
+    width: 530px;
+    flex: 0 0 530px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 9px;
+}
+
+.workspace-header-status {
+    font-size: 9px;
+    letter-spacing: .1em;
+    color: var(--muted);
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.header-widgets {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.header-widget {
+    min-width: 0;
+    padding: 12px;
+}
+
+.header-widget .panel-title-row {
+    margin-bottom: 9px;
+}
+
+.header-widget .panel-title-row h2 {
+    font-size: 12px;
+}
+
+.header-widget .eyebrow {
+    font-size: 8px;
+    margin-bottom: 4px;
+}
+
+.header-widget .line-summary {
+    margin-top: 0;
+    padding: 9px;
+}
+
+.header-widget .line-summary strong {
+    font-size: 10px;
+}
+
+.header-widget .line-summary small {
+    font-size: 8px;
+}
+
+.header-widget .summary-label {
+    font-size: 7px;
+}
+
+.header-widget .field-help {
+    font-size: 8px;
+    margin: 7px 0 0;
+}
+
+.header-activity .activity-empty,
+.header-activity .activity-list {
+    height: 91px;
+    max-height: 91px;
+    overflow-y: auto;
+
+    padding: 7px 9px;
+    text-align: left;
+}
+
+.header-activity .activity-item {
+    font-size: 8px;
+    padding: 5px 0;
+}
+
+
+
 /* ==============================
    PANELS
 ============================== */
@@ -665,6 +765,17 @@ body {
         height: 520px;
     }
 
+
+    .workspace-heading {
+    align-items: flex-start;
+    }
+    
+    .workspace-heading-side {
+        width: 480px;
+        flex-basis: 480px;
+    }
+    
+
 }
 
 /* ==============================
@@ -740,6 +851,22 @@ body {
         grid-column: 1 / -1;
     }
 
+
+    .workspace-heading {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 17px;
+    }
+    
+    .workspace-heading-side {
+        width: 100%;
+        flex-basis: auto;
+    }
+    
+    .header-widgets {
+        grid-template-columns: 1fr 1fr;
+    }
+
 }
 
 /* ==============================
@@ -786,6 +913,11 @@ body {
     .live-label {
         width: 100%;
         justify-content: flex-end;
+    }
+
+
+    .header-widgets {
+        grid-template-columns: 1fr;
     }
 
 }
