@@ -126,19 +126,34 @@ body {
    WORKSPACE HEADING
 ============================== */
 
-.workspace-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    gap: 16px;
+.workspace-heading {
+    display: grid;
+    grid-template-columns:
+        minmax(190px, 0.9fr)
+        minmax(280px, 1.15fr)
+        minmax(400px, 1.6fr);
+
+    align-items: center;
+    gap: 13px;
+
     padding: 15px 0 13px;
 }
 
 .workspace-heading-main {
-    flex: 1;
     min-width: 0;
 }
+
+.workspace-heading-side {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+}
+
 
 .workspace-heading h1 {
     font-size: 23px;
@@ -173,9 +188,6 @@ body {
    HEADER WIDGETS
 ============================== */
 
-.workspace-heading-side {
-    width: 50%;
-    flex: 0 0 50%;
 
     display: flex;
     flex-direction: column;
@@ -280,15 +292,20 @@ body {
 ============================== */
 
 .toolbar {
-    min-height: 54px;
-    padding: 7px 10px;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+
+    padding: 8px;
 
     display: flex;
     align-items: center;
-    gap: 9px;
+    flex-wrap: wrap;
+    gap: 7px;
 
-    margin-bottom: 9px;
+    margin: 0;
 }
+
 
 .control-group {
     display: flex;
@@ -757,12 +774,16 @@ body {
     }
 
     .workspace-heading {
-        align-items: flex-start;
+        grid-template-columns:
+            minmax(160px, 0.8fr)
+            minmax(240px, 1fr)
+            minmax(340px, 1.5fr);
+    
+        gap: 9px;
     }
-
+    
     .workspace-heading-side {
-        width: 52%;
-        flex-basis: 52%;
+        width: 100%;
     }
 
     .chart-container {
@@ -788,30 +809,40 @@ body {
         font-size: 8px;
     }
 
-    .workspace-heading {
+    
+        .workspace-heading {
+        display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
         padding: 15px 0 12px;
     }
+    
+    .workspace-heading-main,
+    .workspace-heading-side {
+        width: 100%;
+    }
+    
+    .toolbar {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .header-widgets {
+        grid-template-columns: 1fr 1fr;
+    }
+    
 
     .workspace-heading h1 {
         font-size: 23px;
     }
 
-    .workspace-heading-side {
-        width: 100%;
-        flex-basis: auto;
-    }
-
+    
     .market-badge {
         font-size: 8px;
     }
 
-    .toolbar {
-        flex-wrap: wrap;
-        gap: 9px;
-    }
+    
 
     .toolbar-divider {
         display: none;
