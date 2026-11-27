@@ -21,7 +21,7 @@
    
 <section class="workspace-heading">
 
-  <!-- IZQUIERDA: TÍTULO -->
+  <!-- 1. TÍTULO -->
   <div class="workspace-heading-main">
     <p class="eyebrow">FASE 1 · MOTOR DE LÍNEAS DE TENDENCIA</p>
     <h1>Trendline workspace</h1>
@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <!-- CENTRO: CONTROLES -->
+  <!-- 2. TOOLBAR -->
   <section class="toolbar panel">
 
     <label class="control-group">
@@ -64,73 +64,55 @@
       Reiniciar línea
     </button>
 
-    <div class="toolbar-spacer"></div>
-
     <span class="live-label">
       <span class="status-dot"></span>
       MOTOR LOCAL
     </span>
-
-  </section>
-
-  <!-- DERECHA: ESTADO Y ACTIVIDAD -->
-  <div class="workspace-heading-side">
 
     <div class="workspace-header-status" id="marketBadge">
       <span class="status-dot"></span>
       CONECTANDO BINANCE
     </div>
 
-    <div class="header-widgets">
+  </section>
 
-      <!-- DETECCIÓN -->
-      <section class="panel header-widget">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">DETECCIÓN</p>
-            <h2>Ruptura de tendencia</h2>
-          </div>
-          <span class="tag tag-muted" id="breakoutDirection">—</span>
-        </div>
-
-        <div class="line-summary" id="breakoutStatus">
-          <span class="summary-label">ESTADO DEL DETECTOR</span>
-          <strong>SIN RUPTURA</strong>
-          <small>Esperando una ruptura del umbral configurado.</small>
-        </div>
-
-        <p class="field-help" id="breakoutDetails">
-          La detección se activará cuando registres los dos puntos ancla.
-        </p>
-      </section>
-
+  <!-- 3. DETECCIÓN -->
+  <section class="panel header-widget">
+    <div class="panel-title-row">
+      <div>
+        <p class="eyebrow">DETECCIÓN</p>
+        <h2>Ruptura de tendencia</h2>
       </div>
-
-      <!-- ACTIVIDAD -->
-
-      <div class="workspace-heading-side">
-        
-      <section class="panel header-widget">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">SESIÓN</p>
-            <h2>Actividad</h2>
-          </div>
-          <span class="tag tag-muted">LOCAL</span>
-        </div>
-
-        <div class="activity-empty" id="activityLog">
-          Todavía no hay eventos registrados.
-        </div>
-      </section>
-
+      <span class="tag tag-muted" id="breakoutDirection">—</span>
     </div>
-  </div>
 
-  </div>
+    <div class="line-summary" id="breakoutStatus">
+      <span class="summary-label">ESTADO DEL DETECTOR</span>
+      <strong>SIN RUPTURA</strong>
+      <small>Esperando una ruptura del umbral configurado.</small>
+    </div>
+
+    <p class="field-help" id="breakoutDetails">
+      La detección se activará cuando registres los dos puntos ancla.
+    </p>
+  </section>
+
+  <!-- 4. ACTIVIDAD -->
+  <section class="panel header-widget header-activity">
+    <div class="panel-title-row">
+      <div>
+        <p class="eyebrow">SESIÓN</p>
+        <h2>Actividad</h2>
+      </div>
+      <span class="tag tag-muted">LOCAL</span>
+    </div>
+
+    <div class="activity-empty" id="activityLog">
+      Todavía no hay eventos registrados.
+    </div>
+  </section>
 
 </section>
-
 
     
 
