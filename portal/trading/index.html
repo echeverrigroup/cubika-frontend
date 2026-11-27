@@ -18,93 +18,112 @@
       <div class="topbar-status"><span class="status-dot"></span> ENTORNO DE DESARROLLO</div>
     </header>
 
-    <section class="workspace-heading">
+   
+<section class="workspace-heading">
 
-      <div class="workspace-heading-main">
-        <p class="eyebrow">FASE 1 · MOTOR DE LÍNEAS DE TENDENCIA</p>
-        <h1>Trendline workspace</h1>
-        <p class="subtitle">
-          Visualización, selección de anclas y proyección geométrica.
+  <!-- IZQUIERDA: TÍTULO -->
+  <div class="workspace-heading-main">
+    <p class="eyebrow">FASE 1 · MOTOR DE LÍNEAS DE TENDENCIA</p>
+    <h1>Trendline workspace</h1>
+    <p class="subtitle">
+      Visualización, selección de anclas y proyección geométrica.
+    </p>
+  </div>
+
+  <!-- CENTRO: CONTROLES -->
+  <section class="toolbar panel">
+
+    <label class="control-group">
+      <span>ACTIVO</span>
+      <select id="symbolSelect">
+        <option value="SOLUSDT">SOLUSDT</option>
+        <option value="BTCUSDT">BTCUSDT</option>
+        <option value="ETHUSDT">ETHUSDT</option>
+      </select>
+    </label>
+
+    <label class="control-group">
+      <span>TIMEFRAME</span>
+      <select id="timeframeSelect">
+        <option value="5m">5 minutos</option>
+        <option value="15m" selected>15 minutos</option>
+        <option value="30m">30 minutos</option>
+        <option value="1h">1 hora</option>
+        <option value="2h">2 horas</option>
+        <option value="4h">4 horas</option>
+      </select>
+    </label>
+
+    <div class="toolbar-divider"></div>
+
+    <button id="anchorModeButton" class="button button-primary" type="button">
+      Seleccionar anclas
+    </button>
+
+    <button id="resetButton" class="button button-quiet" type="button">
+      Reiniciar línea
+    </button>
+
+    <div class="toolbar-spacer"></div>
+
+    <span class="live-label">
+      <span class="status-dot"></span>
+      MOTOR LOCAL
+    </span>
+
+  </section>
+
+  <!-- DERECHA: ESTADO Y ACTIVIDAD -->
+  <div class="workspace-heading-side">
+
+    <div class="workspace-header-status" id="marketBadge">
+      <span class="status-dot"></span>
+      CONECTANDO BINANCE
+    </div>
+
+    <div class="header-widgets">
+
+      <!-- DETECCIÓN -->
+      <section class="panel header-widget">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">DETECCIÓN</p>
+            <h2>Ruptura de tendencia</h2>
+          </div>
+          <span class="tag tag-muted" id="breakoutDirection">—</span>
+        </div>
+
+        <div class="line-summary" id="breakoutStatus">
+          <span class="summary-label">ESTADO DEL DETECTOR</span>
+          <strong>SIN RUPTURA</strong>
+          <small>Esperando una ruptura del umbral configurado.</small>
+        </div>
+
+        <p class="field-help" id="breakoutDetails">
+          La detección se activará cuando registres los dos puntos ancla.
         </p>
-      </div>
-    
-      <div class="workspace-heading-side">
-    
-        <div class="workspace-header-status" id="marketBadge">
-          <span class="status-dot"></span>
-          CONECTANDO BINANCE
+      </section>
+
+      <!-- ACTIVIDAD -->
+      <section class="panel header-widget header-activity">
+        <div class="panel-title-row">
+          <div>
+            <p class="eyebrow">SESIÓN</p>
+            <h2>Actividad</h2>
+          </div>
+          <span class="tag tag-muted">LOCAL</span>
         </div>
 
-         <section class="toolbar panel">
-          <label class="control-group">
-            <span>ACTIVO</span>
-            <select id="symbolSelect">
-              <option value="SOLUSDT">SOLUSDT</option>
-              <option value="BTCUSDT">BTCUSDT</option>
-              <option value="ETHUSDT">ETHUSDT</option>
-            </select>
-          </label>
-          <label class="control-group">
-            <span>TIMEFRAME</span>
-            <select id="timeframeSelect">
-              <option value="5m">5 minutos</option>
-              <option value="15m" selected>15 minutos</option>
-              <option value="30m">30 minutos</option>
-              <option value="1h">1 hora</option>
-              <option value="2h">2 horas</option>
-              <option value="4h">4 horas</option>
-            </select>
-          </label>
-          <div class="toolbar-divider"></div>
-          <button id="anchorModeButton" class="button button-primary" type="button">Seleccionar anclas</button>
-          <button id="resetButton" class="button button-quiet" type="button">Reiniciar línea</button>
-          <div class="toolbar-spacer"></div>
-          <span class="live-label"><span class="status-dot"></span> MOTOR LOCAL</span>
-        </section>
-        
-    
-        <div class="workspace-heading-side">
-    
-          <!-- DETECCIÓN -->
-          <section class="panel header-widget">
-            <div class="panel-title-row">
-              <div>
-                <p class="eyebrow">DETECCIÓN</p>
-                <h2>Ruptura de tendencia</h2>
-              </div>
-              <span class="tag tag-muted" id="breakoutDirection">—</span>
-            </div>
-    
-            <div class="line-summary" id="breakoutStatus">
-              <span class="summary-label">ESTADO DEL DETECTOR</span>
-              <strong>SIN RUPTURA</strong>
-              <small>Esperando una ruptura del umbral configurado.</small>
-            </div>
-    
-            <p class="field-help" id="breakoutDetails">
-              La detección se activará cuando registres los dos puntos ancla.
-            </p>
-          </section>
-    
-          <!-- ACTIVIDAD -->
-          <section class="panel header-widget header-activity">
-            <div class="panel-title-row">
-              <div>
-                <p class="eyebrow">SESIÓN</p>
-                <h2>Actividad</h2>
-              </div>
-              <span class="tag tag-muted">LOCAL</span>
-            </div>
-    
-            <div class="activity-empty" id="activityLog">
-              Todavía no hay eventos registrados.
-            </div>
-          </section>
-    
+        <div class="activity-empty" id="activityLog">
+          Todavía no hay eventos registrados.
         </div>
-      </div>
-    
-    </section>
+      </section>
+
+    </div>
+  </div>
+
+</section>
+
 
     
 
